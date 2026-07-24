@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Real mobile-manipulation scene",
+  "type": "object",
+  "required": ["schema_version", "frame_id", "scene_id", "timestamp", "map", "tables", "tasks"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "frame_id": {"type": "string", "const": "map"},
+    "scene_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string"},
+    "map": {
+      "type": "object",
+      "required": ["yaml_path", "resolution_m", "origin"],
+      "properties": {
+        "yaml_path": {"type": "string"},
+        "resolution_m": {"type": "number", "exclusiveMinimum": 0},
+        "origin": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}}
+      }
+    },
+    "tables": {"type": "array", "items": {"type": "object"}},
+    "tasks": {"type": "array", "items": {"type": "object"}},
+    "drop_zones": {"type": "array", "items": {"type": "object"}}
+  }
+}

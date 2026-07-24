@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mobile manipulation execution log",
+  "type": "object",
+  "required": ["schema_version", "frame_id", "scene_id", "mission_id", "records"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "frame_id": {"type": "string", "const": "map"},
+    "scene_id": {"type": "string"},
+    "mission_id": {"type": "string"},
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["service_config_id", "planned_pose2d", "actual_pose2d", "position_error_m", "yaw_error_rad", "success", "verified"],
+        "properties": {
+          "service_config_id": {"type": "integer", "minimum": 1},
+          "planned_pose2d": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+          "actual_pose2d": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+          "position_error_m": {"type": "number", "minimum": 0},
+          "yaw_error_rad": {"type": "number", "minimum": 0},
+          "target_lift_height_m": {"type": "number"},
+          "actual_lift_height_m": {"type": "number"},
+          "start_time": {"type": "string"},
+          "end_time": {"type": "string"},
+          "policy_id": {"type": "string"},
+          "success": {"type": "boolean"},
+          "verified": {"type": "boolean"},
+          "failure_reason": {"type": "string"},
+          "retry_count": {"type": "integer", "minimum": 0},
+          "replanned": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

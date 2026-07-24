@@ -1,0 +1,8 @@
+method,completion_rate,num_docking_poses,uncovered_tasks,task_path_length,total_path_length,planning_time_total,docking_cost_total
+full,100.00,27,0,57.34,63.29,0.078,8.8151
+no_reachability,100.00,27,0,57.58,67.71,0.159,8.6573
+single_docking_per_table,69.44,16,11,43.51,53.64,0.166,4.6221
+nearest_docking,50.00,16,18,36.72,46.69,0.064,5.8956
+no_coverage_cost,100.00,27,0,57.34,63.29,0.080,6.6151
+no_coverage_priority,100.00,27,0,57.34,63.29,0.077,8.8151
+no_coverage_all,100.00,28,0,57.34,63.29,0.078,6.8840

@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mobile manipulation mission plan",
+  "type": "object",
+  "required": ["schema_version", "frame_id", "scene_id", "planner_version", "start_pose", "route_order", "service_configs"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "frame_id": {"type": "string", "const": "map"},
+    "scene_id": {"type": "string", "minLength": 1},
+    "planner_version": {"type": "string"},
+    "start_pose": {"$ref": "#/definitions/pose2d"},
+    "route_order": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+    "service_configs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pose2d", "lift_height_m", "table_id", "task_ids", "arm_mode", "arm_assignments", "policy_id", "position_tolerance_m", "yaw_tolerance_rad"],
+        "properties": {
+          "id": {"type": "integer", "minimum": 1},
+          "pose2d": {"$ref": "#/definitions/pose2d"},
+          "lift_height_m": {"type": "number"},
+          "table_id": {"type": "integer", "minimum": 1},
+          "task_ids": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+          "arm_mode": {"enum": ["left", "right", "either", "bimanual"]},
+          "arm_assignments": {"type": "array", "items": {"enum": ["left", "right", "either", "none"]}},
+          "policy_id": {"type": "string"},
+          "position_tolerance_m": {"type": "number", "minimum": 0},
+          "yaw_tolerance_rad": {"type": "number", "minimum": 0}
+        }
+      }
+    }
+  },
+  "definitions": {
+    "pose2d": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}}
+  }
+}
