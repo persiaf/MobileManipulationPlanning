@@ -14,5 +14,9 @@
   assigns each active pair its matching panel descriptions and labels.
 - The archived reference-page break was commented rather than active. The
   obsolete commented command is removed so there is no forced reference break.
+- After restoring IEEEtran float defaults, the two late double-column figures
+  remain deferred to sparse float-only pages. Their definitions are kept next
+  to the corresponding subsections, but no custom spacing, page-size change, or
+  nonstandard figure counter is introduced to force placement in this pass.
 
 No additional research-content issue was changed in this format-only pass.

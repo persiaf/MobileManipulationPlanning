@@ -3,6 +3,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{amsthm}
 \usepackage{graphicx}
+\graphicspath{{figures/}}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{algorithm}
@@ -10,21 +11,6 @@
 \usepackage{cite}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
-
-\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
-\setlength{\floatsep}{8pt plus 2pt minus 2pt}
-\setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
-\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
-\setlength{\abovecaptionskip}{3pt}
-\setlength{\belowcaptionskip}{0pt}
-\makeatletter
-\setlength{\@fptop}{0pt}
-\setlength{\@fpsep}{8pt plus 2pt minus 2pt}
-\setlength{\@fpbot}{0pt plus 1fil}
-\setlength{\@dblfptop}{0pt}
-\setlength{\@dblfpsep}{8pt plus 2pt minus 2pt}
-\setlength{\@dblfpbot}{0pt plus 1fil}
-\makeatother
 
 \input{math_commands}
 
@@ -35,18 +21,11 @@
 
 \title{A Constrained Hierarchical Planning Framework for Reachability-Aware Multi-Task Mobile Manipulation}
 
-\author{
-Peng Dai
-\thanks{Peng Dai is with the School of Automation,
-Xi'an University of Posts and Telecommunications,
-Xi'an, China.
-E-mail: xxx@xxx.com.}
-}
+\author{Peng Dai}
 
 \begin{document}
 
 \maketitle
-\raggedbottom
 
 \begin{abstract}
 \input{sections/0_abstract}
@@ -66,7 +45,6 @@ Mobile manipulation, hierarchical planning, reachability constraints, set cover,
 
 % \appendices
 % \input{sections/A_appendix}
-%\clearpage
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}

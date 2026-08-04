@@ -18,7 +18,7 @@ Figure~\ref{fig:main_scenario_scene} shows the main scene and the resulting plan
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=0.88\columnwidth]{results/figures/tac_submission/png/fig_main_scenario_scene.png}
+    \includegraphics[width=0.88\columnwidth]{fig_main_scenario_scene}
     \caption{Experimental configuration of the main tabletop-service scene. The \(10\,\mathrm{m}\times10\,\mathrm{m}\) 
     map contains 16 rectangular tables and 36 tabletop task points. Green circles mark tasks, 
     orange triangles mark selected collision-free docking poses, the red star marks the start state,
@@ -30,13 +30,13 @@ Figure~\ref{fig:main_scenario_scene} shows the main scene and the resulting plan
     \centering
     \begin{minipage}[t]{0.49\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_candidate_quality.png}
+        \includegraphics[width=\linewidth]{fig_candidate_quality}
         \vspace{0.1em}
         \small (a) Candidate docking-pose quality.
     \end{minipage}\hfill
     \begin{minipage}[t]{0.49\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_ablation_completion.png}
+        \includegraphics[width=\linewidth]{fig_ablation_completion}
         \vspace{0.1em}
         \small (b) Main and hard-mixed ablations.
     \end{minipage}
@@ -122,13 +122,13 @@ Random feasible & 140 & 100.00 & 0.00 & 15.02 & 13.05 \\
     \centering
     \begin{minipage}[t]{0.49\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_hard_scenario_heatmap.png}
+        \includegraphics[width=\linewidth]{fig_hard_scenario_heatmap}
         \vspace{0.2em}
         \small (a) Completion across hard distributions.
     \end{minipage}\hfill
     \begin{minipage}[t]{0.49\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_stress_boundary.png}
+        \includegraphics[width=\linewidth]{fig_stress_boundary}
         \vspace{0.2em}
         \small (b) Boundary and sensitivity scans.
     \end{minipage}
@@ -138,106 +138,57 @@ Random feasible & 140 & 100.00 & 0.00 & 15.02 & 13.05 \\
     \label{fig:hard_stress}
 \end{figure*}
 
-\subsection{Runtime Scaling and Noise Robustness}
-Figure~\ref{fig:runtime_routing1}(a) shows planning-time trends across scale and candidate-density settings.
- Planning time ranges from 1.92 s to 60.02 s in the submission summary, 
- consistent with the \(O(KN)\) candidate-evaluation term and the \(O(Q^2 C_{\Pi})\) pairwise path-cost term in Proposition~\ref{prop:complexity}.
-  Figure~\ref{fig:runtime_routing1}(b) reports perturbation tests. 
-  The full method's final completion ranges from 69.03\% to 100.00\% across noise settings,
-   while the nearest-docking baseline remains at 0.00\% in the same summary.
+\begin{figure*}[!t]
+    \centering
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{fig_runtime_scaling}
+        \vspace{0.2em}
+        \small (a) Runtime scaling.
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{fig_noise_robustness}
+        \vspace{0.2em}
+        \small (b) Noise robustness.
+    \end{minipage}
+    \caption{Runtime scaling and perturbation robustness. Runtime increases with scene scale and candidate density, while reachability-aware coverage improves robustness under perturbations.}
+    \label{fig:runtime_robustness}
+\end{figure*}
 
+\subsection{Runtime Scaling and Noise Robustness}
+Figure~\ref{fig:runtime_robustness}(a) shows planning-time trends across scale and candidate-density settings.
+ Planning time ranges from 1.92 s to 60.02 s in the submission summary,
+ consistent with the \(O(KN)\) candidate-evaluation term and the \(O(Q^2 C_{\Pi})\) pairwise path-cost term in Proposition~\ref{prop:complexity}.
+ Figure~\ref{fig:runtime_robustness}(b) reports perturbation tests.
+ The full method's final completion ranges from 69.03\% to 100.00\% across noise settings,
+ while the nearest-docking baseline remains at 0.00\% in the same summary.
+
+\begin{figure*}[!t]
+    \centering
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{fig_global_planner_benchmark}
+        \vspace{0.2em}
+        \small (a) Global planner benchmark.
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{fig_oracle_gap}
+        \vspace{0.2em}
+        \small (b) Small-scale oracle reference.
+    \end{minipage}
+    \caption{Global routing and oracle-reference results. Changing the global planner affects route properties without changing docking selection, and the heuristic remains close to the bounded candidate-set oracle on reduced instances.}
+    \label{fig:routing_oracle}
+\end{figure*}
 
 \subsection{Global Planner Benchmark and Oracle Reference}
- Figure~\ref{fig:runtime_routing1}(c) compares global planners under the same selected docking sequence. 
- All seven planners succeed, with path-length and turn-count differences reflecting 
- the routing module rather than the docking selection module.
- A* gives 63.29 m, JPS gives 63.24 m, GBFS gives 66.47 m, Theta* gives 62.46 m, Lazy Theta* gives 62.87 m, 
- and Convex A* gives 63.29 m in the fixed-order benchmark. 
- Figure~\ref{fig:runtime_routing1}(d) compares the heuristic with a small-scale bounded candidate-set oracle. 
- The relative gap ranges from -4.56\% to 0.63\%; 
- negative gaps arise from the restricted comparison objective and 
- should be interpreted as a consistency check rather than a proof of global optimality. 
-
-% \twocolumn[{
-%     \begin{center}
-%     \begin{minipage}[t]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_runtime_scaling.png}
-%         \vspace{0.2em}
-%         \small (a) Runtime scaling.
-%     \end{minipage}\hfill
-%     \begin{minipage}[t]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_noise_robustness.png}
-%         \vspace{0.2em}
-%         \small (b) Noise robustness.
-%     \end{minipage}
-%     \vspace{0.5em}
-
-%     \begin{minipage}[t]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_global_planner_benchmark.png}
-%         \vspace{0.2em}
-%         \small (c) Global planner benchmark.
-%     \end{minipage}\hfill
-%     \begin{minipage}[t]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_oracle_gap.png}
-%         \vspace{0.2em}
-%         \small (d) Small-scale oracle reference.
-%     \end{minipage}
-%     \refstepcounter{figure}\label{fig:runtime_routing}
-%     \vspace{0.3em}
-
-%     \parbox{0.96\textwidth}{\footnotesize \textbf{Fig.~\thefigure.} 
-%      Runtime, perturbation, routing, 
-%      and oracle-reference results. Runtime increases with scene scale and candidate density; 
-%      reachability-aware coverage improves robustness under perturbations; 
-%      changing the global planner affects route properties without changing docking selection;
-%      and the heuristic remains close to the bounded candidate-set oracle on reduced instances.}
-%     \end{center}
-%     \vspace{0.6em}
-% }]
-
-\begin{figure*}[!t]
-    \centering
-    \begin{minipage}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_runtime_scaling.png}
-        \vspace{0.2em}
-        \small (a) Global planner benchmark.
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_noise_robustness.png}
-        \vspace{0.2em}
-        \small (b) Small-scale oracle reference.
-    \end{minipage}
-    \caption{Robustness under difficult task distributions and parameter stress. 
-    The full method remains stable across hard scenarios, while tighter reachability 
-    constraints are the main source of completion degradation in the stress scan.}
-    \label{fig:runtime_routing1}
-\end{figure*}
-
-\begin{figure*}[!t]
-    \centering
-    \begin{minipage}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_global_planner_benchmark.png}
-        \vspace{0.2em}
-        \small (a) Global planner benchmark.
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{results/figures/tac_submission/png/fig_oracle_gap.png}
-        \vspace{0.2em}
-        \small (b) Small-scale oracle reference.
-    \end{minipage}
-    \caption{Robustness under difficult task distributions and parameter stress. 
-    The full method remains stable across hard scenarios, while tighter reachability 
-    constraints are the main source of completion degradation in the stress scan.}
-    \label{fig:runtime_routing2}
-\end{figure*}
-
-
-
+Figure~\ref{fig:routing_oracle}(a) compares global planners under the same selected docking sequence.
+All seven planners succeed, with path-length and turn-count differences reflecting
+the routing module rather than the docking selection module.
+A* gives 63.29 m, JPS gives 63.24 m, GBFS gives 66.47 m, Theta* gives 62.46 m, Lazy Theta* gives 62.87 m,
+and Convex A* gives 63.29 m in the fixed-order benchmark.
+Figure~\ref{fig:routing_oracle}(b) compares the heuristic with a small-scale bounded candidate-set oracle.
+The relative gap ranges from -4.56\% to 0.63\%;
+negative gaps arise from the restricted comparison objective and
+should be interpreted as a consistency check rather than a proof of global optimality.
