@@ -1,0 +1,72 @@
+% === fig_candidate_quality ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_candidate_quality.pdf}
+    \caption{Candidate docking-pose quality. Selected poses provide substantially higher task coverage and reachability than rejected candidates while keeping total cost low.}
+    \label{fig:candidate_quality}
+\end{figure}
+
+% === fig_ablation_completion ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_ablation_completion.pdf}
+    \caption{Ablation study on main and hard-mixed scenarios. The full framework keeps all tasks covered, whereas single-docking and nearest-docking variants leave many tasks uncovered.}
+    \label{fig:ablation_completion}
+\end{figure}
+
+% === fig_baseline_summary ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_baseline_summary.pdf}
+    \caption{Submission-level baseline comparison over 1120 records. The full method and coverage-aware variants preserve task completion, while nearest and single-docking baselines fail under difficult distributions.}
+    \label{fig:baseline_summary}
+\end{figure}
+
+% === fig_hard_scenario_heatmap ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_hard_scenario_heatmap.pdf}
+    \caption{Completion-rate heatmap across normal and hard task distributions. The full method maintains complete coverage, while nearest and single-docking baselines degrade sharply.}
+    \label{fig:hard_scenario_heatmap}
+\end{figure}
+
+% === fig_runtime_scaling ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_runtime_scaling.pdf}
+    \caption{Runtime scaling with scene size and candidate sampling density. Planning time increases with candidate count and task scale, identifying candidate evaluation and path-cost computation as key loads.}
+    \label{fig:runtime_scaling}
+\end{figure}
+
+% === fig_stress_boundary ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_stress_boundary.pdf}
+    \caption{Boundary and sensitivity scans. The method remains at full completion across most density and spacing settings, with degradation only under the strictest reachability threshold.}
+    \label{fig:stress_boundary}
+\end{figure}
+
+% === fig_noise_robustness ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_noise_robustness.pdf}
+    \caption{Noise robustness under task-position and docking-pose perturbations. The full method retains high completion under task noise and degrades gracefully under docking-pose noise.}
+    \label{fig:noise_robustness}
+\end{figure}
+
+% === fig_oracle_gap ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_oracle_gap.pdf}
+    \caption{Small-scale oracle reference. The heuristic remains close to the bounded candidate-set oracle. Negative gaps indicate a restricted reference objective, not a formal global optimum.}
+    \label{fig:oracle_gap}
+\end{figure}
+
+% === fig_global_planner_benchmark ===
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{results/figures/tac_submission/pdf/fig_global_planner_benchmark.pdf}
+    \caption{Global planner benchmark under a fixed docking-visit order. The hierarchy decouples reachability-aware docking decisions from the replaceable global path-connection layer.}
+    \label{fig:global_planner_benchmark}
+\end{figure}
+

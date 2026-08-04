@@ -1,0 +1,47 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Environment and Tasks}
+Consider a known planar workspace represented by an occupancy grid
+\(\Ggraph=(V,E)\), where occupied cells correspond to walls, tables, or other obstacles. Let
+\(\Rset=\{R_j\}_{j=1}^{M}\) denote the set of tabletop task regions and
+\(\Tset=\{t_i\}_{i=1}^{N}\) denote all tabletop task points. Each task \(t_i\) lies on one table region and requires a mobile dual-arm robot to dock near the table before executing a manipulation primitive.
+
+A docking pose is denoted by \(p=(x,y,\theta)\), where \((x,y)\) is the base position in the ground plane and \(\theta\) is the base heading. For each table \(R_j\), a finite set of candidate docking poses \(\Pset_j=\{p_{jk}\}_{k=1}^{K_j}\) is sampled around feasible table sides. The complete candidate set is \(\Pset=\cup_j \Pset_j\).
+
+\subsection{Reachability and Coverage}
+The reachability score between a docking pose \(p\) and a task \(t\) is written as \(\rho(p,t)\in[0,1]\). It summarizes geometric arm reachability, side consistency, and distance from the arm workspace boundary. A task is covered by a docking pose if the score exceeds a threshold and the pose satisfies safety and collision constraints:
+\begin{equation}
+    t \in C(p)
+    \quad \Longleftrightarrow \quad
+    \rho(p,t) \geq \rho_{\min}, \quad \safe(p)=1 .
+    \label{eq:coverage}
+\end{equation}
+The set \(C(p)\subseteq\Tset\) is the task coverage set of pose \(p\). For a selected docking set \(\Sset\subseteq\Pset\), the uncovered task set is
+\begin{equation}
+    U(\Sset)=\Tset \setminus \bigcup_{p\in\Sset} C(p).
+    \label{eq:uncovered}
+\end{equation}
+
+\subsection{Candidate Cost}
+Each candidate is assigned a local cost
+\begin{equation}
+    J(p)=w_c J_c(p)+w_r J_r(p)+w_s J_s(p)+w_h J_h(p)+w_a J_a(p),
+    \label{eq:local_cost}
+\end{equation}
+where \(J_c\) penalizes weak task coverage, \(J_r\) penalizes low average reachability, \(J_s\) penalizes unsafe clearance, \(J_h\) penalizes poor docking orientation, and \(J_a\) penalizes approach cost from the surrounding free space. Lower \(J(p)\) indicates a more useful local docking pose.
+
+\subsection{Hierarchical Objective}
+The planning problem is to select a docking subset \(\Sset\) and a visit order over that subset. Let \(L(\Sset)\) denote the length of the global route that starts from the robot initial pose, visits the selected docking poses, and returns if required. The hierarchical objective is
+\begin{equation}
+\min_{\Sset\subseteq\Pset}
+    \lambda_1 |U(\Sset)|
+    + \lambda_2 \sum_{p\in\Sset} J(p)
+    + \lambda_3 L(\Sset).
+\label{eq:objective}
+\end{equation}
+The weight \(\lambda_1\) is chosen to prioritize task completion over path shortening. This reflects the physical requirement that a short route is not useful if the robot cannot manipulate the assigned tabletop tasks after arriving.
+
+\begin{remark}
+Equation~\eqref{eq:objective} has a set-cover component and a routing component. The resulting problem is combinatorial even after discretizing candidate docking poses. The proposed method therefore solves it hierarchically: it first greedily selects coverage-effective docking poses and then routes the selected poses with a global planner.
+\end{remark}

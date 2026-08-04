@@ -1,0 +1,29 @@
+\section{Feasibility and Complexity Analysis}
+\label{sec:analysis}
+
+\begin{assumption}[Candidate coverage]
+\label{ass:coverage}
+For every task \(t_i\in\Tset\), there exists at least one collision-free candidate docking pose \(p\in\Pset\) such that \(t_i\in C(p)\).
+\end{assumption}
+
+\begin{proposition}[Finite full-coverage selection]
+\label{prop:coverage}
+Under Assumption~\ref{ass:coverage}, if the selection loop always chooses a candidate that covers at least one remaining uncovered task whenever such a candidate exists, then the multi-docking selection terminates in at most \(N\) successful iterations with \(U(\Sset)=\emptyset\).
+\end{proposition}
+
+\begin{proof}
+At the start of the selection loop, \(U=\Tset\). At any successful iteration, the selected candidate \(p^\star\) satisfies \(C(p^\star)\cap U\neq\emptyset\), so at least one task is removed from \(U\). Since \(U\) contains at most \(N\) tasks and no removed task is reinserted, there can be at most \(N\) successful iterations. Assumption~\ref{ass:coverage} guarantees that, while \(U\neq\emptyset\), at least one feasible candidate exists for each remaining task. Therefore the loop cannot stop due to lack of coverage before all tasks are removed, and it terminates with \(U(\Sset)=\emptyset\).
+\end{proof}
+
+\begin{proposition}[Computational complexity]
+\label{prop:complexity}
+Let \(K=|\Pset|\), \(N=|\Tset|\), \(Q=|\Sset|\), and let \(C_{\Pi}\) denote the cost of one global path-planner query. Candidate evaluation has worst-case complexity \(O(KN)\). Greedy multi-docking selection has worst-case complexity \(O(KN)\) when coverage intersections are updated explicitly. Pairwise global path-cost computation has complexity \(O(Q^2 C_{\Pi})\), and greedy route ordering has complexity \(O(Q^2)\).
+\end{proposition}
+
+\begin{proof}
+Each candidate may be evaluated against every task in the worst case, giving \(O(KN)\). During selection, each candidate-task coverage relation can be inspected while computing newly covered tasks; explicit updates therefore give \(O(KN)\) over the loop. The route layer queries the global planner for each ordered or unordered pair of selected docking poses, which is \(O(Q^2)\) calls up to a constant factor. The nearest-neighbor route heuristic repeatedly scans remaining docking poses, giving \(O(Q^2)\).
+\end{proof}
+
+\begin{remark}[Approximation scope]
+The docking selection resembles weighted set cover, and the route layer resembles a traveling-salesman routing problem over selected docking poses. The present paper does not claim global optimality for \eqref{eq:objective}. Instead, it provides a finite-termination feasibility condition, complexity characterization, and small-scale oracle-reference experiments that estimate the practical gap within bounded candidate sets.
+\end{remark}

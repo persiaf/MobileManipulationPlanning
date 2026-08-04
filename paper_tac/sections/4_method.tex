@@ -1,0 +1,64 @@
+\section{Proposed Method}
+\label{sec:method}
+
+\subsection{Framework Overview}
+RCH-MT-MMP converts a multi-table manipulation problem into two coupled but modular layers. The local layer generates and scores candidate docking poses around each table. The selection layer chooses one or more poses per table to cover the remaining tasks. The global layer connects the selected docking poses in the occupancy grid. This design keeps the manipulation feasibility decision visible before the path planner optimizes travel.
+
+\subsection{Task Region Partition}
+Tasks are first assigned to tabletop regions according to the table polygons or bounding boxes. This partition restricts candidate generation to the local geometry of each table and avoids comparing candidates that serve unrelated regions. For table \(R_j\), the task subset is \(\Tset_j=\{t_i:t_i\in R_j\}\), and \(\Tset=\cup_j \Tset_j\).
+
+\subsection{Candidate Generation and Evaluation}
+Candidate docking poses are sampled along feasible table sides with headings oriented toward the table. Candidates that collide with obstacles or violate the required safety distance are removed. For each remaining candidate, the planner computes the coverage set \(C(p)\), average reachability over covered tasks, orientation consistency, and approach cost. Algorithm~\ref{alg:candidate} summarizes this stage.
+
+\begin{algorithm}[t]
+\caption{Candidate docking-pose generation and evaluation}
+\label{alg:candidate}
+\begin{algorithmic}[1]
+\REQUIRE Table regions \(\Rset\), tasks \(\Tset\), occupancy grid \(\Ggraph\)
+\ENSURE Candidate set \(\Pset\) with coverage sets and costs
+\STATE \(\Pset \leftarrow \emptyset\)
+\FOR{each table \(R_j\in\Rset\)}
+    \STATE Generate side-aligned docking samples \(\Pset_j\)
+    \FOR{each \(p\in\Pset_j\)}
+        \IF{\(\safe(p)=0\) or \(p\) is in collision}
+            \STATE discard \(p\)
+        \ELSE
+            \STATE Compute \(\rho(p,t)\) for all \(t\in\Tset_j\)
+            \STATE Build \(C(p)\) using \eqref{eq:coverage}
+            \STATE Compute \(J(p)\) using \eqref{eq:local_cost}
+            \STATE \(\Pset \leftarrow \Pset \cup \{p\}\)
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\RETURN \(\Pset\)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Coverage-Aware Multi-Docking Selection}
+For each table, the planner maintains a set of remaining uncovered tasks. At each iteration, it selects the candidate that provides the best tradeoff between newly covered tasks and local cost. Unlike single-docking strategies, the loop is allowed to select multiple candidates for the same table until all tasks are covered or no useful candidate remains. Algorithm~\ref{alg:selection} gives the complete selection and routing interface.
+
+\begin{algorithm}[t]
+\caption{Multi-docking selection and global routing}
+\label{alg:selection}
+\begin{algorithmic}[1]
+\REQUIRE Candidate set \(\Pset\), tasks \(\Tset\), global planner \(\Pi\)
+\ENSURE Selected docking set \(\Sset\), route \(\Gamma\)
+\STATE \(\Sset\leftarrow\emptyset\), \(U\leftarrow\Tset\)
+\WHILE{\(U\neq\emptyset\)}
+    \STATE \(p^\star \leftarrow \argmin_{p\in\Pset} \frac{J(p)}{|C(p)\cap U|+\epsilon}\)
+    \IF{\(C(p^\star)\cap U=\emptyset\)}
+        \STATE break
+    \ENDIF
+    \STATE \(\Sset\leftarrow\Sset\cup\{p^\star\}\)
+    \STATE \(U\leftarrow U\setminus C(p^\star)\)
+    \STATE Remove \(p^\star\) from \(\Pset\)
+\ENDWHILE
+\STATE Compute pairwise path costs between poses in \(\Sset\) using \(\Pi\)
+\STATE Select a visit order with a routing heuristic
+\STATE Stitch pairwise paths into global route \(\Gamma\)
+\RETURN \(\Sset,\Gamma\)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Global Docking-Pose Routing}
+After docking selection, global routing is performed over the selected docking set rather than over the original tabletop task points. A planner \(\Pi\) computes collision-free paths between docking poses. The implementation supports A*, Dijkstra, JPS, GBFS, Theta*, Lazy Theta*, and Convex A*, which allows the routing layer to be benchmarked without changing the docking selection logic. The default route order is computed using a greedy nearest-neighbor heuristic over the pairwise path-cost matrix.

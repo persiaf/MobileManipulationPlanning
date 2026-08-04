@@ -1,0 +1,22 @@
+\section{Additional Experimental Details}
+\label{app:details}
+
+The submission data used in this draft are indexed by the evidence report in \path{results/tables/tac_submission/tac_evidence_index_submission.csv}. The table groups include experiment parameters, main scenario summaries, candidate-quality summaries, hard-scenario summaries, main and hard ablations, random-scale studies, global-planner benchmarks, extended baselines, stress-boundary scans, runtime-scaling studies, noise-robustness tests, and small-scale oracle references.
+
+\section{Reproducibility Notes}
+\label{app:reproducibility}
+
+The MATLAB entry point for regenerating the submission-level data is
+\begin{verbatim}
+run_tac_data_support('submission')
+\end{verbatim}
+The paper figures are generated under
+\begin{verbatim}
+results/figures/tac_submission/
+\end{verbatim}
+and the summary tables are generated under
+\begin{verbatim}
+results/tables/paper_submission/
+results/tables/tac_submission/
+\end{verbatim}
+The LNN component is intentionally excluded from the main evidence chain in this draft so that the paper focuses on constrained hierarchical planning, reachability-aware docking, multi-docking coverage, and replaceable global routing.
