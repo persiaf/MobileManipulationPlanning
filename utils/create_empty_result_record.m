@@ -52,9 +52,6 @@ function record = create_empty_result_record()
     record.method = 'full';
     record.ablation_mode = 'full';
     record.difficulty = 'normal';
-    record.lnn_enable = false;
-    record.lnn_alpha = 0;
-    record.lnn_label_strategy = 'imitation';
     record.avg_candidate_cost = 0;
     record.fallback_count = 0;
 end

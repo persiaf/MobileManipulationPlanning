@@ -198,6 +198,7 @@ Store large measured datasets outside the repository. Import them through relati
 ## Documentation
 
 - `docs/current_code_structure.md`: current source-tree inventory, file responsibilities, data flow, and maintenance rules.
+- `docs/cleanup_audit_20260831.md`: code-cleanup audit, deletion decisions, regression checks, and release boundary.
 - `docs/hierarchical_strategy_design.md`: detailed Bottom-Up, Top-Down, and Bidirectional design notes.
 - `docs/strategy_experiment_protocol.md`: strategy comparison protocol, metrics, and interpretation rules.
 - `docs/planner_algorithms.md`: global planner wrappers and benchmark algorithms.

@@ -34,11 +34,7 @@ function tasks_struct = generate_hard_table_tasks(scene_cfg)
         cx = scene_cfg.table_positions(t, 1);
         cy = scene_cfg.table_positions(t, 2);
         theta = scene_cfg.table_orientations(min(t, end));
-        if strcmpi(difficulty, 'lnn_stress')
-            n_tasks = randi([4, 6]);
-        else
-            n_tasks = randi([range(1), range(2)]);
-        end
+        n_tasks = randi([range(1), range(2)]);
 
         switch lower(difficulty)
             case 'hard_corner'
@@ -49,8 +45,6 @@ function tasks_struct = generate_hard_table_tasks(scene_cfg)
                 local_pts = sample_task_near_reach_boundary(L, W, n_tasks);
             case 'hard_mixed'
                 local_pts = sample_hard_mixed(L, W, n_tasks, mixed_ratio);
-            case 'lnn_stress'
-                local_pts = sample_lnn_stress(L, W, n_tasks);
             otherwise
                 error('generate_hard_table_tasks: 未知 difficulty "%s"', difficulty);
         end
@@ -72,7 +66,6 @@ end
 %% ==================== 内部辅助 ==========================
 
 function local_pts = sample_hard_mixed(L, W, n_tasks, ratio)
-    r_corner = ratio(1);
 %SAMPLE_HARD_MIXED 按比例混合 corner / two_side / reach_boundary 三类任务。
     r_corner = ratio(1);
     r_twoside = ratio(2);
@@ -99,26 +92,6 @@ function local_pts = sample_hard_mixed(L, W, n_tasks, ratio)
         all_pts = all_pts(sel, :);
     end
     local_pts = all_pts;
-end
-
-function local_pts = sample_lnn_stress(L, W, n_tasks)
-    n_corner = max(2, ceil(n_tasks * 0.45));
-    n_twoside = max(2, ceil(n_tasks * 0.35));
-    n_boundary = max(1, n_tasks - n_corner - n_twoside);
-    pts = [sample_task_near_table_corner(L, W, n_corner); ...
-           sample_task_on_opposite_edges(L, W, n_twoside); ...
-           sample_task_near_reach_boundary(L, W, n_boundary)];
-
-    x_lim = L / 2 - 0.015;
-    y_lim = W / 2 - 0.015;
-    sx = sign(pts(:, 1)); sx(sx == 0) = 1;
-    sy = sign(pts(:, 2)); sy(sy == 0) = 1;
-    pts(:, 1) = sx .* min(abs(pts(:, 1)) * 1.15 + 0.02, x_lim);
-    pts(:, 2) = sy .* min(abs(pts(:, 2)) * 1.20 + 0.01, y_lim);
-    if size(pts, 1) > n_tasks
-        pts = pts(randperm(size(pts, 1), n_tasks), :);
-    end
-    local_pts = pts;
 end
 
 function v = safe_field(s, field_name, default_val)

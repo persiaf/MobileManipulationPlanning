@@ -1,7 +1,4 @@
 function visualize_single_algorithm(grid_map, start_pose, goal_pose, map_info, planner_cfg, algorithm)
-    clear all;
-    clc;
-
     res = map_info.resolution;
     rows = map_info.rows;
     cols = map_info.cols;
@@ -33,7 +30,8 @@ function visualize_single_algorithm(grid_map, start_pose, goal_pose, map_info, p
     plot_square(start_grid, [rows, cols], res, '#ff0000');
     plot_square(goal_grid, [rows, cols], res, '#00ff00');
 
-    title([algorithm, ' — 路径长度: ' num2str(sum(sqrt(diff(path(:,1)).^2 + diff(path(:,2)).^2)) ' m'], 'FontSize', 14);
+    title(sprintf('%s - path length: %.3f m', algorithm, compute_path_length(path)), ...
+        'FontSize', 14, 'Interpreter', 'none');
 
     axis equal;
     hold off;

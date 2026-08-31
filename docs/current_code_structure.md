@@ -223,6 +223,7 @@
 - `docs/planner_algorithms.md`：全局规划算法说明。
 - `docs/hierarchical_strategy_design.md`：三种层次化策略设计。
 - `docs/strategy_experiment_protocol.md`：策略实验协议和指标解释。
+- `docs/cleanup_audit_20260831.md`：2026-08-31 代码清理审查、删除决策和回归结果。
 - `docs/paper/`：论文实验段落等写作材料。
 - `calibration/README.md`：标定数据目录说明。
 
