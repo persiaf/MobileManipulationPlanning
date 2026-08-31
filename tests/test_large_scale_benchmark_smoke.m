@@ -5,12 +5,12 @@ end
 
 function testQuickBenchmarkSchema(testCase)
     [raw, summary] = exp_large_scale_complex_tasks(struct('quick_mode', true, ...
-        'scales', {{'s1'}}, 'seeds', 1));
+        'scales', {{'smoke'}}, 'seeds', 1));
     verifyGreaterThanOrEqual(testCase, height(raw), 3);
     required = {'timestamp','scale_id','seed','strategy','requested_task_count', ...
         'actual_task_count','candidate_count','T_scene','T_candidate','T_strategy', ...
         'T_path_cost','T_route','T_execution_sim','T_total','path_cost_query_count', ...
-        'cache_hit_ratio','success','failure_reason'};
+        'path_cost_cache_hit','path_cost_cache_miss','cache_hit_ratio','success','failure_reason'};
     verifyTrue(testCase, all(ismember(required, raw.Properties.VariableNames)));
     verifyTrue(testCase, all(raw.success));
     verifyGreaterThanOrEqual(testCase, min(raw.candidate_count), 1);

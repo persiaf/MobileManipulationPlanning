@@ -63,6 +63,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     total_path_len = compute_path_length(global_path);
     fprintf('  全局路径长度: %.2f m\n', total_path_len);
 
+    t_execution_sim = tic;
     exec_stats = estimate_execution_time(global_path, route_order, all_poses, ...
                                          task_sequence_summary, segment_stats, planner_cfg);
 
@@ -134,6 +135,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
             break;
         end
     end
+    execution_sim_time_s = toc(t_execution_sim);
 
     fprintf('\n===== RCH-MT-MMP 规划完成 =====\n');
     fprintf('总任务数: %d\n', scene.num_tasks);
@@ -163,6 +165,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     timing.distance_matrix_time_s = distance_matrix_time_s;
     timing.route_order_time_s = route_order_time_s;
     timing.global_path_time_s = global_path_time_s;
+    timing.execution_sim_time_s = execution_sim_time_s;
     timing.scene_time_s = get_timing_field(timing_input, 'scene_time_s', 0);
     timing.docking_time_s = get_timing_field(timing_input, 'docking_time_s', 0);
     timing.candidate_generation_time_s = get_timing_field(timing_input, 'candidate_generation_time_s', 0);

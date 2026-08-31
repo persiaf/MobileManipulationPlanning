@@ -10,7 +10,7 @@ This experiment profiles the existing Bottom-Up, Top-Down, and Bidirectional pla
 - Random seeds are explicit (`1:5` by default); each scale/seed is paired across strategies.
 - Requested task counts are targets. The generated scene records both `requested_task_count` and `actual_task_count` because per-table random sampling can produce a nearby count.
 
-The default profiles are `s1` (target 6 tasks), `s2` (30), `s3` (60), and `s4` (120). The driver uses the existing `create_scaled_scene_config` and expands task samples only for the 120-task profile.
+The default profiles are `s1` (36 tasks), `s2` (target 60, currently 64 from 16 tables), `s3` (target 90, normally near 88), and `s4` (target 120, normally near 120). The driver records requested and actual counts, uses the existing `create_scaled_scene_config`, and expands task samples only for the 120-task profile.
 
 ## Run
 
@@ -22,7 +22,7 @@ For a one-scale smoke check:
 
 ```matlab
 [raw, summary] = exp_large_scale_complex_tasks(struct( ...
-    'quick_mode', true, 'scales', {{'s1'}}, 'seeds', 1));
+    'quick_mode', true, 'scales', {{'smoke'}}, 'seeds', 1));
 ```
 
 ## Outputs
