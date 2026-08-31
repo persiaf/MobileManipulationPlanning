@@ -67,3 +67,9 @@ results/real/*
 .env.*
 local_config.m
 *.local.json
+
+# Paper workspace generated data kept outside the tracked manuscript sources
+paper_tac/paper_tac.zip
+paper_tac/results/cache/
+paper_tac/results/tmp/
+paper_tac/results/lnn/
