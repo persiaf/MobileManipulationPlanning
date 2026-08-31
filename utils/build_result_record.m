@@ -87,15 +87,22 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
 
     %% ---------- 4. 路径长度 (优先从 exec_stats 取，否则用 total_path_len) ----------
     exec_stats = safe_field(stats, 'exec_stats', struct());
-    record.task_path_length   = safe_field(exec_stats, 'task_path_len_m', 0);
-    record.return_path_length = safe_field(exec_stats, 'return_path_len_m', 0);
+    record.task_path_length_m   = safe_field(exec_stats, 'task_path_len_m', 0);
+    record.return_path_length_m = safe_field(exec_stats, 'return_path_len_m', 0);
 
     % 如果 exec_stats 中没有分段长度，则用 total_path_len 作为任务路径
-    if record.task_path_length == 0 && record.return_path_length == 0
-        record.task_path_length = total_path_len;
-        record.return_path_length = 0;
+    if record.task_path_length_m == 0 && record.return_path_length_m == 0
+        record.task_path_length_m = total_path_len;
+        record.return_path_length_m = 0;
     end
-    record.total_path_length = total_path_len;
+    record.total_path_length_m = total_path_len;
+    assert(abs(record.total_path_length_m - ...
+        (record.task_path_length_m + record.return_path_length_m)) < 1e-9, ...
+        'build_result_record:PathLengthMismatch', ...
+        'total_path_length_m must equal task_path_length_m plus return_path_length_m.');
+    record.task_path_length = record.task_path_length_m;
+    record.return_path_length = record.return_path_length_m;
+    record.total_path_length = record.total_path_length_m;
 
     %% ---------- 5. 路径形态 ----------
     record.num_turns       = safe_field(exec_stats, 'num_turns', 0);
@@ -112,6 +119,23 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
     record.execution_time_est  = safe_field(exec_stats, 'total_execution_time_s', 0);
     record.estimated_execution_time_s = record.execution_time_est;
     record.estimated_total_time_s = record.planning_time_total + record.execution_time_est;
+    tb = safe_field(exec_stats, 'time_breakdown', struct());
+    record.navigation_time_s = safe_field(tb, 'navigation_time_s', safe_field(exec_stats, 'navigation_time_s', 0));
+    record.task_navigation_time_s = safe_field(tb, 'task_navigation_time_s', ...
+        safe_field(exec_stats, 'task_navigation_time_s', 0));
+    record.return_navigation_time_s = safe_field(tb, 'return_navigation_time_s', ...
+        safe_field(exec_stats, 'return_navigation_time_s', 0));
+    record.docking_time_s = safe_field(tb, 'docking_time_s', safe_field(exec_stats, 'docking_time_s', 0));
+    record.manipulation_time_s = safe_field(tb, 'manipulation_time_s', safe_field(exec_stats, 'manipulation_time_s', 0));
+    record.arm_transition_time_s = safe_field(tb, 'arm_transition_time_s', safe_field(exec_stats, 'arm_transition_time_s', 0));
+    record.side_switch_time_s = safe_field(tb, 'side_switch_time_s', safe_field(exec_stats, 'side_switch_time_s', 0));
+    record.turning_time_s = safe_field(tb, 'turning_time_s', safe_field(exec_stats, 'turning_time_s', 0));
+    record.lift_time_s = safe_field(tb, 'lift_time_s', safe_field(exec_stats, 'lift_time_s', 0));
+    record.replanning_time_s = safe_field(tb, 'replanning_time_s', safe_field(exec_stats, 'replanning_time_s', 0));
+    record.mission_total_time_s = safe_field(tb, 'mission_total_time_s', record.execution_time_est);
+    record.num_side_switches = safe_field(exec_stats, 'num_side_switches', 0);
+    record.num_arm_switches = safe_field(exec_stats, 'num_arm_switches', 0);
+    record.total_abs_yaw_change_rad = safe_field(exec_stats, 'total_abs_yaw_change_rad', 0);
     record.candidate_generation_time_s = safe_field(timing, 'candidate_generation_time_s', 0);
     record.region_order_time_s = safe_field(timing, 'region_order_time_s', 0);
     record.local_selection_time_s = safe_field(timing, 'local_selection_time_s', 0);
@@ -124,12 +148,26 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
     record.strategy_name = safe_field(stats, 'strategy_name', ...
         safe_field(safe_field(planner_cfg, 'strategy', struct()), 'name', 'bottom_up'));
     record.route_order_source = safe_field(stats, 'route_order_source', '');
+    record.visit_order = safe_field(stats, 'visit_order', []);
+    record.route_order = safe_field(stats, 'route_order', []);
     record.region_order = [];
     if isfield(stats, 'plan') && isstruct(stats.plan) && isfield(stats.plan, 'region_order')
         record.region_order = stats.plan.region_order;
     end
     record.coverage_repair_count = safe_field(stats, 'coverage_repair_count', 0);
     record.strategy_objective_value = safe_field(stats, 'strategy_objective_value', 0);
+    plan = safe_field(stats, 'plan', struct());
+    diag = safe_field(plan, 'diagnostics', struct());
+    record.num_pose_replacements = safe_field(diag, 'num_pose_replacements', 0);
+    record.num_removed_docks = safe_field(diag, 'num_removed_docks', 0);
+    record.num_added_docks = safe_field(diag, 'num_added_docks', 0);
+    record.num_route_changes = safe_field(diag, 'num_route_changes', 0);
+    record.num_region_order_changes = safe_field(diag, 'num_region_order_changes', 0);
+    record.num_task_assignment_changes = safe_field(diag, 'num_task_assignment_changes', 0);
+    record.accepted_iterations = safe_field(diag, 'accepted_iterations', 0);
+    record.rejected_iterations = safe_field(diag, 'rejected_iterations', 0);
+    record.candidate_evaluations = safe_field(diag, 'candidate_evaluations', 0);
+    record.route_context_queries = safe_field(diag, 'route_context_queries', 0);
     record.ablation_mode  = safe_field(safe_field(planner_cfg, 'docking', struct()), 'ablation_mode', 'full');
     record.method         = record.ablation_mode;
     record.difficulty      = safe_field(safe_field(safe_field(scene, ...

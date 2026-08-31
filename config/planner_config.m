@@ -39,6 +39,7 @@ function cfg = planner_config()
     cfg.strategy.top_down.region_order_method = 'nearest_neighbor';
     cfg.strategy.top_down.enable_region_2opt = true;
     cfg.strategy.top_down.max_anchors_per_region = 8;
+    cfg.strategy.top_down.max_anchor_pair_queries = 4;
     cfg.strategy.top_down.preserve_side_diversity = true;
     cfg.strategy.top_down.preserve_unique_task_cover = true;
     cfg.strategy.top_down.max_docks_per_region = 3;

@@ -32,6 +32,10 @@ function experiment_stats = build_experiment_stats(scene, completed_task_ids, op
     experiment_stats.path.total_path_len_m = exec_stats.total_path_len_m;
     experiment_stats.path.task_path_len_m = exec_stats.task_path_len_m;
     experiment_stats.path.return_path_len_m = exec_stats.return_path_len_m;
+    assert(abs(experiment_stats.path.total_path_len_m - ...
+        (experiment_stats.path.task_path_len_m + experiment_stats.path.return_path_len_m)) < 1e-9, ...
+        'build_experiment_stats:PathLengthMismatch', ...
+        'Total path length must equal task path plus return path.');
     experiment_stats.path.num_path_points = size(global_path, 1);
     experiment_stats.path.num_turns = exec_stats.num_turns;
 
@@ -51,11 +55,25 @@ function experiment_stats = build_experiment_stats(scene, completed_task_ids, op
     experiment_stats.planning.route_refinement_time_s = getfield_default(timing, 'route_refinement_time_s', 0);
 
     experiment_stats.execution.motion_time_s = exec_stats.motion_time_s;
+    experiment_stats.execution.navigation_time_s = getfield_default(exec_stats, 'navigation_time_s', exec_stats.motion_time_s);
+    experiment_stats.execution.task_navigation_time_s = getfield_default(exec_stats, 'task_navigation_time_s', 0);
     experiment_stats.execution.return_time_s = exec_stats.return_time_s;
+    experiment_stats.execution.return_navigation_time_s = getfield_default(exec_stats, 'return_navigation_time_s', exec_stats.return_time_s);
     experiment_stats.execution.turn_time_s = exec_stats.turn_time_s;
+    experiment_stats.execution.turning_time_s = getfield_default(exec_stats, 'turning_time_s', exec_stats.turn_time_s);
     experiment_stats.execution.docking_align_time_s = exec_stats.docking_align_time_s;
+    experiment_stats.execution.docking_time_s = getfield_default(exec_stats, 'docking_time_s', exec_stats.docking_align_time_s);
     experiment_stats.execution.manipulation_time_s = exec_stats.manipulation_time_s;
+    experiment_stats.execution.arm_transition_time_s = getfield_default(exec_stats, 'arm_transition_time_s', 0);
+    experiment_stats.execution.side_switch_time_s = getfield_default(exec_stats, 'side_switch_time_s', 0);
+    experiment_stats.execution.lift_time_s = getfield_default(exec_stats, 'lift_time_s', 0);
+    experiment_stats.execution.replanning_time_s = getfield_default(exec_stats, 'replanning_time_s', 0);
     experiment_stats.execution.total_execution_time_s = exec_stats.total_execution_time_s;
+    experiment_stats.execution.mission_total_time_s = getfield_default(exec_stats, 'mission_total_time_s', exec_stats.total_execution_time_s);
+    experiment_stats.execution.time_breakdown = getfield_default(exec_stats, 'time_breakdown', struct());
+    experiment_stats.execution.num_side_switches = getfield_default(exec_stats, 'num_side_switches', 0);
+    experiment_stats.execution.num_arm_switches = getfield_default(exec_stats, 'num_arm_switches', 0);
+    experiment_stats.execution.total_abs_yaw_change_rad = getfield_default(exec_stats, 'total_abs_yaw_change_rad', 0);
 
     experiment_stats.total.estimated_total_time_s = ...
         experiment_stats.planning.total_planning_time_s + exec_stats.total_execution_time_s;

@@ -39,15 +39,38 @@ function [best_cost, best_from, best_to, cache] = min_anchor_pair_cost(from_pose
     best_cost = inf;
     best_from = 0;
     best_to = 0;
+    pairs = nearest_anchor_pairs(from_poses, to_poses, max_pair_queries(planner_cfg));
+    for k = 1:size(pairs, 1)
+        pi = pairs(k, 1);
+        qi = pairs(k, 2);
+        [c, cache] = get_cached_path_cost(cache, from_poses(pi, :), to_poses(qi, :), scene, planner_cfg);
+        if c < best_cost
+            best_cost = c;
+            best_from = safe_id(from_ids, pi);
+            best_to = safe_id(to_ids, qi);
+        end
+    end
+end
+
+function pairs = nearest_anchor_pairs(from_poses, to_poses, max_queries)
+    rows = zeros(size(from_poses, 1) * size(to_poses, 1), 3);
+    k = 0;
     for pi = 1:size(from_poses, 1)
         for qi = 1:size(to_poses, 1)
-            [c, cache] = get_cached_path_cost(cache, from_poses(pi, :), to_poses(qi, :), scene, planner_cfg);
-            if c < best_cost
-                best_cost = c;
-                best_from = safe_id(from_ids, pi);
-                best_to = safe_id(to_ids, qi);
-            end
+            k = k + 1;
+            rows(k, :) = [pi, qi, norm(from_poses(pi, 1:2) - to_poses(qi, 1:2))];
         end
+    end
+    rows = sortrows(rows, 3);
+    rows = rows(1:min(size(rows, 1), max_queries), :);
+    pairs = rows(:, 1:2);
+end
+
+function n = max_pair_queries(planner_cfg)
+    n = 12;
+    if isfield(planner_cfg, 'strategy') && isfield(planner_cfg.strategy, 'top_down') && ...
+            isfield(planner_cfg.strategy.top_down, 'max_anchor_pair_queries')
+        n = planner_cfg.strategy.top_down.max_anchor_pair_queries;
     end
 end
 

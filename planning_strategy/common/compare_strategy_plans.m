@@ -12,22 +12,81 @@ function comparison = compare_strategy_plans(reference_plan, plan, reference_rec
     comparison.strategy = safe_text(plan, 'strategy_name', 'strategy');
     comparison.region_order_hamming = hamming_count( ...
         safe_num_array(reference_plan, 'region_order'), safe_num_array(plan, 'region_order'));
-    comparison.visit_order_hamming = hamming_count( ...
-        safe_num_array(reference_plan, 'preferred_visit_order'), safe_num_array(plan, 'preferred_visit_order'));
+    ref_order = normalize_plan_order(reference_plan);
+    plan_order = normalize_plan_order(plan);
+    comparison.visit_order_hamming = hamming_count(ref_order.dock_order, plan_order.dock_order);
+    comparison.route_order_difference_count = comparison.visit_order_hamming;
+    comparison.route_order_valid = ref_order.is_valid && plan_order.is_valid;
+    comparison.route_order_error_message = join_errors(ref_order, plan_order);
     [match_count, diff_count] = pose_difference( ...
         safe_pose_array(reference_plan), safe_pose_array(plan), pos_tol, yaw_tol);
     comparison.pose_match_count = match_count;
     comparison.pose_difference_count = diff_count;
     comparison.task_assignment_difference_count = task_assignment_difference( ...
         safe_summary(reference_plan), safe_summary(plan));
-    comparison.route_edge_difference_count = route_edge_difference( ...
-        safe_num_array(reference_plan, 'preferred_visit_order'), safe_num_array(plan, 'preferred_visit_order'));
+    [directed_diff, undirected_diff, start_diff, return_diff] = route_edge_differences(ref_order, plan_order);
+    comparison.directed_route_edge_difference_count = directed_diff;
+    comparison.undirected_route_edge_difference_count = undirected_diff;
+    comparison.start_edge_difference_count = start_diff;
+    comparison.return_edge_difference_count = return_diff;
+    comparison.route_edge_difference_count = undirected_diff;
     comparison.num_docks_difference = safe_num(plan, 'num_docking_poses') - ...
         safe_num(reference_plan, 'num_docking_poses');
-    comparison.path_length_difference_m = safe_record_num(record, 'total_path_length') - ...
-        safe_record_num(reference_record, 'total_path_length');
+    comparison.path_length_difference_m = safe_path_length_m(record) - ...
+        safe_path_length_m(reference_record);
     comparison.execution_time_difference_s = safe_record_num(record, 'estimated_execution_time_s') - ...
         safe_record_num(reference_record, 'estimated_execution_time_s');
+end
+
+function normalized = normalize_plan_order(plan)
+    num_docks = safe_num(plan, 'num_docking_poses');
+    if num_docks == 0
+        num_docks = size(safe_pose_array(plan), 1);
+    end
+    order = first_order_field(plan, {'final_visit_order', 'visit_order', ...
+        'route_order', 'preferred_visit_order'});
+    normalized = normalize_visit_order(order, num_docks, struct('node_indexing', 'auto'));
+end
+
+function order = first_order_field(plan, names)
+    order = [];
+    for i = 1:numel(names)
+        if isstruct(plan) && isfield(plan, names{i}) && ~isempty(plan.(names{i}))
+            order = plan.(names{i});
+            return;
+        end
+    end
+end
+
+function [directed_diff, undirected_diff, start_diff, return_diff] = route_edge_differences(ref_order, plan_order)
+    if ~ref_order.is_valid || ~plan_order.is_valid
+        directed_diff = NaN;
+        undirected_diff = NaN;
+        start_diff = NaN;
+        return_diff = NaN;
+        return;
+    end
+    dock_opts = struct('include_start_edge', false, 'include_return_edge', false);
+    full_opts = struct('include_start_edge', true, 'include_return_edge', true);
+    ref_dock = build_route_edge_set(ref_order, dock_opts);
+    plan_dock = build_route_edge_set(plan_order, dock_opts);
+    ref_full = build_route_edge_set(ref_order, full_opts);
+    plan_full = build_route_edge_set(plan_order, full_opts);
+    directed_diff = size(setxor(ref_dock.directed_edges, plan_dock.directed_edges, 'rows'), 1);
+    undirected_diff = size(setxor(ref_dock.undirected_edges, plan_dock.undirected_edges, 'rows'), 1);
+    start_diff = size(setxor(ref_full.start_edges, plan_full.start_edges, 'rows'), 1);
+    return_diff = size(setxor(ref_full.return_edges, plan_full.return_edges, 'rows'), 1);
+end
+
+function msg = join_errors(ref_order, plan_order)
+    parts = {};
+    if ~ref_order.is_valid
+        parts{end + 1} = ['reference: ', ref_order.error_message]; %#ok<AGROW>
+    end
+    if ~plan_order.is_valid
+        parts{end + 1} = ['plan: ', plan_order.error_message]; %#ok<AGROW>
+    end
+    msg = strjoin(parts, ' | ');
 end
 
 function [pos_tol, yaw_tol] = tolerances(planner_cfg)
@@ -80,24 +139,10 @@ function n = task_assignment_difference(a, b)
     end
 end
 
-function n = route_edge_difference(a, b)
-    ea = route_edges(a);
-    eb = route_edges(b);
-    n = size(setxor(ea, eb, 'rows'), 1);
-end
-
-function edges = route_edges(order)
-    if numel(order) < 2
-        edges = zeros(0, 2);
-    else
-        edges = [order(1:end-1)', order(2:end)'];
-    end
-end
-
 function tasks = summary_tasks(summary, idx)
     tasks = [];
     if idx <= numel(summary) && isstruct(summary{idx}) && isfield(summary{idx}, 'covered_tasks')
-        tasks = sort(summary{idx}.covered_tasks(:)');
+        tasks = reshape(sort(summary{idx}.covered_tasks(:)), 1, []);
     end
 end
 
@@ -135,6 +180,13 @@ end
 
 function v = safe_record_num(s, field_name)
     v = safe_num(s, field_name);
+end
+
+function v = safe_path_length_m(s)
+    v = safe_num(s, 'total_path_length_m');
+    if v == 0
+        v = safe_num(s, 'total_path_length');
+    end
 end
 
 function txt = safe_text(s, field_name, default_value)

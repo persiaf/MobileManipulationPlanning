@@ -38,6 +38,10 @@ function records = exp_compare_hierarchical_strategies()
         [scene_i, global_path, all_poses, visit_order, executed_tasks, total_path_len, stats] = ...
             stage3_global_planning(scene_i, plan.selected_poses, plan.task_sequence_summary, ...
             task_table_map, robot_cfg, cfg_i, plan.pose_info_list, timing, plan);
+        plan.final_visit_order = visit_order;
+        plan.visit_order = visit_order;
+        plan.route_order = stats.route_order;
+        stats.plan = plan;
         record = build_result_record(scene_i, plan.selected_poses, executed_tasks, ...
             global_path, total_path_len, stats, cfg_i, plan.pose_info_list, []);
         record.strategy = strategies{si};
@@ -58,8 +62,13 @@ function records = exp_compare_hierarchical_strategies()
     save(fullfile('results', 'raw', 'strategy_comparison_records.mat'), ...
         'records', 'outputs', 'candidate_library');
     write_strategy_summary(records, fullfile('results', 'tables', 'strategy_comparison_summary.csv'));
+    write_strategy_time_breakdown(records, fullfile('results', 'tables', 'strategy_time_breakdown.csv'));
+    plan_differences = write_strategy_plan_differences(outputs, records, planner_cfg, ...
+        fullfile('results', 'tables', 'strategy_plan_differences.csv')); %#ok<NASGU>
     plot_strategy_route_comparison(scene, outputs, fullfile('results', 'figures', 'fig_strategy_route_comparison'));
     plot_strategy_tradeoff(records, fullfile('results', 'figures', 'fig_strategy_tradeoff'));
+    plot_strategy_time_breakdown(records, fullfile('results', 'figures', 'fig_strategy_time_breakdown'));
+    plot_strategy_plan_differences(plan_differences, fullfile('results', 'figures', 'fig_strategy_plan_differences'));
 end
 
 function out = append_record(records, record)
@@ -89,23 +98,74 @@ function write_strategy_summary(records, output_file)
         rows(i).verified_completion_rate = records(i).verified_completion_rate;
         rows(i).uncovered_tasks = records(i).uncovered_tasks;
         rows(i).num_docking_poses = records(i).num_docking_poses;
-        rows(i).task_path_length = records(i).task_path_length;
-        rows(i).return_path_length = records(i).return_path_length;
-        rows(i).total_path_length = records(i).total_path_length;
+        rows(i).task_path_length_m = records(i).task_path_length_m;
+        rows(i).return_path_length_m = records(i).return_path_length_m;
+        rows(i).total_path_length_m = records(i).total_path_length_m;
         rows(i).num_turns = records(i).num_turns;
-        rows(i).planning_time_total = records(i).planning_time_total;
+        rows(i).planning_time_s = records(i).planning_time_total;
         rows(i).candidate_generation_time = records(i).candidate_generation_time_s;
         rows(i).region_order_time = records(i).region_order_time_s;
         rows(i).local_selection_time = records(i).local_selection_time_s;
         rows(i).global_path_time = records(i).time_global;
-        rows(i).estimated_execution_time = records(i).estimated_execution_time_s;
-        rows(i).estimated_total_time = records(i).estimated_total_time_s;
+        rows(i).estimated_execution_time_s = records(i).estimated_execution_time_s;
+        rows(i).estimated_total_time_s = records(i).estimated_total_time_s;
         rows(i).coverage_repair_count = records(i).coverage_repair_count;
+        rows(i).accepted_iterations = records(i).accepted_iterations;
+        rows(i).num_pose_replacements = records(i).num_pose_replacements;
+        rows(i).num_removed_docks = records(i).num_removed_docks;
+        rows(i).num_route_changes = records(i).num_route_changes;
         rows(i).strategy_objective_value = records(i).strategy_objective_value;
         rows(i).status = records(i).status;
         rows(i).error_message = records(i).error_message;
     end
     writetable(struct2table(rows), output_file);
+end
+
+function write_strategy_time_breakdown(records, output_file)
+    rows = struct([]);
+    for i = 1:numel(records)
+        rows(i).strategy = records(i).strategy; %#ok<AGROW>
+        rows(i).task_navigation_time_s = records(i).task_navigation_time_s;
+        rows(i).return_navigation_time_s = records(i).return_navigation_time_s;
+        rows(i).navigation_time_s = records(i).navigation_time_s;
+        rows(i).docking_time_s = records(i).docking_time_s;
+        rows(i).manipulation_time_s = records(i).manipulation_time_s;
+        rows(i).arm_transition_time_s = records(i).arm_transition_time_s;
+        rows(i).side_switch_time_s = records(i).side_switch_time_s;
+        rows(i).turning_time_s = records(i).turning_time_s;
+        rows(i).lift_time_s = records(i).lift_time_s;
+        rows(i).replanning_time_s = records(i).replanning_time_s;
+        rows(i).mission_total_time_s = records(i).mission_total_time_s;
+        rows(i).total_estimated_time_s = records(i).estimated_execution_time_s;
+        rows(i).num_tasks = records(i).num_tasks;
+        rows(i).num_docks = records(i).num_docking_poses;
+        rows(i).num_side_switches = records(i).num_side_switches;
+        rows(i).num_arm_switches = records(i).num_arm_switches;
+        rows(i).total_abs_yaw_change_rad = records(i).total_abs_yaw_change_rad;
+    end
+    writetable(struct2table(rows), output_file);
+end
+
+function comparisons = write_strategy_plan_differences(outputs, records, planner_cfg, output_file)
+    comparisons = struct([]);
+    ref_idx = find(strcmp({outputs.strategy}, 'bottom_up'), 1);
+    if isempty(ref_idx)
+        warning('exp_compare_hierarchical_strategies:no_bottom_up', ...
+            'No bottom_up reference found; skipping plan-difference table.');
+        return;
+    end
+    ref_plan = outputs(ref_idx).plan;
+    ref_record = records(ref_idx);
+    for i = 1:numel(outputs)
+        cmp = compare_strategy_plans(ref_plan, outputs(i).plan, ref_record, records(i), planner_cfg);
+        cmp.coverage_repair_count = records(i).coverage_repair_count;
+        cmp.accepted_bidirectional_moves = records(i).accepted_iterations;
+        cmp.num_pose_replacements = records(i).num_pose_replacements;
+        cmp.num_removed_docks = records(i).num_removed_docks;
+        cmp.num_route_changes = records(i).num_route_changes;
+        comparisons = append_record(comparisons, cmp); %#ok<AGROW>
+    end
+    writetable(struct2table(comparisons), output_file);
 end
 
 function plot_strategy_route_comparison(scene, outputs, output_base)
@@ -143,6 +203,47 @@ function plot_strategy_tradeoff(records, output_base)
     legend({'completion %', 'docks', 'path m', 'planning s', 'exec est s'}, 'Location', 'best');
     grid on;
     title('Hierarchical strategy tradeoff');
+    saveas(h, [output_base, '.png']);
+    saveas(h, [output_base, '.pdf']);
+    close(h);
+end
+
+function plot_strategy_time_breakdown(records, output_base)
+    h = figure('Visible', 'off', 'Position', [80, 80, 900, 520]);
+    names = string({records.strategy});
+    values = [[records.navigation_time_s]', [records.docking_time_s]', ...
+        [records.manipulation_time_s]', [records.arm_transition_time_s]', ...
+        [records.side_switch_time_s]', [records.turning_time_s]'];
+    bar(values, 'stacked');
+    set(gca, 'XTickLabel', names, 'TickLabelInterpreter', 'none');
+    ylabel('Estimated execution time (s)', 'Interpreter', 'none');
+    legend({'navigation', 'docking', 'manipulation', 'arm transition', ...
+        'side switch', 'turning'}, 'Location', 'best');
+    grid on;
+    title('Strategy time breakdown', 'Interpreter', 'none');
+    saveas(h, [output_base, '.png']);
+    saveas(h, [output_base, '.pdf']);
+    close(h);
+end
+
+function plot_strategy_plan_differences(comparisons, output_base)
+    if isempty(comparisons)
+        return;
+    end
+    h = figure('Visible', 'off', 'Position', [80, 80, 950, 520]);
+    names = string({comparisons.strategy});
+    values = [[comparisons.pose_difference_count]', ...
+        [comparisons.task_assignment_difference_count]', ...
+        [comparisons.route_edge_difference_count]', ...
+        [comparisons.coverage_repair_count]', ...
+        [comparisons.accepted_bidirectional_moves]'];
+    bar(values);
+    set(gca, 'XTickLabel', names, 'TickLabelInterpreter', 'none');
+    ylabel('Count', 'Interpreter', 'none');
+    legend({'pose diff', 'task assignment diff', 'route edge diff', ...
+        'coverage repair', 'accepted bidir moves'}, 'Location', 'best');
+    grid on;
+    title('Plan differences relative to Bottom-Up', 'Interpreter', 'none');
     saveas(h, [output_base, '.png']);
     saveas(h, [output_base, '.pdf']);
     close(h);

@@ -25,10 +25,12 @@ function region_anchors = build_region_anchors(candidate_library, planner_cfg)
 
         keep = order(1:min(max_anchors(planner_cfg), numel(order)));
         if preserve_side_diversity(planner_cfg)
-            keep = unique([keep(:); side_representatives(candidates, score)], 'stable');
+            side_keep = side_representatives(candidates, score);
+            keep = unique([keep(:); side_keep(:)], 'stable');
         end
         if preserve_unique_task_cover(planner_cfg)
-            keep = unique([keep(:); unique_task_coverers(candidates, score)], 'stable');
+            unique_keep = unique_task_coverers(candidates, score);
+            keep = unique([keep(:); unique_keep(:)], 'stable');
         end
         keep = keep(1:min(numel(keep), max(max_anchors(planner_cfg), numel(unique_task_coverers(candidates, score)))));
 

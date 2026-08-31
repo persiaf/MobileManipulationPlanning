@@ -1,0 +1,4 @@
+reference_strategy,strategy,region_order_hamming,visit_order_hamming,route_order_difference_count,route_order_valid,route_order_error_message,pose_match_count,pose_difference_count,task_assignment_difference_count,directed_route_edge_difference_count,undirected_route_edge_difference_count,start_edge_difference_count,return_edge_difference_count,route_edge_difference_count,num_docks_difference,path_length_difference_m,execution_time_difference_s,coverage_repair_count,accepted_bidirectional_moves,num_pose_replacements,num_removed_docks,num_route_changes
+bottom_up,bottom_up,0,0,0,1,,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+bottom_up,top_down,15,22,22,1,,21,6,26,44,28,0,2,28,0,3.78284271247453,106.857255315942,0,0,0,0,0
+bottom_up,bidirectional,0,0,0,1,,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
