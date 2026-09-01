@@ -29,7 +29,7 @@ function [raw_table, summary_table] = exp_large_scale_complex_tasks(options)
             row.scale_id = scales{si};
             row.seed = seed;
             try
-                scene_cfg = scaled_profile_config(scales{si}, seed);
+                scene_cfg = large_scale_profile_config(scales{si}, seed);
                 robot_cfg = robot_config();
                 planner_cfg = planner_config();
                 planner_cfg.runtime.disable_visualization = true;
@@ -166,24 +166,6 @@ function result = profile_strategy(scene, regions, task_table_map, robot_cfg, pl
     result.cache_hit_ratio = result.cache_hit / max(result.cache_hit + result.cache_miss, 1);
     result.coverage_repair_count = get_num(stats, 'coverage_repair_count', 0);
     result.success = true;
-end
-
-function cfg = scaled_profile_config(scale_id, seed)
-    switch lower(scale_id)
-        case 'smoke', base = create_scaled_scene_config('small', seed); target = 4; per_table = [1, 1];
-        case 's1', base = create_scaled_scene_config('medium', seed); target = 36; per_table = [4, 4];
-        case 's2', base = create_scaled_scene_config('large', seed); target = 60; per_table = [4, 4];
-        case 's3', base = create_scaled_scene_config('large', seed); target = 90; per_table = [5, 6];
-        case 's4', base = create_scaled_scene_config('large', seed); target = 120; per_table = [7, 8];
-        otherwise, error('exp_large_scale_complex_tasks:UnknownScale', 'Unknown scale %s.', scale_id);
-    end
-    cfg = base;
-    cfg.tasks_per_table_range = per_table;
-    cfg.requested_task_count = target;
-    if target >= 120
-        [x, y] = meshgrid(linspace(-0.24, 0.24, 4), linspace(-0.16, 0.16, 3));
-        cfg.task_candidate_local = [x(:), y(:)];
-    end
 end
 
 function options = default_options(options)
