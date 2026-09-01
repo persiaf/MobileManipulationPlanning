@@ -12,6 +12,22 @@ function cfg = planner_config()
     cfg.candidate.safety_distance_m = 0.25;
     cfg.candidate.side_switch_penalty = 0.15;
 
+    % Task-driven augmentation is opt-in so the maintained baseline remains
+    % exactly reproducible. Sampling values are relative to scene geometry.
+    cfg.candidate_augmentation.enable = false;
+    cfg.candidate_augmentation.variant = 'joint';
+    cfg.candidate_augmentation.normal_offset_step_factors = [0, 0.25, 0.5, 0.75];
+    cfg.candidate_augmentation.tangential_offset_step_factors = [-0.5, 0, 0.5];
+    cfg.candidate_augmentation.baseline_orientation_step_factors = [-2, -1, 0, 1, 2];
+    cfg.candidate_augmentation.refined_orientation_step_factors = ...
+        [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2];
+    cfg.candidate_augmentation.orientation_step_rad = pi / 12;
+    cfg.candidate_augmentation.max_supplementary_candidates_per_task = 500;
+    cfg.candidate_augmentation.max_supplementary_candidates_per_region = 40;
+    cfg.candidate_augmentation.max_supplementary_candidates_total = 400;
+    cfg.candidate_augmentation.position_tolerance_m = 0.01;
+    cfg.candidate_augmentation.heading_tolerance_rad = deg2rad(2);
+
     % ablation_mode: 消融实验模式，仅影响 stage2 停靠位姿选择逻辑。
     %   'full'                    — 完整流程（默认），所有代价项均参与
     %   'no_reachability'         — 去掉可达性评分项 (mean_reach_new = 0)
