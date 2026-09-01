@@ -159,3 +159,48 @@ The results support the following scoped statement:
 The results do not support generalization to other layouts, scales, planners, or hardware; a claim that Joint augmentation is necessary; a route-quality improvement claim across unequal covered-task sets; or a claim that coverage recovery has no docking or generation cost. Before a general paper claim, run isolated, randomized four-mode timing repeats, compare Position-only and Joint in the full strategy pipeline, extend S4 layouts/seeds, and record augmented-cache memory use.
 
 Evidence files remain generated under `results/tables/` and intentionally outside the code commits.
+
+## 2026-09-01 Position-only final validation
+
+Status: provisional, `[pending external review]`.
+
+- Verdict: `partial`.
+- Confidence: `medium`.
+- Paper claim audit: unavailable (`paper/PAPER_CLAIM_AUDIT.json` is not present).
+- Scope: frozen Position-only parameters; development scenes S4 seeds 1-5; held-out S4 seeds 6-20; current planner and scene generator.
+
+### Full-strategy paired validation
+
+Using the same generated scene, candidate inputs, planner, and robot configuration for each seed, Position-only and Joint were compared in Bottom-Up, Top-Down, and Bidirectional planning. All 30 completed strategy runs (5 seeds x 2 variants x 3 strategies) reached `100%` library coverage and `100%` verified completion. Mean added candidates were 25.2 for both variants. Position-only had lower mean candidate-generation time (`13.836 s` versus `24.884 s`), saving `11.048 s` per strategy-seed pair on average. Mean total time was `244.501 s` for Position-only and `253.573 s` for Joint, but total planning time and path length should not be treated as a universal quality comparison because the selected poses and resulting routes differ.
+
+The per-seed Position-only strategy results were:
+
+| Seed | Bottom-Up | Top-Down | Bidirectional |
+| ---: | --- | --- | --- |
+| 1 | 100% / 100%, 50 docks | 100% / 100%, 50 docks | 100% / 100%, 50 docks |
+| 2 | 100% / 100%, 50 docks | 100% / 100%, 50 docks | 100% / 100%, 50 docks |
+| 3 | 100% / 100%, 49 docks | 100% / 100%, 48 docks | 100% / 100%, 49 docks |
+| 4 | 100% / 100%, 53 docks | 100% / 100%, 53 docks | 100% / 100%, 53 docks |
+| 5 | 100% / 100%, 47 docks | 100% / 100%, 46 docks | 100% / 100%, 47 docks |
+
+Here each entry is `coverage / verified completion, selected docks`. The result satisfies the formal Position-only success criterion on all five development seeds. It does not show a strategy-level coverage gap after augmentation.
+
+### Held-out coverage validation
+
+The frozen Position-only configuration was evaluated on 15 held-out S4 scenes (seeds 6-20), without parameter changes based on held-out outcomes. Baseline coverage ranged from `71.774%` to `79.832%`, with mean `75.421%`. Position-only reached `100%` coverage on all 15 scenes, recovering every baseline-uncovered task in each scene; the minimum held-out coverage was `100%`, and the mean selected supplementary count was `24.8`. No held-out failure geometry was recorded.
+
+This supports the narrower claim that task-aligned positional augmentation consistently recovered candidate-library coverage on these tested held-out random scenes. It does not establish performance on arbitrary layouts, other planners, or other hardware.
+
+### Isolated four-mode timing status
+
+The single-process benchmark entry point implements the requested M0-M3 design, warm-up, deterministic per-seed randomized order, scene reuse, run-local cache lifetime, and per-pair semantic assertions. However, execution was stopped after the first completed pair because the S4 path matrix cost was substantially higher than the other experiments. The completed record is only:
+
+| Seed | Repeat | Mode | Coverage | Expensive calls | Total time |
+| ---: | ---: | --- | ---: | ---: | ---: |
+| 1 | 1 | Baseline OFF | 71.545% | 2775 | 287.385 s |
+
+No M1-M3 timing aggregate, paired speedup, cache-memory summary, or same-batch M0-versus-M3 runtime claim is available. The earlier cross-batch cache numbers remain provisional and are not upgraded by this partial run. The claim therefore remains `partial / medium` until an isolated batch completes.
+
+### Routing
+
+Adopt Position-only as the primary candidate augmentation variant for subsequent controlled work; retain Joint only as an ablation and Orientation-only as a negative ablation. Keep the shared cache as a separate Bidirectional optimization. The next evidence needed is a completed isolated M0-M3 batch with at least three repeats or a documented, resource-bounded reduced design, plus cache memory and paired speedup statistics. Do not update a general paper claim or claim a definitive combined runtime improvement yet.
