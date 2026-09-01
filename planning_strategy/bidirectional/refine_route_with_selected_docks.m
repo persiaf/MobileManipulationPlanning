@@ -7,6 +7,7 @@ function [preferred_visit_order, route_length_m] = refine_route_with_selected_do
         return;
     end
     path_cost_audit('set_source', 'BIDIRECTIONAL_REFINEMENT');
+    set_shared_path_cost_source(planner_cfg, 'BIDIRECTIONAL_REFINEMENT');
     all_poses = [scene.start_pose; selected_poses];
     dist_matrix = compute_path_cost_matrix(all_poses, scene.grid_map, scene.map_info, planner_cfg);
     enable_2opt = isfield(planner_cfg, 'enable_2opt') && planner_cfg.enable_2opt;

@@ -5,6 +5,9 @@ function plan = plan_bidirectional(candidate_library, regions, scene, robot_cfg,
 % library and only changes selected docking poses/order.
 
     %#ok<INUSD>
+    if use_shared_cache(planner_cfg)
+        planner_cfg.runtime.shared_path_cost_context = SharedPathCostContext(scene, planner_cfg);
+    end
     t_strategy = tic;
     base_plan = plan_bottom_up(candidate_library, regions, scene, robot_cfg, planner_cfg);
     current = refresh_bidirectional_plan(base_plan, candidate_library, scene, planner_cfg, struct());
@@ -55,8 +58,20 @@ function plan = plan_bidirectional(candidate_library, regions, scene, robot_cfg,
     current.metrics.route_context_queries = current.diagnostics.route_context_queries;
     current.metrics.cache_hits = current.diagnostics.cache_hits;
     current.metrics.cache_misses = current.diagnostics.cache_misses;
+    if isfield(planner_cfg.runtime, 'shared_path_cost_context')
+        current.shared_path_cost_context = planner_cfg.runtime.shared_path_cost_context;
+        current.shared_path_cost_diagnostics = get_shared_path_cost_diagnostics(planner_cfg);
+    end
     plan = current;
     validate_plan_consistency(plan, scene);
+end
+
+function tf = use_shared_cache(planner_cfg)
+    tf = false;
+    if isfield(planner_cfg, 'strategy') && isfield(planner_cfg.strategy, 'bidirectional') && ...
+            isfield(planner_cfg.strategy.bidirectional, 'use_shared_path_cost_cache')
+        tf = logical(planner_cfg.strategy.bidirectional.use_shared_path_cost_cache);
+    end
 end
 
 function logs = append_log(logs, entry)

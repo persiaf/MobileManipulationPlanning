@@ -10,6 +10,10 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     end
 
     stats = struct();
+    if isstruct(plan) && isfield(plan, 'shared_path_cost_context') && ...
+            isa(plan.shared_path_cost_context, 'SharedPathCostContext')
+        planner_cfg.runtime.shared_path_cost_context = plan.shared_path_cost_context;
+    end
 
     fprintf('\n=== 阶段三: 全局路径规划与执行 ===\n');
     fprintf('  当前算法: %s\n', planner_cfg.global_planner);
@@ -23,6 +27,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     t_dist = tic;
     strategy_source = upper(get_plan_field(plan, 'strategy_name', 'bottom_up'));
     path_cost_audit('set_source', [strategy_source '_STAGE3']);
+    set_shared_path_cost_source(planner_cfg, [strategy_source '_STAGE3']);
     dist_matrix = compute_path_cost_matrix(all_poses, scene.grid_map, scene.map_info, planner_cfg);
     distance_matrix_time_s = toc(t_dist);
     fprintf('  距离矩阵计算完成，用时 %.3f s\n', distance_matrix_time_s);
@@ -60,6 +65,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     fprintf('\n--- 10-11. 生成全局路径 ---\n');
     t_global_path = tic;
     path_cost_audit('set_source', 'FINAL_ROUTE');
+    set_shared_path_cost_source(planner_cfg, 'FINAL_ROUTE');
     [global_path, segment_stats] = stitch_global_path(all_poses, route_order, ...
                                       scene.grid_map, scene.map_info, planner_cfg);
     global_path_time_s = toc(t_global_path);
@@ -189,6 +195,12 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
         timing.path_cache_misses = get_timing_field(plan.metrics, 'cache_misses', 0);
     end
     timing.stage3_time_s = distance_matrix_time_s + route_order_time_s + global_path_time_s;
+    shared_cache = get_shared_path_cost_diagnostics(planner_cfg);
+    timing.shared_path_cache = shared_cache;
+    timing.shared_cache_query_count = shared_cache.cache_query_count;
+    timing.shared_cache_hit_count = shared_cache.cache_hit_count;
+    timing.shared_cache_miss_count = shared_cache.cache_miss_count;
+    timing.expensive_planner_calls = shared_cache.expensive_planner_calls;
     timing.total_planning_time_s = timing.scene_time_s + timing.docking_time_s + ...
                                    distance_matrix_time_s + route_order_time_s + global_path_time_s;
 

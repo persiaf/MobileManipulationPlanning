@@ -58,6 +58,7 @@ function cfg = planner_config()
     cfg.strategy.bidirectional.enable_single_replacement = true;
     cfg.strategy.bidirectional.enable_two_to_one_replacement = true;
     cfg.strategy.bidirectional.enable_route_reinsertion = true;
+    cfg.strategy.bidirectional.use_shared_path_cost_cache = false;
     cfg.strategy.bidirectional.objective_weights.uncovered = 1000;
     cfg.strategy.bidirectional.objective_weights.docks = 1;
     cfg.strategy.bidirectional.objective_weights.path = 1;

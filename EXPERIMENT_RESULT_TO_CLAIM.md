@@ -85,3 +85,18 @@ The five-seed task trace accounts for all 154 S4 failures:
 The actual pipeline generates raw poses, removes footprint collisions, and only then evaluates task reachability. Consequently, it cannot label a collision-rejected pose with a task-specific reachability result without adding counterfactual computation. The supported statement is narrower: every failed task belongs to a region with raw and collision-valid poses, but none of those retained poses reaches that task at the configured threshold. All collision-valid candidates enter the library, so there is no later library pruning loss.
 
 All failures lie on the table-local center row (`table_local_y = 0`, 0.20 m from the nearest table edge). The outer task rows at `table_local_y = +/-0.16 m` are fully coverable. Regions 9-12 retain collision-valid reach support for center-row tasks in every seed; in the inspected seed 1 scene they retain 4-6 such poses per region, while the other 12 regions retain none. This supports investigating candidate pose geometry and collision-preserving sampling for center-row reach, but it does not support changing reachability thresholds or robot geometry from these results alone.
+
+## 2026-09-01 Bidirectional shared-cache prototype
+
+Status: provisional, `[pending external review]`.
+
+Paired cache-OFF/cache-ON experiments used S1 and S4, seeds 1-5. Each pair used the same generated scene and candidate library. All ten pairs have identical predicted coverage, selected docking poses/count, visit order, total path length, and objective within the stated numerical assertions.
+
+| Scale | Calls OFF | Calls ON | Calls removed | Total time OFF | Total time ON | Speedup | Cache memory |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| S1 | 741.0 | 181.8 | 559.2 | 44.43 s | 15.14 s | 2.94x | 0.55 MB |
+| S4 | 2745.6 | 679.6 | 2066.0 | 295.33 s | 79.39 s | 3.72x | 2.62 MB |
+
+The cache removes an average of 369.2 S1 and 1370.4 S4 refinement computations. It serves every stage3 distance-matrix pair from cache: 171 per S1 run and 630-666 per S4 run (658.8 mean). For the earlier S1/S4 seeds 1-3 audit subset, all 2,475 previously identified stage3 pairs are therefore eliminated as expensive calls. Directed final-route edges add 19 S1 and 36-37 S4 hits; reverse-direction edges remain separate by design.
+
+The cache is run-local, in-memory, and attached only to a Bidirectional plan. It stores complete path, raw path cost, and success, validates map/planner identity once per query source, and is disabled by default. The reported wall-clock results were collected as paired runs in four concurrent MATLAB process shards, so absolute times include shared-machine contention. The consistent per-seed speedups support the prototype's value on this benchmark, but should not be generalized to other planners or machines without isolated reruns.
