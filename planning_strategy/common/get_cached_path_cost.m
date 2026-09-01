@@ -3,11 +3,13 @@ function [cost, cache] = get_cached_path_cost(cache, start_pose, goal_pose, scen
 
     key = make_pose_key(cache.map_signature, start_pose, goal_pose, planner_cfg);
     if isKey(cache.costs, key)
+        path_cost_audit('record', start_pose, goal_pose, planner_cfg.global_planner, false);
         cache.hits = cache.hits + 1;
         cost = cache.costs(key);
         return;
     end
 
+    path_cost_audit('record', start_pose, goal_pose, planner_cfg.global_planner, true);
     cache.misses = cache.misses + 1;
     run_opts = struct('suppress_warnings', true);
     path = run_path_planner(scene.grid_map, start_pose, goal_pose, scene.map_info, ...

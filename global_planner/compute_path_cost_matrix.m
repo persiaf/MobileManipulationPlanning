@@ -8,6 +8,7 @@ function dist_matrix = compute_path_cost_matrix(poses, grid_map, map_info, plann
 
     for i = 1:n
         for j = i+1:n
+            path_cost_audit('record', poses(i,:), poses(j,:), planner_cfg.global_planner, true);
             path = run_path_planner(grid_map, poses(i,:), poses(j,:), map_info, planner_cfg);
             d = path_length(path);
             if d > 1e6 || isnan(d)

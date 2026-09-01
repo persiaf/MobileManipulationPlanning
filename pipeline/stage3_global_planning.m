@@ -21,6 +21,8 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
 
     fprintf('  计算距离矩阵（%s）...\n', planner_cfg.global_planner);
     t_dist = tic;
+    strategy_source = upper(get_plan_field(plan, 'strategy_name', 'bottom_up'));
+    path_cost_audit('set_source', [strategy_source '_STAGE3']);
     dist_matrix = compute_path_cost_matrix(all_poses, scene.grid_map, scene.map_info, planner_cfg);
     distance_matrix_time_s = toc(t_dist);
     fprintf('  距离矩阵计算完成，用时 %.3f s\n', distance_matrix_time_s);
@@ -57,6 +59,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
 
     fprintf('\n--- 10-11. 生成全局路径 ---\n');
     t_global_path = tic;
+    path_cost_audit('set_source', 'FINAL_ROUTE');
     [global_path, segment_stats] = stitch_global_path(all_poses, route_order, ...
                                       scene.grid_map, scene.map_info, planner_cfg);
     global_path_time_s = toc(t_global_path);

@@ -8,6 +8,8 @@ function [global_path, segment_stats] = stitch_global_path(poses, route_order, g
         to_idx   = route_order(k + 1);
 
         t_seg = tic;
+        path_cost_audit('record', poses(from_idx, :), poses(to_idx, :), ...
+            planner_cfg.global_planner, true);
         segment = run_path_planner(grid_map, poses(from_idx, :), ...
                                     poses(to_idx, :), map_info, planner_cfg);
         plan_time_s = toc(t_seg);
