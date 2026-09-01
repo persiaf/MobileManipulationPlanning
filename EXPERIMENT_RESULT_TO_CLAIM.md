@@ -68,3 +68,20 @@ The existing Top-Down cached sources issue 25,406 queries with 4,684 hits, an 18
 3. Measure wall-clock and memory effects separately for Top-Down and Bidirectional; do not infer speedup directly from query counts.
 
 Evidence files are generated under `results/tables/` and intentionally remain outside the code commit.
+
+## 2026-09-01 S4 pre-filter follow-up
+
+Status: provisional, `[pending external review]`.
+
+The five-seed task trace accounts for all 154 S4 failures:
+
+| Failure category | Count | Share |
+| --- | ---: | ---: |
+| NO_RAW_SUPPORT | 0 | 0% |
+| ALL_RAW_COLLISION_REJECTED | 0 | 0% |
+| COLLISION_VALID_BUT_UNREACHABLE | 154 | 100% |
+| REMOVED_DURING_LIBRARY_BUILD | 0 | 0% |
+
+The actual pipeline generates raw poses, removes footprint collisions, and only then evaluates task reachability. Consequently, it cannot label a collision-rejected pose with a task-specific reachability result without adding counterfactual computation. The supported statement is narrower: every failed task belongs to a region with raw and collision-valid poses, but none of those retained poses reaches that task at the configured threshold. All collision-valid candidates enter the library, so there is no later library pruning loss.
+
+All failures lie on the table-local center row (`table_local_y = 0`, 0.20 m from the nearest table edge). The outer task rows at `table_local_y = +/-0.16 m` are fully coverable. Regions 9-12 retain collision-valid reach support for center-row tasks in every seed; in the inspected seed 1 scene they retain 4-6 such poses per region, while the other 12 regions retain none. This supports investigating candidate pose geometry and collision-preserving sampling for center-row reach, but it does not support changing reachability thresholds or robot geometry from these results alone.

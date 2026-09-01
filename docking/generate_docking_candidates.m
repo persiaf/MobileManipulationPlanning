@@ -1,4 +1,4 @@
-function candidates = generate_docking_candidates(region, scene, robot_cfg, planner_cfg)
+function [candidates, diagnostics] = generate_docking_candidates(region, scene, robot_cfg, planner_cfg)
 %GENERATE_DOCKING_CANDIDATES Build and score deterministic docking poses.
 
     scene_cfg = scene.scene_cfg;
@@ -19,6 +19,7 @@ function candidates = generate_docking_candidates(region, scene, robot_cfg, plan
     reach_field = compute_reachability_field(table_center, table_theta, ...
         scene_cfg, robot_cfg, map_info, task_centroid, task_positions);
     candidate_poses = reach_field.candidates;
+    diagnostics = initialize_diagnostics(task_ids, candidate_poses);
 
     candidates = struct('pose', {}, 'table_id', {}, 'side_id', {}, ...
         'covered_tasks', {}, 'reach_scores', {}, 'arm_assignment', {}, ...
@@ -27,8 +28,14 @@ function candidates = generate_docking_candidates(region, scene, robot_cfg, plan
     for ci = 1:size(candidate_poses, 1)
         pose = candidate_poses(ci, :);
         if check_footprint_collision(pose, scene.grid_map, map_info, robot_cfg)
+            diagnostics.collision_rejected_candidate_count = ...
+                diagnostics.collision_rejected_candidate_count + 1;
             continue;
         end
+        diagnostics.collision_valid_candidate_count = ...
+            diagnostics.collision_valid_candidate_count + 1;
+        diagnostics.collision_valid_support_count = ...
+            diagnostics.collision_valid_support_count + 1;
 
         if isfield(reach_field, 'side_ids') && ci <= numel(reach_field.side_ids)
             side_id = reach_field.side_ids(ci);
@@ -47,6 +54,8 @@ function candidates = generate_docking_candidates(region, scene, robot_cfg, plan
             arm_assign{ti} = arm;
             if cs > 0
                 covered(end + 1) = tid; %#ok<AGROW>
+                diagnostics.reachable_support_count(ti) = ...
+                    diagnostics.reachable_support_count(ti) + 1;
             end
         end
 
@@ -61,6 +70,18 @@ function candidates = generate_docking_candidates(region, scene, robot_cfg, plan
         candidates(idx).cost_breakdown = struct();
         candidates(idx).total_cost = inf;
     end
+    diagnostics.reachability_valid_candidate_count = sum(arrayfun( ...
+        @(c) ~isempty(c.covered_tasks), candidates));
+    diagnostics.reachability_rejected_candidate_count = ...
+        diagnostics.collision_valid_candidate_count - diagnostics.reachability_valid_candidate_count;
+    diagnostics.library_candidate_count = numel(candidates);
+    diagnostics.library_support_count = zeros(num_tasks, 1);
+    for ci = 1:numel(candidates)
+        for ti = 1:num_tasks
+            diagnostics.library_support_count(ti) = diagnostics.library_support_count(ti) + ...
+                ismember(task_ids(ti), candidates(ci).covered_tasks);
+        end
+    end
 
     for ci = 1:numel(candidates)
         cost_struct = evaluate_docking_candidate(candidates(ci), region, scene, ...
@@ -69,6 +90,22 @@ function candidates = generate_docking_candidates(region, scene, robot_cfg, plan
         candidates(ci).total_cost = cost_struct.total;
     end
     candidates = annotate_heuristic_ranks(candidates);
+end
+
+function diagnostics = initialize_diagnostics(task_ids, candidate_poses)
+    n = numel(task_ids);
+    diagnostics = struct();
+    diagnostics.task_ids = task_ids(:);
+    diagnostics.raw_candidate_count = size(candidate_poses, 1);
+    diagnostics.collision_rejected_candidate_count = 0;
+    diagnostics.collision_valid_candidate_count = 0;
+    diagnostics.reachability_rejected_candidate_count = 0;
+    diagnostics.reachability_valid_candidate_count = 0;
+    diagnostics.library_candidate_count = 0;
+    diagnostics.raw_support_count = repmat(size(candidate_poses, 1), n, 1);
+    diagnostics.collision_valid_support_count = zeros(n, 1);
+    diagnostics.reachable_support_count = zeros(n, 1);
+    diagnostics.library_support_count = zeros(n, 1);
 end
 
 function candidates = annotate_heuristic_ranks(candidates)
