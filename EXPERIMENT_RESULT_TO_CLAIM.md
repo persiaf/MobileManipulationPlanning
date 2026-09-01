@@ -100,3 +100,62 @@ Paired cache-OFF/cache-ON experiments used S1 and S4, seeds 1-5. Each pair used 
 The cache removes an average of 369.2 S1 and 1370.4 S4 refinement computations. It serves every stage3 distance-matrix pair from cache: 171 per S1 run and 630-666 per S4 run (658.8 mean). For the earlier S1/S4 seeds 1-3 audit subset, all 2,475 previously identified stage3 pairs are therefore eliminated as expensive calls. Directed final-route edges add 19 S1 and 36-37 S4 hits; reverse-direction edges remain separate by design.
 
 The cache is run-local, in-memory, and attached only to a Bidirectional plan. It stores complete path, raw path cost, and success, validates map/planner identity once per query source, and is disabled by default. The reported wall-clock results were collected as paired runs in four concurrent MATLAB process shards, so absolute times include shared-machine contention. The consistent per-seed speedups support the prototype's value on this benchmark, but should not be generalized to other planners or machines without isolated reruns.
+
+## 2026-09-01 coverage-preserving candidate augmentation
+
+Status: provisional, `[pending external review]`.
+
+- Verdict: `partial`.
+- Confidence: `medium`.
+- Paper claim audit: unavailable (`paper/PAPER_CLAIM_AUDIT.json` is not present).
+- Scope: S4 seeds 1-5 with the current scene generator, robot geometry, collision checks, reachability threshold, and planner implementation. S1-S3 seeds 1-5 provide no-op checks only.
+
+### Geometry and candidate-library evidence
+
+Across the five S4 scenes, 133 candidate-task support pairs cover center-row tasks, and all 133 come from Regions 9-12. Every supporting pose lies on table side `+Y`, uses the minimum tested normal offset of 0.25 m, has 0.25 m footprint clearance, and is aligned tangentially with the target task (projection error from -0.09 m to 0.09 m). Candidate-to-task distance is 0.454-0.459 m. Heading relative to the task ranges from -0.418 rad to 0.366 rad.
+
+Collision-valid poses in the failed regions remain farther from the table: their minimum normal offset is 0.30 m and median is 0.35 m, while the reference non-support median is 0.40 m. The strongest observed factor is therefore task-aligned position at the minimum collision-valid normal offset. A reasonably task-facing orientation is compatible with success, but the ablation below shows that orientation refinement alone is insufficient and Joint refinement is not necessary on these scenes.
+
+| Variant | Mean library coverage | Minimum coverage | Recovered prior failures | Mean added candidates | Mean supplementation time | Mean total candidate time |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 74.433% | 71.545% | 0/154 | 0.0 | 0.571 s | 11.684 s |
+| Position-only | 100.000% | 100.000% | 154/154 | 25.2 | 7.810 s | 18.923 s |
+| Orientation-only | 74.433% | 71.545% | 0/154 | 0.0 | 58.110 s | 69.223 s |
+| Joint | 100.000% | 100.000% | 154/154 | 25.2 | 21.148 s | 32.261 s |
+
+Position-only matches Joint coverage and selected-candidate count while requiring substantially less supplementation time. The evidence therefore favors Position-only as the simpler tested variant; it does not support a claim that Joint position-orientation augmentation is necessary or superior.
+
+On S1, S2, and S3 seeds 1-5, baseline coverage is already 100%, coverage remains 100%, and the augmentation selects zero candidates. Observed no-op overhead is approximately 0.05-0.18 s per scene.
+
+### Full-strategy and combined evidence
+
+Joint augmentation was used for the full S4 strategy experiment:
+
+| Strategy | Mean/min coverage | Verified completion | Mean selected docks | Mean greedy requirement | Mean total path | Mean total time |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Bottom-Up | 100% / 100% | 100% | 49.8 | 49.2 | 77.689 m | 202.95 s |
+| Top-Down | 100% / 100% | 100% | 49.2 | 49.2 | 103.140 m | 521.71 s |
+| Bidirectional + cache | 100% / 100% | 100% | 49.8 | 49.2 | 77.689 m | 173.41 s |
+
+The original incomplete-library baseline selected a mean of 35.8 docks. Restoring full coverage raises the greedy requirement to 49.2 and selected docks to approximately 49-50, so the coverage recovery is not free. Path length and objective values from incomplete and full-coverage runs cover different task sets and do not establish route-quality improvement.
+
+Within the augmented Bidirectional experiment, cache OFF and ON produce exactly identical coverage, verified completion, selected docks, total path length, and objective for every seed. The cache reduces mean expensive calls from 5219.6 to 1293.0 and measured mean time from 698.63 s to 173.41 s, a 4.03x within-augmentation speedup.
+
+| Configuration | Mean coverage | Mean expensive calls | Observed mean time |
+| --- | ---: | ---: | ---: |
+| Original baseline, cache OFF | 74.433% | 2745.6 | 295.33 s |
+| Augmentation, cache OFF | 100.000% | 5219.6 | 698.63 s |
+| Original baseline, cache ON | 74.433% | 679.6 | 79.394 s |
+| Augmentation, cache ON | 100.000% | 1293.0 | 173.41 s |
+
+Relative to the original cache-OFF baseline, the combined configuration reaches 100% coverage with 52.9% fewer expensive calls. Its observed time is 41.3% lower (1.70x), but this timing comparison is provisional: the original and augmented measurements were collected in separate batches, and the augmented runs used three concurrent MATLAB shards. Call counts and the paired augmented cache-OFF/cache-ON semantic identity provide stronger evidence than this cross-batch wall-clock comparison.
+
+### Supported claim and routing
+
+The results support the following scoped statement:
+
+> On the five tested S4 scenes, task-aligned positional augmentation (and Joint augmentation) increased library and verified coverage from a 74.43% mean to 100% without relaxing collision or reachability checks. The independent shared lazy cache preserved all reported planning outputs and reduced augmented expensive calls from 5219.6 to 1293.0. The combined configuration achieved 100% coverage with fewer calls than the original cache-OFF baseline; its observed cross-batch timing advantage remains provisional.
+
+The results do not support generalization to other layouts, scales, planners, or hardware; a claim that Joint augmentation is necessary; a route-quality improvement claim across unequal covered-task sets; or a claim that coverage recovery has no docking or generation cost. Before a general paper claim, run isolated, randomized four-mode timing repeats, compare Position-only and Joint in the full strategy pipeline, extend S4 layouts/seeds, and record augmented-cache memory use.
+
+Evidence files remain generated under `results/tables/` and intentionally outside the code commits.

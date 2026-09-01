@@ -1,0 +1,3 @@
+# Routing Action
+
+The candidate method meets the scoped S4 coverage-recovery condition, but the intended Joint position-orientation rationale is not supported because Position-only matches Joint and is faster. Route to supplemental experiments rather than paper writing: use Position-only as the simpler primary candidate, compare it directly with Joint in the full strategy pipeline, rerun all four combined modes in an isolated randomized batch, add layouts/seeds, and record cache memory. Keep candidate augmentation responsible for coverable-task recovery and the shared cache responsible for computational reuse.
