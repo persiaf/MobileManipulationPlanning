@@ -39,12 +39,12 @@ function outputs = exp_position_only_isolated_four_mode(options)
                 end
                 cfg_run.strategy.bidirectional.use_shared_path_cost_cache = cache_enabled;
                 scene_id = sprintf('resource_s4_seed%d_repeat%d_%s', seed, repeat, mode);
-                path_cost_audit('reset', scene_id);
+                path_cost_audit('reset_count_only', scene_id);
                 path_cost_audit('set_context', 'bidirectional', 'OTHER', scene_id);
                 row = run_mode(state, cfg_run, library, candidate_time, mode, seed, ...
                     repeat, execution_index, order_seed, mat2str(order));
-                entries = path_cost_audit('snapshot'); path_cost_audit('disable');
-                row.expensive_planner_calls = sum([entries.expensive_computation]);
+                row.expensive_planner_calls = path_cost_audit('expensive_count');
+                path_cost_audit('disable');
                 rows(end + 1, 1) = row; %#ok<AGROW>
                 assert_unique_rows(rows);
                 fprintf(['RESOURCE-BOUNDED seed=%d repeat=%d order=%d mode=%s ' ...

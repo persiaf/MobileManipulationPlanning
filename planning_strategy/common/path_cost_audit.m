@@ -10,6 +10,11 @@ function output = path_cost_audit(action, varargin)
             state = new_state();
             state.enabled = true;
             if ~isempty(varargin), state.scene_id = char(varargin{1}); end
+        case 'reset_count_only'
+            state = new_state();
+            state.enabled = true;
+            state.store_entries = false;
+            if ~isempty(varargin), state.scene_id = char(varargin{1}); end
         case 'disable'
             state = new_state();
         case 'set_context'
@@ -23,6 +28,8 @@ function output = path_cost_audit(action, varargin)
             start_pose = varargin{1}; goal_pose = varargin{2};
             planner = char(varargin{3}); computed = logical(varargin{4});
             state.sequence = state.sequence + 1;
+            state.expensive_count = state.expensive_count + double(computed);
+            if ~state.store_entries, return; end
             entry = struct('sequence', state.sequence, 'scene_id', state.scene_id, ...
                 'strategy', state.strategy, 'query_source', state.source, ...
                 'planner', lower(planner), 'start_x', start_pose(1), ...
@@ -34,6 +41,8 @@ function output = path_cost_audit(action, varargin)
             state.entries(end + 1, 1) = entry;
         case 'snapshot'
             output = state.entries;
+        case 'expensive_count'
+            output = state.expensive_count;
         case 'context'
             output = struct('strategy', state.strategy, 'source', state.source, ...
                 'scene_id', state.scene_id, 'enabled', state.enabled);
@@ -47,8 +56,9 @@ function state = new_state()
         'query_source', {}, 'planner', {}, 'start_x', {}, 'start_y', {}, ...
         'start_theta', {}, 'goal_x', {}, 'goal_y', {}, 'goal_theta', {}, ...
         'directed_key', {}, 'expensive_computation', {});
-    state = struct('enabled', false, 'scene_id', '', 'strategy', '', ...
-        'source', 'OTHER', 'sequence', 0, 'entries', empty);
+    state = struct('enabled', false, 'store_entries', true, 'scene_id', '', ...
+        'strategy', '', 'source', 'OTHER', 'sequence', 0, ...
+        'expensive_count', 0, 'entries', empty);
 end
 
 function key = make_key(scene_id, planner, start_pose, goal_pose)
