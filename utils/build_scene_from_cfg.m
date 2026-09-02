@@ -14,14 +14,17 @@ function scene = build_scene_from_cfg(scene_cfg)
 
     % —— 解析桌子位置 ——
     scene_cfg = resolve_table_positions(scene_cfg);
+    if exist('validate_table_layout', 'file') == 2
+        [layout_ok, layout_report] = validate_table_layout(scene_cfg);
+        scene_cfg.layout_validation = layout_report;
+        if ~layout_ok
+            error('build_scene_from_cfg:InvalidTableLayout', ...
+                  'Invalid table layout: %s', layout_report.failure_reason);
+        end
+    end
 
     % —— 构建栅格地图 ——
     [grid_map, map_info] = build_grid_map(scene_cfg);
-
-    % —— 初始化任务数组 ——
-    scene.tasks = struct('id', {}, 'x', {}, 'y', {}, 'z', {}, ...
-                         'status', {}, 'table_id', {});
-    num_tasks = 0;
 
     % —— 设置随机种子 ——
     if strcmp(scene_cfg.random_seed, 'shuffle')
@@ -30,26 +33,10 @@ function scene = build_scene_from_cfg(scene_cfg)
         rng(scene_cfg.random_seed);
     end
 
-    num_tables = size(scene_cfg.table_positions, 1);
-
     % —— 生成任务 ——
-    difficulty = safe_field(safe_field(scene_cfg, 'task', struct()), ...
-                            'difficulty', 'normal');
-    if ~strcmpi(difficulty, 'normal')
-        % hard scenario：使用 hard task generator
-        hard_tasks = generate_hard_table_tasks(scene_cfg);
-        scene.tasks = hard_tasks;
-        num_tasks = length(hard_tasks);
-    else
-        switch lower(scene_cfg.task_mode)
-            case 'manual'
-                [scene, num_tasks] = generate_manual_tasks(scene, scene_cfg, num_tables);
-            case 'mixed'
-                [scene, num_tasks] = generate_mixed_tasks(scene, scene_cfg, num_tables);
-            otherwise
-                [scene, num_tasks] = generate_random_tasks(scene, scene_cfg, num_tables);
-        end
-    end
+    scene.tasks = generate_scene_tasks(scene_cfg);
+    num_tasks = length(scene.tasks);
+    scene_cfg.actual_task_count = num_tasks;
 
     scene.grid_map  = grid_map;
     scene.map_info  = map_info;
@@ -63,6 +50,8 @@ end
 
 function cfg = resolve_table_positions(cfg)
     switch lower(cfg.table_mode)
+        case 'layout'
+            cfg = resolve_layout_with_retries(cfg);
         case 'custom'
             cfg.num_tables = size(cfg.table_positions, 1);
             if length(cfg.table_orientations) < cfg.num_tables
@@ -78,6 +67,31 @@ function cfg = resolve_table_positions(cfg)
             ];
             cfg.table_orientations = [0, 0, 0, 0, 0, 0];
     end
+end
+
+function cfg = resolve_layout_with_retries(cfg)
+    if strcmp(cfg.random_seed, 'shuffle')
+        rng('shuffle');
+    elseif ~isempty(cfg.random_seed)
+        rng(cfg.random_seed);
+    end
+
+    max_retries = safe_field(safe_field(cfg, 'layout', struct()), 'max_retries', 1);
+    last_report = struct('failure_reason', 'layout was not generated');
+    for attempt = 1:max_retries
+        candidate = generate_table_layout(cfg);
+        [ok, report] = validate_table_layout(candidate);
+        candidate.layout_generation_attempts = attempt;
+        candidate.layout_validation = report;
+        if ok
+            cfg = candidate;
+            return;
+        end
+        last_report = report;
+    end
+    error('build_scene_from_cfg:LayoutGenerationFailed', ...
+          'Failed to generate a valid layout after %d attempts: %s', ...
+          max_retries, last_report.failure_reason);
 end
 
 function cfg = generate_random_tables(cfg)
