@@ -71,6 +71,27 @@ run('experiments/exp_compare_hierarchical_strategies.m')
 
 All three strategies can share one `candidate_library`, so a comparison trial uses the same scene, candidate poses, collision checks, reachability model, and global path planner.
 
+## Large-Scale Complex-Task Planning
+
+The `research/large-scale-complex-tasks` branch adds two separate modules:
+
+- Task-Aligned Positional Candidate Augmentation recovers tasks that are not coverable by the baseline docking candidate library while preserving the original collision and geometric reachability checks. Position-only is the primary augmentation; Joint is retained as an ablation and Orientation-only as a negative ablation.
+- The Bidirectional Shared Lazy Path Cache is a run-local, directed cache that reuses repeated path-planning results without changing the reported planning solution.
+
+On the tested S4 development scenes (seeds 1-5 from the current scene generator), Position-only augmentation achieved 100% candidate coverage and 100% verified completion for Bottom-Up, Top-Down, and Bidirectional planning. With frozen augmentation parameters, all 15 held-out S4 scenes (seeds 6-20) also reached 100% candidate-library coverage; their baseline mean coverage was 75.421%.
+
+In the resource-bounded isolated Bidirectional benchmark (S4 seeds 1, 3, and 5; two repeats; current `convex_astar` planner and tested hardware/software environment), the shared cache reduced expensive planner calls by about 75% and produced a 3.713x mean paired speedup for full-coverage Position-only runs. In the same batch, Position-only plus caching achieved 100% coverage and lower wall-clock time than the uncached baseline in all six paired trials, with a 1.973x mean paired speedup. These measurements are configuration-specific and do not establish general speedup or path-quality superiority.
+
+Compact evidence committed for this checkpoint:
+
+- `results/tables/position_only_heldout_coverage_summary.csv`
+- `results/tables/position_only_resource_bounded_four_mode_summary.csv`
+- `results/tables/position_only_resource_bounded_paired.csv`
+
+Initial full query-trace instrumentation caused a MATLAB R2022a heap-corruption failure. The formal resource-bounded batch used a count-only audit preserving the same expensive-call event definition; invalid partial rows from the failed batch were excluded. This was a diagnostic-instrumentation memory robustness issue, not a planner or algorithm failure.
+
+The large-scale scenes use a uniform manipulation height. They do not plan lift motion or include lift timing. Geometric reachability remains a screening model rather than full collision-aware IK, and MATLAB does not directly control ROS or real hardware.
+
 ## Execution-state semantics
 
 The planner maintains four distinct task sets:
@@ -223,7 +244,7 @@ The canonical GitHub repository is `https://github.com/persiaf/MobileManipulatio
 - planning code: the MATLAB project on the strategy-development branch, with interface `schema_version = 1.0` and `planner_version = rch-mt-mmp-matlab`;
 - paper package: `paper_tac/VERSION` is `0.2.0-format-revision`, maintained on branch `paper/tac-format-v0.2.0`.
 
-At the time of this update, the local working tree contains uncommitted planning and experiment changes after the `origin/main` snapshot (`1a03b74`, tagged `v0.2.0-hierarchical-strategies`). Those changes must not be described as published on GitHub until they are reviewed, committed, and pushed. The current paper-format commit is `1448082` (`paper-tac-v0.2.0-format`); it is also local branch state and should be checked against the remote branch before release.
+The validated large-scale implementation is maintained as the separate research checkpoint branch `research/large-scale-complex-tasks`; it is not the default stable release and is not merged into `main`. The paper-format line remains separate on `paper/tac-format-v0.2.0` and does not determine the planning-code version.
 
 Before updating the GitHub project README or creating a release:
 
