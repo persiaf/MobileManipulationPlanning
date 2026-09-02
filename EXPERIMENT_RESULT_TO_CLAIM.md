@@ -204,3 +204,28 @@ No M1-M3 timing aggregate, paired speedup, cache-memory summary, or same-batch M
 ### Routing
 
 Adopt Position-only as the primary candidate augmentation variant for subsequent controlled work; retain Joint only as an ablation and Orientation-only as a negative ablation. Keep the shared cache as a separate Bidirectional optimization. The next evidence needed is a completed isolated M0-M3 batch with at least three repeats or a documented, resource-bounded reduced design, plus cache memory and paired speedup statistics. Do not update a general paper claim or claim a definitive combined runtime improvement yet.
+
+## 2026-09-02 resource-bounded isolated four-mode timing
+
+Status: `yes / high` for the two claims within the tested configuration; provisional - no paper claim audit available.
+
+The completed single-compute-process batch used S4 seeds `[1, 3, 5]`, two repeats, and 24 runs. Each seed's scene and Baseline/Position-only candidate libraries were generated once and shared across modes and repeats. Mode order was deterministically randomized per seed-repeat pair, each mode received a new run-local cache, and candidate-generation time was measured once per seed and reused across repeats. Two repeats were used because the measured cache-OFF modes made the originally proposed 36-run design unreasonable under the available resource budget.
+
+| Mode | Coverage mean | Docks mean | Calls mean | Candidate time mean | Total time mean / median |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| M0 Baseline, cache OFF | 74.058% | 36.0 | 2775.0 | 8.276 s | 298.739 / 290.660 s |
+| M1 Baseline, cache ON | 74.058% | 36.0 | 685.3 | 8.276 s | 79.275 / 79.703 s |
+| M2 Position-only, cache OFF | 100.000% | 48.7 | 4986.3 | 14.012 s | 562.334 / 561.454 s |
+| M3 Position-only, cache ON | 100.000% | 48.7 | 1232.3 | 14.012 s | 151.363 / 151.208 s |
+
+M0/M1 and M2/M3 were identical in all six pairs for coverage, verified completion, selected docks, visit order, total path, and objective. M2 to M3 reduced expensive planner calls by `75.285%` on average and produced a mean/median paired speedup of `3.713x / 3.686x` (`3.600x` to `3.826x`). M1 cache memory was `2,751,590` bytes mean and `2,764,810` bytes maximum; M3 was `4,981,290` bytes mean and `5,190,927` bytes maximum.
+
+Within the same batch, M0 to M3 increased coverage in every pair and reduced wall-clock time in every pair. Mean coverage increased by `25.942` percentage points and mean/median paired speedup was `1.973x / 1.992x` (`1.802x` to `2.121x`). This supports a combined Position-only-plus-cache claim, not a claim that augmentation alone reduces runtime. M0 to M2 added 11-14 docks, 1881-2478 planner calls, 4.967-6.872 s candidate time, and 230.4-283.8 s total time; coverage recovery is therefore not free.
+
+The full query-trace audit caused MATLAB R2022a heap corruption during initial attempts. The completed batch used an aggregate count-only audit that preserved the expensive-call event definition without retaining per-query strings or structures. The result is limited to the tested S4 seeds, current Bidirectional implementation, current `convex_astar`, current hardware/software environment, and six pairs. It does not support path-quality superiority across M0 and M3, general speedup claims, or independent candidate-time repeat statistics.
+
+The scoped supported statement is:
+
+> For the tested S4 scenes with seeds 1, 3, and 5, using the current Bidirectional planner and `convex_astar` on the evaluated hardware, the run-local shared cache preserved all checked planning outputs while reducing expensive planner calls by approximately 75% and yielding about 3.7x mean paired speedup. In the same batch, frozen Position-only augmentation combined with caching achieved 100% coverage and lower observed wall-clock time than the uncached baseline in all six paired trials, with about 2.0x mean speedup.
+
+Routing: retain Position-only as the formal augmentation and the shared cache as a separate optimization. Treat these two narrowly scoped claims as confirmed experimental evidence, but keep downstream paper wording provisional until a paper claim audit verifies manuscript-to-result fidelity. Broader claims require more seeds, independent sessions or hardware, uncertainty intervals, and additional scales.

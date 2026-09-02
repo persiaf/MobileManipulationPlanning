@@ -1,0 +1,5 @@
+# Result-to-Claim Review Prompt
+
+Evaluate the completed resource-bounded isolated four-mode timing evidence for S4 seeds `[1, 3, 5]`, two repeats, and 24 runs. Judge whether the run-local shared-cache claim and the same-batch Position-only-plus-cache combined claim are supported. Account for deterministic randomized mode order, per-seed scene/library reuse, run-local caches, semantic identity assertions, the count-only expensive-call audit used after full-query auditing caused MATLAB heap corruption, and the absence of `paper/PAPER_CLAIM_AUDIT.json`.
+
+Key results: M0/M1/M2/M3 mean total times were `298.739`, `79.275`, `562.334`, and `151.363` s. M2 to M3 mean/median paired speedup was `3.713x / 3.686x`, with `75.285%` mean expensive-call reduction. Both cache comparisons preserved all checked semantics. M0 to M3 increased coverage from `74.058%` mean to `100%` and lowered runtime in all six pairs, with `1.973x` mean paired speedup. Cache memory mean/max was `2,751,590 / 2,764,810` bytes for M1 and `4,981,290 / 5,190,927` bytes for M3.
