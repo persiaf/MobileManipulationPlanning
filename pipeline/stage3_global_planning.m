@@ -23,12 +23,25 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     n_poses = size(all_poses, 1);
     fprintf('  需连接位姿总数: %d (起点 + %d停靠位姿)\n', n_poses, n_poses - 1);
 
-    fprintf('  计算距离矩阵（%s）...\n', planner_cfg.global_planner);
+    routing_mode = get_routing_mode(planner_cfg);
+    fprintf('  计算距离矩阵（%s, routing=%s）...\n', planner_cfg.global_planner, routing_mode);
     t_dist = tic;
     strategy_source = upper(get_plan_field(plan, 'strategy_name', 'bottom_up'));
     path_cost_audit('set_source', [strategy_source '_STAGE3']);
     set_shared_path_cost_source(planner_cfg, [strategy_source '_STAGE3']);
-    dist_matrix = compute_path_cost_matrix(all_poses, scene.grid_map, scene.map_info, planner_cfg);
+    sparse_graph = [];
+    if strcmpi(routing_mode, 'sparse_knn')
+        pose_region_ids = get_pose_region_ids(plan, scene, n_poses);
+        sparse_graph = build_sparse_docking_graph(all_poses, scene.grid_map, ...
+            scene.map_info, planner_cfg, pose_region_ids);
+        if ~sparse_graph.connectivity.ok
+            error('stage3_global_planning:SparseGraphDisconnected', ...
+                'Sparse graph failed connectivity validation after repair.');
+        end
+        dist_matrix = sparse_graph.shortest_cost_matrix;
+    else
+        dist_matrix = compute_path_cost_matrix(all_poses, scene.grid_map, scene.map_info, planner_cfg);
+    end
     distance_matrix_time_s = toc(t_dist);
     fprintf('  距离矩阵计算完成，用时 %.3f s\n', distance_matrix_time_s);
 
@@ -66,8 +79,12 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     t_global_path = tic;
     path_cost_audit('set_source', 'FINAL_ROUTE');
     set_shared_path_cost_source(planner_cfg, 'FINAL_ROUTE');
-    [global_path, segment_stats] = stitch_global_path(all_poses, route_order, ...
-                                      scene.grid_map, scene.map_info, planner_cfg);
+    if strcmpi(routing_mode, 'sparse_knn')
+        [global_path, segment_stats] = stitch_sparse_graph_path(all_poses, route_order, sparse_graph);
+    else
+        [global_path, segment_stats] = stitch_global_path(all_poses, route_order, ...
+                                          scene.grid_map, scene.map_info, planner_cfg);
+    end
     global_path_time_s = toc(t_global_path);
     total_path_len = compute_path_length(global_path);
     fprintf('  全局路径长度: %.2f m\n', total_path_len);
@@ -172,6 +189,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     fprintf('总代价: %.4f\n', total_cost_all);
 
     timing.distance_matrix_time_s = distance_matrix_time_s;
+    timing.routing_mode = routing_mode;
     timing.route_order_time_s = route_order_time_s;
     timing.global_path_time_s = global_path_time_s;
     timing.execution_sim_time_s = execution_sim_time_s;
@@ -221,6 +239,8 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     stats.visit_order = visit_order;
     stats.route_order = route_order;
     stats.route_order_source = route_order_source;
+    stats.routing_mode = routing_mode;
+    stats.sparse_graph = sparse_graph;
     stats.strategy_name = get_plan_field(plan, 'strategy_name', 'bottom_up');
     stats.plan = plan;
     if isstruct(plan) && isfield(plan, 'metrics')
@@ -255,6 +275,42 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
         fprintf('  可视化图片: 4张\n');
     else
         fprintf('  可视化已禁用\n');
+    end
+end
+
+function mode = get_routing_mode(planner_cfg)
+    mode = 'dense';
+    if isfield(planner_cfg, 'routing') && isfield(planner_cfg.routing, 'mode') && ...
+            ~isempty(planner_cfg.routing.mode)
+        mode = lower(char(planner_cfg.routing.mode));
+    end
+    if ~ismember(mode, {'dense', 'sparse_knn'})
+        error('stage3_global_planning:UnknownRoutingMode', ...
+            'Unknown routing mode "%s".', mode);
+    end
+end
+
+function ids = get_pose_region_ids(plan, scene, n_poses)
+    ids = ones(n_poses, 1);
+    ids(1) = 0;
+    table_region_id = [];
+    if isfield(scene, 'scene_cfg') && isfield(scene.scene_cfg, 'table_region_id')
+        table_region_id = reshape(scene.scene_cfg.table_region_id, [], 1);
+    end
+    if isstruct(plan) && isfield(plan, 'pose_info_list') && numel(plan.pose_info_list) == n_poses - 1
+        for i = 1:numel(plan.pose_info_list)
+            info = plan.pose_info_list{i};
+            if isstruct(info) && isfield(info, 'table_id') && ...
+                    info.table_id >= 1 && info.table_id <= numel(table_region_id)
+                ids(i + 1) = table_region_id(info.table_id);
+            elseif isstruct(plan) && isfield(plan, 'pose_to_region_map') && ...
+                    numel(plan.pose_to_region_map) == n_poses - 1
+                ids(i + 1) = plan.pose_to_region_map(i);
+            end
+        end
+    elseif isstruct(plan) && isfield(plan, 'pose_to_region_map') && ...
+            numel(plan.pose_to_region_map) == n_poses - 1
+        ids(2:end) = reshape(plan.pose_to_region_map, [], 1);
     end
 end
 
