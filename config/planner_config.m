@@ -28,6 +28,11 @@ function cfg = planner_config()
     cfg.candidate_augmentation.position_tolerance_m = 0.01;
     cfg.candidate_augmentation.heading_tolerance_rad = deg2rad(2);
 
+    % Conservative candidate-task pair prefilter. It is disabled by default
+    % so the maintained baseline remains exactly reproducible. P2 experiments
+    % enable it explicitly after a false-negative audit.
+    cfg.candidate_pair_prefilter.enable = false;
+
     % ablation_mode: 消融实验模式，仅影响 stage2 停靠位姿选择逻辑。
     %   'full'                    — 完整流程（默认），所有代价项均参与
     %   'no_reachability'         — 去掉可达性评分项 (mean_reach_new = 0)

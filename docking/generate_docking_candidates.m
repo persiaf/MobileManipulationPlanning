@@ -49,6 +49,20 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
         for ti = 1:num_tasks
             tid = task_ids(ti);
             target = [scene.tasks(tid).x, scene.tasks(tid).y, scene.tasks(tid).z];
+            diagnostics.candidate_task_pair_count = ...
+                diagnostics.candidate_task_pair_count + 1;
+            if candidate_prefilter_enabled(planner_cfg)
+                [quick_reject, ~] = candidate_reachability_quick_filter( ...
+                    pose, target, robot_cfg);
+                if quick_reject
+                    diagnostics.quick_rejected_pair_count = ...
+                        diagnostics.quick_rejected_pair_count + 1;
+                    arm_assign{ti} = 'quick_reject';
+                    continue;
+                end
+            end
+            diagnostics.formal_reachability_call_count = ...
+                diagnostics.formal_reachability_call_count + 1;
             [ls, rs, cs, arm] = evaluate_dual_arm_reachability(pose, target, robot_cfg, tau_r);
             reach_scores(ti, :) = [ls, rs, cs];
             arm_assign{ti} = arm;
@@ -92,6 +106,12 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
     candidates = annotate_heuristic_ranks(candidates);
 end
 
+function tf = candidate_prefilter_enabled(planner_cfg)
+    tf = isfield(planner_cfg, 'candidate_pair_prefilter') && ...
+        isfield(planner_cfg.candidate_pair_prefilter, 'enable') && ...
+        planner_cfg.candidate_pair_prefilter.enable;
+end
+
 function diagnostics = initialize_diagnostics(task_ids, candidate_poses)
     n = numel(task_ids);
     diagnostics = struct();
@@ -106,6 +126,9 @@ function diagnostics = initialize_diagnostics(task_ids, candidate_poses)
     diagnostics.collision_valid_support_count = zeros(n, 1);
     diagnostics.reachable_support_count = zeros(n, 1);
     diagnostics.library_support_count = zeros(n, 1);
+    diagnostics.candidate_task_pair_count = 0;
+    diagnostics.quick_rejected_pair_count = 0;
+    diagnostics.formal_reachability_call_count = 0;
 end
 
 function candidates = annotate_heuristic_ranks(candidates)
