@@ -44,6 +44,48 @@ function scene = build_scene_from_cfg(scene_cfg)
     scene.start_pose = scene_cfg.start_pose;
     scene.num_tasks  = num_tasks;
     scene.tasks = normalize_task_fields(scene.tasks);
+    scene.region_metadata = build_scene_region_metadata(scene, []);
+end
+
+function metadata = build_scene_region_metadata(scene, selected_pose_region_ids)
+    scene_cfg = scene.scene_cfg;
+    table_count = size(scene_cfg.table_positions, 1);
+    if isfield(scene_cfg, 'table_region_id') && numel(scene_cfg.table_region_id) == table_count
+        table_region_id = reshape(scene_cfg.table_region_id, [], 1);
+    else
+        table_region_id = (1:table_count)';
+    end
+
+    task_region_id = zeros(scene.num_tasks, 1);
+    for ti = 1:scene.num_tasks
+        if isfield(scene.tasks(ti), 'table_id') && scene.tasks(ti).table_id >= 1 && ...
+                scene.tasks(ti).table_id <= table_count
+            task_region_id(ti) = table_region_id(scene.tasks(ti).table_id);
+        end
+    end
+    region_ids = unique(table_region_id(table_region_id > 0), 'stable');
+    metadata = struct();
+    metadata.table_region_id = table_region_id;
+    metadata.task_region_id = task_region_id;
+    metadata.region_ids = region_ids;
+    metadata.region_count = numel(region_ids);
+    metadata.tables_per_region = count_by_region(table_region_id, region_ids);
+    metadata.tasks_per_region = count_by_region(task_region_id, region_ids);
+    metadata.candidate_count_per_region = zeros(numel(region_ids), 1);
+    if nargin >= 2 && ~isempty(selected_pose_region_ids)
+        metadata.dock_region_id = reshape(selected_pose_region_ids, [], 1);
+        metadata.selected_docks_per_region = count_by_region(metadata.dock_region_id, region_ids);
+    else
+        metadata.dock_region_id = [];
+        metadata.selected_docks_per_region = zeros(numel(region_ids), 1);
+    end
+end
+
+function counts = count_by_region(ids, region_ids)
+    counts = zeros(numel(region_ids), 1);
+    for i = 1:numel(region_ids)
+        counts(i) = sum(ids == region_ids(i));
+    end
 end
 
 %% ==================== 局部函数（从 build_scene.m 复制） ====================

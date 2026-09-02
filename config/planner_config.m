@@ -171,6 +171,15 @@ function cfg = planner_config()
 % cfg.global_planner = 'ga';              % 遗传算法
     cfg.inflation_radius_m = 0.25;
 
+    % P3/P4 routing infrastructure. Dense remains the maintained baseline.
+    % Experiments opt into sparse_knn explicitly; candidate prefilter remains off.
+    cfg.routing.mode = 'dense';              % 'dense' / 'sparse_knn'
+    cfg.routing.sparse_knn.k = 6;
+    cfg.routing.sparse_knn.k_local = 4;
+    cfg.routing.sparse_knn.k_cross = 1;
+    cfg.routing.sparse_knn.max_local_k = 12;
+    cfg.routing.sparse_knn.enable_region_rule = true;
+
     cfg.enable_2opt = false;
     cfg.edge_cost.lambda_theta = 0.15;
 
