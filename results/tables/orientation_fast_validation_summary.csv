@@ -1,0 +1,10 @@
+record_type,case_id,seed,angle_deg,variant,layout_pattern,orientation_mode,task_position_mode,table_count,task_count,coverage_percent,uncovered_tasks,baseline_candidate_count,position_only_added,orientation_aware_added,final_candidate_count,added_candidate_ratio,failure_majority_class,T_candidate
+orientation_sweep,fixed_+0deg,2026,0,baseline,grid,fixed,discrete,16,75,100,0,7134,0,0,7134,0,NONE,8.3190913
+orientation_sweep,fixed_+45deg,2026,45,baseline,grid,fixed,discrete,16,75,100,0,7134,0,0,7134,0,NONE,7.3624619
+orientation_sweep,fixed_-45deg,2026,-45,baseline,grid,fixed,discrete,16,75,100,0,7134,0,0,7134,0,NONE,7.4940679
+orientation_sweep,fixed_+90deg,2026,90,baseline,grid,fixed,discrete,16,75,100,0,7134,0,0,7134,0,NONE,7.398508
+orientation_sweep,fixed_+0deg,2027,0,baseline,grid,fixed,discrete,16,78,100,0,6809,0,0,6809,0,NONE,6.9043332
+orientation_sweep,fixed_+45deg,2027,45,baseline,grid,fixed,discrete,16,78,100,0,6809,0,0,6809,0,NONE,6.7959022
+orientation_sweep,fixed_-45deg,2027,-45,baseline,grid,fixed,discrete,16,78,100,0,6809,0,0,6809,0,NONE,6.7585211
+orientation_sweep,fixed_+90deg,2027,90,baseline,grid,fixed,discrete,16,78,100,0,6809,0,0,6809,0,NONE,6.81192
+reachability_probe,F010,2026,NaN,baseline,grid,discrete_random,discrete,16,75,64,27,4689,0,0,4689,0,REACHABILITY_MODEL_LIMIT,7.3200891
