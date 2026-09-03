@@ -9,6 +9,9 @@ function state = p5_fixture_state()
         'rows', 80, 'cols', 80);
     scene.scene_cfg.table_positions = [1, 0; 2, 0; 1, 1; 2, 1; 4, 4; 5, 4];
     scene.scene_cfg.table_region_id = [1; 1; 2; 2; 3; 3];
+    scene.scene_cfg.table_orientations = zeros(6, 1);
+    scene.scene_cfg.table.length = 0.8;
+    scene.scene_cfg.table.width = 0.5;
     scene.scene_cfg.task_offset_z = 0.5;
     for i = 1:6
         scene.tasks(i).id = i;

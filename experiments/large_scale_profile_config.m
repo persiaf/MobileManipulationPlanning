@@ -24,6 +24,19 @@ function cfg = large_scale_profile_config(scale_id, seed)
         case 'l1_jittered'
             base = create_p3p4_jittered_profile(seed, 12.0, 20, [4, 5], 90, 'L1_JITTERED');
             target = 90; per_table = [4, 5];
+        case 'v1'
+            base = create_p3p4_cluster_profile(seed, 15.0, 28, 7, [4, 5], 126, 'V1');
+            base.task.difficulty = 'hard_two_side';
+            target = 126; per_table = [4, 5];
+        case 'v2'
+            base = create_p3p4_cluster_profile(seed, 20.0, 40, 8, [4, 5], 180, 'V2');
+            base.layout.cluster_jitter_range_m = 0.12;
+            base.visual_static_obstacles = default_visual_static_obstacles('V2');
+            target = 180; per_table = [4, 5];
+        case 'v3'
+            base = create_p3p4_cluster_profile(seed, 15.0, 28, 7, [4, 5], 126, 'V3');
+            base.task.difficulty = 'hard_mixed';
+            target = 126; per_table = [4, 5];
         otherwise
             error('large_scale_profile_config:UnknownScale', 'Unknown scale %s.', scale_id);
     end
@@ -33,6 +46,20 @@ function cfg = large_scale_profile_config(scale_id, seed)
     if target >= 120
         [x, y] = meshgrid(linspace(-0.24, 0.24, 4), linspace(-0.16, 0.16, 3));
         cfg.task_candidate_local = [x(:), y(:)];
+    end
+end
+
+function obstacles = default_visual_static_obstacles(label)
+    switch upper(label)
+        case 'V2'
+            obstacles = struct( ...
+                'id', {'O1','O2','O3','O4'}, ...
+                'type', {'block','block','block','block'}, ...
+                'center', {[6.65, 6.70], [13.35, 6.70], [6.65, 14.10], [10.25, 13.35]}, ...
+                'size', {[0.55, 2.20], [0.55, 2.20], [0.55, 2.20], [2.20, 0.50]}, ...
+                'theta', {0, 0, 0, 0});
+        otherwise
+            obstacles = struct('id', {}, 'type', {}, 'center', {}, 'size', {}, 'theta', {});
     end
 end
 
