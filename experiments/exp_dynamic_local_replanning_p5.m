@@ -14,7 +14,8 @@ function summary = exp_dynamic_local_replanning_p5(options)
     raw_csv = fullfile(root, get_opt(options, 'raw_csv', cfg.raw_csv));
     summary_csv = fullfile(root, get_opt(options, 'summary_csv', cfg.summary_csv));
     run_full = get_opt(options, 'run_full_replan', false);
-    if isfile(raw_csv), delete(raw_csv); end
+    reset_raw = get_opt(options, 'reset_raw', true);
+    if reset_raw && isfile(raw_csv), delete(raw_csv); end
 
     for si = 1:numel(seeds)
         state = load_or_build_p5_state(root, seeds(si), cfg);
@@ -63,6 +64,12 @@ function state = load_or_build_p5_state(root, seed, cfg)
     state.model_infeasible_tasks = data.model_infeasible_tasks;
     state.all_poses = [state.scene.start_pose; state.plan.selected_poses];
     state.stats = lightweight_sparse_stats(state, raw, cfg);
+end
+
+function state = p5_load_or_build_state(root, seed)
+%P5_LOAD_OR_BUILD_STATE Public wrapper used by short-lived P5-Final scripts.
+    cfg = dynamic_event_config();
+    state = load_or_build_p5_state(root, seed, cfg);
 end
 
 function raw = read_p3p4_row(root, seed)
@@ -183,9 +190,74 @@ function full = estimated_full_replan_reference(state, changed_state, event, cfg
 end
 
 function full = run_full_replan_reference(state, changed_state, event, cfg) %#ok<INUSD>
-    full = estimated_full_replan_reference(state, changed_state, event, cfg);
-    full.status = 'FULL_REPLAN_TIMEOUT';
-    full.fallback_reason = 'real full replan is disabled by default in P5-Fast resource mode';
+    full = run_actual_full_replan(state, changed_state, event);
+end
+
+function full = run_actual_full_replan(state, changed_state, event)
+    t0 = tic;
+    cfg = state.planner_cfg;
+    cfg.strategy.name = 'bottom_up';
+    cfg.routing.mode = 'sparse_knn';
+    cfg.routing.sparse_knn.k = 4;
+    cfg.candidate_pair_prefilter.enable = false;
+    cfg.runtime.disable_visualization = true;
+    cfg.runtime.disable_video = true;
+    cfg.runtime.quiet = true;
+    cfg.runtime.quiet_stage2 = true;
+    cfg.benchmark.enable = false;
+    cfg.visualization.show_scene = false;
+    cfg.visualization.show_docking = false;
+    cfg.visualization.show_global_path = false;
+
+    task_table_map = assign_tasks_to_tables(changed_state.scene);
+    regions = build_task_regions(changed_state.scene, task_table_map);
+    library = build_candidate_library(regions, changed_state.scene, state.robot_cfg, cfg);
+    plan = run_planning_strategy(library, regions, changed_state.scene, state.robot_cfg, cfg);
+    covered_by_library = library_covered_tasks_p5(library);
+    model_infeasible = setdiff(1:changed_state.scene.num_tasks, covered_by_library, 'stable');
+    timing = struct('scene_time_s', 0, ...
+        'candidate_generation_time_s', library.total_generation_time_s, ...
+        'docking_time_s', library.total_generation_time_s, ...
+        'strategy_total_time_s', plan.timing.strategy_total_time_s, ...
+        'region_order_time_s', getfield_default_p5(plan.timing, 'region_order_time_s', 0), ...
+        'local_selection_time_s', getfield_default_p5(plan.timing, 'local_selection_time_s', 0));
+    [~, ~, ~, ~, executed_tasks, total_path, stats] = stage3_global_planning( ...
+        changed_state.scene, plan.selected_poses, plan.task_sequence_summary, ...
+        task_table_map, state.robot_cfg, cfg, plan.pose_info_list, timing, plan);
+    acc = task_operability_accounting(1:changed_state.scene.num_tasks, ...
+        plan.covered_tasks_predicted, model_infeasible);
+
+    full = estimated_full_replan_reference(state, changed_state, event, dynamic_event_config());
+    full.status = 'ACTUAL_FULL_REPLAN';
+    full.fallback_reason = '';
+    full.affected_region_count = changed_state.scene.region_metadata.region_count;
+    full.affected_task_count = changed_state.scene.num_tasks - state.scene.num_tasks;
+    full.original_docks = size(state.plan.selected_poses, 1);
+    full.original_sparse_edges = nnz(triu(state.stats.sparse_graph.adjacency, 1));
+    full.recomputed_candidates = library.total_candidates;
+    full.recomputed_docks = size(plan.selected_poses, 1);
+    full.recomputed_or_changed_docks = size(plan.selected_poses, 1);
+    full.recomputed_path_edges = stats.sparse_graph.stats.validated_sparse_edges;
+    full.local_astar_calls = stats.sparse_graph.stats.actual_astar_calls;
+    full.replanning_time_s = toc(t0);
+    full.raw_coverage = 100 * numel(plan.covered_tasks_predicted) / max(changed_state.scene.num_tasks, 1);
+    full.feasible_task_coverage = acc.feasible_task_coverage_percent;
+    full.verified_completion = stats.verified_completion_rate;
+    full.final_path_length = total_path;
+    full.retained_docks = 0;
+    full.removed_docks = 0;
+    full.new_docks = size(plan.selected_poses, 1);
+    full.added_tasks = changed_state.scene.num_tasks - state.scene.num_tasks;
+    full.model_feasible_added_tasks = max(0, full.added_tasks);
+    full.reused_sparse_edges = 0;
+    full.region_locality_ratio = 1;
+    full.edge_recompute_ratio = 1;
+    full.dock_recompute_ratio = 1;
+    full.unchanged_dock_ratio = 0;
+    full.reused_edge_ratio = 0;
+    full.sparse_graph_connected = stats.sparse_graph.connectivity.ok;
+    full.no_collision_invalid_route = full.sparse_graph_connected;
+    full.completed_tasks = numel(executed_tasks);
 end
 
 function row = row_from_result(state, changed_state, event, impact, result)
@@ -201,6 +273,7 @@ function row = row_from_result(state, changed_state, event, impact, result)
     row.feasible_tasks = changed_state.scene.num_tasks;
     row.baseline_docks = size(state.plan.selected_poses, 1);
     row.baseline_sparse_edges = nnz(triu(state.stats.sparse_graph.adjacency, 1));
+    row.result_docks = result_dock_count(result);
     row.affected_regions = impact.affected_region_count;
     row.affected_tasks = impact.affected_task_count;
     row.invalidated_docks = result.invalidated_docks;
@@ -223,6 +296,14 @@ function row = row_from_result(state, changed_state, event, impact, result)
     row.reused_edge_ratio = result.reused_edge_ratio;
     row.sparse_graph_connected = result.sparse_graph_connected;
     row.no_collision_invalid_route = result.no_collision_invalid_route;
+end
+
+function n = result_dock_count(result)
+    if strcmp(result.mode, 'FULL_REPLAN')
+        n = result.recomputed_docks;
+    else
+        n = result.original_docks - result.removed_docks + result.new_docks;
+    end
 end
 
 function summary = summarize_dynamic_rows(raw)
@@ -274,6 +355,23 @@ function summary = summarize_dynamic_rows(raw)
         summary.mean_astar_reduction_vs_full(i) = mean(reductions, 'omitnan');
         summary.mean_time_speedup_vs_full(i) = mean(speedups, 'omitnan');
         summary.mean_path_degradation_vs_full(i) = mean(degradations, 'omitnan');
+    end
+end
+
+function tasks = library_covered_tasks_p5(library)
+    tasks = [];
+    for ri = 1:numel(library.regions)
+        for ci = 1:numel(library.regions(ri).candidates)
+            tasks = union(tasks, library.regions(ri).candidates(ci).covered_tasks, 'stable');
+        end
+    end
+end
+
+function v = getfield_default_p5(s, name, default_value)
+    if isstruct(s) && isfield(s, name)
+        v = s.(name);
+    else
+        v = default_value;
     end
 end
 

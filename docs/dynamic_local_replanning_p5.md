@@ -1,4 +1,4 @@
-# P5-Fast: Region-Aware Local Dynamic Replanning
+# P5: Region-Aware Local Dynamic Replanning
 
 ## 1. Motivation
 
@@ -175,3 +175,64 @@ Reason: D1/D2/D3 each have successful local-replan evidence, feasible coverage
 and verified completion are preserved, affected regions remain local, fallback
 is not used, and the P5 targeted tests plus P3/P4 targeted tests pass in
 short-lived MATLAB processes.
+
+## 9. Actual Full-Replan Validation
+
+P5-Final replaces the previous `REFERENCE_ESTIMATE` comparison with a minimal
+actual paired validation. The paired validation uses only:
+
+```text
+scale    = L2
+seed     = 2026
+strategy = Bottom-Up
+routing  = sparse_knn
+k        = 4
+```
+
+For each deterministic event, the local mode reuses the frozen
+`planning_state_before_change`, while the full mode reruns the complete static
+pipeline on the same modified scene/task state:
+
+```text
+modified scene
+    -> candidate library
+    -> docking selection
+    -> sparse global planning
+    -> route verification
+```
+
+The actual paired output is:
+
+```text
+results/tables/p5_actual_full_replan_paired.csv
+```
+
+`results/tables/dynamic_local_replanning_p5_summary.csv` is updated from the
+same actual paired seed-2026 run. For paper writing, prefer the actual paired
+CSV over the earlier P5-Fast reference-estimate rows.
+
+| event | local / full status | local / full time | local / full A* calls | A* reduction | time speedup | path degradation | local coverage / verified | full coverage / verified |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| `ADD_LOCAL_OBSTACLE` | SUCCESS / ACTUAL_FULL_REPLAN | 0.0189 s / 110.0352 s | 3 / 158 | 98.10% | 5809.9x | 36.26% | 100% / 100% | 100% / 100% |
+| `INVALIDATE_DOCK` | SUCCESS / ACTUAL_FULL_REPLAN | 0.0007 s / 109.7781 s | 10 / 157 | 93.63% | 148892.1x | -1.83% | 100% / 100% | 98.41% / 98.41% raw; 100% feasible |
+| `ADD_TASKS` | SUCCESS / ACTUAL_FULL_REPLAN | 0.0010 s / 110.4674 s | 2 / 164 | 98.78% | 113544.5x | 1.17% | 100% / 100% | 98.46% / 98.46% raw; 100% feasible |
+
+All three actual full replans completed within the 300 s process-level budget:
+
+```text
+actual full success count = 3/3
+timeout count             = 0
+local fallback count      = 0
+```
+
+The raw full-replan completion rates for `INVALIDATE_DOCK` and `ADD_TASKS` are
+below 100% because the modified scene creates model-infeasible tasks under the
+same operability accounting. Feasible-task coverage remains 100%, so the paired
+correctness claim is restricted to feasible-task preservation. The local repair
+rows preserve 100% raw and feasible coverage in this P5-Final accounting.
+
+Final paper-validation gate:
+
+```text
+P5_PAPER_VALIDATED
+```

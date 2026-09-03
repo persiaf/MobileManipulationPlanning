@@ -23,12 +23,16 @@ function [changed_state, event] = apply_dynamic_event(planning_state, event_type
             event.target_edge = edge;
             event.center = center;
             event.radius_m = 0.32;
+            changed_state.scene = add_circular_grid_obstacle(changed_state.scene, ...
+                event.center, event.radius_m);
         case "INVALIDATE_DOCK"
             dock_idx = choose_dock(planning_state, event_id);
             event.target_dock_index = dock_idx;
             event.center = planning_state.plan.selected_poses(dock_idx, 1:2);
             event.radius_m = 0.35;
             event.target_region = dock_region(planning_state, dock_idx);
+            changed_state.scene = add_circular_grid_obstacle(changed_state.scene, ...
+                event.center, event.radius_m);
         case "ADD_TASKS"
             [tasks, region_id] = deterministic_added_tasks(planning_state, event_id);
             changed_state.scene.tasks = [changed_state.scene.tasks, tasks];
@@ -40,6 +44,23 @@ function [changed_state, event] = apply_dynamic_event(planning_state, event_type
             event.center = mean([[tasks.x]', [tasks.y]'], 1);
         otherwise
             error('apply_dynamic_event:UnknownEvent', 'Unknown event type "%s".', event_type);
+    end
+end
+
+function scene = add_circular_grid_obstacle(scene, center, radius_m)
+    map_info = scene.map_info;
+    res = map_info.resolution;
+    [ci, cj] = world2grid(center(1), center(2), res, map_info.height_m);
+    r_cells = max(1, ceil(radius_m / res));
+    rows = size(scene.grid_map, 1);
+    cols = size(scene.grid_map, 2);
+    for i = max(1, ci - r_cells):min(rows, ci + r_cells)
+        for j = max(1, cj - r_cells):min(cols, cj + r_cells)
+            [wx, wy] = grid2world(i, j, res, map_info.height_m);
+            if norm([wx, wy] - center) <= radius_m
+                scene.grid_map(i, j) = 1;
+            end
+        end
     end
 end
 

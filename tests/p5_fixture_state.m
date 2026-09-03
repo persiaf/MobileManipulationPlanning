@@ -4,6 +4,9 @@ function state = p5_fixture_state()
     scene = struct();
     scene.start_pose = [0, 0, 0];
     scene.num_tasks = 6;
+    scene.grid_map = zeros(80, 80);
+    scene.map_info = struct('resolution', 0.1, 'height_m', 8.0, 'width_m', 8.0, ...
+        'rows', 80, 'cols', 80);
     scene.scene_cfg.table_positions = [1, 0; 2, 0; 1, 1; 2, 1; 4, 4; 5, 4];
     scene.scene_cfg.table_region_id = [1; 1; 2; 2; 3; 3];
     scene.scene_cfg.task_offset_z = 0.5;
