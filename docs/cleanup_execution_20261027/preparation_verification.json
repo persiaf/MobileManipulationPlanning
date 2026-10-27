@@ -1,0 +1,9 @@
+{
+  "archive_crc_ok": true,
+  "history_file_coverage": 14332,
+  "unique_payload_hashes_checked": 1788,
+  "restore_source_samples": 20,
+  "cloud_assets_verified": 5,
+  "protected_dependencies_verified": 14,
+  "no_deletion_performed": true
+}

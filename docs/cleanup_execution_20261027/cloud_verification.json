@@ -1,0 +1,37 @@
+{
+  "verified_utc8": "2026-10-27T10:17:09+08:00",
+  "release_url": "https://github.com/persiaf/MobileManipulationPlanning/releases/tag/checkpoint-20261027-095303",
+  "commit": "75cc12801c033e75bbba1d635375d3b86329efc2",
+  "assets": [
+    {
+      "name": "MobileManipulationPlanning-checkpoint-20261027-095303-workspace.zip",
+      "bytes": 805516681,
+      "sha256": "c98c2c0d6e49a078672292832a18976278aa38b25296ed935653549906acd010",
+      "url": "https://github.com/persiaf/MobileManipulationPlanning/releases/download/checkpoint-20261027-095303/MobileManipulationPlanning-checkpoint-20261027-095303-workspace.zip"
+    },
+    {
+      "name": "MobileManipulationPlanning-checkpoint-20261027-095303.bundle",
+      "bytes": 77531370,
+      "sha256": "3fcfdb35755634a1d270fc491400c058325531681ff7c80fada0b48eebf398c4",
+      "url": "https://github.com/persiaf/MobileManipulationPlanning/releases/download/checkpoint-20261027-095303/MobileManipulationPlanning-checkpoint-20261027-095303.bundle"
+    },
+    {
+      "name": "workspace_manifest.json",
+      "bytes": 288752,
+      "sha256": "d23cd6a72caae22917b29c90a4c32327f5055cbab770e73bdc86552d86545538",
+      "url": "https://github.com/persiaf/MobileManipulationPlanning/releases/download/checkpoint-20261027-095303/workspace_manifest.json"
+    },
+    {
+      "name": "RESTORE.md",
+      "bytes": 1222,
+      "sha256": "35b95aa2d01bec45deef3e3af6d66e3a7b11b24af86b25a3ff1d004c44f57c8f",
+      "url": "https://github.com/persiaf/MobileManipulationPlanning/releases/download/checkpoint-20261027-095303/RESTORE.md"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 432,
+      "sha256": "958ccadf292be8479e290f24822aefaa26a93f375a884f7d32c31ea61b705172",
+      "url": "https://github.com/persiaf/MobileManipulationPlanning/releases/download/checkpoint-20261027-095303/SHA256SUMS.txt"
+    }
+  ]
+}

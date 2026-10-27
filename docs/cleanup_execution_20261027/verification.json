@@ -1,0 +1,59 @@
+{
+  "verified_utc8": "2026-10-27T10:22:33+08:00",
+  "remaining_planned_targets": [],
+  "retained_baseline_files_checked": 778,
+  "retained_file_hash_mismatches": [],
+  "unchanged_matlab_source_files": 383,
+  "protected_experiment_files": [
+    "results/tables/p3p4_state_l1_seed2026_bottom_up.mat",
+    "results/tables/p3p4_state_l1_seed2027_bottom_up.mat",
+    "results/tables/p3p4_state_l1_seed2028_bottom_up.mat",
+    "results/tables/p3p4_state_l2_seed2026_bottom_up.mat",
+    "results/tables/p3p4_state_l2_seed2027_bottom_up.mat",
+    "results/tables/p3p4_state_l2_seed2028_bottom_up.mat",
+    "results/tables/p3p4_state_l3_seed2026_bottom_up.mat",
+    "results/tables/p3p4_state_l3_seed2027_bottom_up.mat",
+    "results/tables/position_only_isolated_four_mode_partial.csv",
+    "results/tables/position_only_resource_bounded_four_mode_partial.csv",
+    "results/tables/position_only_resource_bounded_full_audit_interrupted_9rows.csv",
+    "results/tables/position_only_resource_bounded_seed1_state.mat",
+    "results/tables/position_only_resource_bounded_seed3_state.mat",
+    "results/tables/position_only_resource_bounded_seed5_state.mat"
+  ],
+  "protected_files_ok": true,
+  "historical_archive_ok": true,
+  "current_configs_and_recent_rollbacks_ok": true,
+  "source_changes_from_precleanup_commit": [],
+  "deletion_log_entries": 291,
+  "summary": {
+    "external_roots": 74,
+    "external_files": 14332,
+    "external_logical_bytes": 28669133110,
+    "external_files_from_cloud_baseline": 10053,
+    "unique_history_payloads": 1788,
+    "project_files": 188,
+    "project_logical_bytes": 861213550,
+    "old_codex_files": 5,
+    "temporary_bytes": 883342401,
+    "net_logical_bytes_reclaimed": 28096727846
+  },
+  "skipped_permission_roots": [
+    {
+      "absolute_path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning_removed_python_cache_20260720",
+      "reason": "Owner-specific ACL denies Administrator listing and ownership change; retained in place. Audit recorded six pytest cache files, 1259 bytes."
+    }
+  ],
+  "drive_free_before": {
+    "D": 81791905792,
+    "C": 76487438336
+  },
+  "drive_free_after": {
+    "D": 109014958080,
+    "C": 77366595584
+  },
+  "observed_free_space_increase": {
+    "D": 27223052288,
+    "C": 879157248
+  },
+  "passed": true
+}
