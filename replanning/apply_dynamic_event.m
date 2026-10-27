@@ -4,6 +4,7 @@ function [changed_state, event] = apply_dynamic_event(planning_state, event_type
 % The event is determined only by the frozen planning state, event_type, and
 % event_id. This function does not rerun stage1/stage2/stage3.
 
+    planning_state = normalize_planning_state(planning_state);
     if nargin < 3 || isempty(event_id), event_id = 1; end
     event_type = upper(string(event_type));
     changed_state = planning_state;
@@ -16,6 +17,9 @@ function [changed_state, event] = apply_dynamic_event(planning_state, event_type
     event.target_dock_index = NaN;
     event.target_region = NaN;
     event.center = [NaN, NaN];
+    event.target_task_id = NaN;
+    event.invalidated_coverage_pairs = zeros(0, 2);
+    event.reason = '';
 
     switch event_type
         case "ADD_LOCAL_OBSTACLE"
@@ -42,9 +46,40 @@ function [changed_state, event] = apply_dynamic_event(planning_state, event_type
             event.added_task_ids = [tasks.id];
             event.target_region = region_id;
             event.center = mean([[tasks.x]', [tasks.y]'], 1);
+        case "TASK_COVERAGE_FAILURE"
+            [task_id, dock_idx] = choose_coverage_pair(planning_state, event_id);
+            event.target_task_id = task_id;
+            event.target_dock_index = dock_idx;
+            event.target_region = dock_region(planning_state, dock_idx);
+            event.invalidated_coverage_pairs = [task_id, dock_idx];
+            event.reason = 'deterministic_external_coverage_failure';
+            event.center = planning_state.plan.selected_poses(dock_idx, 1:2);
         otherwise
             error('apply_dynamic_event:UnknownEvent', 'Unknown event type "%s".', event_type);
     end
+end
+
+function [task_id, dock_idx] = choose_coverage_pair(state, event_id)
+    pairs = zeros(0, 2);
+    for d = 1:numel(state.plan.pose_info_list)
+        info = state.plan.pose_info_list{d};
+        if isstruct(info) && isfield(info, 'covered_tasks')
+            for tid = reshape(info.covered_tasks, 1, [])
+                if ~is_task_verified(state, tid)
+                    pairs(end + 1, :) = [tid, d]; %#ok<AGROW>
+                end
+            end
+        end
+    end
+    if isempty(pairs), error('apply_dynamic_event:NoPendingCoverage', 'No pending coverage pair exists.'); end
+    pair = pairs(1 + mod(event_id - 1, size(pairs, 1)), :);
+    task_id = pair(1); dock_idx = pair(2);
+end
+
+function tf = is_task_verified(state, task_id)
+    tf = isfield(state, 'task_state') && isstruct(state.task_state) && ...
+        isfield(state.task_state, 'verified_tasks') && ...
+        any(state.task_state.verified_tasks == task_id);
 end
 
 function scene = add_circular_grid_obstacle(scene, center, radius_m)

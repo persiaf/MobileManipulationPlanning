@@ -23,7 +23,21 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
 
     candidates = struct('pose', {}, 'table_id', {}, 'side_id', {}, ...
         'covered_tasks', {}, 'reach_scores', {}, 'arm_assignment', {}, ...
+        'nominal_covered_tasks', {}, 'nominal_reach_scores', {}, ...
+        'robust_covered_tasks', {}, 'robust_reachability_summary', {}, ...
         'coverage_ratio', {}, 'cost_breakdown', {}, 'total_cost', {});
+
+    reachability_mode = 'nominal';
+    if isfield(planner_cfg, 'reachability') && isfield(planner_cfg.reachability, 'mode')
+        reachability_mode = lower(char(planner_cfg.reachability.mode));
+    end
+    if ~ismember(reachability_mode, {'nominal', 'robust'})
+        error('generate_docking_candidates:UnknownReachabilityMode', ...
+            'Unknown reachability mode "%s".', reachability_mode);
+    end
+    robust_q_min = getfield_default(planner_cfg.reachability, ...
+        'robust_success_fraction_min', 0.80);
+    error_model = getfield_default(planner_cfg, 'docking_error_model', struct());
 
     for ci = 1:size(candidate_poses, 1)
         pose = candidate_poses(ci, :);
@@ -44,8 +58,13 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
         end
 
         reach_scores = zeros(num_tasks, 3);
+        robust_summary = repmat(struct('minimum_score', NaN, 'mean_score', NaN, ...
+            'success_fraction', NaN, 'sample_count', 0, 'threshold', tau_r, ...
+            'geometric_only', true, 'error_model_source', 'unspecified', ...
+            'error_model_measured', false), 1, num_tasks);
         arm_assign = cell(num_tasks, 1);
-        covered = [];
+        nominal_covered = [];
+        robust_covered = [];
         for ti = 1:num_tasks
             tid = task_ids(ti);
             target = [scene.tasks(tid).x, scene.tasks(tid).y, scene.tasks(tid).z];
@@ -67,10 +86,23 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
             reach_scores(ti, :) = [ls, rs, cs];
             arm_assign{ti} = arm;
             if cs > 0
-                covered(end + 1) = tid; %#ok<AGROW>
+                nominal_covered(end + 1) = tid; %#ok<AGROW>
                 diagnostics.reachable_support_count(ti) = ...
                     diagnostics.reachable_support_count(ti) + 1;
             end
+            if strcmp(reachability_mode, 'robust')
+                robust_summary(ti) = evaluate_robust_reachability( ...
+                    pose, target, robot_cfg, tau_r, error_model);
+                if robust_summary(ti).success_fraction >= robust_q_min
+                    robust_covered(end + 1) = tid; %#ok<AGROW>
+                end
+            end
+        end
+
+        if strcmp(reachability_mode, 'robust')
+            covered = robust_covered;
+        else
+            covered = nominal_covered;
         end
 
         idx = numel(candidates) + 1;
@@ -79,7 +111,14 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
         candidates(idx).side_id = side_id;
         candidates(idx).covered_tasks = covered;
         candidates(idx).reach_scores = reach_scores;
+        if strcmp(reachability_mode, 'robust')
+            candidates(idx).reach_scores(:, 3) = [robust_summary.success_fraction]';
+        end
         candidates(idx).arm_assignment = arm_assign;
+        candidates(idx).nominal_covered_tasks = nominal_covered;
+        candidates(idx).nominal_reach_scores = reach_scores;
+        candidates(idx).robust_covered_tasks = robust_covered;
+        candidates(idx).robust_reachability_summary = robust_summary;
         candidates(idx).coverage_ratio = numel(covered) / max(num_tasks, 1);
         candidates(idx).cost_breakdown = struct();
         candidates(idx).total_cost = inf;
@@ -104,6 +143,10 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
         candidates(ci).total_cost = cost_struct.total;
     end
     candidates = annotate_heuristic_ranks(candidates);
+end
+
+function value = getfield_default(s, name, default_value)
+    if isstruct(s) && isfield(s, name), value = s.(name); else, value = default_value; end
 end
 
 function tf = candidate_prefilter_enabled(planner_cfg)

@@ -1,0 +1,2 @@
+total_path_cost_queries,unique_path_pairs,repeated_queries,potential_reuse_ratio,expensive_computations,maximum_theoretical_expensive_call_reduction,maximum_theoretical_reduction_ratio
+41111,24294,16817,0.409063267738561,36427,12133,0.33307711313037

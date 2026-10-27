@@ -11,13 +11,18 @@ init_paths(project_root);
 timing = struct();
 
 t1 = tic;
-[robot_cfg, scene_cfg, planner_cfg, scene, task_table_map, regions] = stage1_build_scene();
+effective = resolve_effective_config();
+[robot_cfg, scene_cfg, planner_cfg, scene, task_table_map, regions] = stage1_build_scene(effective);
 timing.scene_time_s = toc(t1);
 
 t2 = tic;
 candidate_library = build_candidate_library(regions, scene, robot_cfg, planner_cfg);
 [optimal_poses, pose_to_region_map, task_sequence_summary, pose_info_list, plan] = ...
     stage2_docking_planning(regions, scene, robot_cfg, planner_cfg, candidate_library); %#ok<NASGU>
+if isstruct(plan) && isfield(plan, 'status') && strcmpi(plan.status, 'BLOCKED')
+    fprintf('STAGE2_STATUS = BLOCKED\nSTAGE2_REASON = %s\n', plan.reason);
+    return;
+end
 timing.docking_time_s = toc(t2);
 timing.candidate_generation_time_s = candidate_library.total_generation_time_s;
 if isfield(plan, 'timing')

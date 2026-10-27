@@ -22,27 +22,31 @@ function graph_data = build_sparse_docking_graph(poses, grid_map, map_info, plan
     geo_report = validate_sparse_graph_connectivity(geometric, region_ids);
     report = validate_sparse_graph_connectivity(adjacency, region_ids);
     while ~report.ok
-        bridge = nearest_component_bridge(poses, adjacency, report.component_ids);
-        if isempty(bridge)
+        bridges = component_bridge_candidates(poses, adjacency, report.component_ids);
+        if isempty(bridges)
             break;
         end
-        [ok, cost, path, cache_hit] = query_edge(bridge(1), bridge(2), poses, grid_map, map_info, planner_cfg);
-        stats.actual_path_queries = stats.actual_path_queries + 1;
-        stats.actual_astar_calls = stats.actual_astar_calls + double(~cache_hit);
-        stats.adaptive_bridge_edges_added = stats.adaptive_bridge_edges_added + 1;
-        if ok
-            i = bridge(1); j = bridge(2);
-            adjacency(i, j) = true; adjacency(j, i) = true;
-            cost_matrix(i, j) = cost; cost_matrix(j, i) = cost;
-            direct_paths{i, j} = path; direct_paths{j, i} = flipud(path);
-            stats.successful_edges = stats.successful_edges + 1;
-        else
-            geometric(bridge(1), bridge(2)) = true;
-            geometric(bridge(2), bridge(1)) = true;
+        component_before = report.component_ids;
+        connected = false;
+        for b = 1:size(bridges, 1)
+            bridge = bridges(b, :);
+            [ok, cost, path, cache_hit] = query_edge(bridge(1), bridge(2), poses, grid_map, map_info, planner_cfg);
+            stats.actual_path_queries = stats.actual_path_queries + 1;
+            stats.actual_astar_calls = stats.actual_astar_calls + double(~cache_hit);
+            stats.adaptive_bridge_edges_added = stats.adaptive_bridge_edges_added + 1;
+            if ok
+                i = bridge(1); j = bridge(2);
+                adjacency(i, j) = true; adjacency(j, i) = true;
+                cost_matrix(i, j) = cost; cost_matrix(j, i) = cost;
+                direct_paths{i, j} = path; direct_paths{j, i} = flipud(path);
+                stats.successful_edges = stats.successful_edges + 1;
+                connected = true;
+                break;
+            end
             stats.failed_edges = stats.failed_edges + 1;
         end
         next_report = validate_sparse_graph_connectivity(adjacency, region_ids);
-        if isequal(next_report.component_ids, report.component_ids)
+        if ~connected || isequal(next_report.component_ids, component_before)
             break;
         end
         report = next_report;
@@ -153,25 +157,25 @@ function [ok, cost, path, cache_hit] = query_edge(i, j, poses, grid_map, map_inf
     end
 end
 
-function bridge = nearest_component_bridge(poses, adjacency, component_ids)
-    bridge = [];
+function bridges = component_bridge_candidates(poses, adjacency, component_ids)
+    bridges = zeros(0, 3);
     comps = unique(component_ids);
     if numel(comps) <= 1
         return;
     end
-    start_comp = component_ids(1);
-    in_start = find(component_ids == start_comp);
-    outside = find(component_ids ~= start_comp);
-    best = inf;
-    for a = in_start
-        for b = outside
+    for a = 1:(size(poses, 1) - 1)
+        for b = (a + 1):size(poses, 1)
+            if component_ids(a) == component_ids(b)
+                continue;
+            end
             if adjacency(a, b), continue; end
             d = norm(poses(a, 1:2) - poses(b, 1:2));
-            if d < best
-                best = d;
-                bridge = [a, b]; %#ok<AGROW>
-            end
+            bridges(end + 1, :) = [d, a, b]; %#ok<AGROW>
         end
+    end
+    if ~isempty(bridges)
+        bridges = sortrows(bridges, 1);
+        bridges = bridges(:, 2:3);
     end
 end
 

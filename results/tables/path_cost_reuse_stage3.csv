@@ -1,0 +1,4 @@
+strategy,stage3_query_count,stage3_unique_pair_count,stage3_duplicate_pair_count,pairs_already_computed_before_stage3,share
+bottom_up,2475,2475,0,0,0
+top_down,2494,2494,0,626,0.251002405773857
+bidirectional,2475,2475,0,2475,1

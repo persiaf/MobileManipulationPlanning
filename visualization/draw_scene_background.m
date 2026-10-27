@@ -10,10 +10,7 @@ function draw_scene_background(scene)
         L  = scene_cfg.table.length;
         W  = scene_cfg.table.width;
         th = scene_cfg.table_orientations(t);
-        R = rot2(th);
-        cl = [-L/2 -W/2; L/2 -W/2; L/2 W/2; -L/2 W/2]';
-        cw = R * cl;
-        cw(1,:) = cw(1,:) + cx; cw(2,:) = cw(2,:) + cy;
+        cw = oriented_rectangle_corners([cx, cy], th, L, W)';
         cw = round(cw / res) * res;
 
         plot([cw(1,:) cw(1,1)], [cw(2,:) cw(2,1)], ...

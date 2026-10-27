@@ -27,7 +27,8 @@ function figs = visualize_dynamic_replan(planning_state_before, change_event, lo
         getfield_default(local_result, 'fallback', false)), ...
         'Units', 'normalized', 'VerticalAlignment', 'top', ...
         'BackgroundColor', 'w', 'Margin', 2, 'FontWeight', 'bold');
-    save_figure_if_requested(figs.after, vis_cfg, [opts.prefix '_after']);
+    if vis_cfg.show_legend, build_scene_legend(ax); end
+    save_visualization_figure(figs.after, vis_cfg, [opts.prefix '_after']);
 end
 
 function draw_event(ax, event)
@@ -37,7 +38,7 @@ function draw_event(ax, event)
             'Curvature', [1 1], 'EdgeColor', [0.85 0.05 0.05], ...
             'LineWidth', 2.0, 'LineStyle', '-');
         plot(ax, NaN, NaN, '-', 'Color', [0.85 0.05 0.05], ...
-            'LineWidth', 2.0, 'DisplayName', 'new local obstacle');
+            'LineWidth', 2.0, 'DisplayName', 'Changed obstacle');
     end
 end
 
@@ -45,7 +46,7 @@ function draw_invalid_edges(ax, poses, edges)
     for i = 1:size(edges, 1)
         p = poses(edges(i, :), :);
         plot(ax, p(:, 1), p(:, 2), '-', 'Color', [0.9 0.0 0.0], ...
-            'LineWidth', 2.0, 'DisplayName', legend_once(i, 'invalidated edge'));
+            'LineWidth', 2.0, 'DisplayName', legend_once(i, 'Invalidated edge'));
     end
 end
 
@@ -59,7 +60,7 @@ function draw_affected_regions(ax, scene, affected_regions)
         c = mean(pts, 1);
         plot(ax, c(1), c(2), 'o', 'MarkerSize', 22, 'LineWidth', 2.0, ...
             'MarkerEdgeColor', [0.9 0.05 0.05], 'MarkerFaceColor', 'none', ...
-            'DisplayName', legend_once(i, 'affected region'));
+            'DisplayName', legend_once(i, 'Affected region'));
     end
 end
 
@@ -80,21 +81,4 @@ end
 
 function name = legend_once(i, name)
     if i > 1, name = ''; end
-end
-
-function save_figure_if_requested(fig, vis_cfg, filename)
-    if isempty(filename), return; end
-    out_dir = vis_cfg.output_dir;
-    if ~isfolder(out_dir), mkdir(out_dir); end
-    png_path = fullfile(out_dir, [filename '.png']);
-    if vis_cfg.save_png
-        if exist('exportgraphics', 'file') == 2
-            exportgraphics(fig, png_path, 'Resolution', vis_cfg.dpi);
-        else
-            print(fig, png_path, '-dpng', sprintf('-r%d', vis_cfg.dpi));
-        end
-    end
-    if vis_cfg.save_fig
-        savefig(fig, fullfile(out_dir, [filename '.fig']));
-    end
 end

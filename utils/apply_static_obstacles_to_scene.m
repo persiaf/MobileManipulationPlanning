@@ -33,11 +33,11 @@ function tf = obstacle_overlaps_scene(scene, obs)
     c = obs.center(:)';
     half = obs.size(:)' / 2;
     start_clearance = norm(scene.start_pose(1:2) - c);
-    tf = start_clearance < max(half) + 0.5;
+    tf = start_clearance < max(half) + 0.05;
     if tf, return; end
     for i = 1:size(scene.scene_cfg.table_positions, 1)
         if point_in_or_near_block(scene.scene_cfg.table_positions(i, :), obs, ...
-                max(scene.scene_cfg.table.length, scene.scene_cfg.table.width) / 2)
+                0.0)
             tf = true; return;
         end
     end

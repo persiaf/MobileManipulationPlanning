@@ -1,0 +1,3 @@
+scenario,coverage,selected_docks,centerline_collision,footprint_collision,path_length_m,waypoints,runtime_s,status
+default16,36/36,27,0,0,79.4383,2158,21.687,EXPERIMENT_READY
+cafeteria_complex12,12/12,8,0,0,28.0702,775,20.894,EXPERIMENT_READY

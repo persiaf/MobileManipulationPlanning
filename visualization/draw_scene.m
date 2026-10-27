@@ -25,6 +25,13 @@ function draw_scene(scene, fig_handle)
                  'MarkerSize', 10, 'MarkerEdgeColor', [0.15 0.15 0.15], ...
                  'MarkerFaceColor', [0.45 0.45 0.45], 'LineWidth', 1.2);
         end
+        task_label = ti;
+        if isfield(scene, 'scene_cfg') && isfield(scene.scene_cfg, 'task_ids') && numel(scene.scene_cfg.task_ids) >= ti
+            task_label = scene.scene_cfg.task_ids(ti);
+        end
+        text(scene.tasks(ti).x, scene.tasks(ti).y, sprintf('Task %d', task_label), ...
+            'HorizontalAlignment','left','VerticalAlignment','bottom','FontSize',8, ...
+            'Color',[0.05 0.25 0.05],'FontWeight','bold');
     end
 
     h_start = plot(scene.start_pose(1), scene.start_pose(2), 'p', ...

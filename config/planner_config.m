@@ -1,5 +1,9 @@
 function cfg = planner_config()
 
+    % Path planning consumes robot geometry through this config contract.
+    % Stage 1 overwrites it with the resolved effective profile.
+    cfg.robot_cfg = robot_config();
+
     cfg.cost_weights.w_reach        = 0.25;
     cfg.cost_weights.w_coverage     = 0.20;
     cfg.cost_weights.w_orientation  = 0.12;
@@ -8,6 +12,13 @@ function cfg = planner_config()
     cfg.cost_weights.w_maneuver     = 0.15;
 
     cfg.reachability.threshold = 0.30;   % 0.45过严：任务点z=0.50m接近机械臂z_max，需用较保守阈值保证可覆盖
+    cfg.reachability.mode = 'nominal';
+    cfg.reachability.robust_success_fraction_min = 1.00;
+    cfg.docking_error_model.source = 'configured_bound';
+    cfg.docking_error_model.measured = false;
+    cfg.docking_error_model.confidence = 'unverified_bound';
+    cfg.docking_error_model.position_offsets_m = [0, 0; 0.02, 0; -0.02, 0; 0, 0.02; 0, -0.02];
+    cfg.docking_error_model.yaw_offsets_rad = [0, 0.03, -0.03];
 
     cfg.candidate.safety_distance_m = 0.25;
     cfg.candidate.side_switch_penalty = 0.15;
@@ -55,6 +66,7 @@ function cfg = planner_config()
     cfg.strategy.bottom_up.weights.local_cost = 0.20;
     cfg.strategy.bottom_up.weights.intra_region_move = 0.10;
     cfg.strategy.bottom_up.weights.side_switch = 0.10;
+    cfg.strategy.bottom_up.transition_normalization_m = 3.0;
 
     cfg.strategy.top_down.anchor_mode = 'best_feasible_candidate';
     cfg.strategy.top_down.region_order_method = 'nearest_neighbor';
@@ -98,6 +110,8 @@ function cfg = planner_config()
     cfg.runtime.suppress_plot_warning = true;
     cfg.runtime.quiet = false;
     cfg.runtime.quiet_stage2 = false;
+    % C2-4 incremental D* Lite is opt-in; frozen RC2 behavior remains unchanged.
+    cfg.incremental_replanning_enabled = false;
 
     cfg.astar.allow_diagonal = true;
     cfg.astar.heuristic_weight = 1.0;
@@ -121,11 +135,11 @@ function cfg = planner_config()
 
     % order_mode: 'fixed_order' — 所有算法共用主流程 route_order
     %             'independent_order' — 各算法独立计算距离矩阵和访问顺序
-    cfg.benchmark.order_mode = 'fixed_order';
+    cfg.benchmark.order_mode = 'independent_order';
 
     % include_return_to_start: true  — 路径拼接包含返回起点段
     %                          false — 路径拼接不包含返回起点
-    cfg.benchmark.include_return_to_start = true;
+    cfg.benchmark.include_return_to_start = false;
 
     cfg.timing.enable = true;
     cfg.timing.verbose = true;
@@ -147,9 +161,10 @@ function cfg = planner_config()
     cfg.execution_time.replanning_penalty_s = 0.0;
 
     cfg.global_planner = 'convex_astar';
+    cfg.footprint_aware_navigation = true;
 % graph_planner 图搜索类:
-% cfg.global_planner = 'astar';           % A* 默认
-% cfg.global_planner = 'convex_astar';    % 凸角点改进 A*（实验对比用，默认不启用）
+% cfg.global_planner = 'astar';           % A* alternative
+% cfg.global_planner = 'convex_astar';    % Convex-corner A* (current default)
 % cfg.global_planner = 'jps';             % 跳跃点搜索
 % cfg.global_planner = 'gbfs';            % Greedy Best-First Search
 % cfg.global_planner = 'dijkstra';        % Dijkstra
@@ -171,9 +186,9 @@ function cfg = planner_config()
 % cfg.global_planner = 'ga';              % 遗传算法
     cfg.inflation_radius_m = 0.25;
 
-    % P3/P4 routing infrastructure. Dense remains the maintained baseline.
-    % Experiments opt into sparse_knn explicitly; candidate prefilter remains off.
-    cfg.routing.mode = 'dense';              % 'dense' / 'sparse_knn'
+    % P3/P4 routing infrastructure. Formal experiments set routing mode and k
+    % explicitly; do not treat this checkout default as a validated profile.
+    cfg.routing.mode = 'sparse_knn';              % 'dense' / 'sparse_knn'
     cfg.routing.sparse_knn.k = 6;
     cfg.routing.sparse_knn.k_local = 4;
     cfg.routing.sparse_knn.k_cross = 1;
@@ -199,22 +214,9 @@ function cfg = planner_config()
     cfg.experiment.run_benchmark = false;
     cfg.experiment.quick_mode    = false;
 
-    cfg.visualization.show_scene         = true;
-    cfg.visualization.show_candidates    = true;
-    cfg.visualization.show_docking       = true;
-    cfg.visualization.show_global_path   = true;
-    cfg.visualization.show_reachability  = false;
-    cfg.visualization.show_task_links    = true;
-    cfg.visualization.show_arm_assign    = true;
-    cfg.visualization.show_cost_heatmap  = false;
-
-    cfg.visualization.show_arm_task_links      = false;
-    cfg.visualization.show_task_dock_links     = false;
-    cfg.visualization.show_task_labels         = true;
-    cfg.visualization.show_dock_labels         = true;
-    cfg.visualization.show_arm_workspace       = true;
-    cfg.visualization.show_dock_coverage_text  = true;
-    cfg.visualization.show_dense_debug_info    = false;
+    % Compatibility view consumed by the original stage visualizers. All
+    % maintained visualization defaults are defined in visualization_config.
+    cfg.visualization = legacy_visualization_config();
 
     % Stable offline-planning/robot-execution boundary. The returned
     % structure is consumed by service-configuration and JSON interfaces.

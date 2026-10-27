@@ -1,0 +1,7 @@
+variant,strategy,runs,coverage_mean_percent,coverage_min_percent,verified_mean_percent,added_candidates_mean,selected_docks_mean,total_path_mean_m,T_candidate_mean_s,T_total_mean_s
+position_only,bottom_up,5,100,100,100,25.2,49.8,79.7256680939136,13.8362289,154.63163236
+position_only,top_down,5,100,100,100,25.2,49.4,104.740566337852,13.8362289,424.00991148
+position_only,bidirectional,5,100,100,100,25.2,49.8,79.7256680939136,13.8362289,154.86136794
+joint,bottom_up,5,100,100,100,25.2,49.8,77.6890995514186,24.88382952,166.595592
+joint,top_down,5,100,100,100,25.2,49.2,103.139834739323,24.88382952,427.59331638
+joint,bidirectional,5,100,100,100,25.2,49.8,77.6890995514186,24.88382952,166.53043024

@@ -1,0 +1,29 @@
+MAP_SIZE = 6.2 x 6.6 m
+TABLE_COUNT = 6
+TASK_COUNT = 8
+RUNTIME_TASK_COORDINATES
+Task1 T4 local=[-0.20, -0.45] world=[4.80, 1.85, 0.70]
+Task2 T4 local=[0.20, -0.45] world=[5.20, 1.85, 0.70]
+Task3 T1 local=[0.00, -0.45] world=[1.20, 1.85, 0.70]
+Task4 T2 local=[-0.20, -0.40] world=[1.00, 3.50, 0.70]
+Task5 T5 local=[0.00, -0.40] world=[5.00, 3.50, 0.70]
+Task6 T6 local=[0.00, -0.45] world=[5.00, 5.05, 0.70]
+Task7 T3 local=[0.00, -0.45] world=[1.20, 5.05, 0.70]
+Task8 T2 local=[0.20, -0.40] world=[1.40, 3.50, 0.70]
+TASK_LEVEL_REACHABILITY_TABLE
+Task1 T4 world=[4.80, 1.85] candidates=191 dock=[4.650, 1.630, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task2 T4 world=[5.20, 1.85] candidates=191 dock=[5.050, 1.630, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task3 T1 world=[1.20, 1.85] candidates=131 dock=[1.050, 1.630, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task4 T2 world=[1.00, 3.50] candidates=112 dock=[0.850, 3.280, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task5 T5 world=[5.00, 3.50] candidates=75 dock=[4.850, 3.280, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task6 T6 world=[5.00, 5.05] candidates=145 dock=[4.850, 4.830, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task7 T3 world=[1.20, 5.05] candidates=145 dock=[1.050, 4.830, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+Task8 T2 world=[1.40, 3.50] candidates=108 dock=[1.250, 3.280, 100.0deg] arm=right radial=0.131 rho=0.579 status=PASS
+TRUE_COVERED_TASK_IDS = [1 2 3 4 5 6 7 8]
+TRUE_TASK_COVERAGE = 8/8
+GEOMETRIC_TASK_COVERAGE = 8/8
+TASK_ASSIGNMENT_COVERAGE = 8/8
+MANIPULATION_SEQUENCE_COUNT = 8
+DOCKING_POSE_COUNT = 6
+STAGE2_STATUS = PASSED
+ROUND11_STAGE2_STATUS = PASSED

@@ -1,14 +1,18 @@
-function [robot_cfg, scene_cfg, planner_cfg, scene, task_table_map, regions] = stage1_build_scene()
+function [robot_cfg, scene_cfg, planner_cfg, scene, task_table_map, regions, effective] = stage1_build_scene(effective)
     fprintf('===== 移动操作任务规划系统（RCH-MT-MMP）=====\n');
 
-    robot_cfg   = robot_config();
-    scene_cfg   = scene_config();
-    planner_cfg = planner_config();
+    if nargin < 1 || isempty(effective)
+        effective = resolve_effective_config();
+    end
+    robot_cfg = effective.robot;
+    scene_cfg = effective.scene;
+    planner_cfg = effective.planner;
+    planner_cfg.robot_cfg = robot_cfg;
 
     fprintf('\n--- 1. 场景构建 ---\n');
     fprintf('  模式: table=%s, task=%s\n', scene_cfg.table_mode, scene_cfg.task_mode);
 
-    scene = build_scene();
+    scene = build_scene_from_cfg(scene_cfg);
     scene_cfg = scene.scene_cfg;
 
     fprintf('  地图: %.1f x %.1f m, 分辨率 %.2f m\n', ...

@@ -1,0 +1,5 @@
+variant,runs,library_coverage_mean_percent,library_coverage_min_percent,added_candidates_mean,added_candidates_max,supplementation_time_mean_s,candidate_time_total_mean_s,recovery_rate_mean_percent
+baseline,5,74.4329595267248,71.5447154471545,0,0,0.57075622,11.6840379,0
+position_only,5,100,100,25.2,28,7.80959934,18.92288102,100
+orientation_only,5,74.4329595267248,71.5447154471545,0,0,58.10954632,69.222828,0
+joint,5,100,100,25.2,28,21.14775462,32.2610363,100

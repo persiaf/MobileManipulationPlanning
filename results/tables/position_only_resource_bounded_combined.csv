@@ -1,0 +1,2 @@
+pairs,coverage_gain_mean_percent,coverage_gain_median_percent,paired_speedup_mean,paired_speedup_median,paired_speedup_min,paired_speedup_max,coverage_higher_all_pairs,runtime_lower_all_pairs
+6,25.9417079177311,25.6410256410256,1.97331533397656,1.99244978635623,1.80220500665822,2.12066175856279,1,1

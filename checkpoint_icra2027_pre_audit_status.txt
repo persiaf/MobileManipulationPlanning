@@ -1,0 +1,206 @@
+ M config/planner_config.m
+ M config/scene_config.m
+ M config/visualization_config.m
+ M demos/demo_complex_planning.m
+ M demos/demo_complex_scene.m
+ M demos/demo_dynamic_replanning.m
+ M docking/generate_docking_candidates.m
+ M main_mobile_manipulation_planning.m
+ M pipeline/stage1_build_scene.m
+ M pipeline/stage2_docking_planning.m
+ M pipeline/stage3_global_planning.m
+ M planning_strategy/bottom_up/plan_bottom_up.m
+ D preview/slide_01.png
+ D preview/slide_02.png
+ D preview/slide_03.png
+ D preview/slide_04.png
+ D preview/slide_05.png
+ M results/figures/complex_scene/V1_scene.png
+ M results/figures/complex_scene/V2_planning.png
+ M results/figures/complex_scene/V2_scene.png
+ M results/figures/complex_scene/V3_dynamic_after.png
+ M results/figures/complex_scene/V3_dynamic_before.png
+ M utils/apply_static_obstacles_to_scene.m
+ M utils/build_scene_from_cfg.m
+ M utils/validate_table_layout.m
+ M visualization/draw_comprehensive_overview.m
+ M visualization/draw_docking_result.m
+ M visualization/draw_local_manipulation_coverage.m
+ M visualization/draw_scene.m
+ M visualization/draw_scene_background.m
+ M visualization/visualize_complex_scene.m
+ M visualization/visualize_dynamic_replan.m
+ M visualization/visualize_planning_overlay.m
+?? checkpoint_icra2027_pre_audit_status.txt
+?? config/legacy_visualization_config.m
+?? config/print_effective_config.m
+?? config/resolve_effective_config.m
+?? config/scene_config_lab_hardware_matched.m
+?? demos/demo_cafeteria_planning.m
+?? demos/demo_cafeteria_scene.m
+?? docs/PROJECT_CODE_ARCHITECTURE.md
+?? docs/config_registry.md
+?? docs/deprecation_candidates.md
+?? docs/project_call_graph.md
+?? docs/project_function_inventory.md
+?? docs/visualization_architecture.md
+?? experiments/build_cafeteria_navigation_library.m
+?? experiments/build_cafeteria_scene.m
+?? experiments/build_hardware_matched_scene.m
+?? experiments/cafeteria_experiment_override.m
+?? experiments/cafeteria_scene_profile_config.m
+?? experiments/diagnose_reachability_failure.m
+?? experiments/evaluate_cafeteria_operability.m
+?? experiments/evaluate_cafeteria_service_support.m
+?? experiments/hardware_matched_scene_profile_config.m
+?? experiments/run_cafeteria_planning.m
+?? experiments/run_hardware_matched_lab.m
+?? experiments/validate_cafeteria_path.m
+?? experiments/validate_cafeteria_scene.m
+?? main_cafeteria_mobile_manipulation_planning.m
+?? results/cafeteria/
+?? results/figures/cafeteria/
+?? results/figures/fig_large_scale_path_cost_diagnostics.png
+?? results/figures/fig_large_scale_stage_time.png
+?? results/figures/fig_large_scale_total_time.png
+?? results/hardware_matched_lab/
+?? results/tables/augmentation_smoke_seed1.mat
+?? results/tables/bidirectional_shared_cache_20260901.mat
+?? results/tables/bidirectional_shared_cache_raw.csv
+?? results/tables/bidirectional_shared_cache_summary.csv
+?? results/tables/c2_failure_geometry_trace.csv
+?? results/tables/cafeteria_basic3_planning_summary.csv
+?? results/tables/cafeteria_complex12_planning_summary.csv
+?? results/tables/cafeteria_planning_summary.csv
+?? results/tables/candidate_augmentation_ablation_12_20260901.mat
+?? results/tables/candidate_augmentation_ablation_20260901.mat
+?? results/tables/candidate_augmentation_ablation_34_20260901.mat
+?? results/tables/candidate_augmentation_ablation_5_20260901.mat
+?? results/tables/candidate_augmentation_ablation_raw.csv
+?? results/tables/candidate_augmentation_ablation_summary.csv
+?? results/tables/candidate_augmentation_ablation_task.csv
+?? results/tables/candidate_augmentation_combined_raw.csv
+?? results/tables/candidate_augmentation_combined_summary.csv
+?? results/tables/candidate_augmentation_four_way_summary.csv
+?? results/tables/candidate_augmentation_noop_s1_20260901.mat
+?? results/tables/candidate_augmentation_noop_s2_20260901.mat
+?? results/tables/candidate_augmentation_noop_s3_20260901.mat
+?? results/tables/candidate_augmentation_strategies_12_20260901.mat
+?? results/tables/candidate_augmentation_strategies_20260901.mat
+?? results/tables/candidate_augmentation_strategies_34_20260901.mat
+?? results/tables/candidate_augmentation_strategies_5_20260901.mat
+?? results/tables/candidate_augmentation_strategy_raw.csv
+?? results/tables/candidate_augmentation_strategy_summary.csv
+?? results/tables/candidate_efficiency_p2_raw.csv
+?? results/tables/candidate_efficiency_p2_raw_partial.csv
+?? results/tables/candidate_efficiency_p2_raw_partial_first30.csv
+?? results/tables/center_row_candidate_geometry_20260901.mat
+?? results/tables/center_row_candidate_geometry_run.csv
+?? results/tables/center_row_candidate_geometry_summary.csv
+?? results/tables/center_row_candidate_geometry_trace.csv
+?? results/tables/config_registry.csv
+?? results/tables/coverage_diagnostics_combined_20260901.mat
+?? results/tables/coverage_s1_s2_20260901.mat
+?? results/tables/coverage_s3_20260901.mat
+?? results/tables/coverage_s4_20260901.mat
+?? results/tables/dynamic_local_replanning_p5_raw.csv
+?? results/tables/github_checkpoint_post_commit_tests.log
+?? results/tables/github_checkpoint_pre_release_tests.log
+?? results/tables/large_scale_complex_tasks_raw.csv
+?? results/tables/large_scale_complex_tasks_summary.csv
+?? results/tables/large_scale_coverage_diagnostics.csv
+?? results/tables/large_scale_coverage_run_summary.csv
+?? results/tables/large_scale_coverage_s4_failure_summary.csv
+?? results/tables/large_scale_coverage_s4_region_summary.csv
+?? results/tables/large_scale_coverage_s4_seed_summary.csv
+?? results/tables/large_scale_coverage_scale_summary.csv
+?? results/tables/large_scale_sparse_routing_raw.csv
+?? results/tables/local_reachability_oracle_task.csv
+?? results/tables/orientation_fast_validation_raw.csv
+?? results/tables/p3p4_final_validation_raw.csv
+?? results/tables/p3p4_final_validation_summary.csv
+?? results/tables/p3p4_state_l1_seed2026_bottom_up.mat
+?? results/tables/p3p4_state_l1_seed2027_bottom_up.mat
+?? results/tables/p3p4_state_l1_seed2028_bottom_up.mat
+?? results/tables/p3p4_state_l2_seed2026_bottom_up.mat
+?? results/tables/p3p4_state_l2_seed2027_bottom_up.mat
+?? results/tables/p3p4_state_l2_seed2028_bottom_up.mat
+?? results/tables/p3p4_state_l3_seed2026_bottom_up.mat
+?? results/tables/p3p4_state_l3_seed2027_bottom_up.mat
+?? results/tables/path_audit_combined_20260901.mat
+?? results/tables/path_audit_s1_20260901.mat
+?? results/tables/path_audit_s4_20260901.mat
+?? results/tables/path_cost_reuse_bidirectional_top20.csv
+?? results/tables/path_cost_reuse_by_source.csv
+?? results/tables/path_cost_reuse_by_strategy.csv
+?? results/tables/path_cost_reuse_duplicate_scope.csv
+?? results/tables/path_cost_reuse_overall.csv
+?? results/tables/path_cost_reuse_queries.csv
+?? results/tables/path_cost_reuse_stage3.csv
+?? results/tables/position_only_final_regression_console.log
+?? results/tables/position_only_final_regression_summary.log
+?? results/tables/position_only_full_validation_20260901.mat
+?? results/tables/position_only_full_validation_console.log
+?? results/tables/position_only_full_validation_partial.csv
+?? results/tables/position_only_full_validation_raw.csv
+?? results/tables/position_only_full_validation_summary.csv
+?? results/tables/position_only_heldout_coverage_20260901.mat
+?? results/tables/position_only_heldout_coverage_partial.csv
+?? results/tables/position_only_heldout_coverage_raw.csv
+?? results/tables/position_only_heldout_failures.csv
+?? results/tables/position_only_heldout_failures_partial.csv
+?? results/tables/position_only_isolated_four_mode_console.log
+?? results/tables/position_only_isolated_four_mode_partial.csv
+?? results/tables/position_only_joint_paired.csv
+?? results/tables/position_only_resource_bounded_augmentation_cost.csv
+?? results/tables/position_only_resource_bounded_combined.csv
+?? results/tables/position_only_resource_bounded_console.log
+?? results/tables/position_only_resource_bounded_console_retry1.log
+?? results/tables/position_only_resource_bounded_console_retry2.log
+?? results/tables/position_only_resource_bounded_count_only_console.log
+?? results/tables/position_only_resource_bounded_four_mode_20260902.mat
+?? results/tables/position_only_resource_bounded_four_mode_partial.csv
+?? results/tables/position_only_resource_bounded_four_mode_raw.csv
+?? results/tables/position_only_resource_bounded_full_audit_interrupted_9rows.csv
+?? results/tables/position_only_resource_bounded_regression.log
+?? results/tables/position_only_resource_bounded_seed1_state.mat
+?? results/tables/position_only_resource_bounded_seed3_state.mat
+?? results/tables/position_only_resource_bounded_seed5_state.mat
+?? results/tables/position_only_resource_bounded_seed_summary.csv
+?? results/tables/project_function_inventory.csv
+?? results/tables/radial_operability_audit_task.csv
+?? results/tables/s4_candidate_prefilter_20260901.mat
+?? results/tables/s4_candidate_prefilter_failure_summary.csv
+?? results/tables/s4_candidate_prefilter_region_summary.csv
+?? results/tables/s4_candidate_prefilter_region_trace.csv
+?? results/tables/s4_candidate_prefilter_run_summary.csv
+?? results/tables/s4_candidate_prefilter_task_trace.csv
+?? results/tables/scene_complexity_factor_isolation_raw.csv
+?? results/tables/scene_complexity_p1_raw.csv
+?? results/tables/shared_cache_s1_20260901.mat
+?? results/tables/shared_cache_s4_12_20260901.mat
+?? results/tables/shared_cache_s4_34_20260901.mat
+?? results/tables/shared_cache_s4_5_20260901.mat
+?? tests/test_actual_path_visualization_uses_waypoints.m
+?? tests/test_cafeteria_a4_inside_table.m
+?? tests/test_cafeteria_global_path_collision_free.m
+?? tests/test_cafeteria_main_aisle_width.m
+?? tests/test_cafeteria_navigation_only_mode.m
+?? tests/test_cafeteria_profile_determinism.m
+?? tests/test_cafeteria_proxy_service_side.m
+?? tests/test_cafeteria_scene_planning_identity.m
+?? tests/test_cafeteria_start_collision_free.m
+?? tests/test_cafeteria_table_layout.m
+?? tests/test_demo_parameter_interfaces.m
+?? tests/test_effective_config_resolution.m
+?? tests/test_visualization_config_single_source.m
+?? tests/test_world_grid_roundtrip.m
+?? utils/merge_struct_recursive.m
+?? utils/oriented_rectangle_corners.m
+?? utils/table_local_to_world.m
+?? visualization/build_scene_legend.m
+?? visualization/draw_collision_free_route.m
+?? visualization/draw_selected_docks.m
+?? visualization/draw_sparse_graph_connectivity.m
+?? visualization/save_visualization_figure.m
+?? visualization/visualize_cafeteria_scene.m

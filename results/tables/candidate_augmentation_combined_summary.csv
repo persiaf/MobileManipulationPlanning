@@ -1,0 +1,3 @@
+cache_enabled,runs,coverage_mean_percent,T_total_mean_s,expensive_planner_calls_mean,total_path_mean_m,selected_docks_mean
+0,5,100,698.6341644,5219.6,77.6890995514186,49.8
+1,5,100,173.40815974,1293,77.6890995514186,49.8

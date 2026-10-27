@@ -6,19 +6,34 @@ function result = evaluate_robust_reachability(pose, target_xyz, robot_cfg, thre
         error_model.position_offsets_m = [0, 0; 0.02, 0; -0.02, 0; 0, 0.02; 0, -0.02];
         error_model.yaw_offsets_rad = [0, 0.03, -0.03];
     end
+    if ~isfield(error_model, 'position_offsets_m') || ~isfield(error_model, 'yaw_offsets_rad')
+        error('evaluate_robust_reachability:InvalidErrorModel', ...
+            'Error model must define position_offsets_m and yaw_offsets_rad.');
+    end
     offsets = error_model.position_offsets_m;
-    yaw_offsets = error_model.yaw_offsets_rad;
+    yaw_offsets = error_model.yaw_offsets_rad(:)';
+    if size(offsets, 2) ~= 2 || isempty(offsets) || isempty(yaw_offsets)
+        error('evaluate_robust_reachability:InvalidErrorModel', ...
+            'Position offsets must be M-by-2 and yaw offsets must be nonempty.');
+    end
     scores = zeros(size(offsets, 1) * numel(yaw_offsets), 1);
     idx = 0;
     for i = 1:size(offsets, 1)
         for j = 1:numel(yaw_offsets)
             idx = idx + 1;
             perturbed = pose + [offsets(i, :), yaw_offsets(j)];
+            perturbed(3) = wrapToPiLocal(perturbed(3));
             [~, ~, scores(idx)] = evaluate_dual_arm_reachability( ...
                 perturbed, target_xyz, robot_cfg, threshold);
         end
     end
     result = struct('minimum_score', min(scores), 'mean_score', mean(scores), ...
-        'success_fraction', mean(scores > 0), 'sample_count', numel(scores), ...
-        'geometric_only', true);
+        'success_fraction', mean(scores >= threshold), 'sample_count', numel(scores), ...
+        'threshold', threshold, 'geometric_only', true, ...
+        'error_model_source', getfield_default(error_model, 'source', 'unspecified'), ...
+        'error_model_measured', getfield_default(error_model, 'measured', false));
+end
+
+function value = getfield_default(s, name, default_value)
+    if isstruct(s) && isfield(s, name), value = s.(name); else, value = default_value; end
 end

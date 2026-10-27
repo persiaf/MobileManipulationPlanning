@@ -33,9 +33,19 @@ function plan = build_unified_plan(strategy_name, selected_poses, pose_to_region
     plan.preferred_visit_order = preferred_visit_order;
     plan.covered_tasks_predicted = covered;
     plan.uncovered_tasks_predicted = uncovered;
+    if isempty(uncovered)
+        plan.status = 'READY';
+        plan.reason = '';
+    else
+        plan.status = 'BLOCKED';
+        plan.reason = 'PARTIAL_TASK_COVERAGE';
+    end
     plan.num_docking_poses = size(selected_poses, 1);
     plan.local_cost_total = local_cost_total;
-    plan.objective_value = compute_strategy_objective(plan, [], planner_cfg);
+    plan.objective = struct();
+    plan.objective.stage2 = compute_strategy_objective(plan, [], planner_cfg);
+    plan.objective_value_stage2 = plan.objective.stage2;
+    plan.objective_value = plan.objective.stage2;
     plan.metrics = struct();
     plan.metrics.predicted_completion_rate = 100 * numel(covered) / max(scene.num_tasks, 1);
     plan.metrics.num_docking_poses = plan.num_docking_poses;

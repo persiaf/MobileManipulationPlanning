@@ -1,6 +1,6 @@
 function h_legend = draw_docking_result(best_poses, scene, fig_handle, visit_order, pose_info, visual_cfg)
     if nargin < 6
-        visual_cfg = planner_config().visualization;
+        visual_cfg = legacy_visualization_config();
     end
     if nargin < 5
         pose_info = [];

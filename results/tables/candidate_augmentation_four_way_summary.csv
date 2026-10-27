@@ -1,0 +1,5 @@
+modes,coverage_mean,T_total_mean_s,expensive_calls_mean
+baseline_cache_off,74.4329595267248,295.33477976,2745.6
+augmentation_cache_off,100,698.6341644,5219.6
+baseline_cache_on,74.4329595267248,79.39377506,679.6
+augmentation_cache_on,100,173.40815974,1293

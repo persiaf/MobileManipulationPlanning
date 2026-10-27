@@ -4,6 +4,7 @@ classdef SharedPathCostContext < handle
     properties (SetAccess = private)
         scene_signature
         planner_name
+        planner_signature
         costs
         paths
         successes
@@ -23,6 +24,7 @@ classdef SharedPathCostContext < handle
         function obj = SharedPathCostContext(scene, planner_cfg)
             obj.scene_signature = scene_signature(scene, planner_cfg);
             obj.planner_name = lower(planner_cfg.global_planner);
+            obj.planner_signature = planner_semantic_signature(planner_cfg);
             obj.costs = containers.Map('KeyType', 'char', 'ValueType', 'double');
             obj.paths = containers.Map('KeyType', 'char', 'ValueType', 'any');
             obj.successes = containers.Map('KeyType', 'char', 'ValueType', 'logical');
@@ -81,12 +83,16 @@ classdef SharedPathCostContext < handle
                 error('SharedPathCostContext:PlannerChanged', ...
                     'A shared path-cost context cannot be reused with another planner.');
             end
+            if ~strcmp(obj.planner_signature, planner_semantic_signature(planner_cfg))
+                error('SharedPathCostContext:PlannerSemanticsChanged', ...
+                    'A shared path-cost context cannot be reused with changed planner semantics.');
+            end
+            actual = grid_signature(grid_map, map_info, planner_cfg);
+            if ~strcmp(obj.scene_signature, actual)
+                error('SharedPathCostContext:SceneChanged', ...
+                    'A shared path-cost context cannot be reused with another scene, map, or footprint.');
+            end
             if ~isKey(obj.validated_sources, obj.current_source)
-                actual = grid_signature(grid_map, map_info, planner_cfg);
-                if ~strcmp(obj.scene_signature, actual)
-                    error('SharedPathCostContext:SceneChanged', ...
-                        'A shared path-cost context cannot be reused with another scene or map.');
-                end
                 obj.validated_sources(obj.current_source) = true;
             end
         end
@@ -111,23 +117,28 @@ classdef SharedPathCostContext < handle
     end
 end
 
+function signature = planner_semantic_signature(planner_cfg)
+    fields = {'astar','convex_astar','dijkstra','jps','theta_star','lazy_theta_star', ...
+        'hybrid_astar','rrt','rrt_star','rrt_connect','informed_rrt','aco','pso','ga'};
+    semantic = struct('global_planner', planner_cfg.global_planner);
+    for i = 1:numel(fields)
+        if isfield(planner_cfg, fields{i}), semantic.(fields{i}) = planner_cfg.(fields{i}); end
+    end
+    signature = build_path_cache_signature(zeros(0,0), ...
+        struct('resolution', 1), struct('global_planner', 'semantic', ...
+        'footprint_aware_navigation', false, 'robot_cfg', semantic, ...
+        'semantic_options', semantic));
+end
+
 function signature = scene_signature(scene, planner_cfg)
     signature = grid_signature(scene.grid_map, scene.map_info, planner_cfg);
 end
 
 function signature = grid_signature(grid_map, map_info, planner_cfg)
-    occupied = find(grid_map ~= 0);
-    signature = sprintf('%dx%d_%.6f_occ%d_sum%.0f_%s_%.4f', ...
-        size(grid_map, 1), size(grid_map, 2), map_info.resolution, ...
-        numel(occupied), sum(double(occupied)), lower(planner_cfg.global_planner), ...
-        getfield_default(planner_cfg, 'inflation_radius_m', 0));
+    signature = build_path_cache_signature(grid_map, map_info, planner_cfg);
 end
 
 function total = source_total(map, names)
     total = 0;
     for i = 1:numel(names), if isKey(map, names{i}), total = total + map(names{i}); end, end
-end
-
-function v = getfield_default(s, name, default_value)
-    if isfield(s, name), v = s.(name); else, v = default_value; end
 end

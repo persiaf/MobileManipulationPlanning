@@ -55,7 +55,8 @@ function [selected_poses, pose_info] = select_multi_poses(candidates, region, sc
     selected_poses = [];
     pose_info = struct('pose', {}, 'covered_tasks', {}, 'covered_count', {}, ...
                        'arm_assign_map', {}, 'table_id', {}, 'side_id', {}, ...
-                       'cost_breakdown', {}, 'remaining_after', {});
+                       'cost_breakdown', {}, 'remaining_after', {}, ...
+                       'nominal_reachability_summary', {}, 'robust_reachability_summary', {});
 
     available = true(1, length(candidates));
     prev_pose = [];
@@ -140,7 +141,12 @@ function [selected_poses, pose_info] = select_multi_poses(candidates, region, sc
             % ---- D. move cost ----
             if ~isempty(prev_pose)
                 move_dist = norm(candidates(ci).pose(1:2) - prev_pose(1:2));
-                move_cost = min(1, move_dist / 3.0);
+                normalization_m = 3.0;
+                if isfield(planner_cfg, 'strategy') && isfield(planner_cfg.strategy, 'bottom_up') && ...
+                        isfield(planner_cfg.strategy.bottom_up, 'transition_normalization_m')
+                    normalization_m = planner_cfg.strategy.bottom_up.transition_normalization_m;
+                end
+                move_cost = min(1, move_dist / max(normalization_m, eps));
             else
                 move_cost = 0;
             end
@@ -148,7 +154,7 @@ function [selected_poses, pose_info] = select_multi_poses(candidates, region, sc
             % ---- E. side penalty ----
             if ~isempty(prev_side) && isfield(candidates(ci), 'side_id')
                 if candidates(ci).side_id ~= prev_side
-                    side_penalty = planner_cfg.candidate.side_switch_penalty;
+                    side_penalty = 1;
                 else
                     side_penalty = 0;
                 end
@@ -157,11 +163,10 @@ function [selected_poses, pose_info] = select_multi_poses(candidates, region, sc
             end
 
             % ---- F. 综合评分 ----
-            select_score = a1 * new_coverage_term ...
-                         + a2 * mean_reach_new ...
-                         - a3 * effective_total_cost ...
-                         - a4 * move_cost ...
-                         - a5 * side_penalty;
+            score_weights = struct('coverage_gain',a1,'reachability',a2, ...
+                'local_cost',a3,'intra_region_move',a4,'side_switch',a5);
+            select_score = compute_bottom_up_selection_score(new_coverage_term, ...
+                mean_reach_new, effective_total_cost, move_cost, side_penalty, score_weights);
 
             if select_score > best_score
                 best_score           = select_score;
@@ -207,6 +212,13 @@ function [selected_poses, pose_info] = select_multi_poses(candidates, region, sc
         info_entry.side_id         = candidates(best_idx).side_id;
         info_entry.cost_breakdown  = cb;
         info_entry.remaining_after = length(remaining_tasks);
+        chosen = candidates(best_idx);
+        chosen_task_idx = ismember(all_task_ids, best_new_tasks);
+        nominal_scores = get_nominal_scores(chosen);
+        info_entry.nominal_reachability_summary = summarize_scores( ...
+            nominal_scores(chosen_task_idx, 3));
+        info_entry.robust_reachability_summary = summarize_robust( ...
+            get_robust_summary(chosen, chosen_task_idx));
         pose_info(end+1) = info_entry; %#ok<AGROW>
 
         prev_pose = best_pose_local;
@@ -301,8 +313,42 @@ function [selected_poses, pose_info] = select_nearest_docking(candidates, region
     info_entry.side_id         = candidates(best_idx).side_id;
     info_entry.cost_breakdown  = candidates(best_idx).cost_breakdown;
     info_entry.remaining_after = num_total_tasks - covered_count;
+    nominal_scores = get_nominal_scores(candidates(best_idx));
+    info_entry.nominal_reachability_summary = summarize_scores(nominal_scores(:, 3));
+    info_entry.robust_reachability_summary = summarize_robust( ...
+        get_robust_summary(candidates(best_idx), true(size(candidates(best_idx).reach_scores, 1))));
     pose_info = info_entry;
 
     fprintf('    桌子 %d (nearest_docking): 1次停靠, 覆盖 %d/%d 任务, 距离 %.2f m\n', ...
             region.table_id, covered_count, num_total_tasks, best_dist);
+end
+
+function summary = summarize_scores(scores)
+    if isempty(scores), summary = struct('mean', NaN, 'minimum', NaN); return; end
+    summary = struct('mean', mean(scores), 'minimum', min(scores));
+end
+
+function scores = get_nominal_scores(candidate)
+    if isfield(candidate, 'nominal_reach_scores')
+        scores = candidate.nominal_reach_scores;
+    else
+        scores = candidate.reach_scores;
+    end
+end
+
+function items = get_robust_summary(candidate, mask)
+    if isfield(candidate, 'robust_reachability_summary')
+        items = candidate.robust_reachability_summary(mask);
+    else
+        items = struct('success_fraction', NaN, 'sample_count', 0);
+        items = repmat(items, 1, sum(mask));
+    end
+end
+
+function summary = summarize_robust(items)
+    if isempty(items), summary = struct('mean_success_fraction', NaN, ...
+            'minimum_success_fraction', NaN); return; end
+    q = [items.success_fraction];
+    summary = struct('mean_success_fraction', mean(q), ...
+        'minimum_success_fraction', min(q));
 end

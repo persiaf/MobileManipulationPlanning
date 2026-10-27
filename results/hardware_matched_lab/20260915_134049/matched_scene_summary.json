@@ -1,0 +1,12 @@
+{
+  "map_width": 6.2,
+  "map_height": 6.6,
+  "table_count": 6,
+  "task_count": 8,
+  "candidate_count": 838,
+  "selected_docking_count": 6,
+  "geometric_task_coverage": 8,
+  "task_assignment_coverage": 8,
+  "manipulation_sequence_count": 8,
+  "stage2_status": "PASSED"
+}

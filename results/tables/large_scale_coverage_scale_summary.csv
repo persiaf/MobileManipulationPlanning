@@ -1,0 +1,5 @@
+scale,total_tasks,library_coverage_rate,bottom_up_coverage_rate,top_down_coverage_rate,bidirectional_coverage_rate
+s1,36,100,100,100,100
+s2,64,100,100,100,100
+s3,87.8,100,100,100,100
+s4,120.4,74.4329595267248,74.4329595267248,74.4329595267248,74.4329595267248

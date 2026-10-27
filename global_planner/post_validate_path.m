@@ -1,10 +1,11 @@
-function path = post_validate_path(grid_path, traversable)
+function [path, repair_failed] = post_validate_path(grid_path, traversable)
 %POST_VALIDATE_PATH Enforce table/wall avoidance for every path segment.
 %   Some planners output sparse waypoints. A line drawn between sparse points
 %   may cross table cells even if each waypoint itself is free. This function
 %   checks every segment; if a segment is invalid, it replaces that segment by
 %   an 8-neighbour A* grid path on the same traversability map.
 
+    repair_failed = false;
     if isempty(grid_path)
         path = grid_path;
         return;
@@ -36,6 +37,7 @@ function path = post_validate_path(grid_path, traversable)
             if size(seg, 1) >= 2
                 path = [path; seg(2:end, :)]; %#ok<AGROW>
             else
+                repair_failed = true;
                 warning('post_validate_path:repairFailed', ...
                     '路径段 [%d,%d] -> [%d,%d] 无法修复，已保留前一安全点。', ...
                     p1(1), p1(2), p2(1), p2(2));

@@ -12,4 +12,10 @@ function testSmallPlanningPipeline(testCase)
     verifyNotEmpty(testCase, poses);
     verifyNotEmpty(testCase, path);
     verifyEqual(testCase, stats.completed, scene.num_tasks);
+    verifyEqual(testCase, stats.rc2_plan.covered_tasks, 1:scene.num_tasks);
+    verifyEqual(testCase, sort(stats.rc2_plan.visit_order), 1:size(stats.rc2_plan.selected_docks,1)+1);
+    verifyEqual(testCase, sort(stats.rc2_plan.route_order), 1:size(stats.rc2_plan.selected_docks,1)+1);
+    verifyEqual(testCase, stats.rc2_plan.global_path, path);
+    verifyEqual(testCase, [stats.planning_state.tasks.id], [scene.tasks.id]);
+    verifyTrue(testCase, isfinite(stats.objective.final));
 end

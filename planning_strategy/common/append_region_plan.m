@@ -29,6 +29,31 @@ function [optimal_poses, pose_to_region_map, task_sequence_summary, pose_info_li
             info = make_empty_pose_info(region_poses(pi, :), region.table_id);
         end
         summary_entry.total_tasks = numel(region.task_ids);
+        summary_entry.mean_reachability_score = NaN;
+        summary_entry.minimum_reachability_score = NaN;
+        summary_entry.robust_success_fraction = NaN;
+        if isfield(info, 'nominal_reachability_summary')
+            summary_entry.mean_reachability_score = info.nominal_reachability_summary.mean;
+            summary_entry.minimum_reachability_score = info.nominal_reachability_summary.minimum;
+        end
+        if isfield(info, 'robust_reachability_summary')
+            summary_entry.robust_success_fraction = ...
+                info.robust_reachability_summary.mean_success_fraction;
+        end
+        % Explicit task-level manipulation actions; one action per covered task.
+        summary_entry.task_actions = repmat(struct('task_id',0,'assigned_arm','none', ...
+            'reachability',false,'inter_task_transition_required',false), 1, numel(summary_entry.covered_tasks));
+        for ai = 1:numel(summary_entry.covered_tasks)
+            tid = summary_entry.covered_tasks(ai); arm = 'none';
+            if isa(summary_entry.arm_assign_map,'containers.Map') && isKey(summary_entry.arm_assign_map,tid)
+                arm = summary_entry.arm_assign_map(tid);
+            end
+            summary_entry.task_actions(ai).task_id = tid;
+            summary_entry.task_actions(ai).assigned_arm = arm;
+            summary_entry.task_actions(ai).reachability = true;
+            summary_entry.task_actions(ai).inter_task_transition_required = ai > 1;
+        end
+        summary_entry.inter_task_transition_required = numel(summary_entry.task_actions) > 1;
         summary_entry.dock_index = pi;
         summary_entry.total_docks = n_poses_here;
         service_base = build_service_config(numel(task_sequence_summary) + 1, ...

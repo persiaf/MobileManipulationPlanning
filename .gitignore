@@ -73,3 +73,8 @@ paper_tac/paper_tac.zip
 paper_tac/results/cache/
 paper_tac/results/tmp/
 paper_tac/results/lnn/
+
+# Large frozen experiment states are preserved in full-workspace checkpoint
+# release attachments, alongside ignored raw data, logs, and historical models.
+/results/tables/p3p4_state_*.mat
+/results/tables/position_only_resource_bounded_seed*_state.mat

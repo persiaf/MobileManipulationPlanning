@@ -24,7 +24,7 @@ function fig = visualize_complex_scene(scene, vis_cfg, varargin)
     end
     title(ax, opts.title, 'FontSize', vis_cfg.font_size + 2, 'Interpreter', 'none');
     maybe_legend(ax, vis_cfg);
-    save_figure_if_requested(fig, vis_cfg, opts.filename);
+    save_visualization_figure(fig, vis_cfg, opts.filename);
 end
 
 function opts = parse_opts(varargin)
@@ -53,17 +53,17 @@ function draw_map(ax, scene)
         [xy(k, 1), xy(k, 2)] = grid2world(ii(k), jj(k), res, scene.map_info.height_m);
     end
     plot(ax, xy(:, 1), xy(:, 2), '.', 'Color', [0.88 0.88 0.88], ...
-        'MarkerSize', 2, 'DisplayName', 'occupied grid');
+        'MarkerSize', 2, 'HandleVisibility', 'off');
 end
 
 function draw_static_obstacles(ax, scene)
     if ~isfield(scene, 'static_obstacles') || isempty(scene.static_obstacles), return; end
     for i = 1:numel(scene.static_obstacles)
         obs = scene.static_obstacles(i);
-        c = block_corners(obs.center, obs.size, obs.theta);
+        c = oriented_rectangle_corners(obs.center, obs.theta, obs.size(1), obs.size(2));
         patch(ax, c(:, 1), c(:, 2), [0.25 0.25 0.25], ...
             'FaceAlpha', 0.65, 'EdgeColor', [0.05 0.05 0.05], ...
-            'LineWidth', 1.0, 'DisplayName', legend_once(i, 'static obstacle'));
+            'LineWidth', 1.0, 'DisplayName', legend_once(i, 'Static obstacle'));
     end
 end
 
@@ -78,11 +78,11 @@ function draw_tables(ax, scene, vis_cfg)
     for t = 1:size(cfg.table_positions, 1)
         rid = regions(t);
         color = colors(find(unique_regions == rid, 1), :);
-        corners = table_corners(cfg.table_positions(t, :), cfg.table_orientations(t), ...
+        corners = oriented_rectangle_corners(cfg.table_positions(t, :), cfg.table_orientations(t), ...
             cfg.table.length, cfg.table.width);
         patch(ax, corners(:, 1), corners(:, 2), color, 'FaceAlpha', 0.32, ...
             'EdgeColor', color * 0.55, 'LineWidth', 1.2, ...
-            'DisplayName', legend_once(t, 'table / region'));
+            'DisplayName', legend_once(t, 'Table'));
         if vis_cfg.show_table_orientation
             draw_heading(ax, cfg.table_positions(t, :), cfg.table_orientations(t), 0.35, color);
         end
@@ -103,13 +103,13 @@ function draw_tasks(ax, scene)
     x = [scene.tasks.x]';
     y = [scene.tasks.y]';
     plot(ax, x, y, 'o', 'MarkerSize', 4, 'MarkerFaceColor', [0.1 0.55 0.2], ...
-        'MarkerEdgeColor', 'none', 'DisplayName', 'task');
+        'MarkerEdgeColor', 'none', 'DisplayName', 'Task');
 end
 
 function draw_start(ax, scene)
     plot(ax, scene.start_pose(1), scene.start_pose(2), 'p', 'MarkerSize', 16, ...
         'MarkerFaceColor', [0.9 0.1 0.1], 'MarkerEdgeColor', 'k', ...
-        'DisplayName', 'start');
+        'DisplayName', 'Start');
 end
 
 function draw_heading(ax, center, theta, len, color)
@@ -118,38 +118,12 @@ function draw_heading(ax, center, theta, len, color)
         'HandleVisibility', 'off');
 end
 
-function corners = table_corners(center, theta, L, W)
-    local = [-L/2, -W/2; L/2, -W/2; L/2, W/2; -L/2, W/2];
-    corners = (rot2(theta) * local')' + center;
-end
-
-function corners = block_corners(center, sz, theta)
-    corners = table_corners(center, theta, sz(1), sz(2));
-end
-
 function name = legend_once(i, name)
     if i > 1, name = ''; end
 end
 
 function maybe_legend(ax, vis_cfg)
     if vis_cfg.show_legend
-        legend(ax, 'Location', 'eastoutside');
-    end
-end
-
-function save_figure_if_requested(fig, vis_cfg, filename)
-    if isempty(filename), return; end
-    out_dir = vis_cfg.output_dir;
-    if ~isfolder(out_dir), mkdir(out_dir); end
-    png_path = fullfile(out_dir, [filename '.png']);
-    if vis_cfg.save_png
-        if exist('exportgraphics', 'file') == 2
-            exportgraphics(fig, png_path, 'Resolution', vis_cfg.dpi);
-        else
-            print(fig, png_path, '-dpng', sprintf('-r%d', vis_cfg.dpi));
-        end
-    end
-    if vis_cfg.save_fig
-        savefig(fig, fullfile(out_dir, [filename '.fig']));
+        build_scene_legend(ax);
     end
 end

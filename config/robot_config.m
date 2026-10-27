@@ -8,6 +8,11 @@ function cfg = robot_config()
 
     cfg.chassis.length   = 0.423;
     cfg.chassis.width    = 0.366;
+    % Canonical mobile-base footprint consumed by global navigation. Keep
+    % these values identical to the physical chassis dimensions above.
+    cfg.footprint.length_m = cfg.chassis.length;
+    cfg.footprint.width_m = cfg.chassis.width;
+    cfg.footprint.model = 'rectangle';
     cfg.chassis.height   = 0.127;
 
     cfg.dual_arm.base_spacing = 0.250;

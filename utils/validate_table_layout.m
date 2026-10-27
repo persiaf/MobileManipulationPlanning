@@ -28,7 +28,8 @@ function [is_valid, report] = validate_table_layout(cfg)
 
     polygons = cell(n, 1);
     for i = 1:n
-        polygons{i} = table_corners(positions(i, :), orientations(i), cfg.table.length, cfg.table.width);
+        polygons{i} = oriented_rectangle_corners(positions(i, :), orientations(i), ...
+            cfg.table.length, cfg.table.width);
         if is_outside_map(polygons{i}, cfg)
             failures{end + 1} = sprintf('table_%d_map_boundary_collision', i); %#ok<AGROW>
         end
@@ -56,12 +57,6 @@ function [is_valid, report] = validate_table_layout(cfg)
         report.failure_reason = strjoin(report.failures, '; ');
     end
     is_valid = report.is_valid;
-end
-
-function corners = table_corners(center, theta, L, W)
-    local = [-L/2, -W/2; L/2, -W/2; L/2, W/2; -L/2, W/2];
-    R = rot2(theta);
-    corners = (R * local')' + center;
 end
 
 function tf = is_outside_map(poly, cfg)

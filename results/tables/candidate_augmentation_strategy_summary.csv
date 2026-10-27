@@ -1,0 +1,4 @@
+strategy,runs,coverage_mean_percent,coverage_min_percent,verified_mean_percent,selected_docks_mean,dock_requirement_mean,total_path_mean_m,T_total_mean_s,objective_mean
+bottom_up,5,100,100,100,49.8,49.2,77.6890995514186,202.95435066,69.1950754661169
+top_down,5,100,100,100,49.2,49.2,103.139834739323,521.70735692,68.3980978562497
+bidirectional,5,100,100,100,49.8,49.2,77.6890995514186,173.40815974,146.884175017536

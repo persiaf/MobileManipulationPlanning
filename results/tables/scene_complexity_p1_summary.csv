@@ -1,9 +1,2 @@
 case_id,augmentation_mode,strategy,run_count,success_count,candidate_library_coverage_mean,verified_completion_mean,final_library_candidate_count_mean,supplementary_candidate_count_mean,selected_docking_pose_count_mean,T_candidate_mean,T_strategy_mean,T_path_cost_mean,T_total_mean,total_path_length_mean,expensive_planner_calls_mean
-C0,off,bottom_up,1,1,100,NaN,7134,0,31,7.1710603,0.3026258,NaN,7.6572449,NaN,0
-C0,position_only,bottom_up,1,1,100,NaN,7134,0,31,7.1811781,0.1935395,NaN,7.4352022,NaN,0
-C1,off,bottom_up,1,1,100,NaN,6849,0,31,7.1195987,0.1485819,NaN,7.3169721,NaN,0
-C1,position_only,bottom_up,1,1,100,NaN,6849,0,31,6.9976614,0.1490201,NaN,7.1907001,NaN,0
-C2,off,bottom_up,1,1,55.3846153846154,NaN,3812,0,29,7.8797816,0.152362,NaN,8.0783186,NaN,0
-C2,position_only,bottom_up,1,1,60,NaN,3815,3,31,12.265603,0.1186364,NaN,12.4195221,NaN,0
-C3,off,bottom_up,1,1,100,NaN,5291,0,29,9.0060538,0.13064,NaN,9.2145543,NaN,0
-C3,position_only,bottom_up,1,1,100,NaN,5291,0,29,9.0142156,0.112291,NaN,9.1694065,NaN,0
+C0,off,bottom_up,1,1,100,NaN,7134,0,31,7.5514012,0.2621909,NaN,7.8484883,NaN,0

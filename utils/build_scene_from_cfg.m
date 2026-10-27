@@ -44,6 +44,13 @@ function scene = build_scene_from_cfg(scene_cfg)
     scene.start_pose = scene_cfg.start_pose;
     scene.num_tasks  = num_tasks;
     scene.tasks = normalize_task_fields(scene.tasks);
+    if isfield(scene_cfg, 'static_obstacles') && ~isempty(scene_cfg.static_obstacles)
+        obs = repmat(struct('id','','type','block','center',[0 0],'size',[0 0],'theta',0), size(scene_cfg.static_obstacles,1), 1);
+        for oi=1:numel(obs)
+            q=scene_cfg.static_obstacles(oi,:); obs(oi).id=sprintf('keep_out_%d',oi); obs(oi).center=q(1:2)+q(3:4)/2; obs(oi).size=q(3:4);
+        end
+        scene = apply_static_obstacles_to_scene(scene, obs);
+    end
     scene.region_metadata = build_scene_region_metadata(scene, []);
 end
 

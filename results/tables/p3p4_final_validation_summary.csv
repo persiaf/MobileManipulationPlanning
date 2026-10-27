@@ -1,0 +1,7 @@
+scale,strategy,mode,routing_mode,k,GroupCount,mean_task_count,mean_feasible_tasks,mean_selected_docks,mean_compression_ratio,mean_dense_pair_count,mean_sparse_edge_count,mean_actual_astar_calls,mean_coverage,mean_feasible_task_coverage,mean_verified_completion,mean_total_path_length,mean_T_path_cost,mean_T_stage3,mean_T_total,mean_cache_hit_count,mean_expensive_planner_calls
+L1,bottom_up,L1_dense_reference,dense,0,1,90,90,33,2.7272727273,561,NaN,561,100,100,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+L1,bottom_up,L1_k4_sparse,sparse_knn,4,3,90.3333333333333,90.3333333333333,33.6666666666667,2.69034090909091,585,108,108,100,100,100,79.4888407471233,35.5327150333333,35.7465715333333,35.7465715333333,0,0
+L1,bottom_up,L1_k6_sparse,sparse_knn,6,1,90,90,33,2.72727272727273,561,126,126,100,100,100,78.6026478658691,45.0118073,45.0809272,45.0809272,0,0
+L1,bottom_up,L1_k8_sparse,sparse_knn,8,1,90,90,33,2.72727272727273,561,161,161,100,100,100,79.0591449816147,61.8683651,61.9080007,61.9080007,0,0
+L2,bottom_up,L2_k4_sparse,sparse_knn,4,3,126.666666666667,126.666666666667,49,2.5940436375219,1228,156.666666666667,156.666666666667,100,100,100,125.943465538956,99.1602263666667,99.3837605,99.3837605,0,0
+L3,bottom_up,L3_k4_sparse,sparse_knn,4,2,180,179.5,72.5,2.48297184170472,2664.5,239,239,99.7206703910614,100,99.7206703910614,188.899586848305,202.9895616,203.24051265,203.24051265,0,0

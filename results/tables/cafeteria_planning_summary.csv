@@ -1,0 +1,2 @@
+profile,seed,map_width,map_height,table_count,active_task_count,main_aisle_width,robot_profile,table_height,task_z,model_feasible_tasks,raw_candidates,valid_candidates,selected_docks,coverage,feasible_task_coverage,path_waypoints,path_length,path_collision_count,footprint_collision_count,path_min_clearance,planning_time,status
+CAFETERIA_1X3_2X3,2026,9.2,8.2,9,3,2.1,physical_robot,0.75,0.75,0,0,0,0,NaN,NaN,0,0,NaN,NaN,NaN,0,CAFETERIA_REACHABILITY_BLOCKED

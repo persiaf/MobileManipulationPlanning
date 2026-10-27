@@ -2,7 +2,7 @@ function h_fig = draw_comprehensive_overview(scene, optimal_poses, global_path, 
                                                all_poses, visit_order, executed_tasks, ...
                                                task_table_map, stats, pose_info, visual_cfg)
     if nargin < 10
-        visual_cfg = planner_config().visualization;
+        visual_cfg = legacy_visualization_config();
     end
     if nargin < 9
         pose_info = [];
@@ -34,12 +34,7 @@ function h_fig = draw_comprehensive_overview(scene, optimal_poses, global_path, 
         W  = scene_cfg.table.width;
         theta = scene_cfg.table_orientations(min(t, end));
 
-        R = rot2(theta);
-        corners_l = [-L/2, -W/2; L/2, -W/2; L/2, W/2; -L/2, W/2]';
-        corners_w = R * corners_l;
-        corners_w(1,:) = corners_w(1,:) + cx;
-        corners_w(2,:) = corners_w(2,:) + cy;
-
+        corners_w = oriented_rectangle_corners([cx, cy], theta, L, W)';
         corners_w = round(corners_w / res) * res;
 
         plot(ax_main, [corners_w(1,:), corners_w(1,1)], ...

@@ -1,2 +1,2 @@
 case_id,seed,task_count,baseline_candidate_count,baseline_coverage_percent,uncovered_tasks,oracle_feasible,oracle_infeasible,feasible_ratio,primary_bottleneck,main_rejection_condition,collision_valid_oracle_poses,max_combined_reach_score,minimum_task_arm_distance_m
-F010,2026,75,4689,64,27,4,23,0.148148148148148,REACHABILITY_MODEL_IS_PRIMARY_BOTTLENECK,FAIL_RADIAL,142516,0.356615284613591,0.217518466577392
+F010,2026,75,4689,64,27,0,2,0,REACHABILITY_MODEL_IS_PRIMARY_BOTTLENECK,FAIL_RADIAL,11067,0,0.370405477667859

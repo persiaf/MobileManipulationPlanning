@@ -1,11 +1,19 @@
 function plan = plan_bottom_up(candidate_library, regions, scene, robot_cfg, planner_cfg)
 %PLAN_BOTTOM_UP Freeze the original region-first docking selection behavior.
 
-    validate_candidate_library(candidate_library, regions);
+    validate_candidate_library(candidate_library, regions, scene, robot_cfg, planner_cfg);
     t_strategy = tic;
     t_local = tic;
     [selected_poses, pose_to_region_map, task_sequence_summary, pose_info_list] = ...
         build_bottom_up_outputs(candidate_library, regions, scene, robot_cfg, planner_cfg);
+    if isempty(selected_poses)
+        plan = struct('strategy_name','bottom_up','status','BLOCKED', ...
+            'reason','NO_FEASIBLE_DOCKING_POSE','selected_poses',[], ...
+            'pose_to_region_map',[], ...
+            'covered_tasks_predicted',[],'uncovered_tasks_predicted',1:scene.num_tasks, ...
+            'task_sequence_summary',{{}},'pose_info_list',{{}});
+        return;
+    end
     timing.local_selection_time_s = toc(t_local);
     timing.candidate_generation_time_s = candidate_library.total_generation_time_s;
     timing.strategy_total_time_s = toc(t_strategy);
@@ -34,6 +42,9 @@ function [optimal_poses, pose_to_region_map, task_sequence_summary, pose_info_li
             pose_info_list, ri, regions(ri), region_poses, pose_info, planner_cfg);
     end
     if isempty(optimal_poses)
-        error('plan_bottom_up:NoFeasibleDockingPose', 'No feasible docking poses were selected.');
+        warning('plan_bottom_up:NoFeasibleDockingPose', 'No feasible docking poses were selected.');
+        task_sequence_summary = {};
+        pose_info_list = {};
+        return;
     end
 end

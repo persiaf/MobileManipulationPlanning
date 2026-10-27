@@ -230,8 +230,11 @@ function plan = refresh_bidirectional_plan(plan, candidate_library, scene, plann
     plan.uncovered_tasks_predicted = setdiff(1:scene.num_tasks, covered, 'stable');
     plan.num_docking_poses = size(plan.selected_poses, 1);
     plan.local_cost_total = local_cost_total;
+    plan.objective_value_stage2 = compute_strategy_objective(plan, [], planner_cfg);
     plan.objective_value = compute_strategy_objective(plan, ...
         struct('route_length_m', route_length_m, 'estimated_execution_time_s', 0), planner_cfg);
+    plan.objective = struct('stage2', plan.objective_value_stage2, ...
+        'search', plan.objective_value);
     plan.metrics.predicted_completion_rate = 100 * numel(covered) / max(scene.num_tasks, 1);
     plan.metrics.num_docking_poses = plan.num_docking_poses;
     plan.metrics.local_cost_total = local_cost_total;

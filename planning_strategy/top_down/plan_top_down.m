@@ -1,7 +1,7 @@
 function plan = plan_top_down(candidate_library, regions, scene, robot_cfg, planner_cfg)
 %PLAN_TOP_DOWN Region-order-first baseline with route-aware local selection.
 
-    validate_candidate_library(candidate_library, regions);
+    validate_candidate_library(candidate_library, regions, scene, robot_cfg, planner_cfg);
     t_strategy = tic;
     cache = initialize_path_cost_cache(scene, planner_cfg);
 

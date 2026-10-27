@@ -1,0 +1,113 @@
+{
+  "generated_utc8": "2026-10-27T09:40:32+08:00",
+  "project_root": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning",
+  "head": "4fb8333a725b68778b7e03125bfed3ae566a7ac8",
+  "branch": "research/cafeteria-scene-planning",
+  "project_files": 940,
+  "project_bytes_excluding_git_and_audit": 2480882602,
+  "source_files": 389,
+  "matlab_files": 383,
+  "external_roots": 75,
+  "external_files": 14338,
+  "external_bytes": 28669134369,
+  "codex_backups": 8,
+  "codex_backup_pointer_files": 1,
+  "codex_backup_bytes": 2194509,
+  "duplicate_groups": 13,
+  "archives": 40,
+  "categories": [
+    {
+      "category": "HARDWARE_DEBUG_HISTORY",
+      "files": 32,
+      "bytes": 230874,
+      "action": "旧轮次归档，保留最新验证"
+    },
+    {
+      "category": "HISTORICAL_LOG",
+      "files": 50,
+      "bytes": 3945314,
+      "action": "历史诊断归档"
+    },
+    {
+      "category": "LEGACY_LNN_EXPERIMENT",
+      "files": 84,
+      "bytes": 733779786,
+      "action": "旧研究方向单独归档"
+    },
+    {
+      "category": "LEGACY_PAPER_CACHE",
+      "files": 1,
+      "bytes": 49972897,
+      "action": "核实可再生后清理"
+    },
+    {
+      "category": "P3P4_FROZEN_DEPENDENCY",
+      "files": 8,
+      "bytes": 929997764,
+      "action": "保留"
+    },
+    {
+      "category": "PARTIAL_RESULT_REVIEW",
+      "files": 2,
+      "bytes": 4031,
+      "action": "核对正式结果覆盖后归档"
+    },
+    {
+      "category": "POSITION_STATE_DEPENDENCY",
+      "files": 3,
+      "bytes": 641174088,
+      "action": "保留或迁入冷存储并修改读取路径"
+    },
+    {
+      "category": "PROJECT_ARCHIVE",
+      "files": 2,
+      "bytes": 56924469,
+      "action": "旧快照归档，先验证内容"
+    },
+    {
+      "category": "REDUNDANT_PARTIAL_CONFIRMED",
+      "files": 5,
+      "bytes": 18652,
+      "action": "可归档/清理候选"
+    },
+    {
+      "category": "RESEARCH_EVIDENCE_RETAIN",
+      "files": 187,
+      "bytes": 43775308,
+      "action": "保留；按实验族整理"
+    },
+    {
+      "category": "RESUME_CHECKPOINT_DUPLICATE",
+      "files": 1,
+      "bytes": 8292,
+      "action": "保留：resume 读取入口；需修改读取逻辑后才能移走"
+    },
+    {
+      "category": "ROOT_AUDIT_HISTORY",
+      "files": 21,
+      "bytes": 42051,
+      "action": "历史报告归档候选"
+    },
+    {
+      "category": "SMOKE_VISUAL_OUTPUT",
+      "files": 37,
+      "bytes": 12453607,
+      "action": "可归档/清理候选"
+    },
+    {
+      "category": "SOURCE_DOCUMENT_OR_ASSET",
+      "files": 507,
+      "bytes": 8555469,
+      "action": "保留"
+    }
+  ],
+  "errors": [],
+  "limits": [
+    "只读审计；仅在本审计目录写出报告",
+    "未运行 MATLAB 或正式实验",
+    "外部备份同路径且不大于 8 MiB 的文件才比较 SHA256；其他文件明确标注未核实",
+    "配置备份仅元数据和与当前文件的相等性；不导出任何配置值",
+    "压缩包仅中央目录读取，未做完整解压/CRC 完整性测试",
+    "未扫描整盘、无关兄弟项目、Codex 会话及插件内部；不宣称全盘穷尽"
+  ]
+}

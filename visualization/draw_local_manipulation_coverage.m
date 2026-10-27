@@ -1,6 +1,6 @@
 function h_fig = draw_local_manipulation_coverage(scene, pose_info, pose_idx, visual_cfg)
     if nargin < 4
-        visual_cfg = planner_config().visualization;
+        visual_cfg = legacy_visualization_config();
     end
     if nargin < 3 || isempty(pose_idx)
         pose_idx = 1;
@@ -28,11 +28,7 @@ function h_fig = draw_local_manipulation_coverage(scene, pose_info, pose_idx, vi
         W  = scene_cfg.table.width;
         theta = scene_cfg.table_orientations(min(t, end));
 
-        R = rot2(theta);
-        corners_l = [-L/2, -W/2; L/2, -W/2; L/2, W/2; -L/2, W/2]';
-        corners_w = R * corners_l;
-        corners_w(1,:) = corners_w(1,:) + cx;
-        corners_w(2,:) = corners_w(2,:) + cy;
+        corners_w = oriented_rectangle_corners([cx, cy], theta, L, W)';
         corners_w = round(corners_w / res) * res;
 
         plot([corners_w(1,:), corners_w(1,1)], ...

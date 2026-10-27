@@ -1,0 +1,425 @@
+ M README.md
+ M config/planner_config.m
+ M config/robot_config.m
+ M config/scene_config.m
+ D config/visualization_config.m
+ M demos/demo_complex_planning.m
+ M demos/demo_complex_scene.m
+ M demos/demo_dynamic_replanning.m
+ M docking/build_service_config.m
+ M docking/generate_docking_candidates.m
+ M docking/select_multi_poses.m
+ M global_planner/build_sparse_docking_graph.m
+ M global_planner/post_validate_path.m
+ M global_planner/run_dstar_lite_wrapper.m
+ M global_planner/run_path_planner.m
+ M global_planner/stitch_sparse_graph_path.m
+ M main_mobile_manipulation_planning.m
+ M manipulator/evaluate_robust_reachability.m
+ M pipeline/stage1_build_scene.m
+ M pipeline/stage2_docking_planning.m
+ M pipeline/stage3_global_planning.m
+ M planning_strategy/bidirectional/plan_bidirectional.m
+ M planning_strategy/bottom_up/plan_bottom_up.m
+ M planning_strategy/common/SharedPathCostContext.m
+ M planning_strategy/common/append_region_plan.m
+ M planning_strategy/common/augment_candidate_library.m
+ M planning_strategy/common/build_candidate_library.m
+ M planning_strategy/common/build_unified_plan.m
+ M planning_strategy/common/get_cached_path_cost.m
+ M planning_strategy/common/initialize_path_cost_cache.m
+ M planning_strategy/common/validate_candidate_library.m
+ M planning_strategy/top_down/plan_top_down.m
+ D preview/slide_01.png
+ D preview/slide_02.png
+ D preview/slide_03.png
+ D preview/slide_04.png
+ D preview/slide_05.png
+ M replanning/analyze_change_impact.m
+ M replanning/apply_dynamic_event.m
+ M replanning/local_replan.m
+ M results/figures/complex_scene/V1_scene.png
+ M results/figures/complex_scene/V2_planning.png
+ M results/figures/complex_scene/V2_scene.png
+ M results/figures/complex_scene/V3_dynamic_after.png
+ M results/figures/complex_scene/V3_dynamic_before.png
+ M results/figures/fig_framework_pipeline.pdf
+ M results/figures/fig_framework_pipeline.png
+ M results/tables/dynamic_local_replanning_p5_summary.csv
+ M results/tables/local_reachability_oracle_summary.csv
+ M results/tables/scene_complexity_p1_summary.csv
+ M tests/test_local_replan_route_feasibility.m
+ M tests/test_main_smoke.m
+ M utils/apply_static_obstacles_to_scene.m
+ M utils/build_scene_from_cfg.m
+ M utils/validate_table_layout.m
+ M utils/world2grid.m
+ M visualization/draw_comprehensive_overview.m
+ M visualization/draw_docking_result.m
+ M visualization/draw_local_manipulation_coverage.m
+ M visualization/draw_scene.m
+ M visualization/draw_scene_background.m
+ M visualization/plot_framework_pipeline.m
+ M visualization/visualize_complex_scene.m
+ M visualization/visualize_dynamic_replan.m
+ M visualization/visualize_planning_overlay.m
+?? BASELINE_FOOTPRINT_REPORT.md
+?? CODE_PIPELINE_AUDIT.md
+?? CONFIG_AUDIT_REPORT.md
+?? FINAL_BASELINE_REPORT.md
+?? FOOTPRINT_LIMITATION_REPORT.md
+?? FOOTPRINT_NAVIGATION_REPORT.md
+?? MobileManipulationPlanning.zip
+?? S2_FINAL_REPORT.md
+?? S2_MONO_AUDIT_REPORT.md
+?? S2_MONO_FINAL_REPORT.md
+?? S2_MONO_STYLE_MATCH_REPORT.md
+?? S2_PATH_SAFETY_REPORT.md
+?? S2_RC1_CANDIDATE_REPORT.md
+?? S2_RC2_PLANNING_REPORT.md
+?? S2_SCENE_CONFIGURATION.md
+?? S2_TEST_AND_REGRESSION_REPORT.md
+?? S2_VIS_AUDIT_REPORT.md
+?? S2_VIS_FINAL_REPORT.md
+?? S2_VIS_STYLE_COMPARISON.md
+?? STAGE_VALIDATION_REPORT.md
+?? checkpoint_icra2027_pre_audit_status.txt
+?? config/legacy_visualization_config.m
+?? config/print_effective_config.m
+?? config/rc2_four_table_scene_config.m
+?? config/resolve_effective_config.m
+?? demos/demo_cafeteria_planning.m
+?? demos/demo_cafeteria_scene.m
+?? docs/CODE_ARCHITECTURE.md
+?? docs/CONFIGURATION_GUIDE.md
+?? docs/DEVELOPMENT_HISTORY.md
+?? docs/EXPERIMENT_GUIDE.md
+?? docs/FILE_INDEX.md
+?? docs/PROJECT_CODE_ARCHITECTURE.md
+?? docs/QUICK_START.md
+?? docs/THESIS_RESEARCH_CODE_MAPPING.md
+?? docs/TROUBLESHOOTING.md
+?? docs/cleanup_audit_20261027/archive_members.csv
+?? docs/cleanup_audit_20261027/archive_summary.csv
+?? docs/cleanup_audit_20261027/audit_workspace.py
+?? docs/cleanup_audit_20261027/candidate_files.csv
+?? docs/cleanup_audit_20261027/category_summary.csv
+?? docs/cleanup_audit_20261027/codex_config_backups.csv
+?? docs/cleanup_audit_20261027/directory_summary.csv
+?? docs/cleanup_audit_20261027/exact_duplicates.csv
+?? docs/cleanup_audit_20261027/external_backup_files.csv
+?? docs/cleanup_audit_20261027/external_backup_roots.csv
+?? docs/cleanup_audit_20261027/git_status_at_scan.txt
+?? docs/cleanup_audit_20261027/partial_result_checks.csv
+?? docs/cleanup_audit_20261027/project_files.csv
+?? docs/cleanup_audit_20261027/scan_scope.csv
+?? docs/cleanup_audit_20261027/source_index.csv
+?? docs/cleanup_audit_20261027/summary.json
+?? docs/config_registry.md
+?? docs/deprecation_candidates.md
+?? docs/project_call_graph.md
+?? docs/project_function_inventory.md
+?? docs/visualization_architecture.md
+?? environment/build_footprint_inflated_map.m
+?? experiment_manager/MobileManipulationExperimentManager.m
+?? experiment_manager/experiment_config_builder.m
+?? experiment_manager/experiment_registry.m
+?? experiment_manager/launch_mobile_manipulation_experiment_manager.m
+?? experiment_manager/run_selected_experiment.m
+?? experiments/build_cafeteria_navigation_library.m
+?? experiments/build_cafeteria_scene.m
+?? experiments/build_hardware_matched_scene.m
+?? experiments/cafeteria_experiment_override.m
+?? experiments/cafeteria_scene_profile_config.m
+?? experiments/diagnose_reachability_failure.m
+?? experiments/evaluate_cafeteria_operability.m
+?? experiments/evaluate_cafeteria_service_support.m
+?? experiments/export_footprint_validation.m
+?? experiments/hardware_matched_scene_profile_config.m
+?? experiments/render_rc2_four_table_results.m
+?? experiments/run_cafeteria_planning.m
+?? experiments/run_hardware_matched_lab.m
+?? experiments/run_rc2_four_table_demo.m
+?? experiments/run_stage_progress_review_v1.m
+?? experiments/validate_cafeteria_path.m
+?? experiments/validate_cafeteria_scene.m
+?? main_cafeteria_mobile_manipulation_planning.m
+?? planning_strategy/common/build_candidate_library_signature.m
+?? planning_strategy/common/build_path_cache_signature.m
+?? planning_strategy/common/build_planning_state.m
+?? planning_strategy/common/build_rc2_plan.m
+?? planning_strategy/common/build_struct_signature.m
+?? planning_strategy/common/compute_bottom_up_selection_score.m
+?? replanning/complete_replanning_route.m
+?? replanning/evaluate_replanning_action_mask.m
+?? replanning/execute_replanning_action.m
+?? replanning/normalize_planning_state.m
+?? replanning/validate_replanning_state.m
+?? results/cafeteria/cafeteria_complex12_selected_docks.csv
+?? results/cafeteria/cafeteria_complex12_waypoints.csv
+?? results/cafeteria/footprint_validation/footprint_collision_report.csv
+?? results/figures/cafeteria/cafeteria_complex12_docking.png
+?? results/figures/cafeteria/cafeteria_complex12_operability.png
+?? results/figures/cafeteria/cafeteria_complex12_planning.png
+?? results/figures/cafeteria/cafeteria_complex12_scene.png
+?? results/figures/cafeteria/cafeteria_complex12_video_reference.png
+?? results/figures/cafeteria/cafeteria_operability.png
+?? results/figures/cafeteria/cafeteria_scene.png
+?? results/figures/fig_framework_pipeline.fig
+?? results/figures/fig_large_scale_path_cost_diagnostics.png
+?? results/figures/fig_large_scale_stage_time.png
+?? results/figures/fig_large_scale_total_time.png
+?? results/figures/unified_smoke/candidate.png
+?? results/figures/unified_smoke/docking.png
+?? results/figures/unified_smoke/planning.png
+?? results/figures/unified_smoke/replanning.png
+?? results/figures/unified_smoke/scene.png
+?? results/figures/visualization_report/docking.png
+?? results/figures/visualization_report/planning.png
+?? results/figures/visualization_report/scene.png
+?? results/figures/visualization_report/scene_region.png
+?? results/figures/visualization_report/sparse_graph.png
+?? results/figures/visualization_validation/d1/before_event.png
+?? results/figures/visualization_validation/d1/comparison.png
+?? results/figures/visualization_validation/d1/event.png
+?? results/figures/visualization_validation/d1/replanning.png
+?? results/figures/visualization_validation/d2/before_event.png
+?? results/figures/visualization_validation/d2/comparison.png
+?? results/figures/visualization_validation/d2/event.png
+?? results/figures/visualization_validation/d2/replanning.png
+?? results/figures/visualization_validation/d3/before_event.png
+?? results/figures/visualization_validation/d3/comparison.png
+?? results/figures/visualization_validation/d3/event.png
+?? results/figures/visualization_validation/d3/replanning.png
+?? results/figures/visualization_validation/l1/planning.png
+?? results/figures/visualization_validation/l1/scene_region.png
+?? results/figures/visualization_validation/l1/sparse_graph.png
+?? results/figures/visualization_validation/l2/planning.png
+?? results/figures/visualization_validation/l2/scene_region.png
+?? results/figures/visualization_validation/l2/sparse_graph.png
+?? results/figures/visualization_validation/l3/planning.png
+?? results/figures/visualization_validation/l3/scene_region.png
+?? results/figures/visualization_validation/l3/sparse_graph.png
+?? results/hardware_matched_lab/20260915_075228/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_075228/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_130008/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_130008/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_130155/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_130155/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_130306/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_130306/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_130640/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_130640/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_131055/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_131055/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_134034/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_134034/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_134049/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_134049/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_140809/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_140809/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_143511/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_143511/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_152123/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_152123/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/20260915_152920/matched_scene_summary.json
+?? results/hardware_matched_lab/20260915_152920/stage2_docking_result.png
+?? results/hardware_matched_lab/20260915_152920/trajectory_feasibility_report.txt
+?? results/hardware_matched_lab/reachability_diagnostic_summary.txt
+?? results/hardware_matched_lab/round5_summary.txt
+?? results/hardware_matched_lab/scene_geometry_corrected.png
+?? results/hardware_matched_lab/scene_geometry_round4.png
+?? results/hardware_matched_lab/scene_geometry_round5.png
+?? results/hardware_matched_lab/scene_geometry_round6.png
+?? results/hardware_matched_lab/scene_geometry_validation.txt
+?? results/managed_experiments/hardware_matched_lab_robot_config_astar_bottom_up/candidate.png
+?? results/managed_experiments/hardware_matched_lab_robot_config_astar_bottom_up/scene.png
+?? results/managed_experiments/hardware_matched_lab_robot_config_convex_astar_bottom_up/candidate.png
+?? results/managed_experiments/hardware_matched_lab_robot_config_convex_astar_bottom_up/scene.png
+?? results/managed_gui_smoke/scene.png
+?? results/managed_gui_smoke2/candidate.png
+?? results/managed_gui_smoke2/docking.png
+?? results/managed_gui_smoke2/planning.png
+?? results/managed_gui_smoke2/replanning.png
+?? results/managed_gui_smoke2/scene.png
+?? results/tables/augmentation_smoke_seed1.mat
+?? results/tables/bidirectional_shared_cache_20260901.mat
+?? results/tables/bidirectional_shared_cache_raw.csv
+?? results/tables/bidirectional_shared_cache_summary.csv
+?? results/tables/c2_failure_geometry_trace.csv
+?? results/tables/cafeteria_basic3_planning_summary.csv
+?? results/tables/cafeteria_complex12_planning_summary.csv
+?? results/tables/cafeteria_planning_summary.csv
+?? results/tables/candidate_augmentation_ablation_12_20260901.mat
+?? results/tables/candidate_augmentation_ablation_20260901.mat
+?? results/tables/candidate_augmentation_ablation_34_20260901.mat
+?? results/tables/candidate_augmentation_ablation_5_20260901.mat
+?? results/tables/candidate_augmentation_ablation_raw.csv
+?? results/tables/candidate_augmentation_ablation_summary.csv
+?? results/tables/candidate_augmentation_ablation_task.csv
+?? results/tables/candidate_augmentation_combined_raw.csv
+?? results/tables/candidate_augmentation_combined_summary.csv
+?? results/tables/candidate_augmentation_four_way_summary.csv
+?? results/tables/candidate_augmentation_noop_s1_20260901.mat
+?? results/tables/candidate_augmentation_noop_s2_20260901.mat
+?? results/tables/candidate_augmentation_noop_s3_20260901.mat
+?? results/tables/candidate_augmentation_strategies_12_20260901.mat
+?? results/tables/candidate_augmentation_strategies_20260901.mat
+?? results/tables/candidate_augmentation_strategies_34_20260901.mat
+?? results/tables/candidate_augmentation_strategies_5_20260901.mat
+?? results/tables/candidate_augmentation_strategy_raw.csv
+?? results/tables/candidate_augmentation_strategy_summary.csv
+?? results/tables/candidate_efficiency_p2_raw.csv
+?? results/tables/candidate_efficiency_p2_raw_partial.csv
+?? results/tables/candidate_efficiency_p2_raw_partial_first30.csv
+?? results/tables/center_row_candidate_geometry_20260901.mat
+?? results/tables/center_row_candidate_geometry_run.csv
+?? results/tables/center_row_candidate_geometry_summary.csv
+?? results/tables/center_row_candidate_geometry_trace.csv
+?? results/tables/config_registry.csv
+?? results/tables/coverage_diagnostics_combined_20260901.mat
+?? results/tables/coverage_s1_s2_20260901.mat
+?? results/tables/coverage_s3_20260901.mat
+?? results/tables/coverage_s4_20260901.mat
+?? results/tables/dynamic_local_replanning_p5_raw.csv
+?? results/tables/footprint_baseline_round3.log
+?? results/tables/footprint_baseline_run.log
+?? results/tables/footprint_cafeteria_round3.log
+?? results/tables/footprint_cafeteria_run.log
+?? results/tables/footprint_cafeteria_validation_round3.log
+?? results/tables/footprint_experiment_record.csv
+?? results/tables/github_checkpoint_post_commit_tests.log
+?? results/tables/github_checkpoint_pre_release_tests.log
+?? results/tables/large_scale_complex_tasks_raw.csv
+?? results/tables/large_scale_complex_tasks_summary.csv
+?? results/tables/large_scale_coverage_diagnostics.csv
+?? results/tables/large_scale_coverage_run_summary.csv
+?? results/tables/large_scale_coverage_s4_failure_summary.csv
+?? results/tables/large_scale_coverage_s4_region_summary.csv
+?? results/tables/large_scale_coverage_s4_seed_summary.csv
+?? results/tables/large_scale_coverage_scale_summary.csv
+?? results/tables/large_scale_sparse_routing_raw.csv
+?? results/tables/local_reachability_oracle_task.csv
+?? results/tables/orientation_fast_validation_raw.csv
+?? results/tables/p3p4_final_validation_raw.csv
+?? results/tables/p3p4_final_validation_summary.csv
+?? results/tables/p3p4_state_l1_seed2026_bottom_up.mat
+?? results/tables/p3p4_state_l1_seed2027_bottom_up.mat
+?? results/tables/p3p4_state_l1_seed2028_bottom_up.mat
+?? results/tables/p3p4_state_l2_seed2026_bottom_up.mat
+?? results/tables/p3p4_state_l2_seed2027_bottom_up.mat
+?? results/tables/p3p4_state_l2_seed2028_bottom_up.mat
+?? results/tables/p3p4_state_l3_seed2026_bottom_up.mat
+?? results/tables/p3p4_state_l3_seed2027_bottom_up.mat
+?? results/tables/path_audit_combined_20260901.mat
+?? results/tables/path_audit_s1_20260901.mat
+?? results/tables/path_audit_s4_20260901.mat
+?? results/tables/path_cost_reuse_bidirectional_top20.csv
+?? results/tables/path_cost_reuse_by_source.csv
+?? results/tables/path_cost_reuse_by_strategy.csv
+?? results/tables/path_cost_reuse_duplicate_scope.csv
+?? results/tables/path_cost_reuse_overall.csv
+?? results/tables/path_cost_reuse_queries.csv
+?? results/tables/path_cost_reuse_stage3.csv
+?? results/tables/position_only_final_regression_console.log
+?? results/tables/position_only_final_regression_summary.log
+?? results/tables/position_only_full_validation_20260901.mat
+?? results/tables/position_only_full_validation_console.log
+?? results/tables/position_only_full_validation_partial.csv
+?? results/tables/position_only_full_validation_raw.csv
+?? results/tables/position_only_full_validation_summary.csv
+?? results/tables/position_only_heldout_coverage_20260901.mat
+?? results/tables/position_only_heldout_coverage_partial.csv
+?? results/tables/position_only_heldout_coverage_raw.csv
+?? results/tables/position_only_heldout_failures.csv
+?? results/tables/position_only_heldout_failures_partial.csv
+?? results/tables/position_only_isolated_four_mode_console.log
+?? results/tables/position_only_isolated_four_mode_partial.csv
+?? results/tables/position_only_joint_paired.csv
+?? results/tables/position_only_resource_bounded_augmentation_cost.csv
+?? results/tables/position_only_resource_bounded_combined.csv
+?? results/tables/position_only_resource_bounded_console.log
+?? results/tables/position_only_resource_bounded_console_retry1.log
+?? results/tables/position_only_resource_bounded_console_retry2.log
+?? results/tables/position_only_resource_bounded_count_only_console.log
+?? results/tables/position_only_resource_bounded_four_mode_20260902.mat
+?? results/tables/position_only_resource_bounded_four_mode_partial.csv
+?? results/tables/position_only_resource_bounded_four_mode_raw.csv
+?? results/tables/position_only_resource_bounded_full_audit_interrupted_9rows.csv
+?? results/tables/position_only_resource_bounded_regression.log
+?? results/tables/position_only_resource_bounded_seed1_state.mat
+?? results/tables/position_only_resource_bounded_seed3_state.mat
+?? results/tables/position_only_resource_bounded_seed5_state.mat
+?? results/tables/position_only_resource_bounded_seed_summary.csv
+?? results/tables/project_function_inventory.csv
+?? results/tables/radial_operability_audit_task.csv
+?? results/tables/s4_candidate_prefilter_20260901.mat
+?? results/tables/s4_candidate_prefilter_failure_summary.csv
+?? results/tables/s4_candidate_prefilter_region_summary.csv
+?? results/tables/s4_candidate_prefilter_region_trace.csv
+?? results/tables/s4_candidate_prefilter_run_summary.csv
+?? results/tables/s4_candidate_prefilter_task_trace.csv
+?? results/tables/scene_complexity_factor_isolation_raw.csv
+?? results/tables/scene_complexity_p1_raw.csv
+?? results/tables/shared_cache_s1_20260901.mat
+?? results/tables/shared_cache_s4_12_20260901.mat
+?? results/tables/shared_cache_s4_34_20260901.mat
+?? results/tables/shared_cache_s4_5_20260901.mat
+?? results/tables/stage_validation_baseline.log
+?? results/tables/stage_validation_cafeteria.log
+?? results/tables/stage_validation_stage2.log
+?? results/tables/stage_validation_stage3.log
+?? results/tables/visualization_render_validation.log
+?? results/tables/visualization_report_smoke.log
+?? results/tables/visualization_smoke.log
+?? results/tables/visualization_stage3_d2d3.log
+?? results/tables/visualization_stage3_render.log
+?? tests/create_c2_5_1_dstar_fixture.m
+?? tests/create_c2_5_1_fixture.m
+?? tests/test_actual_path_visualization_uses_waypoints.m
+?? tests/test_c2_1_path_repair.m
+?? tests/test_c2_2_dock_repair.m
+?? tests/test_c2_3_1_consistency.m
+?? tests/test_c2_3_task_reallocation.m
+?? tests/test_c2_3a_task_id_boundary.m
+?? tests/test_c2_4_1_dstar_correctness.m
+?? tests/test_c2_4_2_e2e_incremental_reuse.m
+?? tests/test_c2_4_dstar_incremental.m
+?? tests/test_c2_5_1_safety_integration.m
+?? tests/test_c2_5_action_interface.m
+?? tests/test_cafeteria_a4_inside_table.m
+?? tests/test_cafeteria_complex12_docking.m
+?? tests/test_cafeteria_complex12_path_collision_free.m
+?? tests/test_cafeteria_global_path_collision_free.m
+?? tests/test_cafeteria_main_aisle_width.m
+?? tests/test_cafeteria_navigation_only_mode.m
+?? tests/test_cafeteria_profile_determinism.m
+?? tests/test_cafeteria_proxy_all_tasks_supported.m
+?? tests/test_cafeteria_proxy_service_side.m
+?? tests/test_cafeteria_scene_planning_identity.m
+?? tests/test_cafeteria_start_collision_free.m
+?? tests/test_cafeteria_table_layout.m
+?? tests/test_demo_parameter_interfaces.m
+?? tests/test_effective_config_resolution.m
+?? tests/test_footprint_sparse_edge_validation.m
+?? tests/test_rc2_four_table_scene.m
+?? tests/test_round_a_core_correctness.m
+?? tests/test_round_b_model_contracts.m
+?? tests/test_s2_2_world2grid_precision.m
+?? tests/test_visualization_config_single_source.m
+?? tests/test_world_grid_roundtrip.m
+?? utils/check_robot_footprint_collision.m
+?? utils/merge_struct_recursive.m
+?? utils/oriented_rectangle_corners.m
+?? utils/table_local_to_world.m
+?? visualization/build_scene_legend.m
+?? visualization/draw_collision_free_route.m
+?? visualization/draw_selected_docks.m
+?? visualization/draw_sparse_graph_connectivity.m
+?? visualization/render_experiment_outputs.m
+?? visualization/render_experiment_report.m
+?? visualization/render_rc2_four_table_style.m
+?? visualization/save_visualization_figure.m
+?? visualization/visualization_config.m
+?? visualization/visualize_cafeteria_scene.m
+?? visualization_validation_report.md

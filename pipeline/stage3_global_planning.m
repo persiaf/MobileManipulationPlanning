@@ -9,7 +9,34 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
         pose_info_list = {};
     end
 
+    if isempty(plan)
+        covered = [];
+        for si = 1:numel(task_sequence_summary)
+            if isstruct(task_sequence_summary{si}) && isfield(task_sequence_summary{si}, 'covered_tasks')
+                covered = union(covered, task_sequence_summary{si}.covered_tasks, 'stable');
+            end
+        end
+        plan = struct('status','READY','reason','', 'selected_poses',optimal_poses, ...
+            'task_sequence_summary',{task_sequence_summary}, ...
+            'pose_info_list',{pose_info_list}, 'covered_tasks_predicted',covered, ...
+            'uncovered_tasks_predicted',setdiff(1:scene.num_tasks, covered, 'stable'), ...
+            'num_docking_poses',size(optimal_poses,1), 'local_cost_total',0, ...
+            'objective',struct('stage2',NaN), 'objective_value_stage2',NaN, ...
+            'objective_value',NaN);
+    end
+
+    if isstruct(plan) && isfield(plan, 'status') && strcmpi(plan.status, 'BLOCKED')
+        reason = 'BLOCKED';
+        if isfield(plan, 'reason') && ~isempty(plan.reason)
+            reason = plan.reason;
+        end
+        error('stage3_global_planning:BlockedPlan', ...
+            'Stage 3 requires a READY plan; received BLOCKED (%s).', reason);
+    end
+
     stats = struct();
+    % Carry the already-resolved robot geometry into every planner call.
+    planner_cfg.robot_cfg = robot_cfg;
     if isstruct(plan) && isfield(plan, 'shared_path_cost_context') && ...
             isa(plan.shared_path_cost_context, 'SharedPathCostContext')
         planner_cfg.runtime.shared_path_cost_context = plan.shared_path_cost_context;
@@ -87,19 +114,27 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     end
     global_path_time_s = toc(t_global_path);
     total_path_len = compute_path_length(global_path);
+    final_route_metrics = struct('route_length_m', total_path_len, ...
+        'estimated_execution_time_s', NaN);
     fprintf('  全局路径长度: %.2f m\n', total_path_len);
 
     t_execution_sim = tic;
     exec_stats = estimate_execution_time(global_path, route_order, all_poses, ...
                                          task_sequence_summary, segment_stats, planner_cfg);
+    final_route_metrics.estimated_execution_time_s = get_timing_field(exec_stats, ...
+        'total_execution_time_s', get_timing_field(exec_stats, 'execution_time_s', NaN));
+    if isstruct(plan)
+        plan.objective.final = compute_strategy_objective(plan, final_route_metrics, planner_cfg);
+        plan.objective_value_final = plan.objective.final;
+    end
 
     if planner_cfg.visualization.show_global_path && ~runtime_flag(planner_cfg, 'disable_visualization', false)
         ordered_route_poses = all_poses(route_order, :);
         visit_strs = cell(length(route_order), 1);
-        visit_strs{1} = '起点';
+        visit_strs{1} = '';
         for vi = 2:length(route_order)
             if route_order(vi) == 1
-                visit_strs{vi} = '返回起点';
+                visit_strs{vi} = '';
             else
                 s = task_sequence_summary{route_order(vi)-1};
                 visit_strs{vi} = sprintf('T%d-D%d', s.table_id, s.dock_index);
@@ -243,6 +278,11 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     stats.sparse_graph = sparse_graph;
     stats.strategy_name = get_plan_field(plan, 'strategy_name', 'bottom_up');
     stats.plan = plan;
+    stats.rc2_plan = build_rc2_plan(plan, visit_order, route_order, global_path, ...
+        segment_stats, sparse_graph, scene, robot_cfg, planner_cfg);
+    stats.planning_state = build_planning_state(scene, robot_cfg, planner_cfg, ...
+        get_plan_field(plan, 'candidate_library', []), stats.rc2_plan, ...
+        execution_status, struct('global_path', global_path));
     if isstruct(plan) && isfield(plan, 'metrics')
         stats.strategy_metrics = plan.metrics;
         stats.coverage_repair_count = get_timing_field(plan.metrics, 'coverage_repair_count', 0);
@@ -251,6 +291,9 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
         stats.coverage_repair_count = 0;
         stats.strategy_objective_value = 0;
     end
+    stats.objective = struct('stage2', get_plan_field(plan, 'objective_value_stage2', ...
+        get_plan_field(plan, 'objective_value', NaN)), ...
+        'final', get_plan_field(plan, 'objective_value_final', NaN));
     stats.return_to_start = route_order(end) == 1;
     stats.return_path_len_m = exec_stats.return_path_len_m;
     stats.task_path_len_m = exec_stats.task_path_len_m;

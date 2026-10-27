@@ -1,0 +1,4 @@
+strategy,total_path_cost_queries,unique_path_pairs,repeated_queries,potential_reuse_ratio,expensive_computations
+bottom_up,2642,2558,84,0.0317940953822861,2642
+top_down,28068,22590,5478,0.195168875587858,23384
+bidirectional,10401,2574,7827,0.752523795788866,10401

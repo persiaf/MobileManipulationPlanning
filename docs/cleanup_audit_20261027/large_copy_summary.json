@@ -1,0 +1,7 @@
+{
+  "verified_current_large_files": 30,
+  "verified_external_copies_equal_to_current": 313,
+  "equal_external_logical_bytes": 24460395393,
+  "unstable_files": 0,
+  "note": "只是相同内容的外部副本逻辑体积；不等于授权删除量或可释放物理空间。保留恢复链和关键基线。"
+}

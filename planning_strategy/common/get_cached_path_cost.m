@@ -1,6 +1,12 @@
 function [cost, cache] = get_cached_path_cost(cache, start_pose, goal_pose, scene, planner_cfg)
 %GET_CACHED_PATH_COST Return cached grid-planner path length between poses.
 
+    current_signature = build_path_cache_signature(scene.grid_map, scene.map_info, planner_cfg);
+    if ~strcmp(cache.map_signature, current_signature)
+        error('get_cached_path_cost:StaleCache', ...
+            'Path-cost cache cannot be reused after map or path semantics change.');
+    end
+
     key = make_pose_key(cache.map_signature, start_pose, goal_pose, planner_cfg);
     if isKey(cache.costs, key)
         path_cost_audit('record', start_pose, goal_pose, planner_cfg.global_planner, false);
