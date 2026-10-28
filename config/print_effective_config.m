@@ -5,7 +5,7 @@ function summary = print_effective_config(effective)
         effective = resolve_effective_config();
     end
     scene = effective.scene;
-    robot = effective.robot;
+    validate_main_robot_config(effective.robot);
     planner = effective.planner;
     real = effective.real_platform;
     meta = getfield_default(effective, 'meta', struct());
@@ -19,7 +19,7 @@ function summary = print_effective_config(effective)
     summary.task_count = requested_task_count(scene);
     summary.region_count = region_count(scene);
     summary.static_obstacle_count = obstacle_count(scene);
-    summary.robot_profile = getfield_default(robot, 'geometry_profile', 'legacy_validated');
+    summary.robot_profile = 'robot_config';
     summary.strategy = planner.strategy.name;
     summary.global_planner = planner.global_planner;
     summary.routing_mode = planner.routing.mode;
@@ -34,14 +34,8 @@ function summary = print_effective_config(effective)
     summary.visualization_source = getfield_default(meta, 'visualization_source', 'visualization_config');
     summary.real_platform_enabled = real.enabled;
     summary.lift_enabled = real.lift.enabled;
-    if isfield(scene, 'cafeteria')
-        summary.planning_mode = getfield_default(scene.cafeteria, 'planning_mode', 'full_manipulation');
-        summary.service_support_mode = ternary(strcmpi(summary.planning_mode, ...
-            'navigation_docking_only'), 'cafeteria_2d_proxy', 'not_applicable');
-    else
-        summary.planning_mode = 'full_manipulation';
-        summary.service_support_mode = 'not_applicable';
-    end
+    summary.planning_mode = 'full_manipulation';
+    summary.service_support_mode = 'not_applicable';
 
     fprintf('===== EFFECTIVE CONFIG =====\n');
     fprintf('profile: %s\nseed: %s\n', display_value(summary.profile), display_value(summary.seed));
@@ -63,10 +57,6 @@ function summary = print_effective_config(effective)
     fprintf('planning mode: %s\nservice support: %s\n', ...
         summary.planning_mode, summary.service_support_mode);
     fprintf('============================\n');
-end
-
-function out = ternary(condition, yes_value, no_value)
-    if condition, out = yes_value; else, out = no_value; end
 end
 
 function n = table_count(scene)

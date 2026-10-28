@@ -7,6 +7,7 @@ function [robot_cfg, scene_cfg, planner_cfg, scene, task_table_map, regions, eff
     robot_cfg = effective.robot;
     scene_cfg = effective.scene;
     planner_cfg = effective.planner;
+    robot_cfg = validate_main_robot_config(robot_cfg);
     planner_cfg.robot_cfg = robot_cfg;
 
     fprintf('\n--- 1. 场景构建 ---\n');

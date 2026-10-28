@@ -2,7 +2,13 @@ function [total_turn_angle_rad, num_turns] = estimate_path_turn_angle(path)
     total_turn_angle_rad = 0;
     num_turns = 0;
 
-    if isempty(path) || size(path, 1) < 3
+    if isempty(path) || size(path, 1) < 2
+        return;
+    end
+    if size(path,2)>=3
+        changes=abs(atan2(sin(diff(path(:,3))),cos(diff(path(:,3)))));
+        total_turn_angle_rad=sum(changes);
+        num_turns=sum(changes>1e-3);
         return;
     end
 

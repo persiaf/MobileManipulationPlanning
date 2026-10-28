@@ -1,0 +1,9 @@
+{
+  "interrupted": true,
+  "static_rows_preserved": 60,
+  "dynamic_rows_before_resume": 2,
+  "frozen_source_files_verified": 387,
+  "source_drift": [],
+  "resume_prepared_at": "2026-10-28T09:01:04.224422",
+  "note": "Reuse completed pair MAT records; resume only missing events. Overall wall duration spanning interruption is not a compute-time measurement."
+}

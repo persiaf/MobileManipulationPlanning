@@ -1,0 +1,480 @@
+{
+  "date": "2026-10-27",
+  "matlab_version": "9.12.0.1884302 (R2022a)",
+  "suite_files": [
+    "test_main_robot_unification",
+    "test_effective_config_resolution",
+    "test_round_a_core_correctness",
+    "test_robot_geometry_profile_legacy_identity",
+    "test_demo_parameter_interfaces",
+    "test_main_smoke",
+    "test_candidate_generation",
+    "test_shared_candidate_library",
+    "test_bottom_up_regression",
+    "test_strategy_comparison_smoke",
+    "test_strategy_plan_consistency",
+    "test_round_b_model_contracts",
+    "test_scene_complexity_factor_profiles",
+    "test_scene_layout_determinism",
+    "test_complex_scene_profile_determinism",
+    "test_dynamic_event_determinism",
+    "test_local_replan_preserves_unaffected_state",
+    "test_local_replan_fallback",
+    "test_local_replan_route_feasibility",
+    "test_mission_plan_export",
+    "test_ros_map_import",
+    "test_visualization_smoke"
+  ],
+  "total": 44,
+  "passed": 43,
+  "failed": 1,
+  "incomplete": 1,
+  "tests": [
+    {
+      "name": "test_main_robot_unification/testCanonicalGeometryAndLegacyAlias",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.3930194
+    },
+    {
+      "name": "test_main_robot_unification/testEveryRetainedNamedSceneUsesMainRobot",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.1446801
+    },
+    {
+      "name": "test_main_robot_unification/testRegistryAndRemovedScenes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.062346099999999995
+    },
+    {
+      "name": "test_main_robot_unification/testAllResolverLayersRejectConflictingGeometry",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0211251
+    },
+    {
+      "name": "test_main_robot_unification/testBuilderRejectsLegacyAndSemanticOverrideRoutes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.024624999999999998
+    },
+    {
+      "name": "test_main_robot_unification/testEntryPointsRejectAlternateFrozenRobot",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.1160702
+    },
+    {
+      "name": "test_main_robot_unification/testOldSnapshotsGetOnlyTheCanonicalDerivedFootprint",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0179922
+    },
+    {
+      "name": "test_effective_config_resolution/testOverridePrecedence",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.016198999999999998
+    },
+    {
+      "name": "test_effective_config_resolution/testRobotAndInterfaceRemainSeparate",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0040675
+    },
+    {
+      "name": "test_effective_config_resolution/testSummaryReflectsResolvedValues",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0437859
+    },
+    {
+      "name": "test_round_a_core_correctness/testFootprintInflationUsesHalfDiagonal",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0174664
+    },
+    {
+      "name": "test_round_a_core_correctness/testUnifiedPlanPropagatesPartialCoverage",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0229198
+    },
+    {
+      "name": "test_round_a_core_correctness/testStage3RejectsBlockedPlan",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0042355000000000005
+    },
+    {
+      "name": "test_round_a_core_correctness/testEffectiveConfigCarriesRobotIntoPlanner",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0059555
+    },
+    {
+      "name": "test_robot_geometry_profile_legacy_identity/testLegacyIdentity",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0049164
+    },
+    {
+      "name": "test_demo_parameter_interfaces/testMaintainedDemosAcceptDocumentedArguments",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.12664219999999998
+    },
+    {
+      "name": "test_main_smoke/testSmallPlanningPipeline",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.0520182
+    },
+    {
+      "name": "test_candidate_generation/testHeuristicCandidates",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.46382310000000004
+    },
+    {
+      "name": "test_shared_candidate_library/testThreeStrategiesShareLibrary",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.1120606
+    },
+    {
+      "name": "test_bottom_up_regression/testBottomUpLegacyAndStrategyMatch",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.5969315
+    },
+    {
+      "name": "test_strategy_comparison_smoke/testComparisonLogicOnFixture",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.2571093000000002
+    },
+    {
+      "name": "test_strategy_plan_consistency/testPlanConsistencyAllStrategies",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.9502044000000001
+    },
+    {
+      "name": "test_round_b_model_contracts/testRobustZeroOffsetMatchesNominal",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0091539
+    },
+    {
+      "name": "test_round_b_model_contracts/testRobustExpandedErrorCannotImproveConservativeCase",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0116177
+    },
+    {
+      "name": "test_round_b_model_contracts/testObjectiveFieldsRemainSeparate",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0125486
+    },
+    {
+      "name": "test_round_b_model_contracts/testCacheSignatureChangesWithSingleCell",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.017401499999999997
+    },
+    {
+      "name": "test_round_b_model_contracts/testRobustModeFeedsCandidateCoverageAndSelection",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.7008977999999999
+    },
+    {
+      "name": "test_round_b_model_contracts/testOrdinaryCacheRejectsChangedMap",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0088753
+    },
+    {
+      "name": "test_round_b_model_contracts/testServiceSemanticsAvoidBimanualAmbiguity",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0073324
+    },
+    {
+      "name": "test_round_b_model_contracts/testPlanningStateRetainsContract",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0033504999999999997
+    },
+    {
+      "name": "test_round_b_model_contracts/testBottomUpScoreTermsHaveExpectedDirection",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.003724
+    },
+    {
+      "name": "test_round_b_model_contracts/testSelectionNeverAddsZeroCoverageCandidate",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0337361
+    },
+    {
+      "name": "test_scene_complexity_factor_profiles/testFactorEndpoints",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.010488599999999999
+    },
+    {
+      "name": "test_scene_complexity_factor_profiles/testFactorSceneBuilds",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.460977
+    },
+    {
+      "name": "test_scene_layout_determinism/testJitteredGridIsDeterministic",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.1185876
+    },
+    {
+      "name": "test_complex_scene_profile_determinism/testV2Deterministic",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.9985462
+    },
+    {
+      "name": "test_dynamic_event_determinism/testAddTasksDeterministic",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.022690699999999998
+    },
+    {
+      "name": "test_local_replan_preserves_unaffected_state/testDockInvalidationPreservesUnaffectedDocks",
+      "passed": false,
+      "failed": true,
+      "incomplete": true,
+      "duration_s": 0.0439238
+    },
+    {
+      "name": "test_local_replan_fallback/testFallbackWhenObstacleDisconnectsOnlyEdge",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.034058099999999994
+    },
+    {
+      "name": "test_local_replan_route_feasibility/testPathObstacleRepairAvoidsInvalidEdge",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.2048306
+    },
+    {
+      "name": "test_local_replan_route_feasibility/testAddedTasksCoveredByLocalSupplement",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.013040199999999998
+    },
+    {
+      "name": "test_mission_plan_export/testJsonRoundTrip",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.04720379999999999
+    },
+    {
+      "name": "test_ros_map_import/testYamlPgmImport",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.1378068
+    },
+    {
+      "name": "test_visualization_smoke/testScenePlanningAndDynamicRender",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 4.5101457
+    }
+  ],
+  "four_table_structural_check": {
+    "table_count": 4,
+    "task_count": 8,
+    "unique_task_ids": true,
+    "tasks_per_table": 2,
+    "region_count": 4
+  },
+  "retained_frozen_states": [
+    {
+      "file": "p3p4_state_l1_seed2026_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l1_seed2027_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l1_seed2028_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l2_seed2026_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l2_seed2027_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l2_seed2028_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l3_seed2026_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    },
+    {
+      "file": "p3p4_state_l3_seed2027_bottom_up.mat",
+      "robot_matches_main": true,
+      "derived_footprint_added": true,
+      "planner_robot_initialized_from_main": true
+    }
+  ],
+  "changed_source_syntax_checks": [
+    {
+      "file": "config/resolve_effective_config.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "config/print_effective_config.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "config/validate_main_robot_config.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "utils/robot_geometry_profile.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "experiment_manager/experiment_registry.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "experiment_manager/experiment_config_builder.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "experiment_manager/run_selected_experiment.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "experiment_manager/MobileManipulationExperimentManager.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "pipeline/stage1_build_scene.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "pipeline/stage3_global_planning.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "experiments/export_footprint_validation.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "tests/test_main_robot_unification.m",
+      "syntax_error_count": 0
+    },
+    {
+      "file": "replanning/normalize_planning_state.m",
+      "syntax_error_count": 0
+    }
+  ],
+  "gui_class_load": true,
+  "pre_existing_failure_baseline": {
+    "test": "test_local_replan_preserves_unaffected_state/testDockInvalidationPreservesUnaffectedDocks",
+    "original_normalizer_from": "git HEAD:replanning/normalize_planning_state.m",
+    "failed": true,
+    "error_identifier": "MATLAB:nonExistentField",
+    "message": "无法识别的字段名称 \"reachability\"。",
+    "message_interpretation": "Unrecognized field name \"reachability\" in the unchanged P5 fixture / docking-repair test."
+  },
+  "static_audit": {
+    "removed_file_count": 81,
+    "removed_matlab_file_count": 30,
+    "all_manifest_paths_absent": true,
+    "production_references_to_removed_models": 0,
+    "main_scene_executable_config_unchanged": true,
+    "canonical_files": {
+      "main_mobile_manipulation_planning.m": {
+        "unchanged_from_head": true,
+        "sha256": "20bbab2e64a1882df5d8176c5ea4ca10733a6cf46b2193ff53acd2659377b714"
+      },
+      "config/robot_config.m": {
+        "unchanged_from_head": true,
+        "sha256": "34c59d92d6ce8b77684f59cb1003d0f33abab80f3f1e64b8e5914a5e79ec247e"
+      }
+    }
+  },
+  "scope": "Robot-model unification and scene removal; selected regression suites only, no full historical experiment rerun."
+}

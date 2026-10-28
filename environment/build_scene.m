@@ -33,6 +33,7 @@ function scene = build_scene()
         end
     end
 
+    validate_tabletop_tasks(scene_cfg, scene.tasks);
     scene.grid_map = grid_map;
     scene.map_info = map_info;
     scene.scene_cfg = scene_cfg;

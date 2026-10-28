@@ -1,3 +1,5 @@
+> 历史记录说明（2026-10-27）：餐厅场景、实机匹配场景及另一套机器人几何已移除。本文的旧入口、维护状态与文件数量仅对应当时版本；当前唯一模型及删除范围见 [主场景参数统一说明](main_robot_unification.md)。
+
 # 当前代码结构说明
 
 更新时间：2026-08-31
@@ -252,6 +254,8 @@ run('experiments/exp_compare_hierarchical_strategies.m')
 ### 7.1 远程项目与版本线
 
 GitHub 项目地址为 `https://github.com/persiaf/MobileManipulationPlanning`。当前代码维护应区分两条版本线：
+
+2026-10-28版本更新：根项目版本为 `VERSION` 中的 `0.3.0`，发布分支为 `codex/v0.3.0-main-robot-consistency`，标签为 `v0.3.0`；默认 `main` 仍保留旧基线。此次仅更新规划项目，未改动 `paper_tac` 版本。118项定向测试与99条实验记录的边界、全套发布检查和产物追踪见 [v0.3.0发布说明](releases/v0.3.0.md)。集成标识 `rch-mt-mmp-matlab` 与接口schema 1.0保持不变。
 
 - 规划代码线：MATLAB 源码及实验结果；接口 `schema_version` 为 `1.0`，`planner_version` 为 `rch-mt-mmp-matlab`。
 - 论文代码线：`paper_tac/`；`paper_tac/VERSION` 当前为 `0.2.0-format-revision`，对应分支 `paper/tac-format-v0.2.0`。

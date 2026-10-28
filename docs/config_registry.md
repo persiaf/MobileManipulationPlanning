@@ -6,13 +6,13 @@ The full 234-row field registry is `results/tables/config_registry.csv`. Canonic
 
 ```text
 canonical base configs
-  -> named scene/robot profile
+  -> named scene profile (one fixed robot_config)
   -> profile_override
   -> experiment_override
   -> user/demo override
 ```
 
-Later layers win recursively. Formal experiment files remain authoritative for validated experiment values. `print_effective_config` reports the resolved state at runtime.
+Later layers win recursively for scene/planner settings. Robot parameters must retain robot_config values; validate_main_robot_config rejects conflicting overrides. Formal experiment files remain authoritative for validated planner values. `print_effective_config` reports the resolved state at runtime.
 
 ## Configuration conflicts and provenance
 
@@ -23,7 +23,7 @@ Later layers win recursively. Formal experiment files remain authoritative for v
 | seed | `scene_config.random_seed` | 2026 | profile/experiment/demo argument | Explicit caller seed wins | Always print effective seed |
 | strategy | `planner_config.strategy.name` | bottom_up | strategy experiments | Explicit experiment override wins | Keep baseline default |
 | global planner | `planner_config.global_planner` | convex_astar | tests/experiments may set A* | Explicit override wins | Comment now matches code |
-| routing mode | planner base and P3/P4/P5 overrides | HEAD baseline: dense; pre-existing working-tree value: sparse_knn | validation routes and demos | Current checkout base unless explicit experiment value | Do not confuse checkout state with validated baseline |
+| routing mode | planner base and P3/P4/P5 overrides | sparse_knn | validation routes and demos | Current base unless explicit experiment value | Do not confuse defaults with historical validation profiles |
 | sparse k | planner base | 6 | formal P3/P4/P5 use 4 | Experiment/demo override wins | Keep k=4 as `VALIDATED_EXPERIMENT_OVERRIDE` |
 | inflation | `planner_config.inflation_radius_m` | 0.25 m | no formal semantic change | Planner config | Do not merge with scene safety margin |
 | augmentation enable | planner base | false | augmentation experiments | Explicit experiment override | `DEFAULT_BASELINE=false` |
@@ -31,7 +31,7 @@ Later layers win recursively. Formal experiment files remain authoritative for v
 | candidate prefilter | planner base | false | P2 enables selectively; P3/P4/P5 explicitly false | Explicit experiment override | P2 optimization remains rejected baseline |
 | ordinary path-cost cache | `strategy.common.use_path_cost_cache` | true | Top-Down region queries | Local struct cache | Do not merge semantics with shared lazy cache |
 | shared lazy cache | `strategy.bidirectional.use_shared_path_cost_cache` | false | cache/P3/P4 experiments | Bidirectional run-local handle context | Retain separate switch |
-| return to start | execution and benchmark fields | execution=true; benchmark reflects current worktree | tests/experiments | Consumer-specific field wins | Benchmark and mission semantics are intentionally separate |
+| return to start | execution and benchmark fields | execution=true; benchmark=false | tests/experiments | Consumer-specific field wins | Align these explicitly before comparing mission and benchmark lengths |
 | visualization | formerly duplicated in planner and visualization configs | `visualization_config` | legacy adapter only | canonical config -> adapter | Do not add a third option set |
 | real platform | `real_platform_config.enabled` | false | interface experiments only | interface config | Never merge into robot model |
 | lift | `real_platform_config.lift.enabled` | false | explicit real-platform request only | interface config | Remains disabled |
@@ -46,10 +46,10 @@ Later layers win recursively. Formal experiment files remain authoritative for v
 |---|---|---|
 | `robot.single_arm.reach_radius`, `reach_forward`, `reach_backward`, `reach_lateral`, `reach_z_min/max` | hard geometric limits | Reject physically/geometrically outside candidates |
 | `planner.reachability.threshold` | score acceptance threshold | Converts continuous reachability score to accepted coverage |
-| `robot_geometry_profile('legacy_validated')` | validated planning geometry | Reproduces historical algorithm results |
-| `robot_geometry_profile('physical_robot')` | measured mounting geometry | Explicit profile; not a new default |
+| `robot_config()` | sole maintained robot model | Same parameters as the main entry point |
+| `robot_geometry_profile('legacy_validated')` | compatibility name | Returns robot_config() without overrides |
 
-These values are not aliases and must not be collapsed. No reachability number is changed in this maintenance pass.
+Robot hard limits and the planner score threshold have separate meanings. No robot or reachability-bound value changed during the 2026-10-27 unification. The alternate physical geometry and its scenes were removed; see main_robot_unification.md.
 
 ## Cache boundary
 

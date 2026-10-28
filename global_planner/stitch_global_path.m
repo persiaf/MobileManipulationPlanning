@@ -1,7 +1,7 @@
 function [global_path, segment_stats] = stitch_global_path(poses, route_order, grid_map, map_info, planner_cfg)
     global_path = [];
     segment_stats = struct('from_id', {}, 'to_id', {}, 'plan_time_s', {}, ...
-                           'path_length_m', {}, 'num_points', {}, 'is_return_segment', {});
+                           'path_length_m', {}, 'num_points', {}, 'is_return_segment', {}, 'path', {});
 
     for k = 1:length(route_order) - 1
         from_idx = route_order(k);
@@ -11,6 +11,9 @@ function [global_path, segment_stats] = stitch_global_path(poses, route_order, g
         [segment, ~] = query_path_with_shared_cache(grid_map, poses(from_idx, :), ...
             poses(to_idx, :), map_info, planner_cfg);
         plan_time_s = toc(t_seg);
+        if isempty(segment)
+            error('stitch_global_path:MissingSegment','No valid route segment %d -> %d.',from_idx,to_idx);
+        end
 
         segment_stats(k).from_id = from_idx;
         segment_stats(k).to_id = to_idx;
@@ -18,6 +21,7 @@ function [global_path, segment_stats] = stitch_global_path(poses, route_order, g
         segment_stats(k).path_length_m = compute_path_length(segment);
         segment_stats(k).num_points = size(segment, 1);
         segment_stats(k).is_return_segment = (k == length(route_order) - 1) && (to_idx == 1);
+        segment_stats(k).path = segment;
 
         if isempty(global_path)
             global_path = segment;
@@ -26,7 +30,6 @@ function [global_path, segment_stats] = stitch_global_path(poses, route_order, g
         end
     end
 
-    if ~isempty(global_path)
-        global_path = densify_path(global_path, map_info.resolution);
-    end
+    % Each query already samples translation and yaw. Preserve the exact
+    % concatenation so route validation can bind it to its stored segments.
 end

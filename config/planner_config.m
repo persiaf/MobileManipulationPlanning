@@ -135,11 +135,11 @@ function cfg = planner_config()
 
     % order_mode: 'fixed_order' — 所有算法共用主流程 route_order
     %             'independent_order' — 各算法独立计算距离矩阵和访问顺序
-    cfg.benchmark.order_mode = 'independent_order';
+    cfg.benchmark.order_mode = 'fixed_order';
 
     % include_return_to_start: true  — 路径拼接包含返回起点段
     %                          false — 路径拼接不包含返回起点
-    cfg.benchmark.include_return_to_start = false;
+    cfg.benchmark.include_return_to_start = true;
 
     cfg.timing.enable = true;
     cfg.timing.verbose = true;
@@ -221,4 +221,5 @@ function cfg = planner_config()
     % Stable offline-planning/robot-execution boundary. The returned
     % structure is consumed by service-configuration and JSON interfaces.
     cfg.real_platform = real_platform_config();
+    cfg.experiment_protocol = experiment_protocol_config(cfg);
 end

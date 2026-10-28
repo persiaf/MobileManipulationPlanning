@@ -3,6 +3,7 @@ function [optimal_poses, pose_to_region_map, task_sequence_summary, pose_info_li
 %STAGE2_DOCKING_PLANNING Select docking poses through the configured strategy.
 
     fprintf('\n=== Stage 2: RCH-MT-MMP docking pose planning ===\n');
+    validate_experiment_protocol(planner_cfg);
     if nargin < 5 || isempty(candidate_library)
         candidate_library = build_candidate_library(regions, scene, robot_cfg, planner_cfg);
     else

@@ -1,0 +1,24 @@
+{
+  "release": "0.3.0",
+  "scope": "Dstar fallback provenance assertion recheck; failure-state safety assertions retained",
+  "total": 2,
+  "passed": 2,
+  "failed": 0,
+  "incomplete": 0,
+  "tests": [
+    {
+      "name": "test_c2_4_2_e2e_incremental_reuse/testSameEdgeTwoEventsReuseWithoutFallback",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.3910317
+    },
+    {
+      "name": "test_c2_4_2_e2e_incremental_reuse/testFallbackClearsDstarState",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0715206
+    }
+  ]
+}

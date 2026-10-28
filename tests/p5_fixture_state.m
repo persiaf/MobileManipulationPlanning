@@ -1,76 +1,92 @@
-function state = p5_fixture_state()
-%P5_FIXTURE_STATE Small deterministic state for local replanning tests.
-
-    scene = struct();
-    scene.start_pose = [0, 0, 0];
-    scene.num_tasks = 6;
-    scene.grid_map = zeros(80, 80);
-    scene.map_info = struct('resolution', 0.1, 'height_m', 8.0, 'width_m', 8.0, ...
-        'rows', 80, 'cols', 80);
-    scene.scene_cfg.table_positions = [1, 0; 2, 0; 1, 1; 2, 1; 4, 4; 5, 4];
-    scene.scene_cfg.table_region_id = [1; 1; 2; 2; 3; 3];
-    scene.scene_cfg.table_orientations = zeros(6, 1);
-    scene.scene_cfg.table.length = 0.8;
-    scene.scene_cfg.table.width = 0.5;
-    scene.scene_cfg.task_offset_z = 0.5;
-    for i = 1:6
-        scene.tasks(i).id = i;
-        scene.tasks(i).x = scene.scene_cfg.table_positions(i, 1);
-        scene.tasks(i).y = scene.scene_cfg.table_positions(i, 2);
-        scene.tasks(i).z = 0.5;
-        scene.tasks(i).status = 0;
-        scene.tasks(i).table_id = i;
+function state = p5_fixture_state(purpose)
+%P5_FIXTURE_STATE Three-table, physically checked main-robot planning state.
+% A narrow test table admits genuine opposite-side backup service poses.
+% Named experiment scenes and every robot parameter remain unchanged.
+    if nargin<1, purpose='local_repair'; end
+    if ~any(strcmp(purpose,{'local_repair','incremental_navigation'}))
+        error('p5_fixture_state:Purpose','Unknown fixture purpose.');
     end
-    scene.region_metadata = struct('region_count', 3, 'region_ids', [1; 2; 3], ...
-        'table_region_id', [1; 1; 2; 2; 3; 3], 'task_region_id', [1; 1; 2; 2; 3; 3], ...
-        'tasks_per_region', [2; 2; 2], 'selected_docks_per_region', [2; 2; 2]);
-
-    plan = struct();
-    plan.selected_poses = [1, 0, 0; 2, 0, 0; 1, 1, 0; 2, 1, 0; 4, 4, 0; 5, 4, 0];
-    plan.pose_to_region_map = [1; 1; 2; 2; 3; 3];
-    plan.covered_tasks_predicted = 1:6;
-    plan.task_sequence_summary = { ...
-        struct('covered_tasks', 1, 'table_id', 1, 'dock_index', 1), ...
-        struct('covered_tasks', 2, 'table_id', 2, 'dock_index', 2), ...
-        struct('covered_tasks', 3, 'table_id', 3, 'dock_index', 3), ...
-        struct('covered_tasks', 4, 'table_id', 4, 'dock_index', 4), ...
-        struct('covered_tasks', 5, 'table_id', 5, 'dock_index', 5), ...
-        struct('covered_tasks', 6, 'table_id', 6, 'dock_index', 6)};
-    plan.pose_info_list = plan.task_sequence_summary;
-    plan.timing.strategy_total_time_s = 1;
-
-    all_poses = [scene.start_pose; plan.selected_poses];
-    adjacency = true(7);
-    adjacency(1:8:end) = false;
-    cost = zeros(7);
-    for i = 1:7
-        for j = 1:7
-            if i == j
-                cost(i, j) = 0;
-            else
-                cost(i, j) = norm(all_poses(i, 1:2) - all_poses(j, 1:2));
-            end
+    navigation_fixture=strcmp(purpose,'incremental_navigation');
+    cfg=scene_config();
+    cfg.map_width_m=7.0; cfg.map_height_m=6.5;
+    cfg.table_mode='custom';
+    cfg.table_positions=[2.025 2.025;4.525 2.025;3.275 4.525];
+    cfg.num_tables=3; cfg.table_orientations=zeros(3,1);
+    cfg.table.width=0.30;
+    cfg.table_region_id=(1:3)';
+    cfg.task_mode='manual'; cfg.task.difficulty='normal';
+    cfg.start_pose=[0.625 0.625 0]; cfg.random_seed=1;
+    cfg.docking_min_distance_m=0.30; cfg.docking_max_distance_m=0.40;
+    cfg.manual_tasks=zeros(6,4);
+    for table_id=1:3
+        for arm=1:2
+            task_id=2*(table_id-1)+arm;
+            cfg.manual_tasks(task_id,:)=[table_id, ...
+                cfg.table_positions(table_id,:)+[0.125*(2*arm-3),0],cfg.table.height];
         end
     end
-
-    state = struct();
-    state.scale = 'fixture';
-    state.seed = 1;
-    state.scene = scene;
-    state.plan = plan;
-    state.all_poses = all_poses;
-    state.candidate_library.total_candidates = 12;
-    for r = 1:3
-        state.candidate_library.regions(r).candidates = repmat( ...
-            struct('pose', [r, r, 0], 'covered_tasks', r), 1, 3);
+    if navigation_fixture
+        % Incremental grid-search tests need grid-traversable terminal cells.
+        % These edge tasks remain truly reachable from the farther docks.
+        cfg.manual_tasks(:,3)=cfg.manual_tasks(:,3)+0.12;
+        cfg.docking_min_distance_m=0.40; cfg.docking_max_distance_m=0.40;
     end
-    state.stats.path_len = 4;
-    state.stats.route_order = [1, 2, 3, 4, 5, 6, 7, 1];
-    state.stats.sparse_graph.adjacency = adjacency;
-    state.stats.sparse_graph.cost_matrix = cost;
-    state.stats.sparse_graph.region_ids = [0; plan.pose_to_region_map(:)];
-    state.stats.sparse_graph.next_hop = ones(7);
-    state.stats.sparse_graph.connectivity.ok = true;
-    state.stats.timing.stage3_time_s = 1;
-    state.stats.timing.expensive_planner_calls = 10;
+    scene=build_scene_from_cfg(cfg); robot=robot_config(); planner=planner_config();
+    planner.global_planner='astar'; planner.benchmark.enable=false;
+    planner.runtime.headless=true; planner.runtime.disable_visualization=true;
+    planner.runtime.disable_video=true; planner.runtime.quiet=true; planner.runtime.quiet_stage2=true;
+    planner.execution.return_to_start=true; planner.routing.mode='sparse_knn';
+    planner.routing.sparse_knn.k=3; planner.routing.sparse_knn.k_local=2;
+    planner.routing.sparse_knn.k_cross=1; planner.robot_cfg=robot;
+    if navigation_fixture
+        planner.global_planner='dstar_lite'; planner.incremental_replanning_enabled=true;
+    end
+    task_map=assign_tasks_to_tables(scene); regions=build_task_regions(scene,task_map);
+    library=build_candidate_library(regions,scene,robot,planner);
+    % Retain real, fully covering candidates from the two opposing sides.
+    % Keeping one per side bounds D2 trials without inventing any coverage.
+    library.total_candidates=0;
+    for ri=1:numel(regions)
+        candidates=library.regions(ri).candidates; selected=[];
+        if navigation_fixture, sides=1; else, sides=1:2; end
+        for side=sides
+            indices=find(arrayfun(@(c)c.side_id==side && ...
+                all(ismember(regions(ri).task_ids,c.covered_tasks)),candidates));
+            assert(~isempty(indices),'p5_fixture_state:NoBackup', ...
+                'The test table must provide an independently reachable dock on each side.');
+            [~,best]=min([candidates(indices).total_cost]); selected(end+1)=indices(best); %#ok<AGROW>
+        end
+        library.regions(ri).candidates=candidates(selected);
+        library.regions(ri).num_candidates=numel(selected);
+        library.regions(ri).generation_diagnostics.fixture_shortlist_count=numel(selected);
+        library.total_candidates=library.total_candidates+numel(selected);
+    end
+    evalc('[~,~,~,~,plan]=stage2_docking_planning(regions,scene,robot,planner,library);');
+    assert(strcmp(plan.status,'READY'),'p5_fixture_state:Blocked','Fixture tasks must be covered.');
+    all_poses=[scene.start_pose;plan.selected_poses]; t=tic;
+    graph=build_sparse_docking_graph(all_poses,scene.grid_map,scene.map_info, ...
+        planner,[0;plan.pose_to_region_map(:)]);
+    assert(graph.connectivity.ok,'p5_fixture_state:Disconnected','Fixture route must be connected.');
+    visit_order=nearest_neighbor_order(graph.shortest_cost_matrix,1,false);
+    route_order=[visit_order,1];
+    [path,segments]=stitch_sparse_graph_path(all_poses,route_order,graph);
+    stats=struct('sparse_graph',graph,'global_path',path,'segment_stats',segments, ...
+        'path_len',compute_path_length(path),'route_order',route_order, ...
+        'timing',struct('stage3_time_s',toc(t),'expensive_planner_calls',graph.stats.actual_astar_calls));
+    task_state=struct('predicted_tasks',plan.covered_tasks_predicted, ...
+        'commanded_tasks',[],'executed_tasks',[],'verified_tasks',[]);
+    rc2=build_rc2_plan(plan,visit_order,route_order,path,segments,graph,scene,robot,planner);
+    state=normalize_planning_state(build_planning_state(scene,robot,planner,library,rc2,task_state,struct()));
+    state.scale='fixture'; state.seed=1;
+    state.scene=scene; state.tasks=scene.tasks; state.plan=plan;
+    state.regions=regions; state.task_table_map=task_map; state.candidate_library=library;
+    state.all_poses=[scene.start_pose;plan.selected_poses]; state.stats=stats;
+    state.task_state=task_state;
+    % Explicit short safe endpoint motions connect grid routes to exact docks.
+    state=complete_replanning_route(state);
+    state.rc2_plan=build_rc2_plan(plan,visit_order,route_order,state.stats.global_path, ...
+        state.stats.segment_stats,state.stats.sparse_graph,scene,robot,planner);
+    validation=validate_replanning_state(state,state);
+    assert(validation.valid,'p5_fixture_state:InvalidGeometry','%s',validation.reason);
+    state.path_validation=validation;
 end

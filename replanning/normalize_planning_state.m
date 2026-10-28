@@ -3,6 +3,16 @@ function state = normalize_planning_state(state)
 %   The original rc2_plan is retained untouched.  Aliases are reconstructed
 %   only when an older consumer requires plan/stats/all_poses fields.
 
+    if isfield(state, 'robot_cfg') && isstruct(state.robot_cfg) && ...
+            isfield(state.robot_cfg, 'chassis')
+        state.robot_cfg = validate_main_robot_config(state.robot_cfg);
+        if isfield(state, 'planner_cfg') && isstruct(state.planner_cfg)
+            if isfield(state.planner_cfg, 'robot_cfg')
+                validate_main_robot_config(state.planner_cfg.robot_cfg);
+            end
+            state.planner_cfg.robot_cfg = state.robot_cfg;
+        end
+    end
     if ~isfield(state, 'rc2_plan') || ~isstruct(state.rc2_plan)
         return;
     end

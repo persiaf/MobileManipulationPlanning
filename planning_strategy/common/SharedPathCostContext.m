@@ -56,6 +56,7 @@ classdef SharedPathCostContext < handle
             obj.increment(obj.source_expensive_calls, obj.current_source);
             path = run_path_planner(grid_map, start_pose, goal_pose, map_info, planner_cfg);
             cost = path_length(path); success = ~isempty(path) && size(path, 1) >= 2;
+            if ~success,cost=inf;end
             obj.paths(key) = path; obj.costs(key) = cost; obj.successes(key) = success;
         end
 

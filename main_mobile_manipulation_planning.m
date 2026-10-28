@@ -49,7 +49,11 @@ else
 end
 timing.total_planning_time_s = timing.scene_time_s + timing.docking_time_s + ...
                                timing.distance_matrix_time_s + ...
-                               timing.route_order_time_s + timing.global_path_time_s;
+                               timing.route_order_time_s + timing.global_path_time_s + ...
+                               get_timing_field(stats.timing,'path_validation_time_s',0);
+timing.path_validation_time_s = get_timing_field(stats.timing,'path_validation_time_s',0);
+timing.timing_scope = 'scene+candidate+selection+path_cost+route_order+stitch+route_validation';
+timing.timing_source = 'measured_interactive_pipeline';
 
 if isfield(stats, 'exec_stats') && isfield(stats, 'segment_stats')
     stats.timing = timing;

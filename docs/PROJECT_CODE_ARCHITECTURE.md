@@ -2,9 +2,9 @@
 
 ## 1 Project Overview
 
-The repository implements offline MATLAB planning for mobile dual-arm manipulation: scene construction, candidate docking generation, hierarchical dock selection, global route planning, execution estimation, P3/P4 sparse routing, P5 local repair, visualization, and JSON exchange with an external real-platform stack. This maintenance pass changes configuration provenance and drawing structure only; P0-P5 planner semantics and historical results are unchanged.
+The repository implements offline MATLAB planning for mobile dual-arm manipulation: scene construction, candidate docking generation, hierarchical dock selection, global route planning, execution estimation, P3/P4 sparse routing, P5 local repair, visualization, and JSON exchange. On 2026-10-27 the maintained scenes were unified around the unchanged main-scene robot parameters; alternate robot/scenario modules and their dedicated artifacts were removed. See main_robot_unification.md.
 
-The complete 309-file source table is `results/tables/project_function_inventory.csv`. The readable inventory methodology is in `docs/project_function_inventory.md`.
+The historical static source index is `results/tables/project_function_inventory.csv`; removed entries were filtered and the new validation/test files added in this pass. It is not a complete regenerated call graph. The original inventory methodology is in `docs/project_function_inventory.md`.
 
 ## 2 Directory Structure
 
@@ -23,7 +23,7 @@ The complete 309-file source table is `results/tables/project_function_inventory
 | integration/calibration | real boundary | serialize/import/measure | JSON/CSV/calibration | contracts/data | real platform cfg | offline workflow | validators | adapters | LEGACY_COMPAT |
 | tests | regression gates | preserve behavior | fixtures | results | test-local overrides | CI/user | production functions | none | ACTIVE_TEST |
 
-Actual files remain in place to avoid destabilizing imports. The recommended future layout is described in section 20.
+Retained modules keep their existing paths. Removed modules are enumerated in `main_robot_unification_removed_files.csv`. The recommended future layout is described in section 20.
 
 ## 3 Main Pipeline
 
@@ -39,7 +39,7 @@ Canonical files are `scene_config.m`, `robot_config.m`, `planner_config.m`, `vis
 
 ## 6 Robot Model and Reachability
 
-`robot_config` is the planning robot. `robot_geometry_profile` separates `legacy_validated` from `physical_robot`. Radius, directional, lateral, and z bounds are hard geometric constraints; `planner.reachability.threshold` is a score threshold. `real_platform_config` is not robot geometry. No reachability values change here.
+`robot_config` is the sole planning robot, matching the main entry point. `robot_geometry_profile('legacy_validated')` is an identical compatibility alias. `validate_main_robot_config` rejects alternate parameters at maintained entry points. Restaurant and hardware-matched scenes and the alternate physical geometry were removed on 2026-10-27; see `main_robot_unification.md`. Radius, directional, lateral, and z bounds are hard geometric constraints; `planner.reachability.threshold` is a score threshold. The disabled `real_platform_config` defines interface fields, not another robot model.
 
 ## 7 Candidate Generation
 
@@ -59,7 +59,7 @@ Bottom-Up greedily selects local coverage. Top-Down first orders regions and per
 
 ## 11 Sparse Routing
 
-`build_sparse_docking_graph` constructs and validates KNN/region topology and stores validated edge waypoint paths. `stitch_sparse_graph_path` expands a visit order through those stored paths. HEAD's committed base was dense/k6; the pre-existing working tree changed base mode to sparse/k6. Formal P3/P4/P5 routes explicitly use sparse/k4, which is a `VALIDATED_EXPERIMENT_OVERRIDE`, not a reason to silently rewrite every baseline.
+`build_sparse_docking_graph` constructs and validates KNN/region topology and stores validated edge waypoint paths. `stitch_sparse_graph_path` expands a visit order through those stored paths. The current base uses sparse/k6. Formal P3/P4/P5 routes explicitly use sparse/k4 as a `VALIDATED_EXPERIMENT_OVERRIDE`.
 
 ## 12 Dynamic Replanning
 

@@ -1,0 +1,9 @@
+task_id,table_id,target_x_m,target_y_m,target_z_m,production_library_covered,independent_library_covered,library_coverage_mismatch,independent_dense_support_found,audited_geometric_supported,candidate_sampling_gap,hard_vertical_certificate,classification,library_pose_count,library_collision_free_count,dense_sample_count,dense_score_accepted_count,dense_collision_checks,dense_search_stopped_at_witness,best_independent_score,support_x_m,support_y_m,support_yaw_rad,ik_feasible,actual_completed,audit_time_s
+1,1,2.02,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,571,571,0,0,0,0,0.540356991940119,2.05,2.7,-1.38778089998489,NaN,NaN,0.0072336
+2,1,2.38,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,571,571,0,0,0,0,0.544929052558369,2.35,2.7,-1.76228925047542,NaN,NaN,0.0070248
+3,2,5.6,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,589,589,0,0,0,0,0.513487077583038,5.45,2.7,-1.5707963267949,NaN,NaN,0.0070572
+4,2,5.78,2.08,0.5,1,1,0,0,1,0,0,covered_in_library,589,589,0,0,0,0,0.447734207233427,5.75,1.65,1.79104505018559,NaN,NaN,0.0072251
+5,3,2.2,5.72,0.5,1,1,0,0,1,0,0,covered_in_library,591,591,0,0,0,0,0.513487077583038,2.05,6.1,-1.5707963267949,NaN,NaN,0.0072093
+6,3,2.02,5.72,0.5,1,1,0,0,1,0,0,covered_in_library,591,591,0,0,0,0,0.528453743059433,1.9,6.1,-1.78851623098834,NaN,NaN,0.0069268
+7,4,5.42,5.72,0.5,1,1,0,0,1,0,0,covered_in_library,592,592,0,0,0,0,0.54035699194012,5.45,6.1,-1.38778089998489,NaN,NaN,0.0071282
+8,4,5.42,5.48,0.5,1,1,0,0,1,0,0,covered_in_library,592,592,0,0,0,0,0.415357405994548,5.3,5.05,1.61778031419239,NaN,NaN,0.007264

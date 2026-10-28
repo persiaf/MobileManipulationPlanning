@@ -52,7 +52,8 @@ function exec_stats = estimate_execution_time(global_path, route_order, all_pose
         end
 
         if planner_cfg.execution.dual_arm_parallel
-            manipulation_time_s = manipulation_time_s + ceil(n_task / 2) * time_cfg.manipulation_time_per_task_s;
+            rounds = arm_assignment_rounds(task_sequence_summary{summary_idx},n_task);
+            manipulation_time_s = manipulation_time_s + rounds * time_cfg.manipulation_time_per_task_s;
         else
             manipulation_time_s = manipulation_time_s + n_task * time_cfg.manipulation_time_per_task_s;
         end
@@ -100,6 +101,10 @@ function exec_stats = estimate_execution_time(global_path, route_order, all_pose
     exec_stats.num_docks = num_docks;
     exec_stats.num_side_switches = num_side_switches;
     exec_stats.num_arm_switches = num_arm_switches;
+    exec_stats.manipulation_schedule_basis = 'per_arm_load_with_unknown_assignments_serial';
+    exec_stats.execution_time_provenance = 'estimated_constant_speeds_and_task_durations';
+    if size(global_path,2)>=3, exec_stats.turn_time_basis='explicit_body_yaw';
+    else, exec_stats.turn_time_basis='xy_tangent_changes_without_yaw_evidence'; end
     exec_stats.time_breakdown = struct( ...
         'navigation_time_s', navigation_time_s, ...
         'task_navigation_time_s', task_navigation_time_s, ...
@@ -121,6 +126,24 @@ function exec_stats = estimate_execution_time(global_path, route_order, all_pose
     assert(abs(total_execution_time_s - components_sum) < 1e-9, ...
         'estimate_execution_time:ComponentMismatch', ...
         'Execution-time total does not match component sum.');
+end
+
+function rounds = arm_assignment_rounds(summary,n_tasks)
+    arms=repmat({'unknown'},1,n_tasks);
+    ids=get_summary_field(summary,'covered_tasks',1:n_tasks);
+    for k=1:min(numel(ids),n_tasks)
+        if isfield(summary,'task_actions') && ~isempty(summary.task_actions)
+            idx=find([summary.task_actions.task_id]==ids(k),1);
+            if ~isempty(idx), arms{k}=summary.task_actions(idx).assigned_arm; end
+        elseif isfield(summary,'arm_assign_map') && isa(summary.arm_assign_map,'containers.Map') && ...
+                isKey(summary.arm_assign_map,ids(k))
+            arms{k}=summary.arm_assign_map(ids(k));
+        end
+    end
+    left=sum(strcmp(arms,'left')); right=sum(strcmp(arms,'right'));
+    both=sum(strcmp(arms,'both') | strcmp(arms,'bimanual'));
+    unknown=n_tasks-left-right-both;
+    rounds=max(left,right)+both+unknown;
 end
 
 function time_cfg = get_time_cfg(planner_cfg)

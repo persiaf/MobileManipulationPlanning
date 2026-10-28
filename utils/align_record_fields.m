@@ -5,7 +5,10 @@ function aligned = align_record_fields(record, template)
 %
 %   输出 aligned 只包含 template 中已有字段，字段顺序也与 template 一致。
 %   record 中缺失的字段使用 template 默认值；record 中多余字段会被忽略。
+%   The canonical template includes flat evidence/provenance fields, so they
+%   survive batch CSV alignment. Missing times/evidence remain unknown.
 
+    if nargin < 2 || isempty(template), template = create_empty_result_record(); end
     aligned = template;
     names = fieldnames(template);
 

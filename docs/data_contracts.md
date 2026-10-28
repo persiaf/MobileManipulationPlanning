@@ -38,3 +38,9 @@ The route contains service targets, not every grid point in the MATLAB path. A L
 ## Execution log
 
 The execution log returns planned and measured docking poses, position/yaw errors, lift targets and measurements, task timestamps, policy identifiers, success flags, verification flags, failure reasons, retry counts, and replanning status.
+
+## Planning evidence
+
+`separate_execution_status` preserves predicted, commanded, executed and verified task IDs with explicit evidence metadata. A geometric simulation supplies geometric prediction and simulated geometric verification, not measured execution or IK evidence. Unknown evidence produces `NaN` rates in `build_execution_evidence_metrics`; percentages use all scene tasks as the denominator. `geometric_coverage_rate`, `simulated_geometric_completion_rate`, `proxy_coverage_rate`, `ik_feasibility_rate` and `actual_completion_rate` are distinct fields. JSON encodes MATLAB NaN as null; the current MATLAB CSV writer emits `NaN`. A planning success additionally requires a validated complete route.
+
+Paths are SE(2) waypoint sequences. `validate_planned_route` checks their exact concatenation from stored segments, requested docking endpoints, continuity and resampled footprint geometry. A geometric path does not supply controller tracking, dynamics or arm-joint collision evidence. See [repair report](geometry_protocol_evidence_repair.md).

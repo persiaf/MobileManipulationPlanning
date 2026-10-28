@@ -15,13 +15,21 @@ function figs = visualize_dynamic_replan(planning_state_before, change_event, lo
         planning_state_before.plan, before_stats, vis_cfg, ...
         'title', [opts.title ' — Before Change'], 'filename', [opts.prefix '_before']);
 
-    figs.after = visualize_planning_overlay(changed_state.scene, ...
-        planning_state_before.plan, before_stats, vis_cfg, ...
+    [after_scene, after_plan, after_stats, repaired_valid] = repaired_display_state( ...
+        changed_state, planning_state_before.plan, local_result);
+    figs.after = visualize_planning_overlay(after_scene, ...
+        after_plan, after_stats, vis_cfg, ...
         'title', [opts.title ' — After Local Replan'], 'filename', '');
+    figs.after.UserData = struct('repaired_route_validated', repaired_valid);
     ax = gca(figs.after); hold(ax, 'on');
     draw_event(ax, event);
     draw_invalid_edges(ax, planning_state_before.all_poses, impact.invalid_sparse_edges);
     draw_affected_regions(ax, changed_state.scene, impact.affected_regions);
+    if ~repaired_valid
+        text(ax, 0.02, 0.90, 'No validated repaired route', 'Units', 'normalized', ...
+            'VerticalAlignment', 'top', 'Color', [0.75 0.05 0.05], ...
+            'BackgroundColor', 'w', 'Margin', 2);
+    end
     text(ax, 0.02, 0.98, sprintf('Local A*: %d | fallback: %d', ...
         getfield_default(local_result, 'local_astar_calls', 0), ...
         getfield_default(local_result, 'fallback', false)), ...
@@ -29,6 +37,32 @@ function figs = visualize_dynamic_replan(planning_state_before, change_event, lo
         'BackgroundColor', 'w', 'Margin', 2, 'FontWeight', 'bold');
     if vis_cfg.show_legend, build_scene_legend(ax); end
     save_visualization_figure(figs.after, vis_cfg, [opts.prefix '_after']);
+end
+
+function [scene, plan, stats, valid] = repaired_display_state(changed, original_plan, result)
+    scene=changed.scene; plan=original_plan;
+    stats=struct('global_path',[]); valid=false;
+    validation=struct();
+    if isfield(result,'diagnostics') && isfield(result.diagnostics,'path_validation')
+        validation=result.diagnostics.path_validation;
+    end
+    if isfield(result,'next_state') && isstruct(result.next_state)
+        next=result.next_state;
+        if isfield(next,'scene'), scene=next.scene; end
+        if isfield(next,'current_plan'), plan=next.current_plan;
+        elseif isfield(next,'plan'), plan=next.plan; end
+        if isfield(next,'path_validation'), validation=next.path_validation; end
+        if isfield(validation,'valid') && validation.valid && isfield(next,'stats') && ...
+                isfield(next.stats,'global_path') && size(next.stats.global_path,1)>=2
+            stats=next.stats; valid=true;
+        end
+    elseif isfield(validation,'valid') && validation.valid && ...
+            isfield(result,'global_path') && size(result.global_path,1)>=2
+        stats.global_path=result.global_path; valid=true;
+    end
+    if ~isfield(plan,'selected_poses') && isfield(plan,'selected_docks')
+        plan.selected_poses=plan.selected_docks;
+    end
 end
 
 function draw_event(ax, event)

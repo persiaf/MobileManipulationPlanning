@@ -1,0 +1,11 @@
+{
+  "changed_files": [
+    "experiments/run_protocol_dynamic_comparison.m",
+    "tests/test_protocol_dynamic_comparison.m"
+  ],
+  "added_files": [
+    "experiments/save_repair_dynamic_pair.m"
+  ],
+  "algorithm_geometry_config_drift": [],
+  "note": "Only dynamic evidence serialization and its tests changed; save occurs outside both measured timers. Static60 retain original source snapshot, dynamic18 and supplement21 use IO revision."
+}

@@ -1,0 +1,10 @@
+task_id,table_id,target_x_m,target_y_m,target_z_m,production_library_covered,independent_library_covered,library_coverage_mismatch,independent_dense_support_found,audited_geometric_supported,candidate_sampling_gap,hard_vertical_certificate,classification,library_pose_count,library_collision_free_count,dense_sample_count,dense_score_accepted_count,dense_collision_checks,dense_search_stopped_at_witness,best_independent_score,support_x_m,support_y_m,support_yaw_rad,ik_feasible,actual_completed,audit_time_s
+1,1,2.38,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,585,585,0,0,0,0,0.528453743059433,2.5,2.7,-1.35307642260145,NaN,NaN,0.025279
+2,1,2.2,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,585,585,0,0,0,0,0.513487077583038,2.05,2.7,-1.5707963267949,NaN,NaN,0.0103582
+3,2,5.42,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,634,634,0,0,0,0,0.545843046447346,5.45,2.7,-1.37758484294709,NaN,NaN,0.0137423
+4,2,5.42,2.08,0.5,1,1,0,0,1,0,0,covered_in_library,634,634,0,0,0,0,0.436171542272189,5.45,1.65,1.37493605797715,NaN,NaN,0.0109278
+5,2,5.78,2.32,0.5,1,1,0,0,1,0,0,covered_in_library,634,634,0,0,0,0,0.531134708694873,5.75,2.7,-1.7372610918724,NaN,NaN,0.0143783
+6,3,2.02,5.48,0.5,1,1,0,0,1,0,0,covered_in_library,586,586,0,0,0,0,0.41710280020565,1.9,5.05,1.64009301569988,NaN,NaN,0.0076602
+7,3,2.2,5.48,0.5,1,1,0,0,1,0,0,covered_in_library,586,586,0,0,0,0,0.406802460767433,2.2,5.05,1.77712022082461,NaN,NaN,0.0075835
+8,4,5.42,5.48,0.5,1,1,0,0,1,0,0,covered_in_library,510,510,0,0,0,0,0.436171542272189,5.45,5.05,1.37493605797715,NaN,NaN,0.0068766
+9,4,5.78,5.72,0.5,1,1,0,0,1,0,0,covered_in_library,510,510,0,0,0,0,0.54035699194012,5.75,6.1,-1.7538117536049,NaN,NaN,0.0064557

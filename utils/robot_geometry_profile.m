@@ -1,26 +1,16 @@
 function cfg = robot_geometry_profile(profile_name)
-%ROBOT_GEOMETRY_PROFILE Return explicit robot geometry profiles.
-%
-%   legacy_validated preserves robot_config() exactly. physical_robot maps
-%   the measured xa/da/h0 values into the same base-frame fields used by the
-%   reachability model, without changing default project behavior.
+%ROBOT_GEOMETRY_PROFILE Compatibility names for the one main-scene robot.
+%   Both accepted names return robot_config() without parameter overrides.
 
     if nargin < 1 || isempty(profile_name)
-        profile_name = 'legacy_validated';
+        profile_name = 'robot_config';
     end
 
-    cfg = robot_config();
-    cfg.geometry_profile = char(profile_name);
-
-    switch lower(profile_name)
-        case 'legacy_validated'
-            return;
-        case 'physical_robot'
-            cfg.dual_arm.base_spacing = 0.40;
-            cfg.arm_base_mount_x = 0.06;
-            cfg.arm_base_mount_z = 0.40;
+    switch lower(char(profile_name))
+        case {'robot_config', 'legacy_validated'}
+            cfg = robot_config();
         otherwise
             error('robot_geometry_profile:UnknownProfile', ...
-                  'Unknown robot geometry profile "%s".', profile_name);
+                  'Unsupported robot profile "%s". Use robot_config.', char(profile_name));
     end
 end

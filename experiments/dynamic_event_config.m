@@ -1,13 +1,13 @@
 function cfg = dynamic_event_config()
-%DYNAMIC_EVENT_CONFIG Minimal deterministic P5-Fast experiment matrix.
+%DYNAMIC_EVENT_CONFIG Current actual-pair dynamic experiment defaults.
 
-    cfg.scale = 'L2';
-    cfg.seeds = [2026, 2027];
+    cfg.scale = 'MAIN4';
+    cfg.seeds = [2026, 2027, 2028];
     cfg.strategy = 'bottom_up';
     cfg.routing_mode = 'sparse_knn';
-    cfg.sparse_k = 4;
+    cfg.sparse_k = 6;
     cfg.events = {'ADD_LOCAL_OBSTACLE', 'INVALIDATE_DOCK', 'ADD_TASKS'};
-    cfg.full_replan_timeout_s = 300;
-    cfg.raw_csv = fullfile('results', 'tables', 'dynamic_local_replanning_p5_raw.csv');
-    cfg.summary_csv = fullfile('results', 'tables', 'dynamic_local_replanning_p5_summary.csv');
+    cfg.reference_type = 'actual_current_code_replan';
+    cfg.raw_csv = fullfile('results','repair_20261027','dynamic','dynamic_raw.csv');
+    cfg.summary_csv = fullfile('results','repair_20261027','dynamic','dynamic_summary.csv');
 end

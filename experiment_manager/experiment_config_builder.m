@@ -59,6 +59,16 @@ function cfg = experiment_config_builder(profile, varargin)
     end
     if isfield(options, 'validation_override'), base.validation = merge_struct_recursive(base.validation, options.validation_override); end
     if isfield(options, 'override'), base = merge_struct_recursive(base, options.override); end
+    base.robot_cfg = validate_main_robot_config(base.robot_cfg);
+    base.robot = validate_main_robot_config(base.robot);
+    base.planner_cfg.robot_cfg = validate_main_robot_config(base.planner_cfg.robot_cfg);
+    base.planner.robot_cfg = validate_main_robot_config(base.planner.robot_cfg);
+    robot_geometry_profile(base.robot_profile);
+    base.robot_profile = 'robot_config';
+    base.planner_cfg.robot_cfg = base.robot_cfg;
+    base.planner_cfg.experiment_protocol=experiment_protocol_config();
+    base.planner_cfg.experiment_protocol.enforce=true;
+    validate_experiment_protocol(base.planner_cfg);
     base.scene = base.scene_cfg; base.robot = base.robot_cfg; base.planner = base.planner_cfg;
     base.strategy = base.planner_cfg.strategy;
     cfg = base;
@@ -67,9 +77,6 @@ end
 function cfg = make_scene(profile, seed)
     switch lower(char(profile))
         case {'scene_config','default','baseline'}, cfg = scene_config();
-        case {'cafeteria_basic3','cafeteria_basic'}, cfg = cafeteria_scene_profile_config('basic3', seed);
-        case {'cafeteria_complex12','cafeteria'}, cfg = cafeteria_scene_profile_config('complex12', seed);
-        case {'hardware_matched_lab','lab'}, cfg = hardware_matched_scene_profile_config();
         otherwise, error('experiment_config_builder:UnknownSceneProfile', 'Unknown scene profile "%s".', char(profile));
     end
     if isfield(cfg, 'random_seed') && ~strcmpi(char(cfg.random_seed), 'shuffle'), cfg.random_seed = seed; end
@@ -78,7 +85,6 @@ end
 function cfg = make_robot(profile)
     switch lower(char(profile))
         case {'robot_config','default'}, cfg = robot_config();
-        case {'physical_robot','hardware_matched'}, cfg = robot_geometry_profile('physical_robot');
         otherwise, error('experiment_config_builder:UnknownRobotProfile', 'Unknown robot profile "%s".', char(profile));
     end
 end

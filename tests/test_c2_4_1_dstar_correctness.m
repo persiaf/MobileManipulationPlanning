@@ -100,19 +100,7 @@ function o = direct_opts(state)
 end
 
 function state = c2_fixture_dstar()
-    state = p5_fixture_state();
-    state.scene.start_pose = [0.5, 0.5, 0];
-    state.all_poses(1, :) = state.scene.start_pose;
-    state.robot_cfg = struct('footprint', struct('length_m', 0.423, 'width_m', 0.366, 'model', 'rectangle'));
-    state.planner_cfg = struct('global_planner', 'dstar_lite', 'incremental_replanning_enabled', true, ...
-        'footprint_aware_navigation', false, 'robot_cfg', state.robot_cfg, ...
-        'astar', struct('allow_diagonal', true, 'heuristic_weight', 1.0));
-    route = state.stats.route_order;
-    graph = build_sparse_docking_graph(state.all_poses, state.scene.grid_map, state.scene.map_info, ...
-        state.planner_cfg, state.stats.sparse_graph.region_ids);
-    state.stats.sparse_graph = graph;
-    [state.stats.global_path, state.stats.segment_stats] = stitch_sparse_graph_path(state.all_poses, route, graph);
-    state.rc2_plan = struct('selected_docks', state.plan.selected_poses, 'route_order', route, ...
-        'global_path', state.stats.global_path, 'path_segments', state.stats.segment_stats);
-    state.task_state = struct('predicted_tasks', [1 2], 'commanded_tasks', 1, 'executed_tasks', 1, 'verified_tasks', 1);
+    state = p5_fixture_state('incremental_navigation');
+    state.task_state=struct('predicted_tasks',state.plan.covered_tasks_predicted, ...
+        'commanded_tasks',1,'executed_tasks',1,'verified_tasks',1);
 end

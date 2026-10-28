@@ -23,11 +23,13 @@ end
 function testNoImpactReturnsNoopWithValidatedPath(testCase)
     state = c2_fixture();
     changed = state;
-    [ci, cj] = world2grid(7.5, 7.5, changed.scene.map_info.resolution, ...
+    far=[changed.scene.map_info.width_m-0.7,changed.scene.map_info.height_m-0.7];
+    [ci, cj] = world2grid(far(1), far(2), changed.scene.map_info.resolution, ...
         changed.scene.map_info.height_m);
+    verifyTrue(testCase,ci>=1&&ci<=changed.scene.map_info.rows&&cj>=1&&cj<=changed.scene.map_info.cols);
     changed.scene.grid_map(ci, cj) = 1;
     event = struct('type', 'ADD_LOCAL_OBSTACLE', 'event_id', 1, ...
-        'center', [7.5, 7.5], 'radius_m', 0.05);
+        'center', far, 'radius_m', 0.05);
     impact = analyze_change_impact(state, event);
     verifyEmpty(testCase, impact.invalid_sparse_edges);
     [result, next_state] = local_replan(state, changed, event, impact);
@@ -111,17 +113,4 @@ end
 
 function state = c2_fixture()
     state = p5_fixture_state();
-    state.scene.start_pose = [0.5, 0.5, 0];
-    state.all_poses(1, :) = state.scene.start_pose;
-    state.robot_cfg = struct('footprint', struct('length_m', 0.423, ...
-        'width_m', 0.366, 'model', 'rectangle'));
-    state.planner_cfg = struct('global_planner', 'astar', ...
-        'footprint_aware_navigation', true, 'robot_cfg', state.robot_cfg, ...
-        'astar', struct('allow_diagonal', true, 'heuristic_weight', 1.0));
-    route = state.stats.route_order;
-    graph = build_sparse_docking_graph(state.all_poses, state.scene.grid_map, ...
-        state.scene.map_info, state.planner_cfg, state.stats.sparse_graph.region_ids);
-    state.stats.sparse_graph = graph;
-    [state.stats.global_path, state.stats.segment_stats] = ...
-        stitch_sparse_graph_path(state.all_poses, route, graph);
 end

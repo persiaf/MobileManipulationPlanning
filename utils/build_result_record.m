@@ -23,7 +23,7 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
 %           .num_tables        - 桌子数量
 %           .num_tasks         - 任务点总数
 %           .num_docking_poses - 停靠位姿数量
-%           .completed_tasks   - 实际完成任务数
+%           .completed_tasks   - legacy verified-task count; see completion_semantics
 %           .completion_rate   - 任务完成率 (%)
 %           .uncovered_tasks   - 未覆盖任务数
 %           .task_path_length  - 任务段路径长度 (m)
@@ -60,6 +60,7 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
     if nargin < 8 || isempty(pose_info_list)
         pose_info_list = {};
     end
+    record = create_empty_result_record();
 
     %% ---------- 1. 场景标识 ----------
     num_tables_val = safe_field(safe_field(scene, 'scene_cfg', struct()), 'num_tables', 0);
@@ -78,12 +79,43 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
     record.num_docking_poses = size(optimal_poses, 1);
 
     %% ---------- 3. 任务完成情况 ----------
-    record.completed_tasks = length(unique(executed_tasks));
-    record.completion_rate = safe_div(100 * record.completed_tasks, max(record.num_tasks, 1));
-    record.uncovered_tasks = max(record.num_tasks - record.completed_tasks, 0);
-    record.success         = record.completed_tasks > 0;
-    record.predicted_completion_rate = safe_field(stats, 'predicted_coverage_rate', record.completion_rate);
-    record.verified_completion_rate = safe_field(stats, 'verified_completion_rate', record.completion_rate);
+    if isfield(stats,'execution_status') && isstruct(stats.execution_status)
+        status = stats.execution_status;
+    else
+        status = separate_execution_status([],[],executed_tasks,[],struct('source','unknown_legacy'));
+    end
+    e = build_execution_evidence_metrics(status,record.num_tasks);
+    record.completed_tasks = numel(safe_field(status,'verified_tasks',[]));
+    record.executed_task_count = numel(safe_field(status,'executed_tasks',[]));
+    record.completion_rate = e.simulated_geometric_completion_rate;
+    if strcmp(e.source,'measured_execution'), record.completion_rate = e.actual_completion_rate; end
+    if isfinite(record.completion_rate)
+        record.uncovered_tasks = max(record.num_tasks-record.completed_tasks,0);
+    else
+        record.uncovered_tasks = NaN;
+    end
+    record.evidence_source = e.source;
+    record.completion_semantics = e.legacy_verified_semantics;
+    fields = {'geometry_evidence_available','simulation_evidence_available', ...
+        'proxy_evidence_available','ik_evidence_available','measured_evidence_available', ...
+        'geometric_coverage_rate','simulated_geometric_completion_rate','proxy_coverage_rate', ...
+        'ik_checked_coverage_rate','ik_feasibility_rate','actual_completion_rate', ...
+        'geometric_predicted_task_count','simulated_geometric_verified_task_count', ...
+        'ik_checked_task_count','ik_feasible_task_count','measured_verified_task_count'};
+    for k = 1:numel(fields), record.(fields{k}) = e.(fields{k}); end
+    record.predicted_completion_rate = e.geometric_coverage_rate;
+    record.verified_completion_rate = record.completion_rate;
+    [record.path_validation_available,record.path_safe] = path_evidence(stats);
+    required = 1:record.num_tasks;
+    if isfield(scene,'tasks') && ~isempty(scene.tasks) && isfield(scene.tasks,'id')
+        required = [scene.tasks.id];
+    end
+    all_geometric = e.geometry_evidence_available && e.simulation_evidence_available && ...
+        all(ismember(required,e.geometric_predicted_tasks)) && ...
+        all(ismember(required,e.simulated_geometric_verified_tasks));
+    route_exists = ~isempty(global_path) || record.num_tasks == 0;
+    safe_when_checked = ~record.path_validation_available || record.path_safe;
+    record.success = all_geometric && route_exists && safe_when_checked;
 
     %% ---------- 4. 路径长度 (优先从 exec_stats 取，否则用 total_path_len) ----------
     exec_stats = safe_field(stats, 'exec_stats', struct());
@@ -113,33 +145,37 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
 
     %% ---------- 7. 时间统计 ----------
     timing = safe_field(stats, 'timing', struct());
-    record.planning_time_total = safe_field(timing, 'total_planning_time_s', 0);
-    record.time_docking        = safe_field(timing, 'docking_time_s', 0);
-    record.time_global         = safe_field(timing, 'global_path_time_s', 0);
-    record.execution_time_est  = safe_field(exec_stats, 'total_execution_time_s', 0);
+    record.planning_time_total = safe_field(timing, 'total_planning_time_s', NaN);
+    record.time_docking        = safe_field(timing, 'docking_time_s', NaN);
+    record.time_global         = safe_field(timing, 'global_path_time_s', NaN);
+    record.execution_time_est  = safe_field(exec_stats, 'total_execution_time_s', NaN);
+    if isfinite(record.execution_time_est), record.execution_time_source = 'configured_execution_time_model'; end
+    record.planning_time_available = isfinite(record.planning_time_total);
+    record.timing_scope = safe_field(timing,'timing_scope','unspecified');
+    record.timing_source = safe_field(timing,'timing_source','unspecified');
     record.estimated_execution_time_s = record.execution_time_est;
     record.estimated_total_time_s = record.planning_time_total + record.execution_time_est;
     tb = safe_field(exec_stats, 'time_breakdown', struct());
-    record.navigation_time_s = safe_field(tb, 'navigation_time_s', safe_field(exec_stats, 'navigation_time_s', 0));
+    record.navigation_time_s = safe_field(tb, 'navigation_time_s', safe_field(exec_stats, 'navigation_time_s', NaN));
     record.task_navigation_time_s = safe_field(tb, 'task_navigation_time_s', ...
-        safe_field(exec_stats, 'task_navigation_time_s', 0));
+        safe_field(exec_stats, 'task_navigation_time_s', NaN));
     record.return_navigation_time_s = safe_field(tb, 'return_navigation_time_s', ...
-        safe_field(exec_stats, 'return_navigation_time_s', 0));
-    record.docking_time_s = safe_field(tb, 'docking_time_s', safe_field(exec_stats, 'docking_time_s', 0));
-    record.manipulation_time_s = safe_field(tb, 'manipulation_time_s', safe_field(exec_stats, 'manipulation_time_s', 0));
-    record.arm_transition_time_s = safe_field(tb, 'arm_transition_time_s', safe_field(exec_stats, 'arm_transition_time_s', 0));
-    record.side_switch_time_s = safe_field(tb, 'side_switch_time_s', safe_field(exec_stats, 'side_switch_time_s', 0));
-    record.turning_time_s = safe_field(tb, 'turning_time_s', safe_field(exec_stats, 'turning_time_s', 0));
-    record.lift_time_s = safe_field(tb, 'lift_time_s', safe_field(exec_stats, 'lift_time_s', 0));
-    record.replanning_time_s = safe_field(tb, 'replanning_time_s', safe_field(exec_stats, 'replanning_time_s', 0));
+        safe_field(exec_stats, 'return_navigation_time_s', NaN));
+    record.docking_time_s = safe_field(tb, 'docking_time_s', safe_field(exec_stats, 'docking_time_s', NaN));
+    record.manipulation_time_s = safe_field(tb, 'manipulation_time_s', safe_field(exec_stats, 'manipulation_time_s', NaN));
+    record.arm_transition_time_s = safe_field(tb, 'arm_transition_time_s', safe_field(exec_stats, 'arm_transition_time_s', NaN));
+    record.side_switch_time_s = safe_field(tb, 'side_switch_time_s', safe_field(exec_stats, 'side_switch_time_s', NaN));
+    record.turning_time_s = safe_field(tb, 'turning_time_s', safe_field(exec_stats, 'turning_time_s', NaN));
+    record.lift_time_s = safe_field(tb, 'lift_time_s', safe_field(exec_stats, 'lift_time_s', NaN));
+    record.replanning_time_s = safe_field(tb, 'replanning_time_s', safe_field(exec_stats, 'replanning_time_s', NaN));
     record.mission_total_time_s = safe_field(tb, 'mission_total_time_s', record.execution_time_est);
     record.num_side_switches = safe_field(exec_stats, 'num_side_switches', 0);
     record.num_arm_switches = safe_field(exec_stats, 'num_arm_switches', 0);
     record.total_abs_yaw_change_rad = safe_field(exec_stats, 'total_abs_yaw_change_rad', 0);
-    record.candidate_generation_time_s = safe_field(timing, 'candidate_generation_time_s', 0);
-    record.region_order_time_s = safe_field(timing, 'region_order_time_s', 0);
-    record.local_selection_time_s = safe_field(timing, 'local_selection_time_s', 0);
-    record.route_refinement_time_s = safe_field(timing, 'route_refinement_time_s', 0);
+    record.candidate_generation_time_s = safe_field(timing, 'candidate_generation_time_s', NaN);
+    record.region_order_time_s = safe_field(timing, 'region_order_time_s', NaN);
+    record.local_selection_time_s = safe_field(timing, 'local_selection_time_s', NaN);
+    record.route_refinement_time_s = safe_field(timing, 'route_refinement_time_s', NaN);
     record.path_cache_hits = safe_field(timing, 'path_cache_hits', 0);
     record.path_cache_misses = safe_field(timing, 'path_cache_misses', 0);
 
@@ -190,6 +226,21 @@ function record = build_result_record(scene, optimal_poses, executed_tasks, glob
 end
 
 %% ======================== 内部辅助函数 ==========================
+
+function [available,safe] = path_evidence(stats)
+    available = false; safe = NaN;
+    if ~isfield(stats,'path_validation') || ~isstruct(stats.path_validation), return; end
+    v = stats.path_validation;
+    if isfield(v,'checked') && ~v.checked, return; end
+    value = NaN;
+    if isfield(v,'valid'), value = v.valid;
+    elseif isfield(v,'safe'), value = v.safe;
+    end
+    if (islogical(value) || isnumeric(value)) && isscalar(value) && ...
+            isfinite(value) && any(value == [0,1])
+        available = true; safe = logical(value);
+    end
+end
 
 function v = safe_field(s, field_name, default_val)
 %SAFE_FIELD 安全读取结构体字段，缺失时返回 default_val

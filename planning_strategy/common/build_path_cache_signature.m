@@ -1,8 +1,10 @@
 function signature = build_path_cache_signature(grid_map, map_info, planner_cfg)
 %BUILD_PATH_CACHE_SIGNATURE Hash all path-semantics inputs into a cache key.
     payload = struct();
+    payload.geometry_revision = 'world_ccw_sat_exact_endpoints_20261027_v2';
     payload.grid = uint8(grid_map ~= 0);
     payload.resolution = map_info.resolution;
+    payload.map_info = map_info;
     payload.planner = getfield_default(planner_cfg, 'global_planner', 'astar');
     payload.footprint_aware = getfield_default(planner_cfg, 'footprint_aware_navigation', true);
     payload.inflation_radius_m = getfield_default(planner_cfg, 'inflation_radius_m', NaN);

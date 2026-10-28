@@ -1,6 +1,7 @@
 function signature = build_candidate_library_signature(regions, scene, robot_cfg, planner_cfg)
 %BUILD_CANDIDATE_LIBRARY_SIGNATURE Identify candidate generation semantics.
     payload = struct();
+    payload.geometry_revision = 'world_ccw_sat_task_facing_20261027_v2';
     payload.grid_map = uint8(scene.grid_map ~= 0);
     payload.map_info = scene.map_info;
     payload.scene_cfg = scene.scene_cfg;
@@ -11,6 +12,8 @@ function signature = build_candidate_library_signature(regions, scene, robot_cfg
     payload.region_task_ids = arrayfun(@(r) r.task_ids, regions, 'UniformOutput', false);
     payload.robot_cfg = robot_cfg;
     payload.reachability = planner_cfg.reachability;
+    payload.cost_weights = planner_cfg.cost_weights;
+    payload.candidate_cost_options = planner_cfg.candidate;
     if isfield(planner_cfg, 'docking_error_model')
         payload.docking_error_model = planner_cfg.docking_error_model;
     else

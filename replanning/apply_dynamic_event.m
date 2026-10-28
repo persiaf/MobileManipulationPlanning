@@ -113,6 +113,17 @@ function [edge, center] = choose_route_edge(state, event_id)
     edges = [order(1:end-1)', order(2:end)'];
     edges = edges(all(edges > 0, 2), :);
     idx = 1 + mod(event_id - 1, size(edges, 1));
+    if isfield(state.stats,'segment_stats') && numel(state.stats.segment_stats)==size(edges,1) && ...
+            isfield(state.stats.segment_stats,'path')
+        lengths=[state.stats.segment_stats.path_length_m];
+        [~,rank]=sort(lengths,'descend'); idx=rank(1+mod(event_id-1,numel(rank)));
+        edge=edges(idx,:); path=state.stats.segment_stats(idx).path;
+        if size(path,1)>1
+            lengths=[0;cumsum(vecnorm(diff(path(:,1:2)),2,2))];
+            [~,middle]=min(abs(lengths-lengths(end)/2));
+            center=path(middle,1:2); return;
+        end
+    end
     edge = edges(idx, :);
     p = state.all_poses(edge, 1:2);
     center = mean(p, 1);
@@ -144,12 +155,14 @@ function [tasks, region_id] = deterministic_added_tasks(state, event_id)
     table_id = tables(1 + mod(event_id - 1, numel(tables)));
     center = state.scene.scene_cfg.table_positions(table_id, :);
     offsets = [0.18, 0.12; -0.18, 0.12; 0.18, -0.12; -0.18, -0.12];
-    first_id = state.scene.num_tasks + 1;
+    first_id = max([state.scene.tasks.id]) + 1;
+    theta = state.scene.scene_cfg.table_orientations(table_id);
     tasks = repmat(state.scene.tasks(1), 1, size(offsets, 1));
     for i = 1:size(offsets, 1)
         tasks(i).id = first_id + i - 1;
-        tasks(i).x = center(1) + offsets(i, 1);
-        tasks(i).y = center(2) + offsets(i, 2);
+        world = center(:) + rot2(theta) * offsets(i,:)';
+        tasks(i).x = world(1);
+        tasks(i).y = world(2);
         tasks(i).z = state.scene.scene_cfg.task_offset_z;
         tasks(i).status = 0;
         tasks(i).table_id = table_id;

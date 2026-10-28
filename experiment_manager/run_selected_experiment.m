@@ -16,6 +16,12 @@ function result = run_selected_experiment(experiment, varargin)
     if ~isfield(cfg, 'scene_cfg') || ~isfield(cfg, 'robot_cfg') || ~isfield(cfg, 'planner_cfg')
         error('run_selected_experiment:InvalidConfig', 'Config must contain scene_cfg, robot_cfg, and planner_cfg.');
     end
+    cfg.robot_cfg = validate_main_robot_config(cfg.robot_cfg);
+    if isfield(cfg, 'robot'), cfg.robot = validate_main_robot_config(cfg.robot); end
+    if isfield(cfg.planner_cfg, 'robot_cfg')
+        cfg.planner_cfg.robot_cfg = validate_main_robot_config(cfg.planner_cfg.robot_cfg);
+    end
+    cfg.planner_cfg.robot_cfg = cfg.robot_cfg;
     if options.headless
         cfg.planner_cfg.runtime.headless = true;
         cfg.planner_cfg.runtime.disable_visualization = true;

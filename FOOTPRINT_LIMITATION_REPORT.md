@@ -1,3 +1,5 @@
+> 历史记录说明（2026-10-27）：餐厅场景、实机匹配场景及另一套机器人几何已移除。本文的旧入口、维护状态与文件数量仅对应当时版本；当前唯一模型及删除范围见 [主场景参数统一说明](docs/main_robot_unification.md)。
+
 # Footprint Validation Limitation
 
 The maintained path validator now exposes a rectangle-footprint and circle

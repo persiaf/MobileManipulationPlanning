@@ -22,7 +22,7 @@ function [result, next_state, diagnostics] = local_replan(planning_state, change
             [result, next_state, diagnostics] = repair_dock_invalidation( ...
                 result, planning_state, changed_state, change_event, impact);
         case 'ADD_TASKS'
-            result = repair_added_tasks(result, planning_state, changed_state, impact);
+            [result,next_state,diagnostics] = repair_added_tasks(result, planning_state, changed_state, impact);
         case 'TASK_COVERAGE_FAILURE'
             [result, next_state, diagnostics] = repair_task_coverage_failure( ...
                 result, planning_state, changed_state, change_event, impact);
@@ -36,6 +36,9 @@ function [result, next_state, diagnostics] = local_replan(planning_state, change
     result.dock_recompute_ratio = result.recomputed_or_changed_docks / max(result.original_docks, 1);
     result.unchanged_dock_ratio = result.retained_docks / max(result.original_docks, 1);
     result.reused_edge_ratio = result.reused_sparse_edges / max(result.original_sparse_edges, 1);
+    result.result_dock_count=size(next_state.plan.selected_poses,1);
+    result.simulated_geometric_verified_rate=result.verified_completion;
+    result.verified_completion_semantics='legacy_simulated_task_state_not_measured_execution';
     result.next_state = next_state;
     result.diagnostics = diagnostics;
 end
@@ -59,9 +62,14 @@ function result = base_result(state, changed_state, event, impact)
     result.recomputed_path_edges = 0;
     result.recomputed_or_changed_docks = 0;
     result.local_astar_calls = 0;
+    result.path_query_count_total = 0;
+    result.path_query_count_known = true;
     result.raw_coverage = 100 * numel(state.plan.covered_tasks_predicted) / max(changed_state.scene.num_tasks, 1);
-    result.feasible_task_coverage = 100;
-    result.verified_completion = result.raw_coverage;
+    result.feasible_task_coverage = NaN;
+    result.verified_completion = verified_completion_percent(state,changed_state.scene.num_tasks);
+    result.actual_completion_rate = NaN;
+    result.ik_feasibility_rate = NaN;
+    result.evidence_source = 'geometric_planning_and_simulated_task_state';
     result.final_path_length = state.stats.path_len;
     result.retained_docks = result.original_docks;
     result.removed_docks = 0;
@@ -70,8 +78,8 @@ function result = base_result(state, changed_state, event, impact)
     result.model_feasible_added_tasks = 0;
     result.reused_sparse_edges = result.original_sparse_edges;
     result.sparse_graph_connected = true;
-    result.no_collision_invalid_route = true;
-    result.metric_provenance = 'legacy_p5_placeholder';
+    result.no_collision_invalid_route = false;
+    result.metric_provenance = 'measured_replanning_computation_no_physical_execution_evidence';
 end
 
 function [result, next_state, diagnostics] = repair_path_obstacle( ...
@@ -141,6 +149,7 @@ function [result, next_state, diagnostics] = repair_path_obstacle( ...
                 impact, region_ids);
         end
     catch err
+        result.path_query_count_known=false;
         result.status = 'FALLBACK_REQUIRED';
         result.fallback = true;
         result.fallback_reason = ['path graph rebuild failed: ' err.message];
@@ -152,6 +161,7 @@ function [result, next_state, diagnostics] = repair_path_obstacle( ...
     end
     result.recomputed_path_edges = route_affected_edge_count(route_order, impact.invalid_sparse_edges);
     result.local_astar_calls = graph.stats.actual_astar_calls;
+    result=accumulate_graph_queries(result,graph);
     result.reused_sparse_edges = max(result.original_sparse_edges - impact.invalid_edge_count, 0);
     result.sparse_graph_connected = graph.connectivity.ok;
     diagnostics.rebuilt_graph = graph;
@@ -444,56 +454,12 @@ function ids = route_region_ids(state, n)
     end
 end
 
-function [ok, validation] = validate_repaired_path(global_path, segments, scene, state, route_order)
-    validation = struct('valid', false, 'map_collision_free', false, 'footprint_checked', false, ...
-        'footprint_collision_free', true, 'segments_continuous', false, ...
-        'world_grid_consistent', false, 'path_exists', false, 'reason', '');
-    if isempty(global_path) || size(global_path, 1) < 2
-        validation.reason = 'repaired path is empty';
-        ok = false;
-        return;
-    end
-    validation.path_exists = true;
-    validation.world_grid_consistent = world_grid_roundtrip_ok(global_path, scene.map_info);
-    [validation.map_collision_free, ~] = validate_world_path_collision( ...
-        scene.grid_map, global_path, scene.map_info, false);
-    validation.segments_continuous = segments_are_continuous(segments, route_order);
-
-    footprint = [];
-    if isfield(state, 'robot_cfg') && isstruct(state.robot_cfg) && ...
-            isfield(state.robot_cfg, 'footprint')
-        footprint = state.robot_cfg.footprint;
-    end
-    if ~isempty(footprint)
-        validation.footprint_checked = true;
-        for k = 1:size(global_path, 1)
-            [collision, ~] = check_robot_footprint_collision(global_path(k, :), ...
-                footprint, scene);
-            if collision
-                validation.footprint_collision_free = false;
-                break;
-            end
-        end
-    end
-    ok = validation.path_exists && validation.map_collision_free && ...
-        validation.world_grid_consistent && validation.segments_continuous && validation.footprint_checked && ...
-        validation.footprint_collision_free;
-    validation.valid = ok;
-    if ~ok
-        if ~validation.map_collision_free
-            validation.reason = 'repaired path collides with changed map';
-        elseif ~validation.footprint_collision_free
-            validation.reason = 'repaired path violates robot footprint safety';
-        elseif ~validation.footprint_checked
-            validation.reason = 'effective robot footprint is unavailable';
-        elseif ~validation.world_grid_consistent
-            validation.reason = 'world/grid coordinate round-trip failed';
-        elseif ~validation.segments_continuous
-            validation.reason = 'repaired path segments are disconnected';
-        end
-    else
-        validation.reason = 'validated';
-    end
+function [ok, validation] = validate_repaired_path(global_path, segments, scene, state, route_order, poses)
+    if nargin<6,poses=state.all_poses;end
+    validation=validate_planned_route(scene,global_path,poses,route_order,segments,state.robot_cfg);
+    validation.world_grid_consistent=world_grid_roundtrip_ok(global_path,scene.map_info);
+    validation.valid=validation.valid && validation.world_grid_consistent;
+    ok=validation.valid;
 end
 
 function ok = segments_are_continuous(segments, route_order)
@@ -520,10 +486,11 @@ end
 function ok = world_grid_roundtrip_ok(path, map_info)
     ok = true;
     tolerance = map_info.resolution * sqrt(2) / 2 + 1e-9;
+    origin=field_or(map_info,'origin_xy',[0 0]);
     for k = 1:size(path, 1)
         [i, j] = world2grid(path(k, 1), path(k, 2), ...
-            map_info.resolution, map_info.height_m);
-        [x, y] = grid2world(i, j, map_info.resolution, map_info.height_m);
+            map_info.resolution, map_info.height_m,origin);
+        [x, y] = grid2world(i, j, map_info.resolution, map_info.height_m,origin);
         if hypot(x - path(k, 1), y - path(k, 2)) > tolerance
             ok = false;
             return;
@@ -675,7 +642,12 @@ function [result, next_state, diagnostics] = repair_dock_invalidation( ...
     planner_cfg = repair_planner_config(state);
     planner_cfg = disable_repair_cache(planner_cfg);
     route_order = state.stats.route_order;
-    for ci = 1:numel(candidates)
+    costs=arrayfun(@candidate_total_cost,candidates);
+    [~,trial_order]=sort(costs,'ascend');
+    total_queries=0; total_validated_edges=0;
+    for trial_index = 1:numel(trial_order)
+        ci=trial_order(trial_index);
+        if best.found && costs(ci)>best.score(1)+1e-12, break; end
         diagnostics.candidate_trials = diagnostics.candidate_trials + 1;
         candidate = candidates(ci);
         if norm(candidate.pose(1:2) - old_pose(1:2)) < 1e-9 && ...
@@ -711,6 +683,9 @@ function [result, next_state, diagnostics] = repair_dock_invalidation( ...
         try
             graph = build_sparse_docking_graph(poses, changed_state.scene.grid_map, ...
                 changed_state.scene.map_info, planner_cfg, region_ids);
+            total_queries=total_queries+get_graph_query_count(graph);
+            result=accumulate_graph_queries(result,graph);
+            total_validated_edges=total_validated_edges+graph.stats.validated_sparse_edges;
             if ~graph.connectivity.ok
                 diagnostics.candidate_rejections{end+1} = sprintf( ...
                     'replacement_graph_disconnected_%d', ci); %#ok<AGROW>
@@ -718,13 +693,14 @@ function [result, next_state, diagnostics] = repair_dock_invalidation( ...
             end
             [path, segments] = stitch_sparse_graph_path(poses, route_order, graph);
             [valid, validation] = validate_repaired_path(path, segments, ...
-                changed_state.scene, state, route_order);
+                changed_state.scene, state, route_order,poses);
             if ~valid
                 diagnostics.candidate_rejections{end+1} = sprintf( ...
                     'replacement_path_invalid_%d', ci); %#ok<AGROW>
                 continue;
             end
         catch err
+            result.path_query_count_known=false;
             diagnostics.candidate_rejections{end+1} = ['candidate_' num2str(ci) ...
                 '_path_error:' err.identifier]; %#ok<AGROW>
             continue;
@@ -765,8 +741,8 @@ function [result, next_state, diagnostics] = repair_dock_invalidation( ...
     result.recomputed_docks = 1;
     result.new_docks = 1;
     result.recomputed_or_changed_docks = 1;
-    result.recomputed_path_edges = get_graph_query_count(best.graph);
-    result.local_astar_calls = get_graph_query_count(best.graph);
+    result.recomputed_path_edges = total_validated_edges;
+    result.local_astar_calls = total_queries;
     result.reused_sparse_edges = 0;
     result.recomputed_candidates = diagnostics.candidate_trials;
     result.global_path = best.path;
@@ -1001,6 +977,14 @@ function n = get_graph_query_count(graph)
     end
 end
 
+function result=accumulate_graph_queries(result,graph)
+    if isfield(graph,'stats') && isfield(graph.stats,'actual_path_queries')
+        result.path_query_count_total=result.path_query_count_total+graph.stats.actual_path_queries;
+    else
+        result.path_query_count_known=false;
+    end
+end
+
 function tasks = collect_plan_covered(summary)
     tasks = [];
     for i = 1:numel(summary)
@@ -1113,13 +1097,15 @@ function [result, next_state, diagnostics] = repair_task_coverage_failure( ...
         try
             graph = build_sparse_docking_graph(poses, changed_state.scene.grid_map, ...
                 changed_state.scene.map_info, planner_cfg, region_ids);
+            result=accumulate_graph_queries(result,graph);
             if ~graph.connectivity.ok, continue; end
             [path, segments] = stitch_sparse_graph_path(poses, route_order, graph);
             [valid, validation] = validate_repaired_path(path, segments, ...
-                changed_state.scene, state, route_order);
+                changed_state.scene, state, route_order,poses);
             diagnostics.path_validation = validation;
             if ~valid, continue; end
         catch
+            result.path_query_count_known=false;
             continue;
         end
         next_state = commit_new_task_dock(next_state, state, old_dock, task_id, candidate, event.target_region, ...
@@ -1236,6 +1222,11 @@ function summary = add_task_to_summary(summary, task_id, arm_map, reach_summary)
     summary.covered_count = numel(summary.covered_tasks);
     if ~isfield(summary, 'arm_assign_map') || ~isa(summary.arm_assign_map, 'containers.Map')
         summary.arm_assign_map = containers.Map('KeyType', 'double', 'ValueType', 'char');
+    else
+        old_map=summary.arm_assign_map;
+        summary.arm_assign_map=containers.Map('KeyType','double','ValueType','char');
+        old_keys=old_map.keys;
+        for mi=1:numel(old_keys), summary.arm_assign_map(old_keys{mi})=old_map(old_keys{mi}); end
     end
     if isa(arm_map, 'containers.Map')
         keys = arm_map.keys;
@@ -1246,7 +1237,9 @@ function summary = add_task_to_summary(summary, task_id, arm_map, reach_summary)
     if isfield(summary, 'task_actions') && ~isempty(summary.task_actions)
         found = any([summary.task_actions.task_id] == task_id);
         if ~found
-            action = struct('task_id', task_id, 'assigned_arm', '');
+            action = summary.task_actions(1);
+            action.task_id = task_id;
+            action.assigned_arm = '';
             if isa(summary.arm_assign_map, 'containers.Map') && isKey(summary.arm_assign_map, task_id)
                 action.assigned_arm = summary.arm_assign_map(task_id);
             end
@@ -1305,28 +1298,147 @@ function summary = make_candidate_summary(candidate, task_id, arm_map, reach_sum
     end
 end
 
-function result = repair_added_tasks(result, state, changed_state, impact)
-    result.added_tasks = impact.affected_task_count;
-    result.model_feasible_added_tasks = impact.affected_task_count;
-    result.recomputed_candidates = local_candidate_count(state, impact);
-    result.new_docks = 1;
-    result.recomputed_docks = 1;
-    result.recomputed_or_changed_docks = 1;
-    result.retained_docks = result.original_docks;
-    result.recomputed_path_edges = 2;
-    result.local_astar_calls = 2;
-    result.reused_sparse_edges = max(result.original_sparse_edges - result.recomputed_path_edges, 0);
-    old_tasks = state.scene.num_tasks;
-    new_tasks = changed_state.scene.num_tasks;
-    result.raw_coverage = 100 * new_tasks / max(new_tasks, 1);
-    result.feasible_task_coverage = 100;
-    result.verified_completion = 100;
-    result.final_path_length = state.stats.path_len * (1 + 0.005 * result.added_tasks);
-    if new_tasks <= old_tasks
-        result.status = 'FALLBACK_REQUIRED';
-        result.fallback = true;
-        result.fallback_reason = 'no added tasks detected';
+function [result,next_state,diagnostics] = repair_added_tasks(result, state, changed_state, impact)
+% Reuse checked existing docks, generate only affected-table candidates, then
+% measure a real route. No synthetic completion, edge counts or path ratios.
+    next_state=changed_state;
+    diagnostics=struct('added_task_ids',impact.affected_tasks,'path_validation',struct());
+    pending=reshape(impact.affected_tasks,1,[]);
+    result.added_tasks=numel(pending);
+    result.model_feasible_added_tasks=NaN;
+    if isempty(pending)
+        [result,next_state]=task_reallocation_failure(result,next_state,'NO_ADDED_TASKS'); return;
     end
+    if ~isfield(state,'robot_cfg') || ~isfield(state,'planner_cfg')
+        [result,next_state]=task_reallocation_failure(result,next_state,'MISSING_EFFECTIVE_CONFIGURATION'); return;
+    end
+    cfg=disable_repair_cache(repair_planner_config(state)); cfg.robot_cfg=state.robot_cfg;
+    next_state.plan=state.plan;
+    % Refresh every task-dependent object on affected tables, even if all
+    % new tasks can be served by existing docks. Preserve other tables.
+    task_map=assign_tasks_to_tables(changed_state.scene);
+    regions=build_task_regions(changed_state.scene,task_map);
+    affected_tables=unique([changed_state.scene.tasks(ismember([changed_state.scene.tasks.id],pending)).table_id]);
+    entries=state.candidate_library.regions([]);
+    for ri=1:numel(regions)
+        old=find([state.candidate_library.regions.table_id]==regions(ri).table_id,1);
+        if isempty(old) || ismember(regions(ri).table_id,affected_tables)
+            fresh=build_candidate_library(regions(ri),changed_state.scene,state.robot_cfg,cfg);
+            entry=fresh.regions(1);
+            result.recomputed_candidates=result.recomputed_candidates+entry.num_candidates;
+        else
+            entry=state.candidate_library.regions(old);
+        end
+        entry.region_id=ri; entries(end+1)=entry; %#ok<AGROW>
+    end
+    next_state.regions=regions; next_state.task_table_map=task_map;
+    next_state.candidate_library=state.candidate_library;
+    next_state.candidate_library.regions=entries;
+    next_state.candidate_library.total_candidates=sum([entries.num_candidates]);
+    next_state.candidate_library.scene_signature=build_candidate_library_signature(regions,changed_state.scene,state.robot_cfg,cfg);
+    next_state.candidate_library.refresh_scope='affected_tables_after_added_tasks';
+    for d=1:numel(next_state.plan.task_sequence_summary)
+        ri=find([regions.table_id]==next_state.plan.task_sequence_summary{d}.table_id,1);
+        next_state.plan.pose_to_region_map(d)=ri;
+        next_state.plan.task_sequence_summary{d}.region=ri;
+    end
+    for d=1:size(state.plan.selected_poses,1)
+        candidate=struct('pose',state.plan.selected_poses(d,:));
+        [covered,arm_map,reach_summary]=validate_candidate_reachability(candidate,pending,state,changed_state.scene);
+        for tid=covered
+            summary=add_task_to_summary(next_state.plan.task_sequence_summary{d},tid,arm_map,reach_summary);
+            summary.task_actions=task_actions_from_summary(summary);
+            next_state.plan.task_sequence_summary{d}=summary;
+            next_state.plan.pose_info_list{d}=summary;
+        end
+        pending=setdiff(pending,covered,'stable');
+    end
+    if ~isempty(pending)
+        for ri=1:numel(regions)
+            ids=intersect(regions(ri).task_ids,pending,'stable');
+            if isempty(ids),continue;end
+            region=regions(ri); region.task_ids=ids;
+            candidates=next_state.candidate_library.regions(ri).candidates;
+            [~,task_columns]=ismember(ids,regions(ri).task_ids);
+            for ci=1:numel(candidates)
+                candidates(ci).covered_tasks=intersect(candidates(ci).covered_tasks,ids,'stable');
+                candidates(ci).reach_scores=candidates(ci).reach_scores(task_columns,:);
+            end
+            [poses,info]=select_multi_poses(candidates,region,changed_state.scene,state.robot_cfg,cfg);
+            [next_state.plan.selected_poses,next_state.plan.pose_to_region_map, ...
+                next_state.plan.task_sequence_summary,next_state.plan.pose_info_list]= ...
+                append_region_plan(next_state.plan.selected_poses,next_state.plan.pose_to_region_map, ...
+                next_state.plan.task_sequence_summary,next_state.plan.pose_info_list,ri,region,poses,info,cfg);
+        end
+    end
+    next_state.plan.covered_tasks_predicted=collect_plan_covered(next_state.plan.task_sequence_summary);
+    next_state.plan.uncovered_tasks_predicted=setdiff(all_scene_task_ids(changed_state.scene), ...
+        next_state.plan.covered_tasks_predicted,'stable');
+    next_state.plan.num_docking_poses=size(next_state.plan.selected_poses,1);
+    next_state.plan.candidate_library=next_state.candidate_library;
+    next_state.plan.service_configs=struct([]);
+    for d=1:numel(next_state.plan.task_sequence_summary)
+        summary=next_state.plan.task_sequence_summary{d};
+        ri=next_state.plan.pose_to_region_map(d);
+        summary.task_ids=regions(ri).task_ids; summary.total_tasks=numel(summary.task_ids);
+        service=build_service_config(d,summary,summary,cfg.real_platform);
+        summary.service_configs=expand_lift_candidates(service,cfg.real_platform);
+        next_state.plan.task_sequence_summary{d}=summary;
+        next_state.plan.pose_info_list{d}=summary;
+        next_state.plan.service_configs=[next_state.plan.service_configs,summary.service_configs]; %#ok<AGROW>
+    end
+    metadata=field_or(state.task_state,'evidence',struct('source','geometric_simulation'));
+    metadata.geometry_evidence_available=true;
+    metadata.geometric_predicted_tasks=next_state.plan.covered_tasks_predicted;
+    next_state.task_state=separate_execution_status(next_state.plan.covered_tasks_predicted, ...
+        state.task_state.commanded_tasks,state.task_state.executed_tasks,state.task_state.verified_tasks,metadata);
+    result.raw_coverage=predicted_coverage_percent(next_state.plan,changed_state.scene.num_tasks);
+    result.model_feasible_added_tasks=numel(intersect(impact.affected_tasks,next_state.plan.covered_tasks_predicted));
+    if ~isempty(next_state.plan.uncovered_tasks_predicted)
+        [result,next_state]=task_reallocation_failure(result,next_state,'ADDED_TASKS_NOT_GEOMETRICALLY_COVERED'); return;
+    end
+    next_state.plan.status='READY'; next_state.plan.reason='';
+    next_state.scene=changed_state.scene; next_state.tasks=changed_state.scene.tasks;
+    next_state.all_poses=[changed_state.scene.start_pose;next_state.plan.selected_poses];
+    result.new_docks=size(next_state.plan.selected_poses,1)-result.original_docks;
+    result.recomputed_docks=result.new_docks; result.recomputed_or_changed_docks=result.new_docks;
+    if result.new_docks==0
+        graph=state.stats.sparse_graph; order=state.stats.route_order;
+        path=state.stats.global_path; segments=state.stats.segment_stats;
+    else
+        graph=build_sparse_docking_graph(next_state.all_poses,changed_state.scene.grid_map, ...
+            changed_state.scene.map_info,cfg,[0;next_state.plan.pose_to_region_map(:)]);
+        result=accumulate_graph_queries(result,graph);
+        if ~graph.connectivity.ok
+            [result,next_state]=task_reallocation_failure(result,next_state,'ADDED_DOCK_GRAPH_DISCONNECTED'); return;
+        end
+        order=nearest_neighbor_order(graph.shortest_cost_matrix,1,field_or(cfg,'enable_2opt',false));
+        if cfg.execution.return_to_start && order(end)~=1,order=[order 1];end
+        [path,segments]=stitch_sparse_graph_path(next_state.all_poses,order,graph);
+        result.local_astar_calls=graph.stats.actual_astar_calls;
+        result.recomputed_path_edges=graph.stats.validated_sparse_edges;
+        result.reused_sparse_edges=0;
+    end
+    validation=validate_planned_route(changed_state.scene,path,next_state.all_poses,order,segments,state.robot_cfg);
+    diagnostics.path_validation=validation;
+    if ~validation.valid
+        [result,next_state]=task_reallocation_failure(result,next_state,'ADDED_TASK_ROUTE_UNSAFE'); return;
+    end
+    next_state.stats=state.stats; next_state.stats.sparse_graph=graph;
+    next_state.stats.route_order=order; next_state.stats.global_path=path;
+    next_state.stats.segment_stats=segments; next_state.stats.path_len=compute_path_length(path);
+    next_state.stats.path_validation=validation; next_state.path_validation=validation;
+    next_state.stats.task_state=next_state.task_state;
+    next_state.stats.evidence=build_execution_evidence_metrics(next_state.task_state,changed_state.scene.num_tasks);
+    next_state.current_plan=next_state.plan; next_state.current_plan.global_path=path;
+    next_state.current_plan.path_segments=segments; next_state.current_plan.route_order=order;
+    next_state.current_plan.sparse_graph=graph;
+    next_state.current_plan.task_state=next_state.task_state;
+    result.status='SUCCESS'; result.fallback=false; result.fallback_reason='';
+    result.no_collision_invalid_route=true; result.sparse_graph_connected=true;
+    result.global_path=path; result.path_segments=segments; result.updated_sparse_graph=graph;
+    result.final_path_length=compute_path_length(path);
+    result.metric_provenance='actual_local_candidate_selection_and_validated_route';
 end
 
 function n = local_candidate_count(state, impact)

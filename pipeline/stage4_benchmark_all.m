@@ -21,6 +21,9 @@ order_mode = 'fixed_order';
 if isfield(planner_cfg, 'benchmark') && isfield(planner_cfg.benchmark, 'order_mode')
     order_mode = planner_cfg.benchmark.order_mode;
 end
+if ~any(strcmpi(order_mode,{'fixed_order','independent_order'}))
+    error('stage4_benchmark_all:OrderMode','Unknown benchmark order mode "%s".',order_mode);
+end
 
 include_return = true;
 if isfield(planner_cfg, 'benchmark') && isfield(planner_cfg.benchmark, 'include_return_to_start')
@@ -86,8 +89,13 @@ if strcmpi(order_mode, 'fixed_order')
     end
     if include_return && fixed_route_order(end) ~= 1
         fixed_route_order = [fixed_route_order, 1];
-    elseif ~include_return && fixed_route_order(end) == 1
+    elseif ~include_return && numel(fixed_route_order)>1 && fixed_route_order(end) == 1
         fixed_route_order = fixed_route_order(1:end-1);
+    end
+    fixed_route_order=reshape(fixed_route_order,1,[]);
+    if any(~isfinite(fixed_route_order)) || any(fixed_route_order~=fix(fixed_route_order)) || ...
+            any(fixed_route_order<1 | fixed_route_order>size(base_poses,1)) || fixed_route_order(1)~=1
+        error('stage4_benchmark_all:VisitOrder','Fixed route order must start at 1 and contain valid pose indices.');
     end
     fprintf('  fixed_order route_order = [%s]\n', num2str(fixed_route_order));
 end
@@ -105,7 +113,9 @@ if isfield(planner_cfg, 'benchmark') && isfield(planner_cfg.benchmark, 'suppress
 end
 run_opts.suppress_warnings = suppress_warnings;
 if suppress_warnings
+    warning_state=warning('query','run_path_planner:collision');
     warning('off', 'run_path_planner:collision');
+    warning_cleanup=onCleanup(@() warning(warning_state.state,'run_path_planner:collision')); %#ok<NASGU>
 end
 
 % --- Print table header ---
@@ -116,6 +126,25 @@ fprintf('  %s\n', repmat('-', 1, 98));
 % --- Preallocate result struct ---
 benchmark_results = struct(...
     'algorithm', {}, ...
+    'requested_algorithm', {}, ...
+    'observed_actual_planners', {}, ...
+    'actual_planner_known', {}, ...
+    'planner_query_provenance_json', {}, ...
+    'path_query_count', {}, ...
+    'matrix_query_count', {}, ...
+    'route_query_count', {}, ...
+    'failed_query_count', {}, ...
+    'timing_scope', {}, ...
+    'comparison_level', {}, ...
+    'excluded_time_scope', {}, ...
+    'return_to_start', {}, ...
+    'return_segment_completed', {}, ...
+    'threshold', {}, ...
+    'required_nodes_visited', {}, ...
+    'num_required_segments', {}, ...
+    'num_attempted_segments', {}, ...
+    'num_successful_segments', {}, ...
+    'failure_reason', {}, ...
     'order_mode', {}, ...
     'path_length_m', {}, ...
     'task_path_length_m', {}, ...
@@ -138,6 +167,7 @@ for ai = 1:n_algos
     t_total = tic;
     total_fb = 0;     % accumulated fallback count
     total_col = 0;    % accumulated collision segments
+    provenance=empty_provenance();
 
     if strcmpi(order_mode, 'fixed_order')
         % === fixed_order: use shared route_order ===
@@ -146,13 +176,14 @@ for ai = 1:n_algos
         order_time = 0;
 
         t_stitch = tic;
-        [global_path, seg_stats, seg_fb, seg_col] = stitch_for_algo(...
+        [global_path, seg_stats, seg_fb, seg_col,route_provenance] = stitch_for_algo(...
             base_poses, route_order, scene.grid_map, scene.map_info, ...
             planner_cfg, algo, run_opts);
         stitch_time = toc(t_stitch);
 
         total_fb = total_fb + seg_fb;
         total_col = total_col + seg_col;
+        provenance=[provenance,route_provenance];
     else
         % === independent_order: each algorithm independent ===
         n_poses = size(base_poses, 1);
@@ -171,7 +202,9 @@ for ai = 1:n_algos
                 [seg_path, fb_info] = run_path_planner(scene.grid_map, ...
                     base_poses(i,:), base_poses(j,:), scene.map_info, ...
                     planner_cfg, algo, run_opts);
+                provenance(end+1)=query_provenance(fb_info,algo,'distance_matrix',i,j,seg_path); %#ok<AGROW>
                 d = compute_path_length(seg_path);
+                if size(seg_path,1)<2 || ~provenance(end).path_valid,d=inf;end
                 if d > 1e6 || isnan(d), d = inf; end
                 if isfinite(d) && lambda_theta > 0
                     dtheta = abs(wrapToPiLocal(base_poses(j,3) - base_poses(i,3)));
@@ -195,13 +228,14 @@ for ai = 1:n_algos
 
         % Step 3: stitch
         t_stitch = tic;
-        [global_path, seg_stats, seg_fb2, seg_col2] = stitch_for_algo(...
+        [global_path, seg_stats, seg_fb2, seg_col2,route_provenance] = stitch_for_algo(...
             base_poses, route_order, scene.grid_map, scene.map_info, ...
             planner_cfg, algo, run_opts);
         stitch_time = toc(t_stitch);
 
         total_fb = total_fb + seg_fb2;
         total_col = total_col + seg_col2;
+        provenance=[provenance,route_provenance];
     end
 
     total_time = toc(t_total);
@@ -221,11 +255,49 @@ for ai = 1:n_algos
     end
 
     [~, num_turns] = estimate_path_turn_angle(global_path);
-    success = ~isempty(global_path) && size(global_path, 1) >= 2;
+    required_nodes_visited=isequal(unique(reshape(route_order,1,[])),1:size(base_poses,1));
+    required_segments=max(numel(route_order)-1,0);
+    successful_segments=sum([seg_stats.path_valid]);
+    success = required_nodes_visited && ~isempty(global_path) && size(global_path,1)>=2 && ...
+        numel(seg_stats)==required_segments && successful_segments==required_segments && ...
+        all(isfinite([seg_stats.path_length_m]));
+    reason='';
+    if ~required_nodes_visited,reason='VISIT_ORDER_OMITS_DOCKS';
+    elseif ~success,reason='MISSING_OR_INVALID_ROUTE_SEGMENT';end
+    observed=unique({provenance.actual_planner},'stable');
+    actual_known=~isempty(provenance) && all([provenance.actual_planner_known]);
+    if strcmpi(order_mode,'fixed_order')
+        timing_scope='fixed_route_path_planner_queries+stitch';
+        comparison_level='fixed_route_path_planner_pipeline';
+        excluded='scene+candidate+selection+distance_matrix+visit_order_preprocessing+execution_simulation+oracle+rendering+file_io';
+    else
+        timing_scope='dense_pair_queries+visit_order+route_queries+stitch';
+        comparison_level='fixed_docks_route_and_path_planning_pipeline';
+        excluded='scene+candidate+selection+execution_simulation+oracle+rendering+file_io';
+    end
 
     % --- Save result ---
     n_res = length(benchmark_results) + 1;
     benchmark_results(n_res).algorithm = algo;
+    benchmark_results(n_res).requested_algorithm = algo;
+    benchmark_results(n_res).observed_actual_planners = strjoin(observed,'|');
+    benchmark_results(n_res).actual_planner_known = actual_known;
+    benchmark_results(n_res).planner_query_provenance_json = jsonencode(provenance);
+    benchmark_results(n_res).path_query_count = numel(provenance);
+    benchmark_results(n_res).matrix_query_count = sum(strcmp({provenance.query_scope},'distance_matrix'));
+    benchmark_results(n_res).route_query_count = sum(strcmp({provenance.query_scope},'route_segment'));
+    benchmark_results(n_res).failed_query_count = sum(~[provenance.path_valid]);
+    benchmark_results(n_res).timing_scope = timing_scope;
+    benchmark_results(n_res).comparison_level = comparison_level;
+    benchmark_results(n_res).excluded_time_scope = excluded;
+    benchmark_results(n_res).return_to_start = include_return;
+    benchmark_results(n_res).return_segment_completed = ~isempty(seg_stats) && seg_stats(end).is_return && seg_stats(end).path_valid;
+    benchmark_results(n_res).threshold = field_or(field_or(planner_cfg,'reachability',struct()),'threshold',NaN);
+    benchmark_results(n_res).required_nodes_visited = required_nodes_visited;
+    benchmark_results(n_res).num_required_segments = required_segments;
+    benchmark_results(n_res).num_attempted_segments = numel(seg_stats);
+    benchmark_results(n_res).num_successful_segments = successful_segments;
+    benchmark_results(n_res).failure_reason = reason;
     benchmark_results(n_res).order_mode = order_mode;
     benchmark_results(n_res).path_length_m = total_path_len;
     benchmark_results(n_res).task_path_length_m = task_path_len;
@@ -243,11 +315,6 @@ for ai = 1:n_algos
     fprintf('%10.2f %10.2f %10.2f %10.3f %10.3f %10.3f %8d %8d\n', ...
             total_path_len, task_path_len, return_path_len, ...
             dist_mat_time, stitch_time, total_time, total_fb, num_path_points);
-end
-
-% --- Restore warning state ---
-if suppress_warnings
-    warning('on', 'run_path_planner:collision');
 end
 
 % --- Summary table ---
@@ -277,15 +344,16 @@ end
 
 % ===================== Subfunctions =====================
 
-function [full_path, seg_stats, total_fb, total_col] = stitch_for_algo(...
+function [full_path, seg_stats, total_fb, total_col,provenance] = stitch_for_algo(...
     poses, route_order, grid_map, map_info, planner_cfg, algo_override, run_opts)
 % Stitch path segments for one algorithm. Returns segment-level stats.
 
 n_seg = length(route_order) - 1;
 full_path = [];
-seg_stats = struct('path_length_m', {}, 'is_return', {});
+seg_stats = struct('path_length_m', {}, 'is_return', {},'path_valid',{});
 total_fb = 0;
 total_col = 0;
+provenance=empty_provenance();
 
 for k = 1:n_seg
     from_idx = route_order(k);
@@ -293,13 +361,22 @@ for k = 1:n_seg
 
     [segment, fb_info] = run_path_planner(grid_map, poses(from_idx, :), ...
         poses(to_idx, :), map_info, planner_cfg, algo_override, run_opts);
+    provenance(end+1)=query_provenance(fb_info,algo_override,'route_segment',from_idx,to_idx,segment); %#ok<AGROW>
 
     total_fb = total_fb + fb_info.fallback_count;
     total_col = total_col + fb_info.collision_segments;
+    if size(segment,1)<2 || ~provenance(end).path_valid
+        seg_stats(k).path_length_m=inf;
+        seg_stats(k).is_return=(k==n_seg)&&(to_idx==1);
+        seg_stats(k).path_valid=false;
+        full_path=[];
+        return;
+    end
 
     % Record segment stats
     seg_stats(k).path_length_m = compute_path_length(segment);
     seg_stats(k).is_return = (k == n_seg) && (to_idx == 1);
+    seg_stats(k).path_valid=true;
 
     if isempty(full_path)
         full_path = segment;
@@ -311,5 +388,29 @@ end
 if ~isempty(full_path)
     full_path = densify_path(full_path, map_info.resolution);
 end
+end
 
+function rows=empty_provenance()
+rows=struct('query_scope',{},'from_id',{},'to_id',{},'requested_planner',{}, ...
+    'actual_planner',{},'actual_planner_known',{},'fallback_used',{}, ...
+    'fallback_count',{},'collision_segments',{},'path_valid',{}, ...
+    'postprocessing_repair_used',{},'fallback_reason',{},'failure_reason',{});
+end
+
+function row=query_provenance(info,requested,scope,from,to,path)
+row=struct('query_scope',scope,'from_id',from,'to_id',to, ...
+    'requested_planner',field_or(info,'requested_planner',requested), ...
+    'actual_planner',field_or(info,'actual_planner','unreported'), ...
+    'actual_planner_known',field_or(info,'actual_planner_known',false), ...
+    'fallback_used',field_or(info,'fallback_used',false), ...
+    'fallback_count',field_or(info,'fallback_count',0), ...
+    'collision_segments',field_or(info,'collision_segments',0), ...
+    'path_valid',size(path,1)>=2 && field_or(info,'path_valid',false), ...
+    'postprocessing_repair_used',field_or(info,'postprocessing_repair_used',false), ...
+    'fallback_reason',field_or(info,'fallback_reason',''), ...
+    'failure_reason',field_or(info,'failure_reason',''));
+end
+
+function value=field_or(s,name,fallback)
+if isstruct(s)&&isfield(s,name),value=s.(name);else,value=fallback;end
 end

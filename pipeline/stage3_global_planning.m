@@ -35,6 +35,8 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     end
 
     stats = struct();
+    robot_cfg = validate_main_robot_config(robot_cfg);
+    validate_experiment_protocol(planner_cfg);
     % Carry the already-resolved robot geometry into every planner call.
     planner_cfg.robot_cfg = robot_cfg;
     if isstruct(plan) && isfield(plan, 'shared_path_cost_context') && ...
@@ -114,6 +116,12 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     end
     global_path_time_s = toc(t_global_path);
     total_path_len = compute_path_length(global_path);
+    t_path_validation = tic;
+    path_validation = validate_planned_route(scene,global_path,all_poses,route_order,segment_stats,robot_cfg);
+    path_validation_time_s = toc(t_path_validation);
+    if ~path_validation.valid
+        error('stage3_global_planning:UnsafeRoute','%s',path_validation.reason);
+    end
     final_route_metrics = struct('route_length_m', total_path_len, ...
         'estimated_execution_time_s', NaN);
     fprintf('  全局路径长度: %.2f m\n', total_path_len);
@@ -207,7 +215,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     verified_rate = 100 * numel(execution_status.verified_tasks) / max(scene.num_tasks, 1);
     fprintf('预测覆盖率: %.1f%%\n', predicted_rate);
     fprintf('指令任务率: %.1f%%\n', commanded_rate);
-    fprintf('验证完成率: %.1f%%\n', verified_rate);
+    fprintf('仿真几何验证率: %.1f%%\n', verified_rate);
     fprintf('停靠位姿数: %d\n', size(optimal_poses, 1));
     fprintf('任务路径长度: %.2f m\n', exec_stats.task_path_len_m);
     fprintf('返回起点路径长度: %.2f m\n', exec_stats.return_path_len_m);
@@ -228,10 +236,13 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     timing.route_order_time_s = route_order_time_s;
     timing.global_path_time_s = global_path_time_s;
     timing.execution_sim_time_s = execution_sim_time_s;
-    timing.scene_time_s = get_timing_field(timing_input, 'scene_time_s', 0);
-    timing.docking_time_s = get_timing_field(timing_input, 'docking_time_s', 0);
-    timing.candidate_generation_time_s = get_timing_field(timing_input, 'candidate_generation_time_s', 0);
-    timing.strategy_total_time_s = get_timing_field(timing_input, 'strategy_total_time_s', 0);
+    timing.path_validation_time_s = path_validation_time_s;
+    timing.scene_time_s = get_timing_field(timing_input, 'scene_time_s', NaN);
+    timing.docking_time_s = get_timing_field(timing_input, 'docking_time_s', ...
+        get_timing_field(timing_input,'candidate_generation_time_s',NaN) + ...
+        get_timing_field(timing_input,'strategy_total_time_s',NaN));
+    timing.candidate_generation_time_s = get_timing_field(timing_input, 'candidate_generation_time_s', NaN);
+    timing.strategy_total_time_s = get_timing_field(timing_input, 'strategy_total_time_s', NaN);
     timing.region_order_time_s = get_timing_field(timing_input, 'region_order_time_s', 0);
     timing.local_selection_time_s = get_timing_field(timing_input, 'local_selection_time_s', 0);
     timing.route_refinement_time_s = get_timing_field(timing_input, 'route_refinement_time_s', 0);
@@ -247,7 +258,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
         timing.path_cache_hits = get_timing_field(plan.metrics, 'cache_hits', 0);
         timing.path_cache_misses = get_timing_field(plan.metrics, 'cache_misses', 0);
     end
-    timing.stage3_time_s = distance_matrix_time_s + route_order_time_s + global_path_time_s;
+    timing.stage3_time_s = distance_matrix_time_s + route_order_time_s + global_path_time_s + path_validation_time_s;
     shared_cache = get_shared_path_cost_diagnostics(planner_cfg);
     timing.shared_path_cache = shared_cache;
     timing.shared_cache_query_count = shared_cache.cache_query_count;
@@ -255,7 +266,18 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     timing.shared_cache_miss_count = shared_cache.cache_miss_count;
     timing.expensive_planner_calls = shared_cache.expensive_planner_calls;
     timing.total_planning_time_s = timing.scene_time_s + timing.docking_time_s + ...
-                                   distance_matrix_time_s + route_order_time_s + global_path_time_s;
+                                   timing.stage3_time_s;
+    protocol = experiment_protocol_config(planner_cfg);
+    timing.scope = protocol.planning_time_scope;
+    timing.timing_scope = timing.scope;
+    timing.timing_source = 'measured_current_pipeline';
+    timing.upstream_timing_available=all(isfinite([timing.scene_time_s,timing.docking_time_s]));
+    if ~timing.upstream_timing_available
+        timing.timing_scope='routing_only_upstream_unmeasured';
+        timing.timing_source='measured_current_routing_upstream_unknown';
+    end
+    if isfield(timing_input,'timing_scope'),timing.timing_scope=timing_input.timing_scope;end
+    timing.excludes_execution_simulation = true;
 
     experiment_stats = build_experiment_stats(scene, verified_tasks, optimal_poses, global_path, ...
         exec_stats, timing, segment_stats, task_sequence_summary, execution_status);
@@ -269,6 +291,17 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     stats.commanded_task_rate = commanded_rate;
     stats.verified_completion_rate = verified_rate;
     stats.execution_status = execution_status;
+    stats.evidence = experiment_stats.evidence;
+    stats.geometric_coverage_rate = experiment_stats.evidence.geometric_coverage_rate;
+    stats.simulated_geometric_completion_rate = experiment_stats.evidence.simulated_geometric_completion_rate;
+    stats.ik_feasibility_rate = experiment_stats.evidence.ik_feasibility_rate;
+    stats.actual_completion_rate = experiment_stats.evidence.actual_completion_rate;
+    stats.path_validation = path_validation;
+    stats.global_path = global_path;
+    stats.protocol = experiment_protocol_config(planner_cfg);
+    if isfield(planner_cfg,'experiment_protocol'),stats.protocol=planner_cfg.experiment_protocol;end
+    stats.protocol.actual_threshold = planner_cfg.reachability.threshold;
+    stats.protocol.actual_return_to_start = planner_cfg.execution.return_to_start;
     stats.num_tables  = size(scene.scene_cfg.table_positions, 1);
     stats.table_pos   = scene.scene_cfg.table_positions;
     stats.visit_order = visit_order;

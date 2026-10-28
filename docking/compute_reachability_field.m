@@ -1,9 +1,9 @@
 function reach_field = compute_reachability_field(table_center, table_theta, ...
         scene_cfg, robot_cfg, map_info, task_centroid, task_positions)
-    if nargin < 7 || isempty(task_centroid)
+    if nargin < 6 || isempty(task_centroid)
         task_centroid = table_center;
     end
-    if nargin < 8
+    if nargin < 7 || isempty(task_positions)
         task_positions = [];
     end
 
@@ -82,8 +82,16 @@ function reach_field = compute_reachability_field(table_center, table_theta, ...
     % 候选朝向不再只看任务质心。对每个候选位置，同时考虑：
     % 1) 面向任务质心；2) 面向每个具体任务点；3) 面向桌子中心/侧边法向。
     % 这样可避免桌角任务被“质心朝向”误杀。
-    angle_offsets = [-pi/6, -pi/12, 0, pi/12, pi/6];
-    candidates = zeros(size(raw_positions, 1) * max(1, (2 + size(task_positions, 1))) * length(angle_offsets), 4);
+    angle_step = pi / 12;
+    if isfield(scene_cfg, 'docking_orientation_step_rad')
+        angle_step = scene_cfg.docking_orientation_step_rad;
+    end
+    if ~isscalar(angle_step) || ~isfinite(angle_step) || angle_step <= 0 || angle_step > pi/3
+        error('compute_reachability_field:InvalidOrientationStep', ...
+            'docking_orientation_step_rad must be finite and in (0, pi/3].');
+    end
+    angle_offsets = unique([-pi/6, -pi/6:angle_step:pi/6, 0, pi/6]);
+    candidates = zeros(size(raw_positions, 1) * max(1, (3 + size(task_positions, 1))) * length(angle_offsets), 4);
     idx = 0;
 
     for k = 1:size(raw_positions, 1)

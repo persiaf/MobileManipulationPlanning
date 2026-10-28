@@ -78,3 +78,11 @@ paper_tac/results/lnn/
 # release attachments, alongside ignored raw data, logs, and historical models.
 /results/tables/p3p4_state_*.mat
 /results/tables/position_only_resource_bounded_seed*_state.mat
+
+# v0.3.0: retain authoritative repair evidence; local interrupted runs stay local.
+/results/repair_20261027/evidence_20261027_221056/
+/results/repair_20261027/evidence_20261027_221823/dynamic_interrupted_20261028/
+/results/repair_20261027/current_evidence_path.txt
+/results/repair_20261027/resume_repair_dynamic_comparison.m
+/results/repair_20261027/**/*.log
+/results/repair_20261027/**/execution_environment.json

@@ -17,8 +17,8 @@ function testOverridePrecedence(testCase)
 end
 
 function testRobotAndInterfaceRemainSeparate(testCase)
-    effective = resolve_effective_config('robot_profile', 'physical_robot');
-    verifyEqual(testCase, effective.robot.geometry_profile, 'physical_robot');
+    effective = resolve_effective_config();
+    verifyEqual(testCase, effective.robot, robot_config());
     verifyFalse(testCase, effective.real_platform.enabled);
     verifyFalse(testCase, effective.real_platform.lift.enabled);
 end

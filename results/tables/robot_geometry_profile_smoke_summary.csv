@@ -1,5 +1,0 @@
-case_id,seed,robot_geometry_profile,task_count,library_candidate_count,library_coverage,uncovered_task_count,T_candidate
-C0,2026,legacy_validated,75,7134,100,0,8.0743503
-C0,2026,physical_robot,75,7134,64,27,7.6754368
-C2,2026,legacy_validated,65,3812,55.3846153846154,29,8.1210051
-C2,2026,physical_robot,65,3812,32.3076923076923,44,8.1955379

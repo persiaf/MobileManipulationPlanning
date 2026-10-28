@@ -1,0 +1,374 @@
+{
+  "phase": 2,
+  "matlab_version": "9.12.0.1884302 (R2022a)",
+  "total": 52,
+  "passed": 52,
+  "failed": 0,
+  "incomplete": 0,
+  "tests": [
+    {
+      "name": "test_experiment_protocol_repair/testReturnAndScoreShareMainBasis",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.3543576
+    },
+    {
+      "name": "test_experiment_protocol_repair/testReturnDriftIsRejected",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0514874
+    },
+    {
+      "name": "test_experiment_protocol_repair/testAssignmentAwareManipulationTiming",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0283703
+    },
+    {
+      "name": "test_experiment_protocol_repair/testCurrentPlanningCaseMeasuresAndLabelsEvidence",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.9217533
+    },
+    {
+      "name": "test_evidence_metric_contract/testSimulationDoesNotBecomePhysicalEvidence",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.031771100000000004
+    },
+    {
+      "name": "test_evidence_metric_contract/testExplicitMeasuredSourceHasSeparateRate",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0047841
+    },
+    {
+      "name": "test_evidence_metric_contract/testProxyAndIKAreIndependentKinds",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.010037899999999999
+    },
+    {
+      "name": "test_evidence_metric_contract/testSimulationOutputsAreExplicitlyLabeled",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0072182
+    },
+    {
+      "name": "test_evidence_metric_contract/testMissingStatusNeverInventsVerification",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.014787400000000001
+    },
+    {
+      "name": "test_evidence_metric_contract/testPartialOrUnsafeMissionIsNotSuccess",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0354078
+    },
+    {
+      "name": "test_evidence_metric_contract/testLegacyExecutedArgumentDoesNotMeanCompleted",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.010536499999999999
+    },
+    {
+      "name": "test_evidence_metric_contract/testMissingTimeUnknownAndMeasuredZeroPreserved",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0229684
+    },
+    {
+      "name": "test_evidence_metric_contract/testCanonicalAlignmentKeepsFlatEvidence",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.4511921
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testSuccessfulPathRetainsExactFullRequestedPoses",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0619448
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testNominalCollisionCannotBeHiddenByGridSnapping",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.031090299999999998
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testCloseWallDockUsesSafeRotationAnchor",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.021107
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testLongEndpointSnapIsExplicitFailure",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0047243000000000007
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testAxisOrderConnectorCanAvoidBlockedDiagonalCorner",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0111743
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testPointOnlyModePreservesWorldOriginAndExactEndpoints",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.024512100000000002
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testSameCellAndPureRotationStillHaveExactYaw",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.027780799999999998
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testDstarStateRemainsReusableOnlyForItsValidatedRoute",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.14523270000000002
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testUnknownPlannerReportsActualFallback",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0089491
+    },
+    {
+      "name": "test_navigation_endpoint_fidelity/testFreeInflatedGridCentresAreSafeForEverySampledYaw",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.1468244
+    },
+    {
+      "name": "test_footprint_sparse_edge_validation/testInflatedMapUsesConfiguredFootprint",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.006132900000000001
+    },
+    {
+      "name": "test_footprint_sparse_edge_validation/testInflationUsesMetricRadiusForDiagonalOffsets",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0035394000000000003
+    },
+    {
+      "name": "test_main_smoke/testSmallPlanningPipeline",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.4513407999999999
+    },
+    {
+      "name": "test_strategy_comparison_smoke/testComparisonLogicOnFixture",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.0783004
+    },
+    {
+      "name": "test_strategy_plan_consistency/testPlanConsistencyAllStrategies",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.5745976999999998
+    },
+    {
+      "name": "test_execution_time_breakdown/testExecutionTimeComponentsSumToTotal",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0076116
+    },
+    {
+      "name": "test_navigation_time_path_basis/testNavigationTimeUsesTotalPath",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0071766999999999994
+    },
+    {
+      "name": "test_planned_execution_consistency/testExecutionUsesOnlyCommands",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.0894452
+    },
+    {
+      "name": "test_path_length_decomposition/testPathLengthWithReturnDecomposes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0051253
+    },
+    {
+      "name": "test_path_length_decomposition/testPathLengthWithoutReturnHasZeroReturnPath",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0029438
+    },
+    {
+      "name": "test_main_robot_unification/testCanonicalGeometryAndLegacyAlias",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0258699
+    },
+    {
+      "name": "test_main_robot_unification/testEveryRetainedNamedSceneUsesMainRobot",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.10998799999999999
+    },
+    {
+      "name": "test_main_robot_unification/testRegistryAndRemovedScenes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0462155
+    },
+    {
+      "name": "test_main_robot_unification/testAllResolverLayersRejectConflictingGeometry",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0237594
+    },
+    {
+      "name": "test_main_robot_unification/testBuilderRejectsLegacyAndSemanticOverrideRoutes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0229056
+    },
+    {
+      "name": "test_main_robot_unification/testEntryPointsRejectAlternateFrozenRobot",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.1510878999999998
+    },
+    {
+      "name": "test_main_robot_unification/testOldSnapshotsGetOnlyTheCanonicalDerivedFootprint",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0113173
+    },
+    {
+      "name": "test_p5_fixture_geometry/testMainRobotAndTableTasksAreValid",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.3150104999999996
+    },
+    {
+      "name": "test_p5_fixture_geometry/testCandidateCoverageIsMeasuredAtItsActualPose",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0159194
+    },
+    {
+      "name": "test_p5_fixture_geometry/testRoutesHaveExactDocksAndNoSimulatedPhysicalCompletion",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.24806059999999996
+    },
+    {
+      "name": "test_dynamic_event_determinism/testAddTasksDeterministic",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.0330232
+    },
+    {
+      "name": "test_change_impact_locality/testPathObstacleImpactIsLocal",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.0428926
+    },
+    {
+      "name": "test_local_replan_preserves_unaffected_state/testDockInvalidationPreservesUnaffectedDocks",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.2800069
+    },
+    {
+      "name": "test_local_replan_fallback/testFallbackWhenChangedMapHasNoTraversableCells",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.0300932
+    },
+    {
+      "name": "test_local_replan_route_feasibility/testPathObstacleRepairAvoidsInvalidEdge",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 2.3480262999999995
+    },
+    {
+      "name": "test_local_replan_route_feasibility/testAddedTasksCoveredByLocalSupplement",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 3.7196479
+    },
+    {
+      "name": "test_visualization_smoke/testScenePlanningAndDynamicRender",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 6.0200493
+    },
+    {
+      "name": "test_path_cost_cache/testCacheHitAfterRepeat",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.03334
+    },
+    {
+      "name": "test_sparse_cache_semantic_identity/testSparseCacheOnMatchesCacheOff",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.5520724000000001
+    }
+  ]
+}

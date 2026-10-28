@@ -21,6 +21,8 @@ function testInflationUsesMetricRadiusForDiagonalOffsets(testCase)
     [inflated, meta] = build_footprint_inflated_map(map, fp, info);
 
     verifyEqual(testCase, meta.radius_m, 0.5 * hypot(fp.length_m, fp.width_m), 'AbsTol', 1e-12);
-    verifyTrue(testCase, inflated(17, 17) == 0); % 2 diagonal cells exceed the circumscribed radius.
-    verifyTrue(testCase, inflated(17, 16) > 0);  % 1 diagonal cell remains inside it.
+    verifyEqual(testCase,meta.search_radius_m,meta.radius_m+sqrt(2)*info.resolution/2,'AbsTol',1e-12);
+    verifyTrue(testCase,inflated(17,17)>0); % Finite obstacle square adds its half diagonal.
+    verifyTrue(testCase,inflated(17,16)>0);
+    verifyTrue(testCase,inflated(18,17)==0); % Outside the metric search radius, not ceil-cell dilation.
 end

@@ -4,7 +4,7 @@ function effective = resolve_effective_config(varargin)
 % Name-value inputs:
 %   profile             C0-C3, L1-L3, V1-V3, or empty for scene_config.
 %   seed                Profile seed (default 2026).
-%   robot_profile       legacy_validated or physical_robot.
+%   robot_profile       robot_config (legacy_validated is an identical alias).
 %   profile_override    Component struct applied after named profiles.
 %   experiment_override Component struct applied after profile overrides.
 %   user_override       Highest-priority component struct.
@@ -25,12 +25,18 @@ function effective = resolve_effective_config(varargin)
     effective = apply_layer(effective, opts.profile_override);
     effective = apply_layer(effective, opts.experiment_override);
     effective = apply_layer(effective, opts.user_override);
+    effective.robot = validate_main_robot_config(effective.robot);
+    effective.planner.robot_cfg = validate_main_robot_config(effective.planner.robot_cfg);
+    effective.planner.robot_cfg = effective.robot;
+    effective.planner.experiment_protocol=experiment_protocol_config();
+    effective.planner.experiment_protocol.enforce=true;
+    validate_experiment_protocol(effective.planner);
     effective.planner.visualization = legacy_visualization_config( ...
         getfield_default(effective.planner, 'visualization', struct()));
     effective.planner.real_platform = effective.real_platform;
     effective.meta.profile = opts.profile;
     effective.meta.seed = opts.seed;
-    effective.meta.robot_profile = opts.robot_profile;
+    effective.meta.robot_profile = 'robot_config';
     effective.meta.override_order = ...
         {'base', 'named_profile', 'profile_override', 'experiment_override', 'user_override'};
     effective.meta.visualization_source = 'visualization_config';
@@ -42,8 +48,6 @@ function scene = named_scene_profile(profile, seed)
         scene = scene_complexity_profile_config(name, seed);
     elseif any(strcmp(name, {'L1','L2','L3','V1','V2','V3'}))
         scene = large_scale_profile_config(name, seed);
-    elseif strcmp(name, 'CAFETERIA_1X3_2X3')
-        scene = cafeteria_scene_profile_config(seed);
     else
         error('resolve_effective_config:UnknownProfile', 'Unknown profile "%s".', name);
     end
@@ -61,7 +65,7 @@ function effective = apply_layer(effective, layer)
 end
 
 function opts = parse_options(varargin)
-    opts = struct('profile', '', 'seed', 2026, 'robot_profile', 'legacy_validated', ...
+    opts = struct('profile', '', 'seed', 2026, 'robot_profile', 'robot_config', ...
         'profile_override', struct(), 'experiment_override', struct(), ...
         'user_override', struct());
     if mod(numel(varargin), 2) ~= 0

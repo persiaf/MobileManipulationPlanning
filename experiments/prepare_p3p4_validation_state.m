@@ -9,7 +9,7 @@ function state_file = prepare_p3p4_validation_state(scale, seed, strategy, state
     init_paths(root);
     cleanup_obj = configure_headless_experiment(); %#ok<NASGU>
     if nargin < 4 || isempty(state_file)
-        out_dir = fullfile(root, 'results', 'tables');
+        out_dir = fullfile(root, 'results', 'cache', 'repaired_p3p4_states');
         if ~isfolder(out_dir), mkdir(out_dir); end
         state_file = fullfile(out_dir, sprintf('p3p4_state_%s_seed%d_%s.mat', ...
             lower(scale), seed, lower(strategy)));
@@ -17,18 +17,21 @@ function state_file = prepare_p3p4_validation_state(scale, seed, strategy, state
 
     scene = build_scene_from_cfg(large_scale_profile_config(scale, seed));
     robot_cfg = robot_config();
-    planner_cfg = p3p4_base_config(strategy, false);
+    planner_cfg = apply_experiment_protocol(p3p4_base_config(strategy, false));
     task_table_map = assign_tasks_to_tables(scene);
     regions = build_task_regions(scene, task_table_map);
     candidate_library = build_candidate_library(regions, scene, robot_cfg, planner_cfg);
     plan = run_planning_strategy(candidate_library, regions, scene, robot_cfg, planner_cfg);
     covered_by_library = library_covered_tasks(candidate_library);
-    model_infeasible_tasks = setdiff(1:scene.num_tasks, covered_by_library, 'stable');
+    candidate_uncovered_tasks = setdiff(1:scene.num_tasks, covered_by_library, 'stable');
+    model_infeasible_tasks = []; % No independent physical-infeasibility certificate.
+    validation_identity = demo_state_cache_identity(scene,robot_cfg,planner_cfg,scale,seed);
     region_metadata = summarize_region_metadata(scene, candidate_library, pose_cluster_regions(plan, scene));
 
     save(state_file, 'scale', 'seed', 'strategy', 'scene', 'robot_cfg', ...
         'planner_cfg', 'task_table_map', 'regions', 'candidate_library', ...
-        'plan', 'model_infeasible_tasks', 'region_metadata', '-v7.3');
+        'plan', 'model_infeasible_tasks', 'candidate_uncovered_tasks', ...
+        'region_metadata','validation_identity','-v7.3');
     fprintf('P3P4_STATE_READY file=%s scale=%s seed=%d strategy=%s tasks=%d docks=%d\n', ...
         state_file, scale, seed, strategy, scene.num_tasks, plan.num_docking_poses);
 end

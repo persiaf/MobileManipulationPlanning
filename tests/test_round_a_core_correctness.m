@@ -29,9 +29,8 @@ function testStage3RejectsBlockedPlan(testCase)
 end
 
 function testEffectiveConfigCarriesRobotIntoPlanner(testCase)
-    effective = resolve_effective_config('robot_profile', 'physical_robot');
-    verifyEqual(testCase, effective.robot.geometry_profile, 'physical_robot');
-    effective.planner.robot_cfg = effective.robot;
+    effective = resolve_effective_config();
+    verifyEqual(testCase, effective.robot, robot_config());
     verifyEqual(testCase, effective.planner.robot_cfg.chassis.length, ...
         effective.robot.chassis.length);
 end

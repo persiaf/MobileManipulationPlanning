@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.0] — 2026-10-28
+
+- Unified maintained scenes on the unchanged main robot; removed restaurant, hardware-matched and alternate physical-model branches, parameters and dedicated outputs.
+- Corrected rotated scene geometry, footprint axes and occupied-cell checks, candidate optional arguments, task/table membership, exact navigation endpoints and SE(2) route provenance.
+- Added source-bound frozen-scene loading and a fixed threshold/return/timing protocol; separated proxy, geometric, simulated, IK and measured-execution evidence.
+- Replaced estimated dynamic references with actual paired replans; synchronized added-task services/state/candidates and committed compact, reload-validated pair snapshots before CSV output.
+- Completed 78 core experiment rows and 21 independent weight cases; preserved coverage/routing failures and unknown IK/physical execution. Added 118 passing targeted regression checks and separate full-suite release validation.
+- Added root VERSION, portable README instructions, tagged-release notes and authoritative evidence. Ignored interrupted/corrupt runs and host-local pointers; paper-format version and integration schema remain unchanged.
+- Recorded the incomplete all-tests attempt after 41 completed files; corrected the outdated A* provenance-label assertion and passed both focused D* rechecks. No full-suite pass is claimed.
+
+Release scope, validation and known limits: [docs/releases/v0.3.0.md](docs/releases/v0.3.0.md).
+
+## 2026-10-27 — Single main-scene robot
+
+- Kept all numeric values in config/robot_config.m and the main staged entry unchanged.
+- Removed restaurant scenes/proxies, hardware-matched scenes, the alternate physical geometry, and their dedicated tests and outputs.
+- Unified the registry, GUI, config resolution and planning entry points around robot_config; conflicting overrides now fail explicitly.
+- Added cross-profile/configuration regression checks. Scope, removed-file hashes and validation are documented in docs/main_robot_unification.md.
+
 ## 2026-08-31
 
 - Added `docs/current_code_structure.md` as the current source-tree and file-responsibility inventory.

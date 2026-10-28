@@ -8,12 +8,17 @@ function row = run_p3p4_validation_route(state_file, routing_mode, k, cache_on, 
         mode_label = sprintf('%s_cache_%d', routing_mode, cache_on);
     end
     if nargin < 6 || isempty(output_csv)
-        out_dir = fullfile(root, 'results', 'tables');
+        out_dir = fullfile(root, 'results', 'repair_20261027');
         if ~isfolder(out_dir), mkdir(out_dir); end
-        output_csv = fullfile(out_dir, 'p3p4_final_validation_raw.csv');
+        output_csv = fullfile(out_dir, 'p3p4_routing_only_raw.csv');
     end
 
     data = load(state_file);
+    expected_identity = demo_state_cache_identity(data.scene,data.robot_cfg,data.planner_cfg,data.scale,data.seed);
+    if ~isfield(data,'validation_identity') || ~isequaln(data.validation_identity,expected_identity)
+        error('run_p3p4_validation_route:StaleState', ...
+            'Frozen state predates current geometry/config/source validation. Regenerate with prepare_p3p4_validation_state.');
+    end
     row = empty_row();
     row.timestamp = datestr(now, 30);
     row.scale = data.scale;
@@ -37,8 +42,8 @@ function row = run_p3p4_validation_route(state_file, routing_mode, k, cache_on, 
         cfg.candidate_pair_prefilter.enable = false;
 
         timing = struct('scene_time_s', 0, ...
-            'candidate_generation_time_s', data.candidate_library.total_generation_time_s, ...
-            'strategy_total_time_s', 0);
+            'candidate_generation_time_s',0,'strategy_total_time_s',0, ...
+            'timing_scope','routing_only_replay_upstream_excluded');
         t_stage3 = tic;
         [~, ~, ~, visit_order, executed_tasks, total_path, stats] = stage3_global_planning( ...
             data.scene, data.plan.selected_poses, data.plan.task_sequence_summary, ...
@@ -46,6 +51,8 @@ function row = run_p3p4_validation_route(state_file, routing_mode, k, cache_on, 
         row.T_stage3 = toc(t_stage3);
         row.T_path_cost = stats.timing.distance_matrix_time_s;
         row.T_total = row.T_stage3;
+        row.timing_scope = 'routing_only_replay_upstream_excluded';
+        row.evidence_source = 'geometric_simulation';
         row.task_count = data.scene.num_tasks;
         row.table_count = size(data.scene.scene_cfg.table_positions, 1);
         row.region_count = data.scene.region_metadata.region_count;
@@ -115,6 +122,7 @@ function row = empty_row()
         'verified_completion', NaN, 'completed_tasks', 0, ...
         'total_path_length', NaN, 'route_degradation', NaN, ...
         'T_path_cost', NaN, 'T_stage3', NaN, 'T_total', NaN, ...
+        'timing_scope','routing_only_replay_upstream_excluded','evidence_source','geometric_simulation', ...
         'cache_query_count', 0, 'cache_hit_count', 0, 'cache_miss_count', 0, ...
         'expensive_planner_calls', 0, 'objective', NaN, 'visit_order', '');
 end

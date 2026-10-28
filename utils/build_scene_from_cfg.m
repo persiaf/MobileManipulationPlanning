@@ -35,6 +35,7 @@ function scene = build_scene_from_cfg(scene_cfg)
 
     % —— 生成任务 ——
     scene.tasks = generate_scene_tasks(scene_cfg);
+    validate_tabletop_tasks(scene_cfg, scene.tasks);
     num_tasks = length(scene.tasks);
     scene_cfg.actual_task_count = num_tasks;
 

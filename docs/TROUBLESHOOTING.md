@@ -2,9 +2,7 @@
 
 | Status | Meaning / inspect | Do not change first |
 |---|---|---|
-| CAFETERIA_REACHABILITY_BLOCKED | Formal reachability rejected tasks; inspect diagnostics/profile geometry | Do not enlarge reach radius blindly |
-| CAFETERIA_CANDIDATE_COVERAGE_BLOCKED | Candidate library cannot cover tasks | Do not alter candidate generation casually |
-| CAFETERIA_PATH_COLLISION_FAILURE | Route violates map/footprint checks | Do not delete collision checks |
+| validate_main_robot_config:ConflictingParameter | A robot override or frozen state differs from robot_config.m | Use the main-scene robot parameters; recreate the incompatible state |
 | FOOTPRINT_LIMITED | Inflated footprint limits a point-feasible route | Inspect inflation, map resolution, waypoints |
 | BLOCKED | Structured infeasible result; inspect plan.reason | Do not interpret as crash |
 | Sparse graph disconnected | No finite route in sparse graph | Inspect sparse k and connectivity |

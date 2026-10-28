@@ -12,6 +12,9 @@ function metrics = task_operability_accounting(task_ids, covered_tasks, model_in
     covered_model_feasible = intersect(covered_tasks, model_feasible_tasks, 'stable');
 
     metrics = struct();
+    metrics.infeasibility_provenance = 'caller_supplied_unverified_set';
+    metrics.independent_feasibility_evidence_available = false;
+    metrics.independent_feasible_coverage_percent = NaN;
     metrics.total_task_count = numel(task_ids);
     metrics.raw_covered_tasks = numel(intersect(covered_tasks, task_ids, 'stable'));
     metrics.raw_task_coverage_percent = ...

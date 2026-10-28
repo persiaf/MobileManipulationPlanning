@@ -2,7 +2,7 @@ function report = export_footprint_validation(result, output_dir)
 %EXPORT_FOOTPRINT_VALIDATION Export one row per waypoint using the same path.
     if nargin < 2 || isempty(output_dir)
         output_dir = fullfile(fileparts(fileparts(mfilename('fullpath'))), ...
-            'results','cafeteria','footprint_validation');
+            'results','footprint_validation');
     end
     if ~isfield(result,'global_path') || isempty(result.global_path)
         error('export_footprint_validation:Path','result.global_path is empty.');

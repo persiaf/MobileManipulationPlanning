@@ -7,6 +7,7 @@ function [path, cost, success, cache_hit] = query_path_with_shared_cache( ...
         path_cost_audit('record', start_pose, goal_pose, planner_cfg.global_planner, true);
         path = run_path_planner(grid_map, start_pose, goal_pose, map_info, planner_cfg);
         cost = path_length(path); success = ~isempty(path) && size(path, 1) >= 2;
+        if ~success,cost=inf;end
         cache_hit = false;
         return;
     end

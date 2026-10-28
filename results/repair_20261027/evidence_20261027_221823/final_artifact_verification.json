@@ -1,0 +1,69 @@
+{
+  "verified_at": "2026-10-28T09:16:22.057399",
+  "tests_passed": 118,
+  "core_rows": 78,
+  "supplement_rows": 21,
+  "total_rows": 99,
+  "analysis_valid_complete": true,
+  "data_quality_issues": 0,
+  "io_source_files_checked": 388,
+  "source_drift": [],
+  "robot_sha256": "34c59d92d6ce8b77684f59cb1003d0f33abab80f3f1e64b8e5914a5e79ec247e",
+  "dynamic_pair_files": [
+    {
+      "file": "dynamic/seed2026_ADD_LOCAL_OBSTACLE_pair.mat",
+      "bytes": 656271,
+      "sha256": "41155ada760e7b54d1e47349d7c195be7c8fddf2c385826b09b1909c561040ab",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2026_ADD_TASKS_pair.mat",
+      "bytes": 696294,
+      "sha256": "4afefb7a4abc73af9742d391f1566d6e64979f0a66549a54b8d9926836910273",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2026_INVALIDATE_DOCK_pair.mat",
+      "bytes": 503286,
+      "sha256": "8ee1edbd855c9141ac5ef6e3d814d4a02b41ef28c729c578de66b75caeea904e",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2027_ADD_LOCAL_OBSTACLE_pair.mat",
+      "bytes": 630800,
+      "sha256": "1664e0ace4018694593ef87fc4245b7469d11b76e22519ef84e813073cf60df8",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2027_ADD_TASKS_pair.mat",
+      "bytes": 671079,
+      "sha256": "5175121b01d9faedefe4ccbb8aa67a7d6d7a3fd6b7ab9660abe2ed1ed668dcff",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2027_INVALIDATE_DOCK_pair.mat",
+      "bytes": 501135,
+      "sha256": "36c43a2f35e740bcb5a7d6fe502b36770898a2988b471aff5d0c044ddf1a82e0",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2028_ADD_LOCAL_OBSTACLE_pair.mat",
+      "bytes": 692908,
+      "sha256": "57c9b5f0ed76868d0aa32b203658063f18e2744a892d6091aee0f49b9e657296",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2028_ADD_TASKS_pair.mat",
+      "bytes": 733578,
+      "sha256": "4175fd710b6b5285244d3c3a4e2269e92f8d451f195a6ab1fec781ebcff55c71",
+      "independent_reload_and_csv_match": true
+    },
+    {
+      "file": "dynamic/seed2028_INVALIDATE_DOCK_pair.mat",
+      "bytes": 534480,
+      "sha256": "2d896fa2b1d2fe3fb9bd64fa8e8e59c65eed440540f8ea64a299e9076b12e680",
+      "independent_reload_and_csv_match": true
+    }
+  ],
+  "snapshot_note": "Compact plain evidence; candidate/runtime regeneration required for planning replay."
+}

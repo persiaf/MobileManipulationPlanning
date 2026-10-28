@@ -69,7 +69,9 @@ function testFallbackClearsDstarState(testCase)
         'dstar_lite', struct('incremental_mode', true, 'dstar_state', []));
     verifyFalse(testCase, diagnostics.path_safe);
     verifyTrue(testCase, diagnostics.fallback_used);
-    verifyEqual(testCase, diagnostics.actual_planner, 'astar');
+    verifyTrue(testCase, ismember(diagnostics.actual_planner, ...
+        {'astar','astar+grid_postprocess'}), ...
+        'Fallback provenance must identify A*, including an explicitly reported grid repair.');
     verifyFalse(testCase, diagnostics.search_state_valid);
     verifyEmpty(testCase, search_state);
     verifyLessThanOrEqual(testCase, size(path, 1), 2);

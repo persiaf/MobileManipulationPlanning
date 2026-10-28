@@ -10,13 +10,15 @@ function [ok, bad_idx] = validate_world_path_collision(grid_map, path, map_info,
     end
 
     traversable = (grid_map == 0);
+    origin=[0 0];
+    if isfield(map_info,'origin_xy'),origin=map_info.origin_xy;end
 
     for k = 2:size(path, 1)
         p1 = path(k-1, 1:2);
         p2 = path(k, 1:2);
 
-        [gi1, gj1] = world2grid(p1(1), p1(2), map_info.resolution, map_info.height_m);
-        [gi2, gj2] = world2grid(p2(1), p2(2), map_info.resolution, map_info.height_m);
+        [gi1, gj1] = world2grid(p1(1), p1(2), map_info.resolution, map_info.height_m,origin);
+        [gi2, gj2] = world2grid(p2(1), p2(2), map_info.resolution, map_info.height_m,origin);
 
         if ~collision_free([gi1, gj1], [gi2, gj2], traversable)
             ok = false;

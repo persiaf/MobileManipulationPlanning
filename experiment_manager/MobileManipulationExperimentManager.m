@@ -61,12 +61,7 @@ classdef MobileManipulationExperimentManager < matlab.apps.AppBase
             base = experiment_config_builder('baseline', 'seed', seed);
             scene_base = experiment_config_builder(scene_id, 'seed', seed);
             scene_cfg = scene_base.scene_cfg;
-            if strcmpi(robot_id, 'physical_robot')
-                robot_base = experiment_config_builder('hardware_matched_lab', 'seed', seed);
-                robot_cfg = robot_base.robot_cfg;
-            else
-                robot_cfg = base.robot_cfg;
-            end
+            robot_cfg = base.robot_cfg;
             base.scene_cfg = scene_cfg;
             base.robot_cfg = robot_cfg;
             base.planner_cfg.global_planner = planner_id;
@@ -158,8 +153,9 @@ function createComponents(app)
 end
 
 function [scene, robot, planner, strategy, constraint, mode] = createSelectors(root)
-    scene = add_selector(root, 'Scene', 2, {'baseline','cafeteria_basic3','cafeteria_complex12','hardware_matched_lab'});
-    robot = add_selector(root, 'Robot', 3, {'robot_config','physical_robot'});
+    scene = add_selector(root, 'Scene', 2, {'baseline','strategy_comparison'});
+    robot = add_selector(root, 'Robot', 3, {'robot_config'});
+    robot.Enable = 'off';
     planner = add_selector(root, 'Planner', 4, {'convex_astar','astar','jps','theta_star'});
     strategy = add_selector(root, 'Strategy', 5, {'bottom_up','top_down','bidirectional'});
     constraint = add_selector(root, 'Constraint', 6, {'standard','strict scene','coverage required','no scene validation'});

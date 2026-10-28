@@ -1,6 +1,7 @@
 function dist_matrix = compute_path_cost_matrix(poses, grid_map, map_info, planner_cfg)
     n = size(poses, 1);
     dist_matrix = inf(n, n);
+    dist_matrix(1:n+1:end)=0;
     lambda_theta = 0;
     if isfield(planner_cfg, 'edge_cost') && isfield(planner_cfg.edge_cost, 'lambda_theta')
         lambda_theta = planner_cfg.edge_cost.lambda_theta;

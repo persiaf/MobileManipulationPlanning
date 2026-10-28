@@ -1,0 +1,10 @@
+{
+  "release": "0.3.0",
+  "portable_default_resolution": true,
+  "local_pointer_present": false,
+  "core_rows": 78,
+  "weight_rows": 21,
+  "both_analysis_snapshots_valid": true,
+  "checked_at": "2026-10-28T09:39:40.673171",
+  "subprocess_output_encoding": "UTF-8"
+}

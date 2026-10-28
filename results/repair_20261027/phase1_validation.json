@@ -1,0 +1,241 @@
+{
+  "phase": 1,
+  "matlab_version": "9.12.0.1884302 (R2022a)",
+  "total": 33,
+  "passed": 33,
+  "failed": 0,
+  "incomplete": 0,
+  "tests": [
+    {
+      "name": "test_geometry_consistency_repair/testRasterAngleUsesWorldPositiveY",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.3337019
+    },
+    {
+      "name": "test_geometry_consistency_repair/testMainRobotLengthAndWidthAxes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.029942
+    },
+    {
+      "name": "test_geometry_consistency_repair/testRotatedCellIntersectionsMatchIndependentPolygonEdges",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.3636635
+    },
+    {
+      "name": "test_geometry_consistency_repair/testRotatedCornerIsNotOmittedByScanBounds",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0038709
+    },
+    {
+      "name": "test_geometry_consistency_repair/testFootprintOutsideEmptyMapIsCollision",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0308326
+    },
+    {
+      "name": "test_geometry_consistency_repair/testClearanceMeasuresBodyEdgeToCellEdge",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0669654
+    },
+    {
+      "name": "test_geometry_consistency_repair/testRotatedClearanceMatchesIndependentVertexEdgeDistance",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0139598
+    },
+    {
+      "name": "test_geometry_consistency_repair/testOriginTranslationPreservesCollisionAndClearance",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0070939
+    },
+    {
+      "name": "test_geometry_consistency_repair/testCircleIgnoresFreeCellsAndAccountsForCellSquare",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.015328300000000001
+    },
+    {
+      "name": "test_candidate_parameter_repair/testFiveAndSixArgumentDefaults",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.13784300000000002
+    },
+    {
+      "name": "test_candidate_parameter_repair/testSeventhArgumentChangesTaskFacingHeadings",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.1266204
+    },
+    {
+      "name": "test_candidate_parameter_repair/testOrientationSamplingIsExplicitAndValidated",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.2488995
+    },
+    {
+      "name": "test_table_task_consistency_repair/testRotatedTaskCheckedInTableFrame",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.16415609999999997
+    },
+    {
+      "name": "test_table_task_consistency_repair/testExplicitOwnershipIsPreserved",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0660534
+    },
+    {
+      "name": "test_table_task_consistency_repair/testAddedTasksRotateWithTable",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.055016900000000007
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testEachVisualProfileKeepsItsOwnScene",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.8212063
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testIdentityIncludesMapTasksThresholdAndReturn",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.974668
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testRuntimeControlsDoNotInvalidatePlanningIdentity",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.6668498
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testExactBlockedCacheCanBeInspectedWithoutPlanning",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.1269018
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testL1SceneCannotMasqueradeAsV1Cache",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.1161394
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testOldImplementationTagAndUnprovenReadyPathAreRejected",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.6052565
+    },
+    {
+      "name": "test_frozen_scene_identity_repair/testAfterFigureDoesNotRelabelOldRouteAsRepaired",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 3.0408361999999998
+    },
+    {
+      "name": "test_rotated_table_task_transform/testDiscreteTaskTransformAngles",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.056242400000000012
+    },
+    {
+      "name": "test_coordinate_roundtrip/testWorldGridWorld",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0311325
+    },
+    {
+      "name": "test_main_robot_unification/testCanonicalGeometryAndLegacyAlias",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0603739
+    },
+    {
+      "name": "test_main_robot_unification/testEveryRetainedNamedSceneUsesMainRobot",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.10704109999999999
+    },
+    {
+      "name": "test_main_robot_unification/testRegistryAndRemovedScenes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.079577000000000009
+    },
+    {
+      "name": "test_main_robot_unification/testAllResolverLayersRejectConflictingGeometry",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0265177
+    },
+    {
+      "name": "test_main_robot_unification/testBuilderRejectsLegacyAndSemanticOverrideRoutes",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.0274036
+    },
+    {
+      "name": "test_main_robot_unification/testEntryPointsRejectAlternateFrozenRobot",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 1.3495891
+    },
+    {
+      "name": "test_main_robot_unification/testOldSnapshotsGetOnlyTheCanonicalDerivedFootprint",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.011599700000000001
+    },
+    {
+      "name": "test_scene_layout_inside_map/testAllSceneComplexityLayoutsAreInsideMap",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.23794759999999998
+    },
+    {
+      "name": "test_scene_layout_no_overlap/testAllSceneComplexityLayoutsHaveNoOverlap",
+      "passed": true,
+      "failed": false,
+      "incomplete": false,
+      "duration_s": 0.19586469999999997
+    }
+  ]
+}
