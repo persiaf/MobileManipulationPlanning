@@ -4,6 +4,8 @@ Research release **[v0.3.0](https://github.com/persiaf/MobileManipulationPlannin
 
 MATLAB research code for task-driven docking and navigation planning for a mobile dual-arm robot. Main chain: scene -> tasks -> docking candidates -> dock selection -> route -> footprint validation. MATLAB performs offline/simulated planning, not low-level robot control.
 
+An opt-in [task-conditioned arm workspace experiment](docs/TASK_CONDITIONED_ARM_WORKSPACE_20261110.md) adds pinned VX300s kinematics, downward grasping and sampled wiping-path IK. Run `addpath('pipeline'); init_paths; report = demo_task_conditioned_workspace;`. The historical default remains unchanged; the optional arm mounts are unmeasured and arm collisions/contact forces are not checked.
+
 ## Research stages
 
 | Stage | Scope | Primary entry | Boundary |

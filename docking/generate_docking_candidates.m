@@ -82,7 +82,8 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
             end
             diagnostics.formal_reachability_call_count = ...
                 diagnostics.formal_reachability_call_count + 1;
-            [ls, rs, cs, arm] = evaluate_dual_arm_reachability(pose, target, robot_cfg, tau_r);
+            [ls, rs, cs, arm] = evaluate_task_reachability( ...
+                pose, scene.tasks(tid), robot_cfg, tau_r);
             reach_scores(ti, :) = [ls, rs, cs];
             arm_assign{ti} = arm;
             if cs > 0
@@ -91,8 +92,11 @@ function [candidates, diagnostics] = generate_docking_candidates(region, scene, 
                     diagnostics.reachable_support_count(ti) + 1;
             end
             if strcmp(reachability_mode, 'robust')
-                robust_summary(ti) = evaluate_robust_reachability( ...
-                    pose, target, robot_cfg, tau_r, error_model);
+                [robust_summary(ti), robust_arm] = evaluate_robust_reachability( ...
+                    pose, target, robot_cfg, tau_r, error_model, scene.tasks(tid));
+                if ~robust_summary(ti).geometric_only
+                    arm_assign{ti} = robust_arm;
+                end
                 if robust_summary(ti).success_fraction >= robust_q_min
                     robust_covered(end + 1) = tid; %#ok<AGROW>
                 end

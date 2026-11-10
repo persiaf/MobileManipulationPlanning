@@ -208,14 +208,20 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
 
     fprintf('\n===== RCH-MT-MMP 规划完成 =====\n');
     fprintf('总任务数: %d\n', scene.num_tasks);
+    task_pose_mode = isfield(robot_cfg, 'manipulator') && ...
+        isfield(robot_cfg.manipulator, 'mode') && ...
+        strcmp(robot_cfg.manipulator.mode, 'task_pose_ik');
+    if task_pose_mode, evidence_source = 'ik_validation';
+    else, evidence_source = 'geometric_simulation'; end
     execution_status = separate_execution_status(predicted_tasks, commanded_tasks, ...
-        executed_tasks, verified_tasks);
+        executed_tasks, verified_tasks, struct('source', evidence_source));
     predicted_rate = 100 * numel(execution_status.predicted_tasks) / max(scene.num_tasks, 1);
     commanded_rate = 100 * numel(execution_status.commanded_tasks) / max(scene.num_tasks, 1);
     verified_rate = 100 * numel(execution_status.verified_tasks) / max(scene.num_tasks, 1);
     fprintf('预测覆盖率: %.1f%%\n', predicted_rate);
     fprintf('指令任务率: %.1f%%\n', commanded_rate);
-    fprintf('仿真几何验证率: %.1f%%\n', verified_rate);
+    if task_pose_mode, fprintf('采样任务IK验证率: %.1f%%\n', verified_rate);
+    else, fprintf('仿真几何验证率: %.1f%%\n', verified_rate); end
     fprintf('停靠位姿数: %d\n', size(optimal_poses, 1));
     fprintf('任务路径长度: %.2f m\n', exec_stats.task_path_len_m);
     fprintf('返回起点路径长度: %.2f m\n', exec_stats.return_path_len_m);

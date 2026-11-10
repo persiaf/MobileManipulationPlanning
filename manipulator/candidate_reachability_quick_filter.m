@@ -5,6 +5,14 @@ function [reject, reason] = candidate_reachability_quick_filter(pose, target_xyz
 % by evaluate_single_arm_reachability. The filter does not approximate the
 % final score; it is a definitely-impossible precheck.
 
+    % The legacy envelope is not a bound on a configured kinematic model.
+    % Keep the fast precheck conservative when task-pose IK is enabled.
+    if isfield(robot_cfg, 'manipulator') && isfield(robot_cfg.manipulator, 'mode') && ...
+            strcmp(robot_cfg.manipulator.mode, 'task_pose_ik')
+        reject = false;
+        reason = 'PASS_TASK_POSE_IK_DEFERRED';
+        return;
+    end
     left = arm_hard_gate_pass(pose, target_xyz, 'left', robot_cfg);
     right = arm_hard_gate_pass(pose, target_xyz, 'right', robot_cfg);
     reject = ~(left.pass || right.pass);

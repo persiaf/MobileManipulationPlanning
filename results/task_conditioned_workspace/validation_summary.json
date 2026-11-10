@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-10",
+  "matlab_version": "9.12.0.1884302 (R2022a)",
+  "scope": "targeted_tests_not_full_repository_suite",
+  "test_files": [
+    "test_vx300s_kinematics.m",
+    "test_task_conditioned_manipulation.m",
+    "test_task_reachability_cache_and_legacy.m",
+    "test_evidence_metric_contract.m",
+    "test_planned_execution_consistency.m",
+    "test_round_b_model_contracts.m",
+    "test_main_smoke.m",
+    "test_main_robot_unification.m",
+    "test_fixed_heading_navigation_recovery.m"
+  ],
+  "test_count": 59,
+  "passed": 59,
+  "failed": 0,
+  "incomplete": 0,
+  "workspace_sample_count": 30,
+  "workspace_supported_counts": [
+    30,
+    17,
+    20
+  ],
+  "model_revision": "vx300s-urdf-0bb2b0e6d0e619bff02cf74dbd5af5681dcf80c9-v1",
+  "collision_checked": false,
+  "hardware_calibrated": false
+}

@@ -922,13 +922,14 @@ function [covered, arm_map, summary] = validate_candidate_reachability(candidate
         if isempty(task_index), continue; end
         task = scene.tasks(task_index);
         target = [task.x, task.y, task.z];
-        [~, ~, score, arm] = evaluate_dual_arm_reachability( ...
-            candidate.pose, target, state.robot_cfg, threshold);
+        [~, ~, score, arm] = evaluate_task_reachability( ...
+            candidate.pose, task, state.robot_cfg, threshold);
         nominal(end+1) = score; %#ok<AGROW>
         ok = score > 0;
         if strcmp(mode, 'robust')
-            rr = evaluate_robust_reachability(candidate.pose, target, ...
-                state.robot_cfg, threshold, error_model);
+            [rr, robust_arm] = evaluate_robust_reachability(candidate.pose, target, ...
+                state.robot_cfg, threshold, error_model, task);
+            if ~rr.geometric_only, arm = robust_arm; end
             robust_fraction(end+1) = rr.success_fraction; %#ok<AGROW>
             ok = rr.success_fraction >= min_fraction;
         end
@@ -1388,8 +1389,12 @@ function [result,next_state,diagnostics] = repair_added_tasks(result, state, cha
         next_state.plan.service_configs=[next_state.plan.service_configs,summary.service_configs]; %#ok<AGROW>
     end
     metadata=field_or(state.task_state,'evidence',struct('source','geometric_simulation'));
-    metadata.geometry_evidence_available=true;
-    metadata.geometric_predicted_tasks=next_state.plan.covered_tasks_predicted;
+    task_pose_mode=isfield(next_state.robot_cfg,'manipulator') && ...
+        isfield(next_state.robot_cfg.manipulator,'mode') && ...
+        strcmp(next_state.robot_cfg.manipulator.mode,'task_pose_ik');
+    metadata.geometry_evidence_available=~task_pose_mode;
+    if task_pose_mode, metadata.geometric_predicted_tasks=[];
+    else, metadata.geometric_predicted_tasks=next_state.plan.covered_tasks_predicted; end
     next_state.task_state=separate_execution_status(next_state.plan.covered_tasks_predicted, ...
         state.task_state.commanded_tasks,state.task_state.executed_tasks,state.task_state.verified_tasks,metadata);
     result.raw_coverage=predicted_coverage_percent(next_state.plan,changed_state.scene.num_tasks);

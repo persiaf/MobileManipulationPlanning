@@ -82,13 +82,14 @@ function v = validate_replanning_state(state, original)
                 assert(~ismember([tid d],pairs,'rows'),'invalidated coverage reused');
                 cfg=state.planner_cfg; threshold=cfg.reachability.threshold;
                 target=state.scene.tasks(find(ids==tid,1)); xyz=[target.x target.y target.z];
-                [ls,rs,score,~]=evaluate_dual_arm_reachability(poses(d,:),xyz,state.robot_cfg,threshold);
+                [ls,rs,score,~]=evaluate_task_reachability(poses(d,:),target,state.robot_cfg,threshold);
                 assert(score>0,'pending task unreachable');
                 arm=summaries{d}.arm_assign_map(tid);
                 assert((strcmp(arm,'left')&&ls>0)||(strcmp(arm,'right')&&rs>0),'assigned arm unreachable');
                 if isfield(cfg.reachability,'mode')&&strcmp(cfg.reachability.mode,'robust')
-                    rr=evaluate_robust_reachability(poses(d,:),xyz,state.robot_cfg,threshold,cfg.docking_error_model);
+                    [rr,robust_arm]=evaluate_robust_reachability(poses(d,:),xyz,state.robot_cfg,threshold,cfg.docking_error_model,target);
                     assert(rr.success_fraction>=cfg.reachability.robust_success_fraction_min,'robust coverage failed');
+                    if ~rr.geometric_only, assert(strcmp(arm,robust_arm),'robust assigned arm mismatch'); end
                 end
                 if isfield(summaries{d},'task_actions')
                     actions=summaries{d}.task_actions; ii=find([actions.task_id]==tid);

@@ -208,8 +208,8 @@ function candidate = evaluate_pose(pose, side_id, region, scene, robot_cfg, ...
     for ti = 1:n
         tid = task_ids(ti);
         target = [scene.tasks(tid).x, scene.tasks(tid).y, scene.tasks(tid).z];
-        [ls, rs, cs, arm] = evaluate_dual_arm_reachability( ...
-            pose, target, robot_cfg, planner_cfg.reachability.threshold);
+        [ls, rs, cs, arm] = evaluate_task_reachability( ...
+            pose, scene.tasks(tid), robot_cfg, planner_cfg.reachability.threshold);
         candidate.reach_scores(ti, :) = [ls, rs, cs];
         candidate.nominal_reach_scores(ti, :) = [ls, rs, cs];
         candidate.arm_assignment{ti} = arm;
@@ -217,8 +217,11 @@ function candidate = evaluate_pose(pose, side_id, region, scene, robot_cfg, ...
         mode = getfield_default(planner_cfg.reachability, 'mode', 'nominal');
         if strcmpi(mode, 'robust')
             model = getfield_default(planner_cfg, 'docking_error_model', struct());
-            candidate.robust_reachability_summary(ti) = evaluate_robust_reachability( ...
-                pose, target, robot_cfg, planner_cfg.reachability.threshold, model);
+            [candidate.robust_reachability_summary(ti), robust_arm] = evaluate_robust_reachability( ...
+                pose, target, robot_cfg, planner_cfg.reachability.threshold, model, scene.tasks(tid));
+            if ~candidate.robust_reachability_summary(ti).geometric_only
+                candidate.arm_assignment{ti} = robust_arm;
+            end
             if candidate.robust_reachability_summary(ti).success_fraction >= ...
                     getfield_default(planner_cfg.reachability,'robust_success_fraction_min',1.0)
                 candidate.robust_covered_tasks(end + 1) = tid; %#ok<AGROW>
