@@ -1,0 +1,48 @@
+第三章主体证据记录（内部核对，不插入论文正文）
+正文文件：chapter3.json；生成脚本：build_chapter3.py。
+章节沿用初稿3.1—3.8；3.7仅含引入，需由主agent替换为实验agent内容。
+公式3-1至3-30，表3-1，算法3-1。若最终要求编号连续，可将实验公式3-50、3-51顺改3-31、3-32。
+
+3.2 候选生成
+公式3-2：generate_docking_candidates.m:10—18，区域任务平面质心。
+公式3-3、3-4：docking/compute_reachability_field.m:10—80；四边采样、世界坐标变换。
+具体距离0.25—0.40、步长0.05、切向0.15来自config/scene_config.m末尾。
+短边切向延伸0.20；初始切向序列以half_L+0.30为界，非直接[-W/2-.2,W/2+.2]均匀起点。
+公式3-5、3-6：compute_reachability_field.m:83—124，任务质心/所有任务/桌心/内法向方向，基础去重4度，姿态去重0.01m、2度且须同side_id。
+
+3.3 几何筛选
+公式3-7—3-9：collision/check_footprint_collision.m:17—69，矩形—方格SAT以及地图边界距离，接触视碰撞。
+环境地图已经包含安全带：environment/build_grid_map.m:57—74，max(1,ceil(safety_margin/res))轮八邻域扩展；当前0.05m/0.05m。
+compute_footprint_clearance仅调用上述函数的第二输出。
+candidate_reachability_quick_filter.m 全文：仅当左右臂硬条件都不成立才预筛；不替代连续评分。
+默认prefilter关闭：config/planner_config.m:45。
+
+3.4 单臂评分
+公式3-10—3-16：manipulator/evaluate_single_arm_reachability.m:9—69。
+安装前偏0.2115m、双臂间距0.250m、安装高度0.1833m等来自config/robot_config.m，不得混用旧大纲0.06、0.40参数。
+R_min=0.01在评分函数内；R_max=.278，z_min=-.142，z_max=.334，backward=.197，lateral=.278。
+硬条件：半径、高度、后向和1.1倍侧向；前向上界由半径自动满足。
+连续评分真实权重.30/.25/.20/.15/.10；没有Gaussian、IK或Jacobian manipulability。
+
+3.5 联合评分与鲁棒扩展
+公式3-17、3-18：evaluate_dual_arm_reachability.m:6—15；max及同分左臂优先。
+公式3-19、3-20：generate_docking_candidates.m:84—91,102—129；cs>0形成覆盖。所有碰撞通过候选均保留，覆盖为空不会从库删除。
+公式3-21—3-23：evaluate_robust_reachability.m:21—39及generate_docking_candidates.m:93—120。
+当前鲁棒已接入候选生成！旧2026-09映射表为过时事实。默认mode nominal，启用robust时当前显式q_min=1.00（planner_config:14—21）；生成函数缺字段回退0.80不应当作当前默认值。
+误差15样本：5平移×3航向。边界configured_bound、measured=false。只检验几何评分，不检验扰动后底盘碰撞。各样本可重新max选择臂，因此不同样本可能使用不同机械臂。
+如果用户未来将q_min改为小于1且同时开启名义预筛，预筛不保证鲁棒覆盖无漏检；正文只宣称名义预筛性质。
+bimanual接口未接入本章主覆盖，IK适配器未配置，不声称双手协同动作或完整逆解已验证。
+
+3.6 局部代价
+公式3-24—3-30：docking/evaluate_docking_candidate.m:15—57。
+Gamma是区域全任务均值，包含0；鲁棒模式第三列被换成success_fraction，所以Gamma变为通过比例均值。
+safety_distance_m=.25是软代价归一化尺度，不是硬筛选要求；轮廓碰撞相对已经有安全带的scene.grid_map。
+entry_point是(task_centroid+table_center)/2，非真实入口或起点导航路径。
+maneuver_cost=orientation_cost，无preferred_side则两项相同；偏好侧存在且不同才加.15。
+融合权重.25/.20/.12/.08/.20/.15，和为正先归一化。
+共享候选库与签名：planning_strategy/common/build_candidate_library.m:11—32。增强默认关闭，见config/planner_config.m:27。
+
+检查状态
+已检查JSON可解析、行内$成对、无低位控制字符、30个公式编号连续。
+公式3-3含四个二维列矩阵，排版如过宽可拆两行而不改变编号。
+正文约7700字符（含行内数学源码，不计公式、表、算法）。未加入虚构实验数字。

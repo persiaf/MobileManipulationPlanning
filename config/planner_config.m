@@ -162,6 +162,9 @@ function cfg = planner_config()
 
     cfg.global_planner = 'convex_astar';
     cfg.footprint_aware_navigation = true;
+    % Recover passages blocked only by the all-heading disk approximation.
+    % Every recovered fixed-heading route retains raw-map footprint checks.
+    cfg.navigation.fixed_heading_fallback = true;
 % graph_planner 图搜索类:
 % cfg.global_planner = 'astar';           % A* alternative
 % cfg.global_planner = 'convex_astar';    % Convex-corner A* (current default)

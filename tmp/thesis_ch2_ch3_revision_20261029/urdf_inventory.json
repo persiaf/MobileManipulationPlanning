@@ -1,0 +1,4295 @@
+[
+  {
+    "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\gazebo_world_sources\\AlohaMini\\simulation\\src\\Aloha\\urdf\\Aloha.urdf",
+    "sha256": "0c968794bb1ccd90ea80f1ad6195c9fcfef9cf9df2a3629f809f311f2d26b3ad",
+    "robot": "Aloha",
+    "joints": [
+      {
+        "name": "wheel1",
+        "type": "continuous",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "wheel1"
+        },
+        "origin": {
+          "xyz": "-0.1538 0.091161 0.0422",
+          "rpy": "0 0 -2.1099"
+        },
+        "axis": {
+          "xyz": "0 -1 0"
+        }
+      },
+      {
+        "name": "wheel2",
+        "type": "continuous",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "wheel2"
+        },
+        "origin": {
+          "xyz": "0.15563 0.087993 0.0422",
+          "rpy": "0 0 2.086"
+        },
+        "axis": {
+          "xyz": "0 -1 0"
+        }
+      },
+      {
+        "name": "wheel3",
+        "type": "continuous",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "wheel3"
+        },
+        "origin": {
+          "xyz": "-0.0020354 -0.17875 0.0422",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.015476 -0.99988 0"
+        }
+      },
+      {
+        "name": "vertical_move",
+        "type": "prismatic",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "vertical_link"
+        },
+        "origin": {
+          "xyz": "-0.001045 -0.067891 0.064",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0 1.8801E-05 1"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_base",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "left_base"
+        },
+        "origin": {
+          "xyz": "0.15726 0.026474 0.68821",
+          "rpy": "1.5721 0 -0.01193"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "left_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "left_base"
+        },
+        "child": {
+          "link": "left_link1"
+        },
+        "origin": {
+          "xyz": "-9.9427E-05 0.065387 0.045495",
+          "rpy": "-1.5721 0.01193 -1.5058E-05"
+        },
+        "axis": {
+          "xyz": "0.00011908 0.0099879 -0.99995"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link1"
+        },
+        "child": {
+          "link": "left_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963306 -0.0311811002780606 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link2"
+        },
+        "child": {
+          "link": "left_link3"
+        },
+        "origin": {
+          "xyz": "0.0028523 0.11238 0.028829",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.99996 -0.0032908 0.0088132"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link3"
+        },
+        "child": {
+          "link": "left_link4"
+        },
+        "origin": {
+          "xyz": "0.00048209729405399 -0.134148581563103 0.00362381075655138",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019127 -0.0121028846500289 0.0174511110940406"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link4"
+        },
+        "child": {
+          "link": "left_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517406",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940202 0.999878198776736 0.0100647635386641"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link5"
+        },
+        "child": {
+          "link": "left_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742788 -0.0238281541937461 0.0200035092438084",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324989"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_base",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "right_base"
+        },
+        "origin": {
+          "xyz": "-0.156575640990368 0.0302182544430658 0.688907726663402",
+          "rpy": "1.5720584644847 0 -0.0119300103453133"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "right_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "right_base"
+        },
+        "child": {
+          "link": "right_link1"
+        },
+        "origin": {
+          "xyz": "-9.94268621290484E-05 0.0653870978342812 0.04549462735273",
+          "rpy": "-1.5720585543069 0.0119300008426609 -1.50580260816763E-05"
+        },
+        "axis": {
+          "xyz": "0.000119075661457425 0.00998790806073686 -0.999950112512398"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link1"
+        },
+        "child": {
+          "link": "right_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963307 -0.0311811002780605 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link2"
+        },
+        "child": {
+          "link": "right_link3"
+        },
+        "origin": {
+          "xyz": "0.00285228244048635 0.112379078107107 0.0288286304493108",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999955748189333 -0.00329083176439995 0.0088131770326472"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link3"
+        },
+        "child": {
+          "link": "right_link4"
+        },
+        "origin": {
+          "xyz": "0.000482097294054018 -0.134148581563103 0.00362381075655149",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019126 -0.0121028846500287 0.0174511110940404"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link4"
+        },
+        "child": {
+          "link": "right_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517295",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940119 0.999878198776736 0.0100647635386643"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link5"
+        },
+        "child": {
+          "link": "right_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742787 -0.023828154193746 0.0200035092438087",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324984"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      }
+    ],
+    "geometry": [
+      {
+        "name": "base_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/base_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/base_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wheel1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/wheel1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/wheel1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wheel2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/wheel2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/wheel2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wheel3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/wheel3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/wheel3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vertical_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://Aloha/meshes/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\ros_motion_planning\\src\\sim_env\\urdf\\aloha_mini\\aloha_mini_mecanum_front_arm.urdf",
+    "sha256": "955142f97bd0ce8d6846a46f5ddeed238f7828b5bc43834c9b4d3dd3867215fc",
+    "robot": "Aloha",
+    "joints": [
+      {
+        "name": "base_footprint_to_base_link",
+        "type": "fixed",
+        "parent": {
+          "link": "base_footprint"
+        },
+        "child": {
+          "link": "base_link"
+        },
+        "origin": {
+          "xyz": "0 0 0",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "base_link_to_aloha_body",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "aloha_body_link"
+        },
+        "origin": {
+          "xyz": "0 0 0",
+          "rpy": "0 0 1.57079632679"
+        }
+      },
+      {
+        "name": "vertical_move",
+        "type": "prismatic",
+        "parent": {
+          "link": "aloha_body_link"
+        },
+        "child": {
+          "link": "vertical_link"
+        },
+        "origin": {
+          "xyz": "-0.001045 -0.067891 0.064",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0 1.8801E-05 1"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_base_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "left_base"
+        },
+        "origin": {
+          "xyz": "0.15726 0.026474 0.68821",
+          "rpy": "1.5721 0 -0.01193"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "left_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "left_base"
+        },
+        "child": {
+          "link": "left_link1"
+        },
+        "origin": {
+          "xyz": "-9.9427E-05 0.065387 0.045495",
+          "rpy": "-1.5721 0.01193 -1.5058E-05"
+        },
+        "axis": {
+          "xyz": "0.00011908 0.0099879 -0.99995"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link1"
+        },
+        "child": {
+          "link": "left_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963306 -0.0311811002780606 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link2"
+        },
+        "child": {
+          "link": "left_link3"
+        },
+        "origin": {
+          "xyz": "0.0028523 0.11238 0.028829",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.99996 -0.0032908 0.0088132"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link3"
+        },
+        "child": {
+          "link": "left_link4"
+        },
+        "origin": {
+          "xyz": "0.00048209729405399 -0.134148581563103 0.00362381075655138",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019127 -0.0121028846500289 0.0174511110940406"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link4"
+        },
+        "child": {
+          "link": "left_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517406",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940202 0.999878198776736 0.0100647635386641"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link5"
+        },
+        "child": {
+          "link": "left_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742788 -0.0238281541937461 0.0200035092438084",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324989"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_base_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "right_base"
+        },
+        "origin": {
+          "xyz": "-0.156575640990368 0.0302182544430658 0.688907726663402",
+          "rpy": "1.5720584644847 0 -0.0119300103453133"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "right_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "right_base"
+        },
+        "child": {
+          "link": "right_link1"
+        },
+        "origin": {
+          "xyz": "-9.94268621290484E-05 0.0653870978342812 0.04549462735273",
+          "rpy": "-1.5720585543069 0.0119300008426609 -1.50580260816763E-05"
+        },
+        "axis": {
+          "xyz": "0.000119075661457425 0.00998790806073686 -0.999950112512398"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link1"
+        },
+        "child": {
+          "link": "right_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963307 -0.0311811002780605 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link2"
+        },
+        "child": {
+          "link": "right_link3"
+        },
+        "origin": {
+          "xyz": "0.00285228244048635 0.112379078107107 0.0288286304493108",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999955748189333 -0.00329083176439995 0.0088131770326472"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link3"
+        },
+        "child": {
+          "link": "right_link4"
+        },
+        "origin": {
+          "xyz": "0.000482097294054018 -0.134148581563103 0.00362381075655149",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019126 -0.0121028846500287 0.0174511110940404"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link4"
+        },
+        "child": {
+          "link": "right_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517295",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940119 0.999878198776736 0.0100647635386643"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link5"
+        },
+        "child": {
+          "link": "right_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742787 -0.023828154193746 0.0200035092438087",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324984"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "front_left_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "front_left_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "0.18 0.145 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "front_right_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "front_right_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "0.18 -0.145 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "rear_left_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "rear_left_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "-0.18 0.145 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "rear_right_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "rear_right_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "-0.18 -0.145 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "base_scan_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "base_scan"
+        },
+        "origin": {
+          "xyz": "0.20 0 0.18",
+          "rpy": "0 0 0"
+        }
+      }
+    ],
+    "geometry": [
+      {
+        "name": "base_footprint",
+        "visual": [],
+        "collision": []
+      },
+      {
+        "name": "base_link",
+        "visual": [],
+        "collision": []
+      },
+      {
+        "name": "aloha_body_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/base_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/base_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vertical_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "front_left_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "front_right_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rear_left_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rear_right_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.57079632679 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.045",
+                  "length": "0.045"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "base_scan",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.025",
+                  "length": "0.025"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": []
+      }
+    ]
+  },
+  {
+    "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\ros_motion_planning\\src\\sim_env\\urdf\\aloha_mini\\aloha_mini_mecanum.urdf",
+    "sha256": "9d466373415ff5ca1612adb592c34836821bb4e60326787e1803fd6a835b2b05",
+    "robot": "Aloha",
+    "joints": [
+      {
+        "name": "vertical_move",
+        "type": "prismatic",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "vertical_link"
+        },
+        "origin": {
+          "xyz": "-0.001045 -0.067891 0.064",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0 1.8801E-05 1"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_base_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "left_base"
+        },
+        "origin": {
+          "xyz": "0.15726 0.026474 0.68821",
+          "rpy": "1.5721 0 -0.01193"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "left_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "left_base"
+        },
+        "child": {
+          "link": "left_link1"
+        },
+        "origin": {
+          "xyz": "-9.9427E-05 0.065387 0.045495",
+          "rpy": "-1.5721 0.01193 -1.5058E-05"
+        },
+        "axis": {
+          "xyz": "0.00011908 0.0099879 -0.99995"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link1"
+        },
+        "child": {
+          "link": "left_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963306 -0.0311811002780606 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link2"
+        },
+        "child": {
+          "link": "left_link3"
+        },
+        "origin": {
+          "xyz": "0.0028523 0.11238 0.028829",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.99996 -0.0032908 0.0088132"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link3"
+        },
+        "child": {
+          "link": "left_link4"
+        },
+        "origin": {
+          "xyz": "0.00048209729405399 -0.134148581563103 0.00362381075655138",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019127 -0.0121028846500289 0.0174511110940406"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link4"
+        },
+        "child": {
+          "link": "left_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517406",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940202 0.999878198776736 0.0100647635386641"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link5"
+        },
+        "child": {
+          "link": "left_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742788 -0.0238281541937461 0.0200035092438084",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324989"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_base_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "right_base"
+        },
+        "origin": {
+          "xyz": "-0.156575640990368 0.0302182544430658 0.688907726663402",
+          "rpy": "1.5720584644847 0 -0.0119300103453133"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "right_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "right_base"
+        },
+        "child": {
+          "link": "right_link1"
+        },
+        "origin": {
+          "xyz": "-9.94268621290484E-05 0.0653870978342812 0.04549462735273",
+          "rpy": "-1.5720585543069 0.0119300008426609 -1.50580260816763E-05"
+        },
+        "axis": {
+          "xyz": "0.000119075661457425 0.00998790806073686 -0.999950112512398"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link1"
+        },
+        "child": {
+          "link": "right_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963307 -0.0311811002780605 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link2"
+        },
+        "child": {
+          "link": "right_link3"
+        },
+        "origin": {
+          "xyz": "0.00285228244048635 0.112379078107107 0.0288286304493108",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999955748189333 -0.00329083176439995 0.0088131770326472"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link3"
+        },
+        "child": {
+          "link": "right_link4"
+        },
+        "origin": {
+          "xyz": "0.000482097294054018 -0.134148581563103 0.00362381075655149",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019126 -0.0121028846500287 0.0174511110940404"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link4"
+        },
+        "child": {
+          "link": "right_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517295",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940119 0.999878198776736 0.0100647635386643"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link5"
+        },
+        "child": {
+          "link": "right_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742787 -0.023828154193746 0.0200035092438087",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324984"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "front_left_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "front_left_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "0.20 0.18 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "front_right_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "front_right_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "0.20 -0.18 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "rear_left_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "rear_left_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "-0.20 0.18 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "rear_right_mecanum_wheel_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "rear_right_mecanum_wheel"
+        },
+        "origin": {
+          "xyz": "-0.20 -0.18 0.045",
+          "rpy": "0 0 0"
+        }
+      },
+      {
+        "name": "base_scan_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "base_scan"
+        },
+        "origin": {
+          "xyz": "0.24 0 0.36",
+          "rpy": "0 0 0"
+        }
+      }
+    ],
+    "geometry": [
+      {
+        "name": "base_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/base_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/base_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vertical_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "front_left_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "front_right_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rear_left_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rear_right_mecanum_wheel",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "1.5708 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.075",
+                  "length": "0.055"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "base_scan",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.055",
+                  "length": "0.05"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "cylinder": {
+                  "radius": "0.055",
+                  "length": "0.05"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\ros_motion_planning\\src\\sim_env\\urdf\\aloha_mini\\aloha_mini.urdf",
+    "sha256": "39f3a1ea28901a8d6b68e02e190459ce97e21610b26e9786d4d7b55de5baf743",
+    "robot": "Aloha",
+    "joints": [
+      {
+        "name": "wheel1_joint",
+        "type": "continuous",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "wheel1"
+        },
+        "origin": {
+          "xyz": "-0.1538 0.091161 0.0422",
+          "rpy": "0 0 -2.1099"
+        },
+        "axis": {
+          "xyz": "0 -1 0"
+        }
+      },
+      {
+        "name": "wheel2_joint",
+        "type": "continuous",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "wheel2"
+        },
+        "origin": {
+          "xyz": "0.15563 0.087993 0.0422",
+          "rpy": "0 0 2.086"
+        },
+        "axis": {
+          "xyz": "0 -1 0"
+        }
+      },
+      {
+        "name": "wheel3_joint",
+        "type": "continuous",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "wheel3"
+        },
+        "origin": {
+          "xyz": "-0.0020354 -0.17875 0.0422",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.015476 -0.99988 0"
+        }
+      },
+      {
+        "name": "vertical_move",
+        "type": "prismatic",
+        "parent": {
+          "link": "base_link"
+        },
+        "child": {
+          "link": "vertical_link"
+        },
+        "origin": {
+          "xyz": "-0.001045 -0.067891 0.064",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0 1.8801E-05 1"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_base_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "left_base"
+        },
+        "origin": {
+          "xyz": "0.15726 0.026474 0.68821",
+          "rpy": "1.5721 0 -0.01193"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "left_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "left_base"
+        },
+        "child": {
+          "link": "left_link1"
+        },
+        "origin": {
+          "xyz": "-9.9427E-05 0.065387 0.045495",
+          "rpy": "-1.5721 0.01193 -1.5058E-05"
+        },
+        "axis": {
+          "xyz": "0.00011908 0.0099879 -0.99995"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link1"
+        },
+        "child": {
+          "link": "left_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963306 -0.0311811002780606 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link2"
+        },
+        "child": {
+          "link": "left_link3"
+        },
+        "origin": {
+          "xyz": "0.0028523 0.11238 0.028829",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.99996 -0.0032908 0.0088132"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link3"
+        },
+        "child": {
+          "link": "left_link4"
+        },
+        "origin": {
+          "xyz": "0.00048209729405399 -0.134148581563103 0.00362381075655138",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019127 -0.0121028846500289 0.0174511110940406"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link4"
+        },
+        "child": {
+          "link": "left_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517406",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940202 0.999878198776736 0.0100647635386641"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "left_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "left_link5"
+        },
+        "child": {
+          "link": "left_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742788 -0.0238281541937461 0.0200035092438084",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324989"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_base_joint",
+        "type": "fixed",
+        "parent": {
+          "link": "vertical_link"
+        },
+        "child": {
+          "link": "right_base"
+        },
+        "origin": {
+          "xyz": "-0.156575640990368 0.0302182544430658 0.688907726663402",
+          "rpy": "1.5720584644847 0 -0.0119300103453133"
+        },
+        "axis": {
+          "xyz": "0 0 0"
+        }
+      },
+      {
+        "name": "right_joint1",
+        "type": "revolute",
+        "parent": {
+          "link": "right_base"
+        },
+        "child": {
+          "link": "right_link1"
+        },
+        "origin": {
+          "xyz": "-9.94268621290484E-05 0.0653870978342812 0.04549462735273",
+          "rpy": "-1.5720585543069 0.0119300008426609 -1.50580260816763E-05"
+        },
+        "axis": {
+          "xyz": "0.000119075661457425 0.00998790806073686 -0.999950112512398"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint2",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link1"
+        },
+        "child": {
+          "link": "right_link2"
+        },
+        "origin": {
+          "xyz": "-0.0172799395963307 -0.0311811002780605 0.0539361523404946",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999994864047587 -0.00320379392081127 8.70801950002401E-05"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint3",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link2"
+        },
+        "child": {
+          "link": "right_link3"
+        },
+        "origin": {
+          "xyz": "0.00285228244048635 0.112379078107107 0.0288286304493108",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999955748189333 -0.00329083176439995 0.0088131770326472"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint4",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link3"
+        },
+        "child": {
+          "link": "right_link4"
+        },
+        "origin": {
+          "xyz": "0.000482097294054018 -0.134148581563103 0.00362381075655149",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.999774464019126 -0.0121028846500287 0.0174511110940404"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint5",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link4"
+        },
+        "child": {
+          "link": "right_link5"
+        },
+        "origin": {
+          "xyz": "0.0197383915384675 -0.0617903364033804 -0.000262136225517295",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "0.0119284594940119 0.999878198776736 0.0100647635386643"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      },
+      {
+        "name": "right_joint6",
+        "type": "revolute",
+        "parent": {
+          "link": "right_link5"
+        },
+        "child": {
+          "link": "right_link6"
+        },
+        "origin": {
+          "xyz": "0.0187720220742787 -0.023828154193746 0.0200035092438087",
+          "rpy": "0 0 0"
+        },
+        "axis": {
+          "xyz": "-0.999889727846743 0.0120164296808642 -0.00872568417324984"
+        },
+        "limit": {
+          "lower": "0",
+          "upper": "0",
+          "effort": "0",
+          "velocity": "0"
+        }
+      }
+    ],
+    "geometry": [
+      {
+        "name": "base_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/base_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/base_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wheel1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/wheel1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/wheel1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wheel2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/wheel2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/wheel2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wheel3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/wheel3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/wheel3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vertical_link",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/vertical_link.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "left_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/left_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_base",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_base.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_base.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link1",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link1.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link2",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link2.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link3",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link3.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link4",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link4.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link5",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link5.STL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "right_link6",
+        "visual": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ],
+        "collision": [
+          {
+            "origin": {
+              "xyz": "0 0 0",
+              "rpy": "0 0 0"
+            },
+            "geometry": [
+              {
+                "mesh": {
+                  "filename": "package://sim_env/meshes/aloha_mini/right_link6.STL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

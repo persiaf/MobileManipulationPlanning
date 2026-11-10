@@ -1,0 +1,26 @@
+第二章写作核对记录（内部工作材料，不并入论文正文）
+
+输出：chapter2.json，共142块，44条连续编号公式（2-1至2-44），3张表；正文和标题字符数8709，纯中文6814字（包含行内LaTeX标记，纯中文数量更少）。
+
+结构：保留用户初稿2.1至2.6所有二级标题，2.2保留3个三级标题；补齐2.3—2.6三级节，增加2.7本章小结。未修改原始DOCX或公式TXT。公式重新连续编排，不复用原TXT断续编号。
+
+材料与证据：
+1. 用户初稿.docx：通过只读OOXML提取，确认两章标题与固定升降高度研究边界。
+2. 用户第二章_MathType_纯公式代码.txt：保留构型、变换、底盘运动、矩形碰撞、DH/IK/Jacobian、任务、覆盖与规划统一关系等核心公式。删除未证实实际轮系的麦克纳姆四轮专用映射，采用一般全向刚体运动学；合并相关定义并连续编号。
+3. config/robot_config.m:9-26、40-47：底盘0.423×0.366×0.127；双臂间距0.250；前偏0.2115；固定安装高度0.1833；水平半径0.278；垂向[-0.142,0.334]；五关节限位。表2-1和表2-2全部来自当前唯一配置，不使用旧大纲中0.40/0.06/0.35参数。
+4. manipulator/evaluate_single_arm_reachability.m:10-17、21-44：真实几何评分坐标与底盘同向，目标相对高度减arm_base_mount_z。第二章明确一般关节基座固定旋转与几何评价轴不应混淆。d1已经包含在固定安装高度中，具体关节模型需独立统一坐标原点避免重复计入。
+5. utils/world2grid.m:7-10：gi=floor((H-(y-y0))/r)+1，gj=floor((x-x0)/r)+1；snap_near_integer见13-18。utils/grid2world.m:5-6：世界坐标回到栅格中心，y方向翻转。第二章采用实际一基索引，没有沿用TXT零基向上公式冒充实际实现。
+6. environment/build_grid_map.m:24、57-72：2为桌面投影，>0均碰撞占据；安全扩张ceil再至少1格，邻域扩张并非严格欧氏圆盘膨胀。正文区分连续模型与栅格实现，避免重复膨胀。
+7. collision/check_footprint_collision.m:28-31、40-44：边界接触与占据单元接触算碰撞，SAT使用地图轴和机器人轴；不是仅中心或四顶点检测。
+8. global_planner/validate_navigation_trajectory.m:8-10、23-27：平移采样<=r/3，角度<=5°；明确离散几何检验不是连续扫掠或控制/动力学保证。
+9. environment/build_scene.m与build_task_regions.m：任务有位置、高度、id、table_id、status；区域按桌面组织；任务坐标随桌面旋转，见生成函数与validate_tabletop_tasks调用。
+10. manipulator/evaluate_ik_feasibility.m:4-5：未配置adapter会报NotImplemented。正文仅将DH、逆解、全臂碰撞作为完整操作可行性理论，不宣称主流程进行了这些验证。正文没有宣称雅可比可操作度被用于当前评分。
+11. planning_strategy/common/build_unified_plan.m:25-44：未覆盖任务明确保存并标记BLOCKED/PARTIAL_TASK_COVERAGE；第二章将全覆盖约束与失败状态区分。
+12. replanning/apply_dynamic_event.m:28-61：当前包括ADD_LOCAL_OBSTACLE、INVALIDATE_DOCK、ADD_TASKS、TASK_COVERAGE_FAILURE；第二章已包含四类事件，不沿用旧映射三类事件结论。没有声称DDQN已训练或部署。
+
+处理说明：
+- 所有单行与行内公式均为LaTeX，供主agent转换为原生Word数学公式。正文无“根据用户代码”等工作流语言。
+- 不引入具体机械臂型号、完整数值DH表、未经证实的驱动轮型、实验性能数据或外部文献。
+- 2.6目标函数是问题定义而非声称代码精确全局求解；明确分层近似求解、不可行任务保留、几何可达不等同真实执行成功。
+- 当前robust可选模式已由chapter3 agent核对接入，不在第二章将其错误写成“未接入”。
+- 任务分配约束的引用（式2-37）由生成脚本按实际任务分配式编号自动替换；式2-8为全身末端变换，已人工核对。

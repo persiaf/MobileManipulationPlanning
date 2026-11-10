@@ -1,0 +1,104 @@
+{
+  "input_root": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823",
+  "read_only_analysis": true,
+  "new_matlab_experiments_run": false,
+  "data_quality": {
+    "valid_complete_snapshot": true,
+    "issues": []
+  },
+  "source_current_matches_snapshot": [
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\collision\\check_footprint_collision.m",
+      "sha256": "cc2aa6c71391a656883f225014677cb51e04eed44b419278209a57331ee6812c",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\collision\\compute_footprint_clearance.m",
+      "sha256": "89bc697e05a1914d3f2857bc03904915304cb50d4584a2d4b1d020a57640afaf",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\config\\robot_config.m",
+      "sha256": "34c59d92d6ce8b77684f59cb1003d0f33abab80f3f1e64b8e5914a5e79ec247e",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\config\\scene_config.m",
+      "sha256": "8131d338d6c2b5953f8e7d85fad5e052b676367fed2cd945ed5400d183818be0",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\docking\\evaluate_docking_candidate.m",
+      "sha256": "10a788a717379163d221fb964ead3d111e0e962e820ce1bd2c7397780fad1946",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\docking\\generate_docking_candidates.m",
+      "sha256": "ef2f39aa6055176ec093d6458c74b33a54e6380558ebe3162d3cc10046923dd9",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\manipulator\\evaluate_dual_arm_reachability.m",
+      "sha256": "ff555bbf165da360adb35242795d3606079483b48396098fd10bd596b607696a",
+      "snapshot_match": true
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\manipulator\\evaluate_single_arm_reachability.m",
+      "sha256": "a77a5b5eb65acd5bd9e2e9f6372ad7c71d23c69703967cf1f7b3d3fa813da41f",
+      "snapshot_match": true
+    }
+  ],
+  "tables": {
+    "3-5": [
+      "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\main\\main_raw.csv",
+      "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\complex\\complex_raw.csv"
+    ],
+    "3-6": [
+      "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\complex\\cases\\C2_seed2026_task_audit.csv",
+      "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\complex\\cases\\C2_seed2027_task_audit.csv",
+      "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\complex\\cases\\C2_seed2028_task_audit.csv"
+    ],
+    "3-7": [
+      "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\sensitivity\\sensitivity_raw.csv"
+    ]
+  },
+  "methods": [
+    "Mean percentages are arithmetic means across 3 seeds, not pooled proportions.",
+    "Table 3-7 times use candidate_time_s, not planning_time_s.",
+    "C2 covered counts are task_count-sampling_gap_count-unresolved_task_count, crosschecked below against task audit CSVs.",
+    "independent_pair_mismatch_count tests binary coverage decisions; it does not report floating-point score error.",
+    "750 samples x 4 thresholds numerical score comparison and 2e-12 tolerance refer specifically to testRandomCrossCheckAgainstProduction in final_validation.json, not candidate-pair audit.",
+    "All SENS4 cases are BLOCKED_COVERAGE; no full-mission acceleration ratios reported.",
+    "No historical cafeteria or alternate physical robot geometries used."
+  ],
+  "test_evidence": [
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\tests\\test_independent_geometric_reachability.m",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\tests\\test_geometry_consistency_repair.m",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\final_validation.json"
+  ],
+  "audit_source": [
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\experiments\\audit_independent_reachability.m",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\manipulator\\independent_geometric_reachability.m"
+  ],
+  "scope": "nominal fixed-height geometric model; no IK or measured task execution evidence",
+  "C2_seed2026_audit_counts": {
+    "not_found_in_audited_samples": 11,
+    "covered_in_library": 47,
+    "candidate_sampling_gap": 7
+  },
+  "C2_seed2027_audit_counts": {
+    "covered_in_library": 60,
+    "candidate_sampling_gap": 7,
+    "not_found_in_audited_samples": 12
+  },
+  "C2_seed2028_audit_counts": {
+    "not_found_in_audited_samples": 11,
+    "candidate_sampling_gap": 5,
+    "covered_in_library": 60
+  },
+  "C2_combined_counts": {
+    "not_found_in_audited_samples": 34,
+    "covered_in_library": 167,
+    "candidate_sampling_gap": 19
+  }
+}

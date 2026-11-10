@@ -1,0 +1,447 @@
+   From Tabletop Tasks to Reachability-Aware
+Docking Poses: A Hierarchical Planning Framework
+       for Dual-Arm Mobile Manipulators
+
+   Abstract—Multi-table mobile manipulation requires a robot
+to determine not only how to navigate between workspaces but
+also where to dock for feasible manipulation. Directly treating
+tabletop tasks as navigation goals ignores the mismatch between
+mobile-base configurations and arm workspaces, which may
+lead to infeasible manipulation execution. This paper presents
+RCH-MT-MMP, a reachability-constrained hierarchical planning
+framework for multi-task dual-arm mobile manipulation. The
+framework first partitions tabletop tasks into local regions
+and generates collision-free docking candidates around tables.
+Each candidate is evaluated considering task coverage, dual-
+arm reachability, safety constraints, and approach feasibility, and
+multiple docking poses are selected through a coverage-aware
+strategy. The selected poses are then connected by a replaceable
+global path planner.                                                                 (a) Experimental scene                 (b) Robot platform
+   Theoretical analysis establishes the task coverage condition
+and computational complexity of the proposed docking selection        Fig. 1. Experimental platform used in this work. (a) Real multi-table indoor
+                                                                      environment with distributed tabletop task objects. (b) Dual-arm mobile
+process. Experiments in a 16-table scenario demonstrate complete
+                                                                      manipulator used for navigation, docking, and tabletop manipulation.
+execution of 36/36 tasks with 27 docking poses. Benchmark com-
+parisons show that the proposed method maintains 100% task
+completion, outperforming single-docking and nearest-docking
+strategies. Real-world experiments on a dual-arm mobile manip-           A docking pose represents a mobile-base configuration from
+ulator further validate the physical feasibility of the proposed      which one or more manipulation tasks can be executed, serving
+docking-to-manipulation interface.
+   Index Terms—Mobile manipulation, task and motion planning,         as the navigation goal rather than the manipulation target
+reachability-aware planning.                                          itself. Existing navigation planners mainly focus on connecting
+                                                                      predefined states and assume that feasible goal configurations
+                       I. I NTRODUCTION                               are already available. Meanwhile, mobile manipulation meth-
+   Mobile dual-arm robots are increasingly expected to per-           ods have explored base placement, reachability estimation,
+form multiple manipulation tasks in complex service en-               and task-motion planning. However, existing approaches either
+vironments, including laboratories, warehouses, and human-            optimize placement for individual tasks or require tightly
+assistance scenarios. Unlike conventional navigation systems,         coupled optimization of task, base, and arm variables, which is
+mobile manipulation requires coordination between where the           difficult to scale to multi-table environments with distributed
+robot moves and where the robot can physically execute a task.        manipulation targets.
+Therefore, selecting appropriate mobile-base configurations is           Three challenges remain unresolved. First, navigation-
+a fundamental decision before manipulation execution. To              efficient docking poses may not guarantee manipulation fea-
+provide an intuitive view of the application scenario, Fig. 1         sibility, leading to uncovered tasks. Second, a single docking
+presents the real multi-table experimental environment and the        pose may be insufficient for tables containing spatially dis-
+dual-arm mobile manipulator used in this work.                        tributed tasks or tasks near workspace boundaries. Third, the
+   In multi-table manipulation scenarios, tabletop task loca-         connection between local manipulation feasibility and global
+tions cannot be directly treated as navigation goals for the          navigation planning remains implicit, making the influence of
+mobile base. A task may be reachable from one side of a               docking decisions on routing difficult to evaluate.
+table but infeasible from another due to arm workspace limits,           To address these challenges, this paper proposes RCH-
+table geometry, collision clearance, or approach orientation          MT-MMP, a reachability-aware task-to-docking transformation
+constraints. Moreover, forcing multiple tasks to share a single       framework for multi-table mobile manipulation. As shown in
+docking pose may reduce manipulation feasibility or introduce         Fig. 2, the proposed framework consists of three stages: task-
+unnecessary base motions. Therefore, a key challenge is how           aware modeling constructs manipulation targets from tabletop
+to transform tabletop manipulation requirements into reachable        requirements; reachability-aware docking planning generates
+and efficient docking configurations.                                 feasible docking configurations considering robot geometry,
+dual-arm workspace, and collision constraints; and navigation-        Different from these approaches, this paper focuses on a
+manipulation execution performs global routing among se-           specific planning layer in multi-table mobile manipulation:
+lected docking poses and completes tabletop tasks using the        transforming tabletop task points into reachable mobile-base
+dual arms.                                                         docking configurations before global navigation planning.
+   The contributions are summarized as follows:
+                                                                   B. Reachability-Aware Base Placement and Docking
+   1) A reachability-aware task-to-docking transformation is
+                                                                      Base placement is a critical decision in mobile manipulation
+      formulated for multi-table dual-arm mobile manipula-
+                                                                   because the mobile platform must achieve a configuration from
+      tion, explicitly separating manipulation feasibility from
+                                                                   which the manipulator can successfully execute assigned tasks.
+      navigation goal selection.
+                                                                      Existing studies have investigated robot placement by com-
+   2) A coverage-aware multi-docking selection strategy in-
+                                                                   bining navigation and manipulation costs [6], learning reach-
+      tegrates dual-arm reachability, safety clearance, orien-
+                                                                   ability priors [7], and considering uncertainty during ap-
+      tation preference, and local approach cost, allowing
+                                                                   proaching motions [8]. Other works optimize base placement
+      multiple docking poses when a single pose cannot satisfy
+                                                                   using coverage criteria [9], manipulability measures [10], and
+      all tabletop tasks.
+                                                                   dexterity representations [11].
+   3) A modular routing layer connects selected docking
+                                                                      Base-pose sequence planning has also been studied for
+      configurations with different global planners. Under
+                                                                   pickup and mobile manipulation tasks [12]. These methods
+      a mild candidate-coverage assumption, the proposed
+                                                                   demonstrate that suitable base configurations are essential for
+      greedy selection procedure terminates with complete
+                                                                   successful manipulation.
+      task coverage in finite iterations.                             However, existing approaches mainly focus on individual
+   Simulation experiments evaluate task coverage, challenging      tasks, pickup scenarios, or local placement optimization. In
+task distributions, perturbations, and scalability, while real-    multi-table environments with distributed tabletop tasks, a
+world experiments demonstrate the physical execution of the        docking pose should not only satisfy local reachability but
+proposed task-to-docking interface.                                also maximize task coverage and reduce the influence on
+   The rest of this paper is organized as follows. Section II      subsequent routing. Therefore, this paper formulates docking
+reviews related work. Section III formulates the reachability-     selection as a reachability-constrained coverage problem rather
+aware docking and routing problem. Section IV presents the         than an isolated base placement problem.
+proposed hierarchical planning framework. Section V provides
+the feasibility and complexity analysis. Section VI reports the    C. Coverage-Based Service Pose Selection
+experimental results, and Section VII concludes the paper.            Coverage-based planning aims to select robot configurations
+                                                                   that efficiently visit, observe, or service multiple targets.
+                     II. R ELATED W ORK                            Classical coverage planning studies analyze how robots can
+A. Mobile Manipulation and Task-and-Motion Planning                cover regions of interest [13], while viewpoint planning and
+                                                                   frontier-based exploration select useful robot poses according
+   Mobile manipulation requires the coordination of naviga-        to sensing objectives [14].
+tion, manipulation, task execution, and robot configuration fea-      These problems share similarities with docking-pose selec-
+sibility. Recent surveys and task-and-motion planning studies      tion because each candidate pose corresponds to a subset of
+have shown that mobile manipulation problems involve the           achievable targets. However, manipulation-oriented coverage
+interaction between symbolic task decisions and continuous         differs from sensing coverage: a useful docking pose must
+robot motions [1], [2].                                            simultaneously satisfy dual-arm reachability, table geometry
+   Recent works have explored task-oriented mobile manipula-       constraints, collision clearance, and approach orientation re-
+tion through learning-based systems and benchmark environ-         quirements.
+ments. For example, multi-skill mobile manipulation systems           Therefore, this paper extends the coverage formulation
+address object rearrangement tasks by integrating perception,      by introducing manipulation-specific feasibility constraints,
+planning, and control [3], while bimanual mobile manipulation      where each docking pose is evaluated according to the set
+platforms investigate scalable learning of whole-body manipu-      of tabletop tasks that can be executed after reaching that pose.
+lation skills [4]. Large-scale benchmarks further emphasize the
+importance of task feasibility and environmental interaction in    D. Hierarchical Planning and Global Routing
+practical mobile manipulation scenarios [5].                          Hierarchical planning decomposes complex robot planning
+   Planning-based approaches such as TAMP reason about the         problems into structured subproblems, reducing the difficulty
+coupling between discrete task decisions and continuous mo-        of solving coupled task, motion, and navigation variables. Set-
+tion feasibility. However, directly optimizing task assignment,    cover formulations and greedy strategies have been widely
+base motion, and manipulation trajectories jointly can intro-      used for selecting representative service configurations [15],
+duce significant computational complexity. Therefore, recent       while graph-based planners provide efficient routing between
+studies have investigated hierarchical decompositions where        selected navigation states.
+task feasibility and robot configuration decisions are solved         Classical planners such as Dijkstra and A* compute shortest
+before detailed motion execution.                                  paths on graphs with nonnegative costs and heuristic guidance
+                                                Docking
+   Scene and             Task region                           Reachability       Multi-docking         Global route
+                                               candidate                                                                      Execution
+   task input            construction                           evaluation          selection            planning
+                                               generation
+
+                            Stage 1              Stage 2          Stage 3              Stage 4              Stage 5              Stage 6
+
+Fig. 2. Overview of the proposed RCH-MT-MMP framework. The framework first models tabletop tasks, then generates reachability-aware docking
+configurations, and finally performs navigation and dual-arm manipulation execution.
+
+
+
+[16], [17]. Variants including Jump Point Search and Theta*            constraints, which are described in Section IV. The reach-
+further improve search efficiency or path smoothness [18],             ability score evaluates geometric feasibility and workspace
+[19].                                                                  compatibility rather than full arm trajectory optimization.
+   In this work, global path planning is treated as a replaceable        A task is considered achievable from docking pose p when
+routing module after reachability-aware docking poses have             ρ(p, ti ) ≥ ρmin . Therefore, the task coverage set of a docking
+been selected. The proposed hierarchy explicitly separates: (1)        pose is defined as
+local manipulation feasibility and task coverage decisions, and
+                                                                                      C(p) = {ti ∈ T | ρ(p, ti ) ≥ ρmin },                 (3)
+(2) global navigation among selected docking configurations.
+                                                                       where the set C(p) represents all tabletop tasks that can be
+                   III. P ROBLEM F ORMULATION
+                                                                       executed after the robot reaches docking pose p.
+A. Task and Docking Representation
+                                                                       C. Coverage-Constrained Docking Selection
+   Consider a known tabletop mobile manipulation environ-
+ment. Let R = {Rj }M                                                      A single docking pose may not cover all tasks of a tabletop
+                        j=1 denote the set of tabletop regions
+and T = {ti }N     the corresponding  tabletop task points. Each       region due to table geometry, task distribution, and manipula-
+               i=1
+task point requires the mobile dual-arm robot to reach an ap-          tor workspace limitations. Therefore, the objective is to select
+propriate base configuration before executing the manipulation         a docking subset Sj ⊆ Pj for each tabletop region Rj . The
+operation. Unlike conventional navigation problems, a task             ideal selection problem is formulated as a constrained set-
+point cannot be directly treated as a navigation goal, since the       cover problem:
+                                                                                                       [
+feasibility of manipulation depends on both the mobile-base                           min |Sj | s.t.       C(p) = Tj ,              (4)
+configuration and the manipulator workspace. Therefore, the                             Sj
+                                                                                                          p∈Sj
+planning target is transformed from task locations to docking
+configurations.                                                        where Tj denotes the task subset associated with region Rj .
+   A docking pose is defined as p = (x, y, θ), where (x, y)            This formulation aims to minimize the number of docking con-
+represents the planar position of the mobile base and θ denotes        figurations while ensuring that all manipulation tasks are cov-
+the heading angle. For each tabletop region Rj , a finite              ered. Since the exact set-cover optimization is computationally
+candidate docking set Pj = {pj1 , pj2 , . . . , pjKj } is generated,   expensive for large candidate spaces, a greedy approximation
+                                                SM                     is introduced in Section IV.
+and the complete candidate space is P = j=1 Pj .
+                                                                       D. Hierarchical Planning Objective
+B. Reachability-Aware Coverage Model
+                                                                          After docking selection, the selected docking poses are
+   A candidate docking pose is feasible only when it satisfies         connected through a global navigation
+the physical constraints required for mobile manipulation. The                                                     SM planner. The final
+                                                                       docking set is defined as S =                 j=1 Sj , and the rout-
+feasible docking space is defined as                                   ing layer determines an ordered sequence of docking poses
+            Ωj = Ωfree ∩ Ωsafe ∩ Ωreach ∩ Ωorient ,             (1)    π = (p1 , p2 , . . . , pn ) that generates a collision-free navigation
+                                                                       trajectory. Therefore, the overall planning framework is for-
+where Ωfree , Ωsafe , Ωreach , and Ωorient represent collision         mulated as a hierarchical process T → P → S → Γ, where
+avoidance, safety clearance, manipulator reachability, and ap-         Γ denotes the final navigation trajectory. This hierarchy sepa-
+proaching orientation constraints, respectively.                       rates manipulation feasibility decisions from global navigation
+  For a feasible docking pose, the dual-arm reachability score         optimization, allowing different path planners to be evaluated
+of task ti is defined as                                               under the same reachability-aware docking strategy.
+                ρ(p, ti ) = max{ρL (p, ti ), ρR (p, ti )},      (2)                          IV. P ROPOSED M ETHOD
+where ρL and ρR denote the reachability scores of the two              A. Framework Overview
+manipulators. The detailed geometric evaluation considers the            The proposed RCH-MT-MMP framework solves multi-table
+relative configuration between the robot base and task point,          mobile manipulation through a hierarchical decision process.
+arm installation parameters, workspace limits, and approaching         Instead of directly planning a path between tabletop task
+Algorithm 1 Candidate Generation and Evaluation                         Algorithm 2 Coverage-Aware Docking Selection
+Require: Table regions R, task points T , occupancy grid G              Require: Candidate subsets {Pj }M                           M
+                                                                                                           j=1 , task subsets {Tj }j=1 ,
+Ensure: Candidate sets {Pj }                                                global planner Π
+ 1: for each table region Rj do                                         Ensure: Selected docking set S, route Γ
+ 2:   Generate docking candidates around feasible table sides            1: S ← ∅
+                                                                         2: for each table Rj ∈ R do
+ 3:   for each candidate p do                                            3:   Sj ← ∅, Uj ← Tj
+ 4:      if collision or safety constraint violated then                 4:   while Uj ̸= ∅ do
+ 5:         Remove p                                                     5:      Pj,U ← {p ∈ Pj : |C(p) ∩ Uj | > 0}
+ 6:      else                                                            6:      if Pj,U = ∅ then
+ 7:         Compute reachability score                                   7:         break
+ 8:         Generate coverage set C(p)                                   8:      end if
+ 9:         Calculate docking cost J(p)                                  9:      For each available candidate, compute
+10:      end if                                                                              |C(p)∩U |
+                                                                        10:         s(p) = a1 |Uj | j + a2 ρ(p, Uj ) − a3 J(p)
+11:   end for                                                           11:                − a4 D(p, pprev ) − a5 ∆side (p, pprev )
+12: end for                                                             12:      p⋆ ← arg maxp∈Pj,U s(p)
+13: return {Pj }                                                        13:      Sj ← Sj ∪ {p⋆ }, Uj ← Uj \ C(p⋆ )
+                                                                        14:      Remove p⋆ from Pj
+                                                                        15:   end while
+points, the framework first determines feasible docking con-            16:   S ← S ∪ Sj
+figurations that allow manipulation execution. The complete             17: end for
+pipeline consists of: (1) task-region decomposition and candi-          18: Compute pairwise path costs between poses in S using Π
+date docking generation; (2) reachability-aware candidate eval-
+uation; (3) coverage-driven multi-docking selection; and (4)            19: Select a visit order with a routing heuristic
+global routing among selected docking poses. The framework              20: Stitch pairwise paths into global route Γ
+separates local manipulation feasibility from global navigation         21: return S, Γ
+optimization.
+B. Task Partition and Candidate Generation
+                                                                        one feasible docking pose p ∈ Pj such that ti ∈ C(p).
+   The original task set is divided according to tabletop re-
+gions. For each table region Rj , the local task subset Tj = {ti |      Proposition 1 (Finite termination of greedy selection). Under
+ti ∈ Rj } is generated. Candidate docking poses are sampled             Assumption 1, Algorithm 2 terminates after a finite number of
+around accessible table sides, where the sampling direction is          successful selections. If all candidate coverage conditions are
+aligned with the table geometry and task distribution. Can-             satisfied, the final selected docking set achieves U (S) = ∅.
+didates violating collision or safety constraints are removed,
+                                                                        Proof.. For each region Rj , the selection process maintains
+and the remaining candidates are evaluated according to their
+                                                                        the uncovered task set Uj . When Uj ̸= ∅, Assumption 1
+reachability and coverage properties. Algorithm 1 summarizes
+                                                                        guarantees the existence of a candidate with nonzero marginal
+the candidate generation procedure, and Algorithm 2 sum-
+                                                                        coverage. Algorithm 2 selects only candidates satisfying
+marizes the subsequent multi-docking selection and global
+                                                                        |C(p) ∩ Uj | > 0, therefore each successful iteration removes
+routing procedure.
+                                                                        at least one task from Uj . Since the number of tasks is finite,
+   In Algorithm 2, the selection score s(p) combines the                                                      P
+                                                                        the process terminates after at most j |Tj | = N successful
+marginal coverage |C(p) ∩ Uj |/|Uj | and the mean reachability
+                                                                        selections.
+ρ(p, Uj ) over the currently uncovered tasks Uj with the
+normalized local docking cost J(p) computed in Algorithm 1,             Proposition 2 (Computational complexity). Let K = |P|,
+where J(p) aggregates reachability quality, coverage benefit,           N = |T |, and Q = |S|. Candidate evaluation has worst-
+safety clearance, orientation preference, and approach cost.            case complexity O(KN ). The greedy multi-docking selection
+The term D(p, pprev ) denotes the transition distance from the          requires O(K 2 N ), and the global routing stage requires
+previously selected pose pprev , and ∆side (p, pprev ) is the side-     O(Q2 CΠ ), where CΠ denotes the cost of one global planner
+switching penalty incurred when consecutive selected poses              query.
+dock at different sides of the same table. The positive weight-
+ing coefficients a1 , . . . , a5 balance task coverage, reachability,   Proof.. Candidate evaluation compares each docking candi-
+local docking cost, transition distance, and side preference.           date with all task points in the worst case, resulting in
+                                                                        O(KN ). The greedy selection repeatedly evaluates remaining
+       V. F EASIBILITY AND C OMPLEXITY A NALYSIS                        candidates and their marginal coverage, leading to O(K 2 N ).
+Assumption 1 (Region-wise candidate coverage). For every                The routing layer computes pairwise costs among Q selected
+tabletop region Rj and every task ti ∈ Tj , there exists at least       docking poses, resulting in O(Q2 CΠ ).
+Remark 1 (Approximation scope). The docking selection
+can be viewed as a cost-aware set-cover problem, while the
+routing stage resembles a traveling-salesman problem over
+the selected docking configurations. This work does not claim
+global optimality of the joint problem. Instead, it provides a
+feasible hierarchical decomposition with finite termination and
+explicit complexity characterization.
+
+                     VI. E XPERIMENTS
+A. Experimental Setup
+   Experiments are conducted using the MATLAB implemen-
+tation of the proposed RCH-MT-MMP framework. The main
+benchmark considers a tabletop-service environment with a
+10 m × 10 m workspace containing 16 rectangular tables and
+36 tabletop task points. The objective is to evaluate whether
+the proposed framework can transform tabletop manipulation
+requirements into feasible docking decisions and subsequently
+generate collision-free navigation routes. The evaluation fo-      Fig. 3. Main tabletop-service scenario. Green circles denote task points, or-
+cuses on three aspects: (1) whether reachability-aware dock-       ange triangles denote selected docking poses, and the blue polyline represents
+ing can ensure task completion; (2) whether multi-docking          the global navigation route.
+selection improves coverage compared with simpler docking
+strategies; and (3) whether the proposed docking layer remains
+independent from the global navigation planner. The default
+occupancy-grid resolution is 0.05 m, and the reachability
+threshold is set to ρmin = 0.30. Before docking selection,
+candidate generation verifies that each task has at least one
+feasible docking pose under the predefined reachability con-
+straints, which corresponds to Assumption 1 in the feasibility
+analysis.
+
+B. Multi-Table Service Evaluation
+   Fig. 3 shows the main tabletop-service scenario and the
+generated navigation result. Gray rectangles represent tables,
+green circles denote tabletop tasks, orange triangles indicate     Fig. 4. Ablation comparison. Simpler docking strategies fail to cover tasks
+                                                                   located at different table sides.
+selected docking poses, and the blue curve shows the global
+navigation trajectory. The robot does not directly navigate to
+                                                                                                   TABLE I
+tabletop task locations. Instead, the proposed framework first                           M AIN S CENARIO E VALUATION
+selects reachable docking poses and then connects these poses
+using a global planner. Several tables require multiple docking                         Metric                      Value
+poses because task points distributed on different table sides                          Tasks                         36
+cannot be simultaneously covered from a single mobile-base                              Completed tasks               36
+                                                                                        Completion rate             100%
+configuration.                                                                          Selected docking poses        27
+   Table I summarizes the main scenario performance. The                                Total route length         63.29 m
+proposed method successfully completes all 36 tabletop tasks                            Planning time              28.85 s
+while selecting 27 docking poses. The result demonstrates that
+the task-to-docking transformation can bridge the gap between
+manipulation feasibility and navigation planning.                     •   Nearest docking: the closest feasible docking pose is
+                                                                          selected.
+C. Ablation Study on Docking Selection
+                                                                      Fig. 4 illustrates typical failure cases. Although single-
+  To evaluate the contribution of reachability-aware multi-        docking and nearest-docking strategies may generate shorter
+docking selection, three representative strategies are compared:   navigation routes, they ignore the coupling between base
+  • Full method: the proposed reachability-aware multi-            placement and manipulator reachability, resulting in uncovered
+    docking strategy;                                              tasks.
+  • Single docking: one docking pose is selected for each             Table II reports the aggregated comparison over multiple
+    table;                                                         tabletop configurations. Although the set-cover greedy and
+                  (a) Hard-scenario completion.                                                     (b) Runtime scaling.
+                                               Fig. 5.   Robustness and scalability evaluation.
+
+
+
+                           TABLE II                                      the robot autonomously executes the proposed navigation–
+        A BLATION C OMPARISON OVER M ULTIPLE S CENARIOS                  docking–manipulation pipeline: it navigates between table-
+                                                                         top workspaces along the planned global routes, reaches
+         Method             Completion(%)   Avg. Docking
+                                                                         the reachability-aware docking configurations generated by
+         Full                  100.00          10.99
+         Single docking         73.73           6.43
+                                                                         the proposed docking-pose planning module, and performs
+         Nearest docking        25.59           6.83                     tabletop manipulation tasks with the dual arms.
+         Set-cover greedy      100.00          11.11                        Fig. 6 validates the complete pipeline on the physical
+         Random feasible       100.00          15.02
+                                                                         platform. In Fig. 6(a), the real environment contains multiple
+                                                                         tabletop workspaces with task objects distributed over the
+                                                                         tables. In Fig. 6(b), the mobile base moves toward the target
+random feasible baselines also achieve complete coverage,
+                                                                         workspace along the planned global route. In Fig. 6(c), the
+they require more docking poses (11.11 and 15.02 on average,
+                                                                         robot adjusts its base configuration to the generated docking
+respectively, versus 10.99 for the proposed method), which in
+                                                                         pose, so that the tabletop task points enter the reachable
+turn leads to longer navigation routes. These results indicate
+                                                                         workspace of the dual arms. In Fig. 6(d), the dual-arm manip-
+that the advantage of the proposed coverage-aware docking
+                                                                         ulator executes the tabletop manipulation tasks, validating the
+selection lies not in coverage alone, but in achieving complete
+                                                                         effectiveness of the docking-to-manipulation interface.
+task coverage with fewer docking poses, balancing coverage
+and efficiency in multi-table mobile manipulation.
+D. Robustness and Scalability Evaluation
+   The robustness of the proposed framework is evaluated
+under different task distributions, table layouts, and candidate
+densities. Fig. 5 summarizes the performance under hard sce-
+narios and parameter variations. The proposed method main-
+tains stable task coverage under different configurations, while                  (a) Scene initialization               (b) Navigation
+performance degradation mainly occurs when the reachability
+threshold becomes overly restrictive. The runtime evaluation
+shows that the planning time increases with scene scale and
+candidate density, consistent with the complexity analysis.
+E. Planner Independence and Physical Validation
+   The selected docking poses provide an independent interface
+between manipulation feasibility and navigation planning.
+Because the docking decision layer only exposes the selected
+poses and their pairwise path costs, different global planners                         (c) Docking                 (d) Dual-arm manipulation
+can be substituted after docking selection without modifying             Fig. 6. Physical validation of the proposed navigation–docking–manipulation
+                                                                         pipeline. The mobile manipulator autonomously navigates in a real multi-
+the proposed decision layer. This decoupling allows the same             table environment, reaches reachability-aware docking configurations, and
+reachability-aware docking strategy to be evaluated with al-             completes tabletop manipulation tasks using the dual-arm manipulator.
+ternative routing modules, while the manipulation feasibility
+decisions remain unchanged.                                                 Table III lists the key parameters of the physical dual-arm
+   The proposed pipeline is further validated on a real                  mobile manipulator. The physical robot parameters are consis-
+dual-arm mobile manipulator composed of an omnidirec-                    tent with the reachability constraints used in the docking-pose
+tional mobile base, a lifting mechanism, and a dual-                     generation module: the arm mounting height, forward arm
+arm manipulator. In a real indoor multi-table environment,               offset, and dual-arm spacing of the real platform directly pa-
+                           TABLE III                                             [4] Z. Fu, T. Z. Zhao, and C. Finn, “Mobile aloha: Learning bimanual
+       K EY PARAMETERS OF THE P HYSICAL D UAL -A RM M OBILE                          mobile manipulation using low-cost whole-body teleoperation,” in
+                         M ANIPULATOR                                                Proceedings of the 8th Conference on Robot Learning, ser. Proceedings
+                                                                                     of Machine Learning Research, vol. 270. PMLR, 2025, pp. 4066–4083.
+          Parameter                       Value                                      [Online]. Available: https://proceedings.mlr.press/v270/fu25b.html
+                                                                                 [5] P. Zhang, X. Gao, Y. Wu, K. Liu, D. Wang, Z. Wang, B. Zhao,
+          Arm mounting height             0.40 m                                     Y. Ding, and X. Li, “Moma-kitchen: A 100k+ benchmark for affordance-
+          Forward arm offset              0.06 m                                     grounded last-mile navigation in mobile manipulation,” in Proceedings
+          Dual-arm spacing                0.40 m                                     of the IEEE/CVF International Conference on Computer Vision, 2025.
+          Overall size                    400 × 460 × 1100 mm                    [6] F. Reister, M. Grotz, and T. Asfour, “Combining navigation and manip-
+          Lifting stroke                  600 mm                                     ulation costs for time-efficient robot placement in mobile manipulation
+          End-effector working height     400–1200 mm                                tasks,” IEEE Robotics and Automation Letters, vol. 7, no. 4, pp. 9913–
+          Table height                    0.70 m                                     9920, 2022.
+          Base positioning error          4.3 cm                                 [7] S. Jauhri, J. Peters, and G. Chalvatzaki, “Robot learning of mobile
+                                                                                     manipulation with reachability behavior priors,” IEEE Robotics and
+                                                                                     Automation Letters, vol. 7, no. 3, pp. 8399–8406, 2022.
+                                                                                 [8] K. Yamazaki, S. Suzuki, and Y. Kuribayashi, “Approaching motion
+rameterize the reachability model, which in turn determines the                      planning for mobile manipulators considering the uncertainty of self-
+                                                                                     positioning and object’s pose estimation,” Robotics and Autonomous
+feasible docking poses. The measured base positioning error                          Systems, vol. 158, p. 104232, 2022.
+of 4.3 cm remains within the safety clearance adopted during                     [9] H. Zhang, K. Mi, and Z. Zhang, “Base placement optimization for
+candidate evaluation, so the executed docking configurations                         coverage mobile manipulation tasks,” arXiv preprint arXiv:2304.08246,
+                                                                                     2023.
+remain feasible on the physical platform.                                       [10] M. Sereinig, P. Manzl, and J. Gerstmayr, “Task-dependent comfort zone,
+                                                                                     a base placement strategy for mobile manipulators using manipulability
+                                                                                     measures,” Robotics, vol. 13, no. 8, p. 122, 2024.
+                          VII. C ONCLUSION                                      [11] H. Yao, R. Laha, L. F. C. Figueredo, and S. Haddadin, “Enhanced
+                                                                                     dexterity maps (edm): A new map for manipulator capability analysis,”
+   This paper presented RCH-MT-MMP, a constrained hierar-                            IEEE Robotics and Automation Letters, vol. 9, no. 2, pp. 1628–1635,
+chical planning framework for reachability-aware multi-task                          2024.
+mobile manipulation. The method treats tabletop task points                     [12] L. Naik, S. Kalkan, S. L. Sørensen, M. B. Kjærgaard, and N. Krüger,
+                                                                                     “Basenet: A learning-based mobile manipulator base pose sequence
+as manipulation targets that must first be mapped to reach-                          planning for pickup tasks,” in Proceedings of the IEEE/RSJ International
+able docking-pose coverage sets. A coverage-aware multi-                             Conference on Intelligent Robots and Systems, 2024, pp. 3666–3673.
+docking strategy then jointly covers complex table tasks, and                   [13] H. Choset, “Coverage for robotics–a survey of recent results,” Annals of
+                                                                                     Mathematics and Artificial Intelligence, vol. 31, no. 1–4, pp. 113–126,
+a replaceable global planner connects the selected poses. The                        2001.
+feasibility and complexity analysis clarifies when full coverage                [14] B. Yamauchi, “A frontier-based approach for autonomous exploration,”
+is guaranteed and where computation is spent. Experiments                            in Proceedings of the IEEE International Symposium on Computational
+                                                                                     Intelligence in Robotics and Automation, 1997, pp. 146–151.
+show that the full method maintains complete task coverage in                   [15] V. Chvatal, “A greedy heuristic for the set-covering problem,” Mathe-
+the main and hard scenarios, while nearest and single-docking                        matics of Operations Research, vol. 4, no. 3, pp. 233–235, 1979.
+baselines fail under reachability-constrained task distributions.               [16] E. W. Dijkstra, “A note on two problems in connexion with graphs,”
+                                                                                     Numerische Mathematik, vol. 1, no. 1, pp. 269–271, 1959.
+   Representative hardware demonstrations further show that                     [17] P. E. Hart, N. J. Nilsson, and B. Raphael, “A formal basis for the heuristic
+the docking configurations considered by the planning layer                          determination of minimum cost paths,” IEEE Transactions on Systems
+                                                                                     Science and Cybernetics, vol. 4, no. 2, pp. 100–107, 1968.
+are compatible with real tabletop manipulation, where the                       [18] D. Harabor and A. Grastien, “Online graph pruning for pathfinding
+dual-arm platform can access, grasp, and transfer represen-                          on grid maps,” in Proceedings of the AAAI Conference on Artificial
+tative task objects after base docking. The demonstrations                           Intelligence, 2011, pp. 1114–1119.
+                                                                                [19] A. Nash, K. Daniel, S. Koenig, and A. Felner, “Theta*: Any-angle path
+establish physical executability, while the simulation results                       planning on grids,” in Proceedings of the AAAI Conference on Artificial
+provide the quantitative algorithm comparison.                                       Intelligence, 2007, pp. 1177–1183.
+   The present results are based on known 2-D maps, simpli-
+fied reachability scoring, offline planning, and representative
+rather than repeated hardware executions. Future work will
+therefore conduct repeated quantitative real-robot evaluations
+and integrate online perception, dynamic-obstacle replanning,
+and full-body manipulation dynamics.
+
+                             R EFERENCES
+
+ [1] T. Sandakalum and M. H. Ang, “Motion planning for mobile
+     manipulators—a systematic review,” Machines, vol. 10, no. 2, p. 97,
+     2022.
+ [2] Z. Zhao, S. Cheng, Y. Ding, Z. Zhou, S. Zhang, D. Xu, and Y. Zhao, “A
+     survey of optimization-based task and motion planning: From classical to
+     learning approaches,” IEEE/ASME Transactions on Mechatronics, 2024.
+ [3] J. Gu, D. S. Chaplot, H. Su, and J. Malik, “Multi-skill mobile manipula-
+     tion for object rearrangement,” in The Eleventh International Conference
+     on Learning Representations, 2023.
+

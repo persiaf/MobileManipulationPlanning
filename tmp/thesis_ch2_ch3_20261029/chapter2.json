@@ -1,0 +1,735 @@
+[
+  {
+    "type": "heading",
+    "level": 1,
+    "text": "第2章 基础理论"
+  },
+  {
+    "type": "p",
+    "text": "移动操作规划需要同时描述机器人在环境中的位置、机械臂与目标之间的相对关系，以及多个操作任务的组织方式。底盘到达某一位置并不意味着机械臂能够完成该处任务；一个具有操作可达性的停靠位姿，也未必能够通过无碰路径从当前状态到达。因此，本文将操作可达性、任务覆盖与移动路径统一到同一模型中，为后续候选停靠生成、多停靠规划和环境变化下的方案调整提供基础。"
+  },
+  {
+    "type": "p",
+    "text": "本章首先介绍移动双臂机器人的系统组成，建立底盘、升降平台与左右机械臂之间的坐标变换关系；随后给出底盘运动及几何碰撞模型、机械臂运动学与任务表达；最后建立栅格环境和工作区域模型，定义三类相互衔接的规划问题。本文规划层采用固定升降高度和分阶段移动操作假设，重点研究停靠位姿与任务之间的几何关系。完整关节运动学用于说明操作可行性的物理含义，几何可达性则作为后续大规模候选评价的计算模型。"
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.1 移动双臂机器人系统组成"
+  },
+  {
+    "type": "p",
+    "text": "本文研究的移动双臂机器人由全向移动底盘、垂直升降机构、左右机械臂、末端执行器及环境感知与控制系统组成。移动底盘提供平面内的位置调整与航向调整能力；升降机构改变双臂相对于地面的整体高度；左右机械臂在各自工作空间内完成目标接近和操作。环境感知与控制系统向规划层提供地图、任务位置和机器人状态，并接收规划得到的停靠位姿、任务分配和移动路径。"
+  },
+  {
+    "type": "p",
+    "text": "移动与操作之间存在明显的几何耦合。底盘位置决定两侧机械臂基座到目标的距离，底盘航向决定目标在机械臂局部坐标系中的前后和侧向分布，升降高度决定目标相对于机械臂基座的垂向位置。为统一描述这些量，定义机器人广义构型向量为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol{\\xi}=\\begin{bmatrix}x_b&y_b&\\theta_b&h&\\boldsymbol q_L^{T}&\\boldsymbol q_R^{T}\\end{bmatrix}^{T},\\qquad n_\\xi=4+n_L+n_R",
+    "label": "2-1"
+  },
+  {
+    "type": "p",
+    "text": "其中，$x_b$、$y_b$ 为底盘参考点在世界坐标系中的平面坐标，$\\theta_b$ 为航向角，$h$ 为升降机构相对于参考高度的位移，$\\boldsymbol q_L$、$\\boldsymbol q_R$ 分别为左右机械臂关节变量，$n_L$、$n_R$ 为相应关节数。本文采用的单臂模型配置五个关节限位，因此两臂构型可分别以五维关节向量表示。广义构型用于建立统一运动学关系，不意味着规划算法同时对全部自由度进行搜索。"
+  },
+  {
+    "type": "p",
+    "text": "为控制多任务规划的搜索规模，本文将机器人运行分为移动阶段与驻停操作阶段。移动阶段主要调整底盘平面位姿，驻停阶段保持底盘位姿不变并执行所分配的操作任务。升降位移在当前规划中固定为参考值 $h=0$，不参与停靠位姿优化，也不计入升降动作时间和代价。固定升降高度并不取消垂向可达性判断，任务高度仍须位于所选高度对应的工作空间范围内。"
+  },
+  {
+    "type": "table",
+    "caption": "表2-1 移动双臂机器人几何模型参数",
+    "headers": [
+      "参数",
+      "符号",
+      "数值"
+    ],
+    "rows": [
+      [
+        "底盘长度、宽度、高度",
+        "$L_B,W_B,H_B$",
+        "0.423 m，0.366 m，0.127 m"
+      ],
+      [
+        "左右机械臂基座间距",
+        "$d_a$",
+        "0.250 m"
+      ],
+      [
+        "机械臂基座前向偏移",
+        "$d_x$",
+        "0.2115 m"
+      ],
+      [
+        "固定机械臂基座高度",
+        "$z_A$",
+        "0.1833 m"
+      ],
+      [
+        "单臂水平最大半径",
+        "$R_{\\max}$",
+        "0.278 m"
+      ],
+      [
+        "目标相对基座的垂向范围",
+        "$[z_{\\min},z_{\\max}]$",
+        "[−0.142，0.334] m"
+      ],
+      [
+        "单臂前向、后向、侧向范围",
+        "$R_f,R_b,R_s$",
+        "0.278 m，0.197 m，0.278 m"
+      ]
+    ]
+  },
+  {
+    "type": "p",
+    "text": "表2-1给出本文仿真使用的统一几何参数。其中，机械臂基座位于底盘前部，前向偏移取底盘长度的一半。导航碰撞和停靠碰撞采用相同的矩形底盘外廓，以保证两个规划阶段对机器人占据空间的描述一致。这些参数构成计算模型的输入，其作用是确定候选位姿和任务之间的几何关系；实际平台上的安全工作范围仍需结合装配和标定情况确认。"
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.2 移动双臂机器人坐标系建立"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.2.1 移动底盘位姿模型"
+  },
+  {
+    "type": "p",
+    "text": "建立固定于环境的世界坐标系 $\\Sigma_W$，其竖直轴指向上方；以底盘参考点建立坐标系 $\\Sigma_B$，规定 $x_B$ 轴指向机器人前方，$y_B$ 轴指向机器人左侧，$z_B$ 轴垂直地面向上。底盘在水平地面运动时，忽略横滚与俯仰，采用三维平面位姿表示其状态："
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol b=\\begin{bmatrix}x_b&y_b&\\theta_b\\end{bmatrix}^{T}\\in SE(2)",
+    "label": "2-2"
+  },
+  {
+    "type": "p",
+    "text": "其中，$SE(2)$ 表示平面刚体变换空间，航向角以逆时针方向为正。本文用 $\\boldsymbol b$ 表示当前底盘状态，用 $p_k$ 表示候选停靠位姿，二者均由平面位置和航向构成，只是承担不同的规划语义。底盘的旋转矩阵和对应的三维齐次变换为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol R_2(\\theta_b)=\\begin{bmatrix}\\cos\\theta_b&-\\sin\\theta_b\\\\\\sin\\theta_b&\\cos\\theta_b\\end{bmatrix},\\qquad \\boldsymbol R_z(\\theta_b)=\\begin{bmatrix}\\boldsymbol R_2(\\theta_b)&\\boldsymbol0\\\\\\boldsymbol0^{T}&1\\end{bmatrix}",
+    "label": "2-3"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{W}T_B=\\begin{bmatrix}\\cos\\theta_b&-\\sin\\theta_b&0&x_b\\\\\\sin\\theta_b&\\cos\\theta_b&0&y_b\\\\0&0&1&z_b\\\\0&0&0&1\\end{bmatrix}",
+    "label": "2-4"
+  },
+  {
+    "type": "p",
+    "text": "本文采用的记号 $^{A}T_B$ 表示将 $\\Sigma_B$ 中的坐标变换到 $\\Sigma_A$。$z_b$ 是底盘参考点的固定高度，不能与底盘实体高度混同。为便于平面规划，底盘参考原点可取在底盘中心的地面投影位置，此时 $z_b=0$，机器人实体高度通过机械臂安装变换表达。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.2.2 双机械臂坐标变换模型"
+  },
+  {
+    "type": "p",
+    "text": "建立升降平台坐标系 $\\Sigma_H$、左右机械臂基座坐标系 $\\Sigma_{A_L}$、$\\Sigma_{A_R}$ 以及末端执行器坐标系 $\\Sigma_{E_L}$、$\\Sigma_{E_R}$。升降平台相对于底盘仅沿竖直方向平移，因此底盘到升降平台的变换写为"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{B}T_H(h)=\\begin{bmatrix}1&0&0&0\\\\0&1&0&0\\\\0&0&1&h_0+h\\\\0&0&0&1\\end{bmatrix}",
+    "label": "2-5"
+  },
+  {
+    "type": "p",
+    "text": "其中，$h_0$ 为升降机构位于参考零位时，平台坐标原点相对于底盘参考原点的高度。本文选择平台原点与两臂基座安装高度一致，因此固定状态满足 $z_b+h_0=0.1833\\,\\mathrm m$。采用这一约定可以避免将底盘高度、关节结构偏移和升降位移重复计入。"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{H}T_{A_\\ell}=\\begin{bmatrix}\\boldsymbol R_{A_\\ell}&\\boldsymbol d_\\ell\\\\\\boldsymbol0^{T}&1\\end{bmatrix},\\qquad \\boldsymbol d_L=\\begin{bmatrix}d_x\\\\d_a/2\\\\0\\end{bmatrix},\\quad \\boldsymbol d_R=\\begin{bmatrix}d_x\\\\-d_a/2\\\\0\\end{bmatrix}",
+    "label": "2-6"
+  },
+  {
+    "type": "p",
+    "text": "式中，$\\boldsymbol R_{A_\\ell}$ 为机械臂实际关节基座坐标系相对于升降平台的固定安装旋转。第三章的几何代理评价以与底盘同向的局部坐标轴描述前后和侧向工作范围，因此其几何评价坐标系的旋转可取单位阵；实际关节运动学坐标系是否采用同样方向，应由连杆坐标系定义确定。左右基座的平面位置具有对称性，但同一任务到两臂的距离一般不同，因而不能用任务到机器人中心的距离替代两臂分别评价。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.2.3 多坐标系间齐次变换关系"
+  },
+  {
+    "type": "p",
+    "text": "将各级安装变换相乘，可得到机械臂基座和末端在世界坐标系中的位姿："
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{W}T_{A_\\ell}={}^{W}T_B\\,{}^{B}T_H(h)\\,{}^{H}T_{A_\\ell},\\qquad \\ell\\in\\{L,R\\}",
+    "label": "2-7"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{W}T_{E_\\ell}(\\boldsymbol\\xi)={}^{W}T_{A_\\ell}\\,{}^{A_\\ell}T_{E_\\ell}(\\boldsymbol q_\\ell)",
+    "label": "2-8"
+  },
+  {
+    "type": "p",
+    "text": "给定世界坐标系中的任务点 $\\boldsymbol p_i^W$，先进行逆变换，才能在机械臂基座坐标系中判断其相对位置："
+  },
+  {
+    "type": "eq",
+    "latex": "\\begin{bmatrix}\\boldsymbol p_i^{A_\\ell}\\\\1\\end{bmatrix}=\\left({}^{W}T_{A_\\ell}\\right)^{-1}\\begin{bmatrix}\\boldsymbol p_i^W\\\\1\\end{bmatrix},\\qquad \\boldsymbol p_i^{A_\\ell}=\\boldsymbol R_{WA_\\ell}^{T}(\\boldsymbol p_i^W-\\boldsymbol p_{WA_\\ell})",
+    "label": "2-9"
+  },
+  {
+    "type": "p",
+    "text": "这里 $\\boldsymbol R_{WA_\\ell}$ 与 $\\boldsymbol p_{WA_\\ell}$ 分别为机械臂基座在世界坐标系中的旋转和位置。若任务还规定末端期望姿态，用 $^{W}T_{G_i}$ 表示目标位姿，则有"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{A_\\ell}T_{G_i}=\\left({}^{W}T_{A_\\ell}\\right)^{-1}{}^{W}T_{G_i}",
+    "label": "2-10"
+  },
+  {
+    "type": "p",
+    "text": "上述变换将环境坐标、机器人坐标和任务坐标联系起来。当底盘航向发生变化时，两臂基座位置和任务局部方向会同时改变。即使底盘中心与目标的欧氏距离保持不变，其操作评分和左右臂分配仍可能变化。这也是候选停靠必须包含航向变量的原因。"
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.3 移动底盘几何与运动模型"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.3.1 全向移动底盘运动学"
+  },
+  {
+    "type": "p",
+    "text": "将底盘视为在水平地面内运动的全向刚体，以底盘坐标系中的前向速度、侧向速度和角速度构成控制量。世界坐标系中的位姿变化率由坐标旋转得到："
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol v_B=\\begin{bmatrix}v_x^B&v_y^B&\\omega_b\\end{bmatrix}^{T},\\qquad \\dot{\\boldsymbol b}=\\begin{bmatrix}\\cos\\theta_b&-\\sin\\theta_b&0\\\\\\sin\\theta_b&\\cos\\theta_b&0\\\\0&0&1\\end{bmatrix}\\boldsymbol v_B",
+    "label": "2-11"
+  },
+  {
+    "type": "p",
+    "text": "该模型允许底盘在保持航向不变时进行侧向平移，适合表达靠近桌面、沿桌边调整和从停靠位姿退出等动作。它不包含车辆式底盘的非完整约束，也不等同于轮速分配模型。具体驱动轮的数量、滚子方向和安装位置决定轮速映射矩阵；本章不预设未经确定的轮系结构，规划层直接使用底盘速度与位姿关系。"
+  },
+  {
+    "type": "p",
+    "text": "在有限控制周期 $\\Delta t$ 内，采用分段常值速度时，可以用一阶离散形式描述短时运动："
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol b_{k+1}\\approx\\boldsymbol b_k+\\Delta t\\begin{bmatrix}\\boldsymbol R_2(\\theta_{b,k})&\\boldsymbol0\\\\\\boldsymbol0^{T}&1\\end{bmatrix}\\boldsymbol v_{B,k}",
+    "label": "2-12"
+  },
+  {
+    "type": "p",
+    "text": "上述运动学关系用于解释路径执行所需的平移和旋转能力。几何路径规划主要确定无碰位姿序列，速度、加速度以及驱动能力约束需要在轨迹生成和控制层进一步处理，因此几何可行路径不能直接作为动态可执行性的证明。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.3.2 底盘几何轮廓与碰撞约束"
+  },
+  {
+    "type": "p",
+    "text": "底盘具有非零长度和宽度，采用点机器人会遗漏桌角擦碰和转向时的外廓碰撞。本文在底盘坐标系中将其平面轮廓表示为矩形集合："
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal F_B=\\left[-\\frac{L_B}{2},\\frac{L_B}{2}\\right]\\times\\left[-\\frac{W_B}{2},\\frac{W_B}{2}\\right]",
+    "label": "2-13"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal F(\\boldsymbol b)=\\left\\{\\begin{bmatrix}x_b\\\\y_b\\end{bmatrix}+\\boldsymbol R_2(\\theta_b)\\boldsymbol u\\;\\middle|\\;\\boldsymbol u\\in\\mathcal F_B\\right\\}",
+    "label": "2-14"
+  },
+  {
+    "type": "p",
+    "text": "设地图有效边界为 $\\mathcal D$，用于碰撞检测的占据集合为 $\\mathcal O_{\\mathrm{col}}$。将占据栅格视为具有面积的闭合正方形，轮廓与障碍接触也判为碰撞。停靠位姿应满足"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal F(\\boldsymbol b)\\cap\\mathcal O_{\\mathrm{col}}=\\varnothing,\\qquad \\mathcal F(\\boldsymbol b)\\subset\\operatorname{int}(\\mathcal D)",
+    "label": "2-15"
+  },
+  {
+    "type": "p",
+    "text": "碰撞判断同时考虑旋转矩形与占据栅格之间的相交关系以及地图边界，不只检查底盘四个顶点或中心点。对于两个凸多边形，若存在一条轴使其投影区间分离，则两者不相交；旋转矩形与轴对齐栅格正方形仅需检查两条地图轴和两条底盘轴。具体判定过程将在第三章展开。"
+  },
+  {
+    "type": "p",
+    "text": "若需要对原始障碍施加额外安全裕量，可用闵可夫斯基和构造膨胀障碍："
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal O_{d_s}=\\mathcal O\\oplus\\mathbb B_{d_s},\\qquad \\mathbb B_{d_s}=\\{\\boldsymbol u\\in\\mathbb R^2:\\|\\boldsymbol u\\|_2\\le d_s\\}",
+    "label": "2-16"
+  },
+  {
+    "type": "p",
+    "text": "这里 $d_s$ 表示几何安全膨胀半径。离散地图中的逐格邻域扩张是该思想的一种栅格实现，其形状和有效距离受分辨率影响，不能与连续圆盘膨胀完全等同。本文将用于检测的最终占据集合统一记为 $\\mathcal O_{\\mathrm{col}}$，避免在已膨胀地图上无意重复增加同一安全距离。候选评价中的安全代价归一化距离用于表达偏好，不自动构成额外的硬间隙约束。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.3.3 停靠可行性与路径可行性"
+  },
+  {
+    "type": "p",
+    "text": "从起点到停靠点的移动路径写为 $\\gamma:[0,1]\\rightarrow SE(2)$。若要在整个移动过程中保持无碰，应满足"
+  },
+  {
+    "type": "eq",
+    "latex": "\\gamma(0)=\\boldsymbol b_s,\\quad\\gamma(1)=\\boldsymbol b_g,\\quad\\mathcal F(\\gamma(s))\\cap\\mathcal O_{\\mathrm{col}}=\\varnothing,\\quad\\forall s\\in[0,1]",
+    "label": "2-17"
+  },
+  {
+    "type": "p",
+    "text": "端点无碰只是路径可行的必要条件，两个无碰停靠点可能被障碍分隔，也可能在旋转过渡中发生碰撞。因此，候选生成阶段进行局部静态碰撞筛选，后续导航阶段还需验证连接路径及位姿变化。本文路径检查采用平移和航向插值对中间位姿进行加密，平移步长不超过栅格分辨率的三分之一，角度步长不超过5°。该过程用于离散几何检验，不构成连续扫掠体无碰的严格证明。"
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.4 双机械臂运动学与任务描述"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.4.1 双机械臂正运动学模型"
+  },
+  {
+    "type": "p",
+    "text": "机械臂正运动学描述关节变量到末端位姿的映射。对任意一侧机械臂，采用标准DH形式定义相邻连杆变换；令 $a_k$、$\\alpha_k$、$d_k$、$\\vartheta_k$ 分别为连杆长度、扭转角、偏距和关节角，则"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{k-1}T_k=\\begin{bmatrix}c_k&-s_kc_{\\alpha_k}&s_ks_{\\alpha_k}&a_kc_k\\\\s_k&c_kc_{\\alpha_k}&-c_ks_{\\alpha_k}&a_ks_k\\\\0&s_{\\alpha_k}&c_{\\alpha_k}&d_k\\\\0&0&0&1\\end{bmatrix}",
+    "label": "2-18"
+  },
+  {
+    "type": "p",
+    "text": "其中，$c_k=\\cos\\vartheta_k$、$s_k=\\sin\\vartheta_k$、$c_{\\alpha_k}=\\cos\\alpha_k$、$s_{\\alpha_k}=\\sin\\alpha_k$。对于转动关节，$\\vartheta_k$ 由关节变量与固定零位偏移共同组成。将各级变换依次相乘，可得"
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{A_\\ell}T_{E_\\ell}(\\boldsymbol q_\\ell)=\\left(\\prod_{k=1}^{n_\\ell}{}^{k-1}T_k(q_{\\ell,k})\\right){}^{n_\\ell}T_{E_\\ell}",
+    "label": "2-19"
+  },
+  {
+    "type": "p",
+    "text": "末端工具变换 $^{n_\\ell}T_{E_\\ell}$ 表达末级连杆到工具坐标系的固定关系。将该式代入式（2-8），即可把底盘、升降机构、机械臂和工具统一到同一运动链中。标准DH公式是一般运动学表达；具体数值化求解必须给出一致的连杆坐标轴和完整参数表，仅有若干连杆尺寸与角度偏移不能唯一确定整条运动链。本文后续几何评价直接采用基座位置和工作空间边界，不将其等同于完整DH逆解验证。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.4.2 逆运动学与工作空间约束"
+  },
+  {
+    "type": "p",
+    "text": "对于规定完整目标位姿的任务，逆运动学需要寻找满足下式的关节构型："
+  },
+  {
+    "type": "eq",
+    "latex": "{}^{W}T_{E_\\ell}(\\boldsymbol b,h,\\boldsymbol q_\\ell)={}^{W}T_{G_i}",
+    "label": "2-20"
+  },
+  {
+    "type": "p",
+    "text": "当任务只规定目标位置时，可将上述约束放宽为末端位置相等，而末端姿态属于任务允许的方向集合。无论采用何种任务约束，关节构型均应位于关节限位集合中："
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal Q_\\ell=\\{\\boldsymbol q_\\ell:q_{\\ell,k}^{\\min}\\le q_{\\ell,k}\\le q_{\\ell,k}^{\\max},\\ k=1,\\ldots,n_\\ell\\}",
+    "label": "2-21"
+  },
+  {
+    "type": "table",
+    "caption": "表2-2 单机械臂模型的关节限位",
+    "headers": [
+      "关节",
+      "下限",
+      "上限"
+    ],
+    "rows": [
+      [
+        "1",
+        "−90°",
+        "90°"
+      ],
+      [
+        "2",
+        "−8°",
+        "125°"
+      ],
+      [
+        "3",
+        "−170°",
+        "15°"
+      ],
+      [
+        "4",
+        "−90°",
+        "90°"
+      ],
+      [
+        "5",
+        "−180°",
+        "180°"
+      ]
+    ]
+  },
+  {
+    "type": "p",
+    "text": "表2-2中的关节范围定义构型允许域。考虑机械臂与环境、自身连杆及另一机械臂之间的碰撞后，还应从允许域中剔除碰撞构型。对固定底盘与升降高度，位置工作空间定义为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal W_\\ell(\\boldsymbol b,h)=\\{\\boldsymbol p_{E_\\ell}^{W}(\\boldsymbol b,h,\\boldsymbol q_\\ell)\\mid\\boldsymbol q_\\ell\\in\\mathcal Q_\\ell\\}",
+    "label": "2-22"
+  },
+  {
+    "type": "p",
+    "text": "由此可见，目标落在位置工作空间内，不必然满足末端姿态要求；存在某个可行末端构型，也不必然存在从当前构型出发的无碰关节轨迹。第三章采用几何边界和连续评分近似描述操作能力，输出的是任务与停靠位姿之间的几何可达关系。该关系适合用于大规模规划筛选，但完整执行可行性仍需要逆运动学、全臂碰撞和动作轨迹验证。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.4.3 双机械臂微分运动学模型"
+  },
+  {
+    "type": "p",
+    "text": "在固定底盘和升降高度的操作阶段，末端线速度与角速度可由关节速度通过几何雅可比矩阵获得："
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol\\nu_{E_\\ell}=\\begin{bmatrix}\\boldsymbol v_{E_\\ell}\\\\\\boldsymbol\\omega_{E_\\ell}\\end{bmatrix}=\\boldsymbol J_\\ell(\\boldsymbol q_\\ell)\\dot{\\boldsymbol q}_\\ell",
+    "label": "2-23"
+  },
+  {
+    "type": "eq",
+    "latex": "\\boldsymbol J_{\\ell,k}=\\begin{bmatrix}\\boldsymbol z_{k-1}\\times(\\boldsymbol o_E-\\boldsymbol o_{k-1})\\\\\\boldsymbol z_{k-1}\\end{bmatrix}",
+    "label": "2-24"
+  },
+  {
+    "type": "p",
+    "text": "式中，$\\boldsymbol z_{k-1}$ 是第 $k$ 个转动关节的轴向单位向量，$\\boldsymbol o_{k-1}$ 和 $\\boldsymbol o_E$ 分别是关节轴参考点与末端原点，所有向量必须表达在同一坐标系中。雅可比描述局部速度传递能力，当其秩下降时，末端可实现的瞬时运动方向受到限制。"
+  },
+  {
+    "type": "p",
+    "text": "双臂在底盘固定且运动学独立时，可以采用分块对角雅可比表示两臂速度关系："
+  },
+  {
+    "type": "eq",
+    "latex": "\\begin{bmatrix}\\boldsymbol\\nu_{E_L}\\\\\\boldsymbol\\nu_{E_R}\\end{bmatrix}=\\begin{bmatrix}\\boldsymbol J_L&\\boldsymbol0\\\\\\boldsymbol0&\\boldsymbol J_R\\end{bmatrix}\\begin{bmatrix}\\dot{\\boldsymbol q}_L\\\\\\dot{\\boldsymbol q}_R\\end{bmatrix}",
+    "label": "2-25"
+  },
+  {
+    "type": "p",
+    "text": "若两臂同时约束同一物体，还需要加入相对位姿、闭链和协同受力等约束，不能仅由分块关系得到协同操作可行性。本文第三章针对可由任意一只机械臂完成的点任务评价左右臂能力，不采用雅可比可操作度作为已实现评分项，也不将两臂几何工作空间的重叠直接视为双手协同操作能力。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.4.4 操作任务数学描述"
+  },
+  {
+    "type": "p",
+    "text": "设环境中共有 $N$ 个操作任务，任务集合及单任务属性表示为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal T=\\{t_1,\\ldots,t_N\\},\\qquad t_i=(\\boldsymbol p_i^W,\\mathcal A_i,\\kappa_i,j_i)",
+    "label": "2-26"
+  },
+  {
+    "type": "p",
+    "text": "其中，$\\boldsymbol p_i^W$ 为目标位置，$\\mathcal A_i\\subseteq SO(3)$ 为允许的末端姿态集合，$\\kappa_i$ 为任务类型，$j_i$ 为工作区域编号。采用 $\\mathcal A_i$ 表示姿态集合，以区别于工作区域集合。当前点任务以位置和区域归属为核心，任务类型按可由单臂完成的操作处理；当缺少明确的姿态要求时，不额外宣称已经满足指定抓取方向。"
+  },
+  {
+    "type": "p",
+    "text": "任务描述与任务执行状态应分别保存。任务位置和区域归属决定其几何需求，完成状态决定其是否还应参与后续规划。一个任务可以同时被多个候选停靠位姿覆盖，但在最终执行计划中只需分配给一个有效停靠位姿，避免重复操作。对新增加的任务，应保留独立标识并更新区域对应关系，以支持后续局部调整。"
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.5 环境与障碍物模型"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.5.1 二维栅格环境模型"
+  },
+  {
+    "type": "p",
+    "text": "本文以二维栅格地图表示底盘移动环境。设栅格边长为 $r_g$，地图世界坐标原点为 $(x_0,y_0)$，地图高度为 $H$。环境矩阵的零值表示自由区域，非零值表示底盘不可进入的区域；墙体及障碍采用数值1，桌面投影可采用数值2保留语义信息。用于碰撞与导航的二值占据掩码定义为"
+  },
+  {
+    "type": "eq",
+    "latex": "M_{\\mathrm{occ}}(g_i,g_j)=\\begin{cases}1,&M(g_i,g_j)>0,\\\\0,&M(g_i,g_j)=0.\\end{cases}",
+    "label": "2-27"
+  },
+  {
+    "type": "p",
+    "text": "栅格矩阵的行号自上向下增加，而世界坐标的竖直平面坐标 $y$ 自下向上增加，因此坐标转换必须包含方向翻转。采用MATLAB的一基索引时，世界坐标到行列索引的映射为"
+  },
+  {
+    "type": "eq",
+    "latex": "g_j=\\left\\lfloor\\frac{x-x_0}{r_g}\\right\\rfloor+1,\\qquad g_i=\\left\\lfloor\\frac{H-(y-y_0)}{r_g}\\right\\rfloor+1",
+    "label": "2-28"
+  },
+  {
+    "type": "p",
+    "text": "其中 $g_i$ 为行号、$g_j$ 为列号。反向转换取对应栅格中心，而非直接返回原连续坐标："
+  },
+  {
+    "type": "eq",
+    "latex": "x_c=x_0+(g_j-\\tfrac12)r_g,\\qquad y_c=y_0+H-(g_i-\\tfrac12)r_g",
+    "label": "2-29"
+  },
+  {
+    "type": "p",
+    "text": "连续坐标映射到同一栅格后会丢失单元内部的位置差异，因此世界坐标往返转换的合理比较对象是栅格中心。对于恰好落在网格线上的值，还需抑制浮点误差导致的索引跳变；本文在取整前对接近整数的比值进行数值对齐。地图边缘及越界点另外进行合法性检查，不能通过截断索引把真实越界位姿强行投影到地图内部。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.5.2 多桌面工作区域模型"
+  },
+  {
+    "type": "p",
+    "text": "多任务场景按物理工作表面划分区域。每个工作区域对应一张桌面或具有明确边界的局部操作区域，其几何描述包含中心、朝向、长度、宽度和高度。设第 $j$ 个矩形桌面的平面中心为 $\\boldsymbol c_j$，朝向为 $\\phi_j$，局部任务位置为 $(u_i,v_i)$，则任务世界坐标满足"
+  },
+  {
+    "type": "eq",
+    "latex": "\\begin{bmatrix}x_i\\\\y_i\\end{bmatrix}=\\boldsymbol c_j+\\boldsymbol R_2(\\phi_j)\\begin{bmatrix}u_i\\\\v_i\\end{bmatrix},\\qquad z_i=z_j,\\quad |u_i|\\le L_j/2,\\quad |v_i|\\le W_j/2",
+    "label": "2-30"
+  },
+  {
+    "type": "p",
+    "text": "这一表达使任务点随桌面共同旋转，能够保持任务和工作表面之间的物理一致性。矩形桌面在底盘导航中按其占据投影处理，而桌面上的任务点保留三维高度用于机械臂评价。两者分别服务于移动和操作模型，不能因为目标位于占据栅格上就将操作任务删除，也不能因为桌面下方存在空隙就默认底盘可以穿过桌面投影。"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal R=\\{R_1,\\ldots,R_{M_R}\\},\\quad\\mathcal T_j=\\{t_i\\in\\mathcal T:j_i=j\\},\\quad\\mathcal T=\\bigcup_{j=1}^{M_R}\\mathcal T_j",
+    "label": "2-31"
+  },
+  {
+    "type": "p",
+    "text": "区域归属在任务生成或导入阶段确定。不同区域的任务集合保持不交，候选生成和局部覆盖以区域为单位进行。该划分保留桌面边界与朝向等物理结构，使全局问题能够通过“区域—候选停靠—任务”关系组织，而不必在整张地图的所有位姿上重复评价全部任务。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.5.3 静态与动态障碍物模型"
+  },
+  {
+    "type": "p",
+    "text": "环境中的墙体和固定桌面形成静态障碍集合，临时物体的加入或位置变化形成时变占据集合。二者共同决定某一时刻的自由构型空间："
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal O(t)=\\mathcal O_s\\cup\\mathcal O_d(t),\\qquad\\mathcal C_{\\mathrm{free}}(t)=\\{p\\in SE(2):\\mathcal F(p)\\cap\\mathcal O_{\\mathrm{col}}(t)=\\varnothing,\\ \\mathcal F(p)\\subset\\operatorname{int}(\\mathcal D)\\}",
+    "label": "2-32"
+  },
+  {
+    "type": "p",
+    "text": "本文在线调整的环境变化采用离散事件更新表达，包括局部障碍新增、停靠位姿失效、任务增加以及任务覆盖关系失效。更新后的地图在一次局部规划过程中作为静态快照使用。因此，该模型能够描述变化发生后的计划修复，但不涉及对连续运动障碍速度的预测，也不直接提供时空动态避障保证。"
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.6 三类规划问题统一定义"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.6.1 面向操作任务的可达停靠位姿生成问题"
+  },
+  {
+    "type": "p",
+    "text": "第一类问题回答“机器人停在哪里能够操作”。给定地图、机器人几何参数以及区域任务集合，在各工作区域周围生成有限候选位姿，并构造候选与任务之间的可达关系。记区域 $j$ 的候选集合为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal P_j=\\{p_{j1},\\ldots,p_{jK_j}\\},\\qquad p_{jk}=(x_{jk},y_{jk},\\theta_{jk})\\in SE(2)",
+    "label": "2-33"
+  },
+  {
+    "type": "p",
+    "text": "原始采样经底盘几何筛选后形成候选库，其中可以保留暂未覆盖任何任务的无碰候选，以便记录完整评价结果。用于操作选择的有效子集还要求候选至少覆盖一个区域任务。为了表示这一有效子集对应的约束，可将区域操作允许域概括为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\Omega_j=\\Omega_{\\mathrm{free}}\\cap\\Omega_{\\mathrm{reach},j}\\cap\\Omega_{\\mathrm{orient},j}",
+    "label": "2-34"
+  },
+  {
+    "type": "p",
+    "text": "其中，$\\Omega_{\\mathrm{free}}$ 由实际采用的地图和底盘碰撞模型定义，$\\Omega_{\\mathrm{reach},j}$ 描述任务可达条件，$\\Omega_{\\mathrm{orient},j}$ 表示候选采样所考虑的朝向范围。若另外设置硬安全间隙，可再与相应安全域求交；只设置软安全代价时则不应添加并未执行的硬约束。"
+  },
+  {
+    "type": "p",
+    "text": "对于任意一只机械臂即可完成的任务，联合评分与任务可达停靠集合定义为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\rho(p,t_i)=\\max\\{\\rho_L(p,t_i),\\rho_R(p,t_i)\\},\\qquad\\mathcal B_i=\\{p\\in\\mathcal P_{j_i}\\cap\\Omega_{j_i}:\\rho(p,t_i)\\ge\\rho_{\\min}\\}",
+    "label": "2-35"
+  },
+  {
+    "type": "p",
+    "text": "这里 $\\rho_L$、$\\rho_R$ 分别为左右臂评分，$\\rho_{\\min}$ 为可操作阈值。最大值表示两臂之间的择一能力，不能解释为两臂共同完成任务的质量。如果 $\\mathcal B_i$ 为空，说明在当前采样与评价模型下没有找到覆盖任务 $t_i$ 的候选；它不直接证明连续空间内不存在可行停靠位姿，仍需区分采样不足与几何条件限制。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.6.2 多任务多停靠协同规划问题"
+  },
+  {
+    "type": "p",
+    "text": "第二类问题回答“如何组织停靠与移动以完成全部任务”。将各区域候选合并为 $\\mathcal P$，候选总数为 $K$，定义单个候选的覆盖集合及二值覆盖矩阵："
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal C(p_k)=\\{t_i\\in\\mathcal T:\\rho(p_k,t_i)\\ge\\rho_{\\min}\\},\\qquad C_{ik}=\\begin{cases}1,&t_i\\in\\mathcal C(p_k),\\\\0,&\\text{otherwise}.\\end{cases}",
+    "label": "2-36"
+  },
+  {
+    "type": "p",
+    "text": "令二值变量 $y_k$ 表示是否选用候选 $p_k$，$x_{ik}$ 表示是否把任务 $i$ 分配给该候选。对于要求全部任务完成的规划问题，应满足"
+  },
+  {
+    "type": "eq",
+    "latex": "\\sum_{k=1}^{K}x_{ik}=1,\\qquad x_{ik}\\le C_{ik}y_k,\\qquad x_{ik},y_k\\in\\{0,1\\}",
+    "label": "2-37"
+  },
+  {
+    "type": "p",
+    "text": "第一个约束要求每个任务只分配一次，第二个约束保证任务只能分配给已选择且能够覆盖它的候选。被选择的停靠集合记为 $\\mathcal S=\\{p_k:y_k=1\\}$，这些约束蕴含 $\\bigcup_{p\\in\\mathcal S}\\mathcal C(p)=\\mathcal T$。若某个任务的覆盖矩阵行全为零，则全覆盖模型不可行，应明确保留未覆盖任务，不能通过重复计数或忽略失败任务来得到完整计划。"
+  },
+  {
+    "type": "p",
+    "text": "设选中停靠数为 $Q$，访问排列为 $\\sigma=(\\sigma_1,\\ldots,\\sigma_Q)$，$\\gamma_{a,b}$ 表示从位姿 $a$ 到位姿 $b$ 的导航路径，开放路线的总长度为"
+  },
+  {
+    "type": "eq",
+    "latex": "L_{\\mathrm{nav}}=L(\\gamma_{0,\\sigma_1})+\\sum_{r=1}^{Q-1}L(\\gamma_{\\sigma_r,\\sigma_{r+1}})",
+    "label": "2-38"
+  },
+  {
+    "type": "p",
+    "text": "编号0表示初始位姿。若任务要求返回起点，应在目标中增加最后一个停靠点到起点的路径长度。这里的路径长度应来自障碍环境中的实际连接路径，不能直接用停靠点之间的欧氏距离替代。无可行连接路径时，对应边不可用。"
+  },
+  {
+    "type": "eq",
+    "latex": "\\min_{\\boldsymbol X,\\boldsymbol y,\\sigma,\\Gamma}\\ \\alpha\\sum_{k=1}^{K}y_k+\\beta L_{\\mathrm{nav}}+\\gamma J_{\\mathrm{op}},\\qquad\\gamma_e([0,1])\\subseteq\\mathcal C_{\\mathrm{free}},\\ \\forall\\gamma_e\\in\\Gamma",
+    "label": "2-39"
+  },
+  {
+    "type": "p",
+    "text": "式中，$J_{\\mathrm{op}}$ 汇总所选择停靠位姿的操作相关代价，$\\alpha$、$\\beta$、$\\gamma$ 用于平衡停靠次数、移动代价与操作质量，取值时需考虑各指标量纲和归一化方式；任务分配约束仍为式（2-37）。这一模型描述联合优化目标，后续分层算法在可计算时间内构造可行解，不据此宣称获得原问题的全局最优解。"
+  },
+  {
+    "type": "eq",
+    "latex": "\\Pi_0=(\\mathcal S,\\boldsymbol X,\\sigma,\\Gamma)",
+    "label": "2-40"
+  },
+  {
+    "type": "p",
+    "text": "统一执行计划 $\\Pi_0$ 同时保存停靠位姿、任务分配、访问顺序和连接路径，使一个任务能追溯到负责它的停靠节点，也使一条路径边能关联到其两端节点。这种结构是后续识别局部失效并保留未受影响计划内容的基础。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.6.3 环境变化下的执行方案在线调整问题"
+  },
+  {
+    "type": "p",
+    "text": "第三类问题回答“环境变化后如何继续完成剩余任务”。设 $\\mathcal T_{\\mathrm{done}}(t)$ 为时刻 $t$ 已验证完成的任务集合，新增任务集合为 $\\mathcal T_{\\mathrm{new}}$，则更新后需要处理的任务为"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal T_{\\mathrm{rem}}(t+1)=\\bigl(\\mathcal T(t)\\setminus\\mathcal T_{\\mathrm{done}}(t)\\bigr)\\cup\\mathcal T_{\\mathrm{new}}",
+    "label": "2-41"
+  },
+  {
+    "type": "p",
+    "text": "环境更新可能改变路径连通性、停靠点无碰性或任务覆盖关系，三者的影响范围并不相同。例如，路径中段出现障碍时可以保留原任务分配并修复连接；停靠点被占用时需要选择替代停靠点；覆盖关系失效时则需重新分配受影响任务。因此，应先定位失效对象，再确定是否需要扩大修复范围。"
+  },
+  {
+    "type": "eq",
+    "latex": "\\min_{\\Pi_{t+1}}\\ \\lambda_1L_{\\mathrm{rem}}(\\Pi_{t+1})+\\lambda_2D_{\\mathrm{edit}}(\\Pi_{t+1},\\Pi_t)+\\lambda_3T_{\\mathrm{replan}}",
+    "label": "2-42"
+  },
+  {
+    "type": "eq",
+    "latex": "\\mathcal T_{\\mathrm{rem}}(t+1)\\subseteq\\bigcup_{p\\in\\mathcal S_{t+1}}\\mathcal C_{t+1}(p),\\qquad \\gamma_e([0,1])\\subseteq\\mathcal C_{\\mathrm{free}}(t+1),\\quad\\forall\\gamma_e\\in\\Gamma_{t+1}",
+    "label": "2-43"
+  },
+  {
+    "type": "p",
+    "text": "其中，$L_{\\mathrm{rem}}$ 表示从机器人当前状态出发的剩余移动代价，$D_{\\mathrm{edit}}$ 表示新旧方案之间的修改代价，可由停靠替换、任务重新分配或访问边变化等量刻画；$T_{\\mathrm{replan}}$ 为重规划计算开销。上述目标用于表达局部修复与整体重算之间的权衡，实际算法应分别报告所采用的修改指标和运行时间。对已完成任务保持状态一致，对无法恢复的剩余任务保留失败标记，是在线调整必须满足的状态约束。"
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "text": "2.6.4 三类规划问题的统一关系"
+  },
+  {
+    "type": "p",
+    "text": "三类问题共享地图、任务和机器人几何参数，并通过候选覆盖关系和执行计划依次连接："
+  },
+  {
+    "type": "eq",
+    "latex": "(\\mathcal M,\\mathcal T,\\boldsymbol\\eta)\\xrightarrow{P_1}(\\mathcal P,\\boldsymbol\\rho,\\boldsymbol C)\\xrightarrow{P_2}\\Pi_0\\xrightarrow{P_3}\\Pi_{t+1}",
+    "label": "2-44"
+  },
+  {
+    "type": "p",
+    "text": "其中，$\\mathcal M$ 表示环境及其坐标信息，$\\boldsymbol\\eta$ 表示机器人和规划参数。第一类问题建立局部操作能力，第二类问题利用这一能力组织全局任务与移动，第三类问题在环境变化后更新相关对象。候选质量会影响覆盖选择，覆盖选择会影响路线长度，环境变化又可能反向要求重新生成局部候选。该联系说明三个问题需要保持统一的数据语义，但不要求在一次搜索中同时求解所有变量。"
+  },
+  {
+    "type": "table",
+    "caption": "表2-3 三类规划问题的输入输出关系",
+    "headers": [
+      "问题",
+      "主要输入",
+      "主要输出"
+    ],
+    "rows": [
+      [
+        "可达停靠生成",
+        "$\\mathcal M,\\mathcal T,\\boldsymbol\\eta$",
+        "候选位姿、左右臂评分与任务覆盖关系"
+      ],
+      [
+        "多停靠任务与路径规划",
+        "候选覆盖关系、起始位姿与地图",
+        "停靠集合、任务分配、访问顺序与路径"
+      ],
+      [
+        "环境变化下在线调整",
+        "当前计划、执行状态与变化事件",
+        "经过重新验证的剩余执行方案"
+      ]
+    ]
+  },
+  {
+    "type": "heading",
+    "level": 2,
+    "text": "2.7 本章小结"
+  },
+  {
+    "type": "p",
+    "text": "本章建立了移动双臂机器人的统一建模框架。在固定升降高度条件下，通过多坐标系变换描述底盘位置和航向对左右机械臂基座及任务相对位置的影响，利用矩形外廓和栅格占据集合定义底盘碰撞约束，并区分局部停靠可行性与整条移动路径可行性。在机械臂层面，给出了正运动学、逆运动学和微分运动学的基本表达，明确几何可达评价与完整操作可执行性之间的关系。"
+  },
+  {
+    "type": "p",
+    "text": "在此基础上，本章将多桌面任务组织为区域化任务集合，并依次定义可达停靠生成、多停靠任务与路径规划、环境变化下在线调整三类问题。上述模型形成了从任务几何到候选覆盖、再到全局执行计划的接口。下一章将在这一基础上具体构建候选位姿生成、底盘可行性筛选、左右臂几何评分和停靠综合评价方法。"
+  }
+]

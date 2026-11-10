@@ -1,9 +1,11 @@
-function [path, report] = complete_navigation_endpoints(core_path, start_pose, goal_pose, raw_map, map_info, planner_cfg)
+function [path, report] = complete_navigation_endpoints(core_path, start_pose, goal_pose, raw_map, map_info, planner_cfg, fixed_heading)
 %COMPLETE_NAVIGATION_ENDPOINTS Attach validated exact-pose endpoint motions.
 %   Interior grid legs use tangent yaw and in-place turns at grid vertices.
 %   Endpoint connectors translate with the requested yaw (holonomic model),
 %   and rotate only at the conservatively inflated grid endpoint. Direct,
 %   x-first and y-first short connectors are tried against the original map.
+%   An optional fixed_heading keeps the grid core at that yaw, for searches
+%   on a rectangular configuration-space slice that cannot rotate freely.
     start_pose=as_pose(start_pose);goal_pose=as_pose(goal_pose);
     path=zeros(0,3);
     report=struct('valid',false,'reason','NO_CORE_PATH','requested_poses_valid',false, ...
@@ -35,7 +37,12 @@ function [path, report] = complete_navigation_endpoints(core_path, start_pose, g
     for a=start_indices
         for b=goal_indices
             if b<a,continue;end
-            interior=grid_motion(xy(a:b,:),start_pose(3));
+            if nargin >= 7 && ~isempty(fixed_heading)
+                points=remove_collinear(xy(a:b,:));
+                interior=[points,repmat(fixed_heading,size(points,1),1)];
+            else
+                interior=grid_motion(xy(a:b,:),start_pose(3));
+            end
             [prefix,detail]=connector(start_pose,interior(1,:),true,max_snap,raw_map,map_info,planner_cfg);
             report.start_connector=detail;
             if ~detail.valid,report.reason=['START_' detail.reason];continue;end

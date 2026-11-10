@@ -1,0 +1,122 @@
+{未定义与 'struct' 类型的输入参数相对应的函数 'experiment_config_builder'。
+
+出错 verify_rotated_four_table_pipeline (第 11 行)
+cfg = experiment_config_builder('baseline', 'scene_override', s);
+
+出错 run (第 91 行)
+evalin('caller', strcat(script, ';'));
+} 
+MATLAB_VERSION=9.12.0.1884302 (R2022a)
+ANGLES_DEG=[0 30 90 -45]
+PLANNER=convex_astar STRATEGY=bottom_up REACHABILITY_THRESHOLD=0.300000
+
+--- 场景合法性检查 ---
+  场景配置检查通过！
+
+=== Stage 2: RCH-MT-MMP docking pose planning ===
+    桌子 1: 共 2 个任务点, 585 个候选位姿
+    停靠 1: (2.15, 2.50, -99.0°), 侧1, 覆盖=2, 剩余=0 | score=0.4211  cost=0.2603  [full]
+    桌子 1 汇总: 1 次停靠, 覆盖 2/2 任务, 未覆盖 0
+    桌子 2: 共 3 个任务点, 610 个候选位姿
+    停靠 1: (4.75, 2.43, -60.0°), 侧1, 覆盖=2, 剩余=1 | score=0.2773  cost=0.3830  [full]
+    停靠 2: (5.15, 1.45, 111.3°), 侧2, 覆盖=1, 剩余=0 | score=0.2169  cost=0.5046  [full]
+    桌子 2 汇总: 2 次停靠, 覆盖 3/3 任务, 未覆盖 0
+    桌子 3: 共 2 个任务点, 581 个候选位姿
+    停靠 1: (2.55, 4.85, 172.1°), 侧2, 覆盖=2, 剩余=0 | score=0.3851  cost=0.2947  [full]
+    桌子 3 汇总: 1 次停靠, 覆盖 2/2 任务, 未覆盖 0
+    桌子 4: 共 2 个任务点, 513 个候选位姿
+    停靠 1: (4.43, 4.86, 45.0°), 侧2, 覆盖=1, 剩余=1 | score=0.2091  cost=0.4866  [full]
+    停靠 2: (5.35, 5.35, -135.0°), 侧1, 覆盖=1, 剩余=0 | score=0.2489  cost=0.4346  [full]
+    桌子 4 汇总: 2 次停靠, 覆盖 2/2 任务, 未覆盖 0
+
+=== Strategy summary: bottom_up ===
+Total candidates: 2289
+Selected docking poses: 6
+Predicted coverage: 100.0% (9/9 tasks)
+Local cost total: 2.3638
+pose   region   table    pose(x,y,theta_deg)    tasks    cost    
+------------------------------------------------------------------------
+1      1        1        (  2.15,  2.50,  -99.0) 2        0.2603  
+2      2        2        (  4.75,  2.43,  -60.0) 2        0.3830  
+3      2        2        (  5.15,  1.45,  111.3) 1        0.5046  
+4      3        3        (  2.55,  4.85,  172.1) 2        0.2947  
+5      4        4        (  4.43,  4.86,   45.0) 1        0.4866  
+6      4        4        (  5.35,  5.35, -135.0) 1        0.4346  
+
+=== 阶段三: 全局路径规划与执行 ===
+  当前算法: convex_astar
+
+--- 8. 连接起点和所有最优停靠位姿 ---
+  需连接位姿总数: 7 (起点 + 6停靠位姿)
+  计算距离矩阵（convex_astar, routing=sparse_knn）...
+  距离矩阵计算完成，用时 2.921 s
+
+--- 9. 最近邻策略生成访问顺序 ---
+  访问顺序: [1  2  5  6  3  4  7]
+  route order source: nearest_neighbor
+  已启用返航: 路径拼接顺序追加起点 1
+  路径拼接顺序: [1  2  5  6  3  4  7  1]
+
+--- 10-11. 生成全局路径 ---
+  全局路径长度: 27.63 m
+
+--- 12-15. 模拟执行过程 ---
+
+  停靠 1/6 (桌子1-停1):
+    指令任务: [1  2]
+    执行器报告: [1  2]
+    仿真验证: [1  2]
+    已验证: 2/9, 剩余: 7
+
+  停靠 2/6 (桌子3-停1):
+    指令任务: [6  7]
+    执行器报告: [6  7]
+    仿真验证: [6  7]
+    已验证: 4/9, 剩余: 5
+
+  停靠 3/6 (桌子4-停1):
+    指令任务: [8]
+    执行器报告: [8]
+    仿真验证: [8]
+    已验证: 5/9, 剩余: 4
+
+  停靠 4/6 (桌子2-停1):
+    指令任务: [3  5]
+    执行器报告: [3  5]
+    仿真验证: [3  5]
+    已验证: 7/9, 剩余: 2
+
+  停靠 5/6 (桌子2-停2):
+    指令任务: [4]
+    执行器报告: [4]
+    仿真验证: [4]
+    已验证: 8/9, 剩余: 1
+
+  停靠 6/6 (桌子4-停2):
+    指令任务: [9]
+    执行器报告: [9]
+    仿真验证: [9]
+    已验证: 9/9, 剩余: 0
+
+  所有任务完成!
+
+===== RCH-MT-MMP 规划完成 =====
+总任务数: 9
+预测覆盖率: 100.0%
+指令任务率: 100.0%
+仿真几何验证率: 100.0%
+停靠位姿数: 6
+任务路径长度: 19.12 m
+返回起点路径长度: 8.50 m
+全局路径长度: 27.63 m
+总代价: 2.3638
+
+输出:
+  全局路径: [2311个路径点]
+  最优停靠位姿: [6个]
+  机械臂任务序列: [9个任务]
+  可视化已禁用
+PIPELINE_STATUS=OK ELAPSED_S=13.556510
+TABLE_COUNT=4 TASK_COUNT=9 CANDIDATE_COUNT=2289 SELECTED_DOCKS=6
+VERIFIED_COMPLETION_RATE=100.000000 PATH_LENGTH_M=27.627060257
+PATH_VALIDATION_JSON={"valid":true,"path_exists":true,"map_collision_free":true,"footprint_checked":true,"footprint_collision_free":true,"segments_continuous":true,"endpoints_match":true,"aggregate_matches_segments":true,"endpoint_max_position_error_m":0,"endpoint_max_yaw_error_rad":0,"reason":"","scope":"SE2 resampled footprint on safety-dilated scene map; exact dock endpoints and joined-segment provenance","navigation_validation":{"valid":true,"reason":"","footprint_checked":true,"sample_count":2410,"bad_sample_index":0,"translation_step_m":0.016666666666666666,"angular_step_rad":0.087266462599716474}}

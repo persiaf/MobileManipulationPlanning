@@ -80,12 +80,6 @@ function [path, fallback_info, search_state, search_diagnostics] = run_path_plan
         fallback_info.collision_segments = n_collision;
         fallback_info.fallback_reason=endpoint_report.reason;
 
-        if ~suppress_warn
-            warning('run_path_planner:collision', ...
-                    '%s: 路径存在 %d 个碰撞段，回退到 A* 重规划。', ...
-                    algorithm, n_collision);
-        end
-
         raw_path = run_astar_wrapper(grid_map,local_start,local_goal,map_info,planner_cfg);
         raw_path = restore_origin(raw_path,origin);
         [path,is_valid,n_collision_after,endpoint_report,repaired_after] = validate_attempt( ...
@@ -96,22 +90,38 @@ function [path, fallback_info, search_state, search_diagnostics] = run_path_plan
         search_state = []; % The returned route cannot own the D* search state.
         if ~is_valid
             fallback_info.collision_segments = fallback_info.collision_segments+n_collision_after;
-            if ~suppress_warn
-                warning('run_path_planner:collision', ...
-                    'A* fallback 后仍存在 %d 个碰撞段。', n_collision_after);
-            end
         end
     elseif ~is_valid
         fallback_info.collision_segments = n_collision;
-        if ~suppress_warn
-            warning('run_path_planner:collision', ...
-                    'Path rejected: %s (%d collision segments).', endpoint_report.reason,n_collision);
+    end
+
+    if ~is_valid && endpoint_report.requested_poses_valid && ...
+            footprint_navigation_enabled(planner_cfg) && fixed_heading_fallback_enabled(planner_cfg)
+        previous_reason=endpoint_report.reason;
+        [recovered,recovery_report]=run_fixed_heading_astar( ...
+            raw_map,start_pose,goal_pose,map_info,planner_cfg);
+        search_diagnostics.fixed_heading_recovery=recovery_report;
+        if recovery_report.valid
+            path=recovered;is_valid=true;endpoint_report=recovery_report;
+            fallback_info.fallback_used=true;
+            fallback_info.fallback_count=fallback_info.fallback_count+1;
+            fallback_info.fallback_reason=previous_reason;
+            fallback_info.actual_planner='fixed_heading_astar';
+            fallback_info.actual_planner_known=true;
+            fallback_info.endpoint_validation=endpoint_report;
+            fallback_info.postprocessing_repair_used=false;
+            search_state=[];
         end
     end
     fallback_info.path_valid=is_valid;
     if ~is_valid
         path=zeros(0,3);search_state=[];
         fallback_info.failure_reason=endpoint_report.reason;
+        if ~suppress_warn
+            warning('run_path_planner:collision', ...
+                '%s: path rejected (%s; %d collision segments).', ...
+                algorithm,endpoint_report.reason,fallback_info.collision_segments);
+        end
     end
     if fallback_info.postprocessing_repair_used
         fallback_info.actual_planner=[fallback_info.actual_planner '+grid_postprocess'];
@@ -132,6 +142,13 @@ function [path, fallback_info, search_state, search_diagnostics] = run_path_plan
     if search_diagnostics.search_state_valid
         search_state.validated_path_safe=true;
         search_state.validated_navigation_endpoints=[start_pose(:)';goal_pose(:)'];
+    end
+end
+
+function enabled=fixed_heading_fallback_enabled(cfg)
+    enabled=true;
+    if isfield(cfg,'navigation') && isfield(cfg.navigation,'fixed_heading_fallback')
+        enabled=logical(cfg.navigation.fixed_heading_fallback);
     end
 end
 
@@ -272,7 +289,8 @@ function [path_world, is_valid, n_collision, repaired] = normalize_and_validate_
             repaired=true;break;
         end
     end
-    [path_grid, repair_failed] = post_validate_path(path_grid, traversable);
+    % The caller reports a failure only after all safe fallbacks are tried.
+    [path_grid, repair_failed] = post_validate_path(path_grid, traversable, true);
 
     path_world = zeros(size(path_grid, 1), 3);
     for k = 1:size(path_grid, 1)

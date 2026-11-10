@@ -2,6 +2,25 @@
 
 # Footprint-Aware Global Navigation Report
 
+## 2026-10-28: default main-scene connectivity repaired
+
+The default 16-table main program now completes without changing scene
+geometry, robot dimensions, the 27 selected docks, or safety margins. If the
+all-heading circumscribed-disk search fails, navigation tries rectangular
+configuration-space slices at fixed headings. Each recovered route, including
+endpoint translations and rotations, is sampled and footprint-checked on the
+original safety-dilated scene map. This is a limited holonomic recovery, not a
+complete SE(2) search; genuinely blocked paths are still rejected. Disable it
+with `planner_cfg.navigation.fixed_heading_fallback = false` for comparisons.
+
+The actual main script and its four default benchmark algorithms passed:
+36/36 tasks verified, 27 docks, 90.581503 m main route including return, zero
+footprint collisions, and exact endpoint position/yaw matching. The sparse
+graph retained 91 valid edges and rejected 6 failed candidates. All 22 targeted
+regression tests passed, including an impassable-gap rejection. Run records
+are under `results/logs/main_scene_repair_20261028/` (local generated files).
+The following sections describe the earlier implementation and limitation.
+
 ## Scope
 
 Global navigation now receives a footprint-inflated search map through the

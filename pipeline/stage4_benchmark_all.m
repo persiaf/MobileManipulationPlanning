@@ -338,7 +338,7 @@ else
     fprintf('       independent_order: 各算法独立计算距离矩阵和顺序\n');
 end
 fprintf('       路径长度包括起点→停靠→起点全程（若含返航），单位: m\n');
-fprintf('       回退次数: 碰撞后回退到 A* 重规划的总次数\n');
+fprintf('       回退次数: 校验失败后回退规划的总次数（含固定朝向矩形底盘 A*）\n');
 
 end
 

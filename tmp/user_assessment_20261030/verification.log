@@ -1,0 +1,59 @@
+MATLAB_VERSION=9.12.0.1884302 (R2022a)
+正在运行 test_rotated_table_task_transform
+.
+已完成 test_rotated_table_task_transform
+__________
+
+正在运行 test_scene_layout_determinism
+.
+已完成 test_scene_layout_determinism
+__________
+
+正在运行 test_scene_layout_inside_map
+.
+已完成 test_scene_layout_inside_map
+__________
+
+正在运行 test_scene_layout_no_overlap
+.
+已完成 test_scene_layout_no_overlap
+__________
+
+正在运行 test_scene_pattern_smoke
+.
+已完成 test_scene_pattern_smoke
+__________
+
+正在运行 test_independent_geometric_reachability
+.......
+已完成 test_independent_geometric_reachability
+__________
+
+正在运行 test_planned_execution_consistency
+    桌子 1: 共 2 个任务点, 512 个候选位姿
+    停靠 1: (1.85, 2.50, -79.5°), 侧1, 覆盖=1, 剩余=1 | score=0.2224  cost=0.4386  [full]
+    停靠 2: (2.15, 1.45, 101.2°), 侧2, 覆盖=1, 剩余=0 | score=0.2316  cost=0.4553  [full]
+    桌子 1 汇总: 2 次停靠, 覆盖 2/2 任务, 未覆盖 0
+.
+已完成 test_planned_execution_consistency
+__________
+
+TEST=test_rotated_table_task_transform/testDiscreteTaskTransformAngles PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.399471
+TEST=test_scene_layout_determinism/testJitteredGridIsDeterministic PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.202415
+TEST=test_scene_layout_inside_map/testAllSceneComplexityLayoutsAreInsideMap PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.209611
+TEST=test_scene_layout_no_overlap/testAllSceneComplexityLayoutsHaveNoOverlap PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.180584
+TEST=test_scene_pattern_smoke/testSceneComplexityPatternsBuild PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.199846
+TEST=test_independent_geometric_reachability/testKnownCentralTargetAndHonestScope PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.038978
+TEST=test_independent_geometric_reachability/testHardEnvelopeAndScoreAcceptanceAreSeparate PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.011145
+TEST=test_independent_geometric_reachability/testIndependentKnownHardBoundaries PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.018324
+TEST=test_independent_geometric_reachability/testRotationTranslationInvariantLocalGeometry PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.012770
+TEST=test_independent_geometric_reachability/testRandomCrossCheckAgainstProduction PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.110932
+TEST=test_independent_geometric_reachability/testInvalidInputAndBroadcast PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.295518
+TEST=test_independent_geometric_reachability/testOracleDoesNotCallProductionEvaluator PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=0.004109
+TEST=test_planned_execution_consistency/testExecutionUsesOnlyCommands PASSED=1 FAILED=0 INCOMPLETE=0 DURATION_S=1.155479
+CUSTOM_TABLE_COUNT=4 TASK_COUNT=4 REGION_COUNT=4 ANGLES_DEG=[0 30 -45 90] LAYOUT_VALID=1 TASK_ROTATION_VALID=1
+CUSTOM_TABLE_COUNT=8 TASK_COUNT=8 REGION_COUNT=8 ANGLES_DEG=[0 30 -45 90 0 30 -45 90] LAYOUT_VALID=1 TASK_ROTATION_VALID=1
+CUSTOM_TABLE_COUNT=16 TASK_COUNT=16 REGION_COUNT=16 ANGLES_DEG=[0 30 -45 90 0 30 -45 90 0 30 -45 90 0 30 -45 90] LAYOUT_VALID=1 TASK_ROTATION_VALID=1
+SHORT_ORIENTATION_VECTOR=0.523598775598299 RESOLVED=[0.523598775598299 0 0 0]
+LONG_ORIENTATION_VECTOR_LENGTH=5 TABLE_COUNT=4 EXTRA_ORIENTATION_PRESERVED=1
+ASSESSMENT_VERIFICATION=PASS TEST_COUNT=13 FULL_PATH_PLANNING_RUN=0

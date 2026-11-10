@@ -1,0 +1,787 @@
+{
+  "scope": "只读审查已有文件；未修改 MATLAB/ROS 代码，未运行新实验、IK、控制或仿真；仅计算已有 URDF 的参考安装变换，不创建模型。",
+  "review_attachment": "C:/Users/Administrator/.codex/attachments/0eeb0a0e-5f6d-4818-9c91-6aadd5ec54da/已粘贴的文本.txt",
+  "urdf_static_inventory": [
+    {
+      "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\gazebo_world_sources\\AlohaMini\\simulation\\src\\Aloha\\urdf\\Aloha.urdf",
+      "sha256": "0c968794bb1ccd90ea80f1ad6195c9fcfef9cf9df2a3629f809f311f2d26b3ad",
+      "frame": "base_link; raw URDF reference/zero configuration; no hardware calibration assumed",
+      "reference_positions_m": {
+        "left_base": [
+          0.15621500000000002,
+          -0.04141700000000001,
+          0.75221
+        ],
+        "right_base": [
+          -0.157620640990368,
+          -0.03767274555693421,
+          0.7529077266634021
+        ],
+        "left_link1": [
+          0.1555718211331883,
+          -0.08699277489835973,
+          0.8175376338396522
+        ],
+        "right_link1": [
+          -0.15826378337591726,
+          -0.08324543469014402,
+          0.8182373519485228
+        ]
+      },
+      "origin_chains": {
+        "left_base": [
+          "vertical_move",
+          "left_base"
+        ],
+        "right_base": [
+          "vertical_move",
+          "right_base"
+        ],
+        "left_link1": [
+          "vertical_move",
+          "left_base",
+          "left_joint1"
+        ],
+        "right_link1": [
+          "vertical_move",
+          "right_base",
+          "right_joint1"
+        ]
+      },
+      "arm_base_origin_distance_3d_m": 0.31385875138295316,
+      "arm_base_origin_distance_xy_m": 0.31385797583806846,
+      "revolute_joints_per_side": 6,
+      "all_arm_joint_limits_lower_upper_zero": true,
+      "vertical_move_limits": {
+        "lower": "0",
+        "upper": "0",
+        "effort": "0",
+        "velocity": "0"
+      },
+      "wheel_joints": [
+        {
+          "name": "wheel1",
+          "type": "continuous",
+          "origin": {
+            "xyz": "-0.1538 0.091161 0.0422",
+            "rpy": "0 0 -2.1099"
+          }
+        },
+        {
+          "name": "wheel2",
+          "type": "continuous",
+          "origin": {
+            "xyz": "0.15563 0.087993 0.0422",
+            "rpy": "0 0 2.086"
+          }
+        },
+        {
+          "name": "wheel3",
+          "type": "continuous",
+          "origin": {
+            "xyz": "-0.0020354 -0.17875 0.0422",
+            "rpy": "0 0 0"
+          }
+        }
+      ]
+    },
+    {
+      "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\ros_motion_planning\\src\\sim_env\\urdf\\aloha_mini\\aloha_mini_mecanum_front_arm.urdf",
+      "sha256": "955142f97bd0ce8d6846a46f5ddeed238f7828b5bc43834c9b4d3dd3867215fc",
+      "frame": "base_link; raw URDF reference/zero configuration; no hardware calibration assumed",
+      "reference_positions_m": {
+        "left_base": [
+          0.041417000000764925,
+          0.15621499999979718,
+          0.75221
+        ],
+        "right_base": [
+          0.0376727455561624,
+          -0.15762064099055248,
+          0.7529077266634021
+        ],
+        "left_link1": [
+          0.0869927748991215,
+          0.1555718211327623,
+          0.8175376338396522
+        ],
+        "right_link1": [
+          0.08324543468936907,
+          -0.1582637833763249,
+          0.8182373519485228
+        ]
+      },
+      "origin_chains": {
+        "left_base": [
+          "base_link_to_aloha_body",
+          "vertical_move",
+          "left_base_joint"
+        ],
+        "right_base": [
+          "base_link_to_aloha_body",
+          "vertical_move",
+          "right_base_joint"
+        ],
+        "left_link1": [
+          "base_link_to_aloha_body",
+          "vertical_move",
+          "left_base_joint",
+          "left_joint1"
+        ],
+        "right_link1": [
+          "base_link_to_aloha_body",
+          "vertical_move",
+          "right_base_joint",
+          "right_joint1"
+        ]
+      },
+      "arm_base_origin_distance_3d_m": 0.31385875138295316,
+      "arm_base_origin_distance_xy_m": 0.31385797583806846,
+      "revolute_joints_per_side": 6,
+      "all_arm_joint_limits_lower_upper_zero": true,
+      "vertical_move_limits": {
+        "lower": "0",
+        "upper": "0",
+        "effort": "0",
+        "velocity": "0"
+      },
+      "wheel_joints": [
+        {
+          "name": "front_left_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "0.18 0.145 0.045",
+            "rpy": "0 0 0"
+          }
+        },
+        {
+          "name": "front_right_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "0.18 -0.145 0.045",
+            "rpy": "0 0 0"
+          }
+        },
+        {
+          "name": "rear_left_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "-0.18 0.145 0.045",
+            "rpy": "0 0 0"
+          }
+        },
+        {
+          "name": "rear_right_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "-0.18 -0.145 0.045",
+            "rpy": "0 0 0"
+          }
+        }
+      ]
+    },
+    {
+      "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\ros_motion_planning\\src\\sim_env\\urdf\\aloha_mini\\aloha_mini_mecanum.urdf",
+      "sha256": "9d466373415ff5ca1612adb592c34836821bb4e60326787e1803fd6a835b2b05",
+      "frame": "base_link; raw URDF reference/zero configuration; no hardware calibration assumed",
+      "reference_positions_m": {
+        "left_base": [
+          0.15621500000000002,
+          -0.04141700000000001,
+          0.75221
+        ],
+        "right_base": [
+          -0.157620640990368,
+          -0.03767274555693421,
+          0.7529077266634021
+        ],
+        "left_link1": [
+          0.1555718211331883,
+          -0.08699277489835973,
+          0.8175376338396522
+        ],
+        "right_link1": [
+          -0.15826378337591726,
+          -0.08324543469014402,
+          0.8182373519485228
+        ]
+      },
+      "origin_chains": {
+        "left_base": [
+          "vertical_move",
+          "left_base_joint"
+        ],
+        "right_base": [
+          "vertical_move",
+          "right_base_joint"
+        ],
+        "left_link1": [
+          "vertical_move",
+          "left_base_joint",
+          "left_joint1"
+        ],
+        "right_link1": [
+          "vertical_move",
+          "right_base_joint",
+          "right_joint1"
+        ]
+      },
+      "arm_base_origin_distance_3d_m": 0.31385875138295316,
+      "arm_base_origin_distance_xy_m": 0.31385797583806846,
+      "revolute_joints_per_side": 6,
+      "all_arm_joint_limits_lower_upper_zero": true,
+      "vertical_move_limits": {
+        "lower": "0",
+        "upper": "0",
+        "effort": "0",
+        "velocity": "0"
+      },
+      "wheel_joints": [
+        {
+          "name": "front_left_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "0.20 0.18 0.045",
+            "rpy": "0 0 0"
+          }
+        },
+        {
+          "name": "front_right_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "0.20 -0.18 0.045",
+            "rpy": "0 0 0"
+          }
+        },
+        {
+          "name": "rear_left_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "-0.20 0.18 0.045",
+            "rpy": "0 0 0"
+          }
+        },
+        {
+          "name": "rear_right_mecanum_wheel_joint",
+          "type": "fixed",
+          "origin": {
+            "xyz": "-0.20 -0.18 0.045",
+            "rpy": "0 0 0"
+          }
+        }
+      ]
+    },
+    {
+      "file": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\ros_motion_planning\\src\\sim_env\\urdf\\aloha_mini\\aloha_mini.urdf",
+      "sha256": "39f3a1ea28901a8d6b68e02e190459ce97e21610b26e9786d4d7b55de5baf743",
+      "frame": "base_link; raw URDF reference/zero configuration; no hardware calibration assumed",
+      "reference_positions_m": {
+        "left_base": [
+          0.15621500000000002,
+          -0.04141700000000001,
+          0.75221
+        ],
+        "right_base": [
+          -0.157620640990368,
+          -0.03767274555693421,
+          0.7529077266634021
+        ],
+        "left_link1": [
+          0.1555718211331883,
+          -0.08699277489835973,
+          0.8175376338396522
+        ],
+        "right_link1": [
+          -0.15826378337591726,
+          -0.08324543469014402,
+          0.8182373519485228
+        ]
+      },
+      "origin_chains": {
+        "left_base": [
+          "vertical_move",
+          "left_base_joint"
+        ],
+        "right_base": [
+          "vertical_move",
+          "right_base_joint"
+        ],
+        "left_link1": [
+          "vertical_move",
+          "left_base_joint",
+          "left_joint1"
+        ],
+        "right_link1": [
+          "vertical_move",
+          "right_base_joint",
+          "right_joint1"
+        ]
+      },
+      "arm_base_origin_distance_3d_m": 0.31385875138295316,
+      "arm_base_origin_distance_xy_m": 0.31385797583806846,
+      "revolute_joints_per_side": 6,
+      "all_arm_joint_limits_lower_upper_zero": true,
+      "vertical_move_limits": {
+        "lower": "0",
+        "upper": "0",
+        "effort": "0",
+        "velocity": "0"
+      },
+      "wheel_joints": [
+        {
+          "name": "wheel1_joint",
+          "type": "continuous",
+          "origin": {
+            "xyz": "-0.1538 0.091161 0.0422",
+            "rpy": "0 0 -2.1099"
+          }
+        },
+        {
+          "name": "wheel2_joint",
+          "type": "continuous",
+          "origin": {
+            "xyz": "0.15563 0.087993 0.0422",
+            "rpy": "0 0 2.086"
+          }
+        },
+        {
+          "name": "wheel3_joint",
+          "type": "continuous",
+          "origin": {
+            "xyz": "-0.0020354 -0.17875 0.0422",
+            "rpy": "0 0 0"
+          }
+        }
+      ]
+    }
+  ],
+  "hardware_findings": [
+    {
+      "finding": "四份 URDF 均定义每侧 left/right_joint1 至 joint6 六个 revolute 关节，但所有关节限位、速度和力矩字段为零；升降关节亦零行程。",
+      "supported": "可确认存在这些关节节点及参考装配链。",
+      "not_supported": "不可把这些零范围文件视为经过标定、可用于运动范围验证的真实 IK 模型；不能直接确认六个独立定位自由度。"
+    },
+    {
+      "finding": "同一 AlohaMini 源目录的机器人接口按每臂 shoulder_pan、shoulder_lift、elbow_flex、wrist_flex、wrist_roll、gripper 排列，明确为五个臂关节加夹爪通道。",
+      "source": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\ros代码调试\\1\\gazebo_world_sources\\AlohaMini\\examples\\pi0.5_openpi\\evaluate_bi.py",
+      "lines": [
+        {
+          "line": 40,
+          "text": "\"arm_left_shoulder_pan.pos\","
+        },
+        {
+          "line": 41,
+          "text": "\"arm_left_shoulder_lift.pos\","
+        },
+        {
+          "line": 42,
+          "text": "\"arm_left_elbow_flex.pos\","
+        },
+        {
+          "line": 43,
+          "text": "\"arm_left_wrist_flex.pos\","
+        },
+        {
+          "line": 44,
+          "text": "\"arm_left_wrist_roll.pos\","
+        },
+        {
+          "line": 45,
+          "text": "\"arm_left_gripper.pos\","
+        }
+      ],
+      "supported": "审查材料所说六自由度与 MATLAB 五个关节限位的差异，可能包含是否计入夹爪的口径差异，不能仅按 URDF 名称个数下结论。",
+      "unknown": "尚未得到 joint1…6 与硬件电机/API 通道的一对一标定映射；不得断言第6个URDF关节已被验证为夹爪。"
+    },
+    {
+      "finding": "原始 Aloha URDF 是三轮模型；两份 mecanum 变体定义四个轮子，但轮子为 fixed，导航由 libgazebo_ros_planar_move.so 插件提供。",
+      "supported": "可证明存在四轮外观的导航模型版本，及四轮麦克纳姆平台的历史设计意图。",
+      "not_supported": "不能由固定轮外观和 planar_move 插件证明实际轮速映射、滚子方向、真实轮半径、无滑移或驱动动力学。"
+    },
+    {
+      "finding": "URDF两臂base坐标原点三维间距约0.313859m，原始base_link下安装高度约0.75221m和0.752908m；front_arm变体只增加整机绕Z轴90度的参考方向变换，并未将安装改为MATLAB几何。",
+      "supported": "这些安装变换与当前MATLAB的0.250m间距、0.2115m前偏和0.1833m固定高度不能直接对应。",
+      "unknown": "尚无实物测量、升降零位、底盘参考点和工具坐标标定将多个模型统一；不据此判定它们必为不同物理机器人。"
+    },
+    {
+      "finding": "URDF提供origin、rpy、axis运动链，不提供与现有MATLAB字段逐项对应的标准DH表。",
+      "supported": "可以据明确的关节轴约定推导某份URDF自身的等价运动学描述。",
+      "not_supported": "不能把该URDF数值拼入MATLAB既有d1/a2/a3/d4/d5并称为当前模型的完整DH参数；本轮不执行这种转换。"
+    }
+  ],
+  "matlab_current_model": {
+    "source": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\config\\robot_config.m",
+    "sha256": "34c59d92d6ce8b77684f59cb1003d0f33abab80f3f1e64b8e5914a5e79ec247e",
+    "chassis_m": [
+      0.423,
+      0.366,
+      0.127
+    ],
+    "arm_spacing_m": 0.25,
+    "arm_forward_offset_m": 0.2115,
+    "arm_base_height_m": 0.1833,
+    "joint_limit_entries_per_arm": 5,
+    "horizontal_reach_radius_m": 0.278,
+    "relative_height_bounds_m": [
+      -0.142,
+      0.334
+    ],
+    "interpretation": "论文应将上述数字标为本章固定几何计算模型参数；不是由这四份URDF及实测共同证实的统一硬件参数。"
+  },
+  "historical_pdf": {
+    "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\论文稿\\paper_tac\\main.pdf",
+    "sha256": "1915d1af5fe9ce7d53edf9b0f5cf6e4de7a055fffd2ef7215f3c35b58c59749a",
+    "extraction_tool": "D:/app/texlive/2026/bin/windows/pdftotext.exe -layout",
+    "confirmed_claims": [
+      {
+        "pdf_page": 1,
+        "lines": [
+          "execution of 36/36 tasks with 27 docking poses. Benchmark com-"
+        ]
+      },
+      {
+        "pdf_page": 5,
+        "lines": [
+          "Table I summarizes the main scenario performance. The                                Total route length         63.29 m",
+          "proposed method successfully completes all 36 tabletop tasks                            Planning time              28.85 s"
+        ]
+      },
+      {
+        "pdf_page": 7,
+        "lines": [
+          "Arm mounting height             0.40 m                                     Y. Ding, and X. Li, “Moma-kitchen: A 100k+ benchmark for affordance-",
+          "Forward arm offset              0.06 m                                     grounded last-mile navigation in mobile manipulation,” in Proceedings",
+          "Dual-arm spacing                0.40 m                                     of the IEEE/CVF International Conference on Computer Vision, 2025.",
+          "Overall size                    400 × 460 × 1100 mm                    [6] F. Reister, M. Grotz, and T. Asfour, “Combining navigation and manip-",
+          "Lifting stroke                  600 mm                                     ulation costs for time-efficient robot placement in mobile manipulation",
+          "End-effector working height     400–1200 mm                                tasks,” IEEE Robotics and Automation Letters, vol. 7, no. 4, pp. 9913–",
+          "Table height                    0.70 m                                     9920, 2022.",
+          "Base positioning error          4.3 cm                                 [7] S. Jauhri, J. Peters, and G. Chalvatzaki, “Robot learning of mobile",
+          "of 4.3 cm remains within the safety clearance adopted during                     [9] H. Zhang, K. Mi, and Z. Zhang, “Base placement optimization for",
+          "rather than repeated hardware executions. Future work will"
+        ]
+      }
+    ],
+    "physical_table": {
+      "mount_height_m": 0.4,
+      "forward_offset_m": 0.06,
+      "arm_spacing_m": 0.4,
+      "overall_size_mm": [
+        400,
+        460,
+        1100
+      ],
+      "lifting_stroke_mm": 600,
+      "working_height_mm": [
+        400,
+        1200
+      ],
+      "table_height_m": 0.7,
+      "base_positioning_error_cm": 4.3
+    },
+    "main_claim": {
+      "tables": 16,
+      "tasks": 36,
+      "docks": 27,
+      "completed_tasks": 36,
+      "route_length_m": 63.29,
+      "planning_time_s": 28.85
+    },
+    "unknown": [
+      "PDF未提供可将主场景绑定到当前快照的种子、源码哈希和连续任务/地图签名。",
+      "Table III是实机参数，不能仅由此推出PDF主仿真的全部几何参数就是该组数值。",
+      "4.3cm仅有测得误差的文字陈述，无原始测量记录、样本数、误差维度及均值/最大值/分位数定义。",
+      "代表性实机展示与可重复定量实机实验在PDF末段已作区分。"
+    ]
+  },
+  "current_main_snapshot": {
+    "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\repair_20261027\\evidence_20261027_221823\\main\\main_raw.csv",
+    "rows": [
+      {
+        "seed": "2026",
+        "task_count": "36",
+        "selected_docks": "27",
+        "candidate_count": "8692",
+        "candidate_coverage_percent": "100",
+        "geometric_coverage_percent": "100",
+        "simulated_geometric_completion_percent": "NaN",
+        "ik_feasibility_percent": "NaN",
+        "actual_completion_percent": "NaN",
+        "status": "BLOCKED_ROUTING",
+        "failure_reason": "stage3_global_planning:SparseGraphDisconnected: Sparse graph failed connectivity validation after repair.",
+        "global_planner": "convex_astar",
+        "routing_mode": "sparse_knn",
+        "threshold": "0.3",
+        "grid_resolution_m": "0.05",
+        "implementation_signature": "231bca794e333cb1cc0a1ff0af0e075539c83afc86d18655fafe125b7f53feab",
+        "task_geometry_signature": "3fecbcafd6e0ded7"
+      },
+      {
+        "seed": "2027",
+        "task_count": "39",
+        "selected_docks": "27",
+        "candidate_count": "8834",
+        "candidate_coverage_percent": "100",
+        "geometric_coverage_percent": "100",
+        "simulated_geometric_completion_percent": "NaN",
+        "ik_feasibility_percent": "NaN",
+        "actual_completion_percent": "NaN",
+        "status": "BLOCKED_ROUTING",
+        "failure_reason": "stage3_global_planning:SparseGraphDisconnected: Sparse graph failed connectivity validation after repair.",
+        "global_planner": "convex_astar",
+        "routing_mode": "sparse_knn",
+        "threshold": "0.3",
+        "grid_resolution_m": "0.05",
+        "implementation_signature": "231bca794e333cb1cc0a1ff0af0e075539c83afc86d18655fafe125b7f53feab",
+        "task_geometry_signature": "0571548d394be1d6"
+      },
+      {
+        "seed": "2028",
+        "task_count": "38",
+        "selected_docks": "28",
+        "candidate_count": "8625",
+        "candidate_coverage_percent": "100",
+        "geometric_coverage_percent": "100",
+        "simulated_geometric_completion_percent": "NaN",
+        "ik_feasibility_percent": "NaN",
+        "actual_completion_percent": "NaN",
+        "status": "BLOCKED_ROUTING",
+        "failure_reason": "stage3_global_planning:SparseGraphDisconnected: Sparse graph failed connectivity validation after repair.",
+        "global_planner": "convex_astar",
+        "routing_mode": "sparse_knn",
+        "threshold": "0.3",
+        "grid_resolution_m": "0.05",
+        "implementation_signature": "231bca794e333cb1cc0a1ff0af0e075539c83afc86d18655fafe125b7f53feab",
+        "task_geometry_signature": "c10153f2e2ce634f"
+      }
+    ],
+    "comparison": "当前seed2026同样为36任务/27停靠，但阶段3稀疏图连通性验证失败；因此不能将差异简单解释为不同种子。缺少旧PDF的运行身份信息，无法定位全部差异来源。保留当前可审计失败结论，不与旧完成率并作同一版本结果。"
+  },
+  "proposal_interim": [
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\开题报告_代鹏.docx",
+      "sha256": "af9ccb01916037c5441140b8be66b3c2a36155c0bf455cf6c17f32015beebdf1",
+      "matches": [
+        {
+          "paragraph_index": 52,
+          "text": "复杂任务中移动平台与机械臂的协同规划研究"
+        },
+        {
+          "paragraph_index": 54,
+          "text": "近年来，机械臂由于精度高、重复性好和负载能力强等特点在加工装配、焊接和涂装等行业中大放异彩，逐渐代替了人类在高强度高危险的环境中工作，极大地提高了加工生产效率。但机械臂大部分固定于基座上，在面对不断变化的工作任务时，调整和调试的成本居高不下，制约了机械臂的使用‎[1]。随着服务机器人在家庭、办公、医疗、养老等场景中的应用需求不断提升，传统的单臂或固定式机器人难以满足复杂非结构化环境下的多样化操作需求。特别是在桌面清洁、整理收纳、人机协作等任务中，机器人不仅需要具备灵活的移动能力，还需要实现与双机械臂的协调工作，以完成涉及大范围空间移动与精细操作的复合型任务。因此，开发一种兼具灵活运动、精准操作以及自适应场景理解能力的“移动操作机器人系统（Mobile Manipulator System, MMS）”已成为当前机器人研究领域的重要方向‎[2]。本课题的研究对象——基于全向移动底盘的双臂机器人，正是面向新一代智能服务机器人而提出，旨在提升机器人在真实环境中执行复杂任务的有效性、稳定性和智能化水平。"
+        },
+        {
+          "paragraph_index": 56,
+          "text": "从需求角度来看，现有移动操作机器人普遍存在两个核心问题：其一，底盘与机械臂之间的规划往往是解耦的，底盘负责导航、机械臂负责操作，两者缺乏基于任务需求的深度协同，导致作业姿态不佳、可达性不足或反复调整动作，从而降低工作效率；其二，在复杂环境中，导致机器人在实际场景中任务完成效率容易受到影响‎[3]。虽然在大多数工厂和仓库中以增加移动机械臂的数量来提高交货次数。但是移动平台和机械臂之间如果不能很好的协调，就会增加执行时间，从而导致机器人拥堵，并进一步降低吞吐量。因此，在执行拾取和运送任务时，最小化任务执行时间是一个理想的目标，是解决移动机械臂复杂规划问题的需要，这促进了移动性和操作性的相互协调‎[4]。"
+        },
+        {
+          "paragraph_index": 57,
+          "text": "在理论意义方面，移动机器人的复杂性使其用途广泛，能够解决各种任务。事实上，对于给定的特定任务，移动机器人可能可以通过多种方式执行该任务，具体取决于其对硬件组件的选择。移动机器人可以同时使用其机械臂和移动平台‎[5]，因此通过修改调整移动机器人的结构，可以实现更多的功能。"
+        },
+        {
+          "paragraph_index": 59,
+          "text": "移动底盘与双机械臂协同控制的优化策略，可以为多自由度移动操作系统建模、任务分解和路径规划提供理论基础。实现机器人在复杂家庭或办公环境中执行桌面操作任务，提升服务机器人自主性和任务效率。"
+        },
+        {
+          "paragraph_index": 61,
+          "text": "机械臂的主要作用是将末端执行器从给定的起始位姿移动到所需的位姿。通过将机械臂安装到移动平台上，由于移动平台的移动性，该机械臂的工作空间得以扩展。意味着末端执行器有自己的轨迹，移动底座也有自己的轨迹。Ly等‎[8]以移动操作机器人的任务与运动规划（Task And Motion Planning, TAMP）问题为主线，将任务规划与运动规划耦合，使机器人能够在现实场景中自动从高层任务推导出可执行的底盘移动与机械臂动作序列。Naik等‎[10]提出深度强化学习的方式预测某个移动底盘位姿的可抓取性以及任务达成成功率，快速筛选候选底盘位姿而不通过求解几何规划的方式，将导航时间和机械臂抓取准备时间加入代价函数中，实现对任务完成效率和时间上的优化。Rudorfer等‎[6]提出4D可达性地图，通过离散化包含机器人工作空间的6D空间并确定每个单元格是否可达来构建的。随后将可达性地图反转以构建逆地图。提前存储一个规范的移动基座位置，使机械臂能够在没有任何反转开销的情况下查询相同的4D数据结构，用于减少对于机械臂计算任务的资源开销。"
+        },
+        {
+          "paragraph_index": 65,
+          "text": "本研究将围绕带有双机械臂的移动平台的路径规划展开，如图2所示，包含四个主要内容：首先，构建适用于全向移动平台与双臂机械臂的运动学模型，引入机械臂操作代价、机械臂双臂的可达区域、移动平台路径风险等因素建立联合代价模型；然后，融合机械臂可达性计算移动平台的姿态，使用路径规划算法依据环境反馈调整移动平台路径，建立任务与路径冲突双层优化模型，实现冲突检测、路径修正与任务重新规划，实现机械臂在平台移动中预评估位姿、平台到位即执行的并行执行模式；其次，考虑面向复杂场景，加入覆盖路径规划，对复杂场景生成覆盖路径，移动操作臂依据路径完成任务；最后，在硬件平台验证本框架的可行性。"
+        },
+        {
+          "paragraph_index": 68,
+          "text": "（1）全向移动平台与双臂协同控制模型"
+        },
+        {
+          "paragraph_index": 69,
+          "text": "本部分研究旨在构建一个能够支持复杂作业任务的底盘-双臂协同控制模型，通过将双臂的可达性指标、冗余度特征与底盘运动特性进行统一建模，使移动平台能够根据双臂任务需求主动调整自身位姿，实现全身协同优化。本研究首先基于四轮麦克纳姆轮构建全向移动底盘的运动学与动力学模型，使机器人具备全向平移、原地旋转等灵活运动能力。该模型充分考虑到麦克纳姆轮的特性，从而确保底盘轨迹规划与运动控制的稳定性和可执行性。"
+        },
+        {
+          "paragraph_index": 70,
+          "text": "在双机械臂部分，本研究将构建包含六自由度的双臂运动学模型，利用DH参数法建立正运动学方程，使用数值法或解析法构建逆运动学求解框架，并进一步考虑关节极限、自碰撞约束、双臂协作操作过程中可能出现的交互干涉等问题，计算双臂在复杂任务中的姿态分布。"
+        },
+        {
+          "paragraph_index": 73,
+          "text": "图3 全向移动平台与双臂协同控制模型"
+        },
+        {
+          "paragraph_index": 85,
+          "text": "为了使搭载双机械臂的移动底盘在家庭与办公等复杂动态环境中具备可靠的任务执行能力，本研究提出一种面向复杂场景的、覆盖路径规划驱动的移动操作臂路径规划。该部分使用DDQNs方法生成全局覆盖路径，移动操作臂根据该覆盖路径完成复杂任务。在任务过程中，移动操作臂通过可达性分析与动态路径重规划实现闭环控制，保证系统在多家具、多遮挡、动态障碍等条件下仍能稳定工作。"
+        },
+        {
+          "paragraph_index": 89,
+          "text": "在生成全局路径之后，移动操作臂根据任务路径实时生成移动底盘与机械臂协同轨迹。无论是遇到椅子阻挡桌边擦拭，还是临时出现新的障碍物，机器人均能保持任务的连续性。通过覆盖路径规划驱动的全局任务路径，本研究显著提高了机器人在复杂环境下的任务完整度、动作鲁棒性与智能决策能力。"
+        },
+        {
+          "paragraph_index": 91,
+          "text": "本研究在真实硬件平台上构建了集成感知、规划、决策和控制的一体化系统，通过多场景实验对各模块进行系统级验证。包括：全向底盘、升降双臂、深度相机与激光雷达、多传感器融合定位、实时路径规划与重规划、擦桌子任务执行等。通过实际实验验证联合优化框架的可行性，包括可达性提升、任务成功率提升、避障鲁棒性、动态调整能力等指标。"
+        },
+        {
+          "paragraph_index": 93,
+          "text": "图6 带有双机械臂的全向移动机器人"
+        },
+        {
+          "paragraph_index": 94,
+          "text": "本研究基于真实硬件系统构建集“感知—规划—控制—执行”于一体的运行平台，通过多场景实验全面验证联合优化框架的有效性。硬件系统由全向麦克纳姆轮底盘、升降双臂系统、深度相机、激光雷达、多传感器融合定位模块和 ROS控制器构成。"
+        },
+        {
+          "paragraph_index": 105,
+          "text": "在硬件方面，首先需要搭载了激光雷达、IMU等传感器的四麦克纳姆轮全向底盘，通过搭载的树莓派4B进行算法的实时推理，使用STM32处理底盘的信息，包括数据采集和决策的执行，并通过ROS系统进行通讯与同步，实现环境感知与决策的制定与实施。同时还需要搭载了摄像头的双机械臂能够与移动底盘进行通信，实现数据交互。"
+        },
+        {
+          "paragraph_index": 106,
+          "text": "还需配备性能优异的动力系统和电源管理模块，以支持在复杂环境中的长时间稳定运行。其次，需要搭建实验场地，构建适配不同任务包含动态障碍的任务场景，实时记录机器人的路径规划成功率、机械臂的可达性、机械臂任务覆盖效率等参数，以便后期分析数据，调整参数，优化整体框架，提升机器人整体的效率。"
+        },
+        {
+          "paragraph_index": 108,
+          "text": "在进行移动平台与机械臂的理论研究后，进行实验验证。本课题尝试在仿真平台上搭建相关环境、进行相关代码的编写和调试，对本课题所提出方法的可行性进行验证。首先，在VM虚拟机平台及Ubuntu18.04系统，安装深度强化学习框架TensorFlow，为导航算法的实现和调试提供有力支持，并在使用的ROS-melodic系统编写实验程序。接着，进行仿真实验，需要配备Gazebo等仿真工具，其可以真实地模拟移动平台的导航中的障碍物、导航算法等，为算法的学习和验证提供全面的支撑，并将程序放在ROS系统为melodic版本的移动平台进行验证，已有条件完全能支撑实验与算法验证。"
+        },
+        {
+          "paragraph_index": 110,
+          "text": "本课题面向全向移动平台与双臂机械臂的移动操作平台，研究内容覆盖路径规划、可达性分析、联合路径规划、动态任务执行以及端到端无地图导航等多模块内容。整体方案具有明确的数学基础、较为成熟的工程实现路线，可通过硬件平台进行全流程验证，因此具有较高的可行性。"
+        },
+        {
+          "paragraph_index": 111,
+          "text": "四轮麦克纳姆轮的正逆运动学模型均为线性映射，可通过成熟的动力学框架构建底盘动力学。双臂运动学可使用DH参数构建正运动学，通过数值迭代法或IKFast实现稳定求解。因此，底盘—双臂联合运动学模型建立在数学上完全可行。可达性计算相关理论在机器人学中高度成熟，便于应用。"
+        },
+        {
+          "paragraph_index": 112,
+          "text": "本研究实验环境为机器人实验室，可通过简单布置构建多种常见家庭桌椅场景，包括：不同高度的桌子、可移动的椅子、人为动态干扰。这些环境均易搭建，且能充分检验系统在真实动态环境下的适应能力。其次在硬件配置方面，目前已完成携带有双机械臂的移动平台的搭建，并能使用该平台完成导航任务与姿态控制。截下来将在前面的研究的基础上加上双机械臂任务的约束，构建移动底盘与双机械臂的协同控制模型。"
+        },
+        {
+          "paragraph_index": 114,
+          "text": "本研究预计将形成一套完整的全向移动底盘与双臂机器人协同控制与复杂任务执行体系，成果涵盖模型构建、智能规划、任务决策以及真实硬件验证等多个层面。首先，在理论层面，将建立一种可推广的底盘–双臂可达性联合优化模型，实现底盘姿态与双臂操作空间的统一建模，解决传统移动操作平台中底盘与机械臂割裂优化导致的动作效率低与执行不稳定的问题。其次，在路径与停靠位姿规划方面，将提出融合机械臂可达性与到动态障碍布局的联合规划框架，可实现面向实际任务的最优停靠位姿选择，并显著提高机器人在复杂空间中的作业成功率。本研究将构建基于DDQNs的覆盖路径规划生成的全局覆盖路径，使机器人能够完成复杂场景任务下的路径规划与任务执行。此外，本研究将融入端到端无地图导航算法，使机器人能够在未知环境中依靠深度学习感知与行为预测实现动态导航，进一步增强系统的环境泛化能力。"
+        },
+        {
+          "paragraph_index": 117,
+          "text": "尽管本研究具备较强的理论与工程基础，但在实际推进过程中仍面临多项关键技术挑战，需要在研究中重点突破与解决。首先，底盘与双臂的协同控制模型在数学上具有高度耦合特性，尤其是在操作可达性、姿态优化和冗余度分解方面，如何在实时性约束下构建统一的优化框架是该部分的核心难点。其次，机械臂可达性代价场的构建涉及高维空间信息融合，包括任务点姿态要求、障碍几何关系等，如何在保证计算效率的前提下实现实时动态更新，是路径规划模块需攻克的关键问题。在复杂场景任务规划方面，DDQNs的覆盖路径，但提高覆盖路径生成的快速性，是系统稳定性的重要挑战。此外，端到端无地图导航在真实环境中容易受到传感器噪声、未见障碍物等影响，如何提升模型的泛化能力与安全性，使其能与传统规划算法无缝融合，也是难点之一。"
+        },
+        {
+          "paragraph_index": 118,
+          "text": "硬件平台部分同样面临控制精度、机械臂末端控制误差、麦克纳姆轮侧滑、传感器标定复杂度等工程问题，这些误差将直接影响可达性分析与最终任务执行效果。因此，本研究的技术关键集中在：高维可达性建模的实时求解；基于可达性引导的路径与停靠位姿同步规划；端到端导航在真实环境下的可靠性，以及硬件系统误差对整体规划框架的影响等方面。通过系统性解决以上问题方能确保机器人在复杂室内环境中实现鲁棒可靠的任务执行性能。"
+        },
+        {
+          "paragraph_index": 125,
+          "text": "研究全向移动平台与双臂协同控制模型建立。"
+        },
+        {
+          "paragraph_index": 140,
+          "text": "聂良耘.可移动机械臂建模与轨迹跟踪控制研究[D].西安工程大学,2023."
+        }
+      ]
+    },
+    {
+      "path": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\中期检查\\代鹏中期检查报告.docx",
+      "sha256": "40115c00dcde59d766899fdeda04739f699812bd204b920b734e829c60ccdf23",
+      "matches": [
+        {
+          "paragraph_index": 22,
+          "text": " 机械臂的协同规划研究 "
+        },
+        {
+          "paragraph_index": 36,
+          "text": "已经完成双臂移动操作机器人仿真平台搭建、全向移动底盘导航框架部署、双臂模型集成与控制器配置；"
+        },
+        {
+          "paragraph_index": 37,
+          "text": "建立了基于机械臂任务操作可达性的底盘停靠位姿计算模型；"
+        },
+        {
+          "paragraph_index": 38,
+          "text": "单任务最优停靠位姿计算与仿真验证：在ROS/Gazebo环境下搭建了复杂室内仿真平台。通过引入可达性代价场，实现了机器人在单桌边等局部任务点的高质量避障停靠。这一成果有效解决了传统算法中因盲目停靠最近点导致机械臂频繁调整的痛点。"
+        },
+        {
+          "paragraph_index": 62,
+          "text": "目前已围绕移动底盘与双机械臂协同规划问题，初步建立了底盘—双臂协同规划理论模型。首先，设全向移动底盘在世界坐标系下位姿为,并定义世界坐标系、底盘坐标系、左右机械臂基座坐标系和末端执行器坐标系；建立了底盘位姿、双臂安装位姿与任务点之间的坐标变换关系。"
+        },
+        {
+          "paragraph_index": 63,
+          "text": "桌面任务点：，通过任务点坐标计算桌边移动底盘停靠位姿，底盘不能与障碍物碰撞，且要满足最小安全距离，得到底盘停靠候选点，考虑机械臂操作代价，移动底盘导航代价()移动底盘与障碍物距离代价和最后移动底盘朝向角度代价；最终得到初步的代价函数:"
+        },
+        {
+          "paragraph_index": 66,
+          "text": "在此基础上，结合实际全向移动底盘尺寸，建立了移动底盘矩形footprint模型，并根据底盘长宽尺寸推导了机器人靠近桌边或操作区域边缘时的最小安全停靠距离，用于保证候选停靠位姿满足底盘几何避障约束。同时，结合双机械臂的安装位置和有效工作半径，推导了任务点在左右机械臂基座坐标系下的表达方式，为后续机械臂可达性判断提供基础。"
+        },
+        {
+          "paragraph_index": 67,
+          "text": "针对机械臂操作能力评价问题，已初步建立单臂几何可达性评分模型。该模型综合考虑机械臂有效工作半径、底盘朝向误差、末端操作方向等因素，用于评价某一底盘位姿下左臂或右臂完成任务点操作的可行性和舒适程度。在单臂评分基础上，进一步构建了双臂联合可达性评分函数，用于评价候选底盘位姿对整个任务区域的综合操作能力。"
+        },
+        {
+          "paragraph_index": 68,
+          "text": "图2 机械臂可达性计算"
+        },
+        {
+          "paragraph_index": 72,
+          "text": "在实验方面，已基于ROS/Gazebo仿真环境完成了双臂全向移动机器人仿真平台的初步搭建，并围绕复杂室内任务场景开展了阶段性验证。仿真平台中集成了全向移动底盘、升降支撑结构、左右双机械臂以及基础传感器模型，完成了机器人整体URDF/Xacro模型的修改、加载和调试，初步实现了移动底盘与双机械臂在统一仿真环境中的协同显示和控制。"
+        },
+        {
+          "paragraph_index": 73,
+          "text": "在移动底盘导航方面，已完成室内任务地图和复杂障碍场景的搭建，初步实现了基于全局路径规划和局部避障的导航流程。机器人能够在仿真环境中完成从起始位置到目标区域的路径规划、障碍规避和目标点到达，为后续加入机械臂操作约束和最优停靠位姿计算提供了实验基础。"
+        },
+        {
+          "paragraph_index": 76,
+          "text": "目前仿真实验已验证了以下内容：第一，双臂全向移动机器人模型能够在Gazebo环境中稳定加载；第二，移动底盘能够在复杂室内环境中完成基础导航任务；第三，基于底盘尺寸和双臂工作空间的候选停靠位姿生成方法具有可实现性；第四，将机械臂可达性因素引入底盘停靠位姿评价，有助于避免传统导航中仅选择距离最近点而导致机械臂不可达或操作姿态不佳的问题。"
+        },
+        {
+          "paragraph_index": 82,
+          "text": "完成双臂任务分配与覆盖路径规划方法，根据左右臂可达性评分和任务均衡性将任务点分配给左右机械臂，并生成可执行的覆盖路径。打破单任务局限，研究面向室内多个离散任务区域的全局覆盖路径分解机制。在全局规划阶段将局部操作可达性与双臂负载均衡作为关键约束引入，明晰可达性与任务分解的深层关系。"
+        },
+        {
+          "paragraph_index": 83,
+          "text": "进一步完善双臂机械臂可达性建模方法，结合机械臂工作空间、关节极限、末端姿态、碰撞检测和关节裕度建立更完整的可达性评分模型；在ROS/Gazebo平台中实现基于可达性约束的底盘停靠位姿计算算法，包括任务区域离散、候选停靠点生成、底盘footprint碰撞检测、左右臂可达性评价和最优停靠位姿选择。"
+        },
+        {
+          "paragraph_index": 90,
+          "text": "进一步完善双臂机械臂可达性建模方法，结合机械臂工作空间、关节极限、末端姿态、碰撞检测和关节裕度建立更完整的可达性评分模型。"
+        },
+        {
+          "paragraph_index": 92,
+          "text": "完成双臂任务分配与覆盖路径规划方法，根据左右臂可达性评分和任务均衡性将任务点分配给左右机械臂，并生成可执行的覆盖路径。"
+        }
+      ]
+    }
+  ],
+  "mathematical_review": {
+    "grid": {
+      "current_code": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\utils\\world2grid.m",
+      "conditions": "为保持表达清晰，可限定矩形网格H=N_y r_g、W=N_x r_g，并区分数值索引约定与底盘可行域。",
+      "current_convention": "列 j=floor((x-x0)/r)+1对应x方向[左,右)；行 i=floor((H-(y-y0))/r)+1对应y方向(下,上]。因此y=y0产生N_y+1而y=y0+H产生1，是该半开单元约定的边界选择。",
+      "reviewer_alternative": "i=N_y-floor((y-y0)/r)改为y方向[下,上)，不仅改变外边界，还改变每条水平内部网格线的单元归属。两者在非网格线内部点上相同；不能只改论文公式并声称仍是当前代码。",
+      "valid_domain": "当前坐标函数不自行裁剪：x0<=x<x0+W、y0<y<=y0+H可得到有效索引；接触地图边界的实体底盘仍由footprint检测判为不可行。",
+      "floating_point": "代码取整前对距最近整数不超过4*eps(max(abs(value),1))的值进行对齐。",
+      "recommended_wording": "本章沿用实验实现的上边界归属约定，边界位姿不依靠索引裁剪补救；采用另一种半开单元规范时，应同步修改映射、测试及实验身份。本轮未修改实现。"
+    },
+    "robust_fixed_arm": {
+      "definition": "B_m=1[BaseFree(p_k^{(m)})], A_{ell,m}=1[rho_ell(p_k^{(m)},t_i)>=tau_r]; R_fixed=max_ell min_m(B_m A_{ell,m}); R_switch=min_m max_ell(B_m A_{ell,m}).",
+      "inequality": "R_fixed <= R_switch；固定臂的存在量词在所有扰动量词之前。",
+      "simple_counterexample": "两个样本分别只有左臂/右臂可达且底盘均无碰，则R_switch=1而R_fixed=0。该例仅解释数学语义，不作为仿真实验结果。",
+      "current_implementation": "当前离散扰动仅重算max(left,right)几何评分，允许换臂，不检查扰动后底盘碰撞；配置q_min=1，对15个样本均通过作判定。",
+      "not_implemented": "包含扰动后碰撞及固定执行臂的扩展可作为规范或待验证模型给出，不能写成已实现/已实验证实。",
+      "samples_not_bound": "平移样本为原点及四轴向±0.02m，和0/±0.03rad做笛卡尔积，不覆盖二维±0.02m方框角点或连续集合。4.3cm历史误差的统计定义未知，不能把它自动当最坏界或直接改扰动范围。"
+    },
+    "score_and_height": {
+      "lateral_gate": "在R_lat=R_max=0.278m时，|v|<=r<=R_max已蕴含|v|<=1.1R_lat，因此该侧向硬条件当前冗余。",
+      "score_range": "在当前硬范围内s_l=1-|v|/R_lat也属于[0,1]；一般配置仅要求|v|<=1.1R_lat则s_l可能低至-0.1，因此应限当前配置或依靠总分clip保证最终[0,1]。",
+      "height_margin_m": 0.0173,
+      "height_component": 0.07268907563025229,
+      "height_component_weighted": 0.014537815126050457,
+      "interpretation": "17.3mm和高度评分值只来自固定几何模型；不是IK或物理安全裕量。"
+    }
+  },
+  "ready_to_use_revision_paragraphs": [
+    "本章采用固定几何计算模型开展候选停靠与任务覆盖研究，参数统一取自本次实验配置。现有ROS模型提供了双臂参考装配链，但其关节限位与升降行程字段均设为零，且安装间距、参考高度与本章配置尚未建立一致的标定映射。因此，本文保留通用关节运动学表达，不将这些URDF直接作为本章几何模型已完成逆运动学验证的依据。",
+    "关节自由度按末端定位关节与夹爪开合分别统计。本章计算模型保存五个臂关节的限位；AlohaMini接口同样列出五个臂关节通道及一个夹爪通道。URDF中每侧六个命名转动关节与上述通道的对应关系仍待核实，故不能仅按关节节点数量将末端定位模型改写为六自由度。",
+    "历史小论文记载了另一组实机安装参数及4.3cm底盘定位误差，但未给出该误差的样本规模与统计定义。本章±0.02m离散平移扰动为配置敏感性设置，不能将其表述为经该实测误差覆盖验证的鲁棒范围，也不由此宣称连续误差条件下的安全保证。",
+    "历史小论文报告16桌、36任务、27停靠及36/36任务完成；本次可审计快照中，2026种子同样对应36任务和27停靠，但在候选全部覆盖后因稀疏导航图不连通而终止。两份记录尚缺完整的运行身份对齐，本文不将历史完成率并入当前实验结论，保留本次几何覆盖与后续导航失败的分别记录。"
+  ],
+  "unresolved_inputs": [
+    "最终采用的实体机器人与URDF版本",
+    "关节名称—驱动电机—夹爪通道的标定对应",
+    "非零关节限位与升降零位/行程的实测或厂家参数",
+    "底盘参考点、两臂基座及工具坐标的统一标定",
+    "4.3cm误差的原始日志及统计口径",
+    "历史36/36实验的冻结地图/源码/参数与执行证据"
+  ]
+}
