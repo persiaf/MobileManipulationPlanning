@@ -1,5 +1,7 @@
 # ROS 1 / Gazebo一个月实验追踪表
 
+2026-11-11新增离线多布局任务约束／导航批次，独立方案见 [TASK_NAVIGATION_ROBUSTNESS_EXPERIMENT_PLAN_20261111.md](TASK_NAVIGATION_ROBUSTNESS_EXPERIMENT_PLAN_20261111.md)，实时状态见 `results/task_navigation_robustness_20261111/scenario_progress.csv`。其离线结果不计入下表ROS/实机任务完成数。
+
 日期：2026-10-30。对应同目录 `EXPERIMENT_PLAN.md`。**全部任务为TODO，未访问Ubuntu工程、未修改模型、未执行仿真或真机。**
 
 已确认：用户继续Ubuntu 20.04＋ROS 1＋Gazebo；已有初步场景，关节能动但方向/零位/TCP不对；工程位于本电脑双系统Ubuntu侧，目前不可访问。首周先修模型/映射，不把迁移ROS 2或盲目调PID作为起点。已有真实自主取放不等于仿真控制正确。

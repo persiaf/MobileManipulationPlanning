@@ -5,7 +5,11 @@ function result=exp_main_task_navigation(output_dir,options)
     if nargin<1||isempty(output_dir),output_dir=fullfile('results','main_joint_task_navigation_20261111');end
     if nargin<2,options=struct();end
     if ~isfolder(output_dir),mkdir(output_dir);end
-    setup=main_task_navigation_setup();scene0=setup.scene;robot=setup.robot;
+    if isfield(options,'setup'),setup=options.setup;else,setup=main_task_navigation_setup();end
+    scene0=setup.scene;robot=setup.robot;
+    write_checkpoints=true;retain_full_mat=true;
+    if isfield(options,'write_checkpoints'),write_checkpoints=logical(options.write_checkpoints);end
+    if isfield(options,'retain_full_mat'),retain_full_mat=logical(options.retain_full_mat);end
     if isfield(options,'directed_costs'),setup.planner.routing.directed_costs=logical(options.directed_costs);end
     if isfield(options,'finite_nn_restarts'),setup.planner.routing.finite_nn_restarts=logical(options.finite_nn_restarts);end
     modes=setup.mode_order;methods={'staged','minimum_seed','reorder_only','joint_local'};
@@ -15,13 +19,15 @@ function result=exp_main_task_navigation(output_dir,options)
         'routing',setup.planner.routing,'matrix_revision','directional_dense_20261111_v2'));
     metadata=struct('experiment_id','main_joint_task_navigation_20261111','date','2026-11-11', ...
         'geometry_signature',signature,'mode_order',{modes},'methods',{methods}, ...
-        'model_revision',robot.manipulator.model.revision,'robot_footprint',robot.footprint, ...
+        'model_revision',robot.manipulator.model.revision,'robot_signature',build_struct_signature(robot), ...
+        'robot_footprint',robot.footprint, ...
         'main_layout_and_all_original_targets_preserved',true, ...
         'source_scene_config',setup.source_scene_cfg,'candidate_count',numel(setup.pool), ...
         'dense_candidate_count',height(setup.dense_mapping), ...
         'footprint_valid_dense_count',sum(setup.dense_mapping.collision_valid), ...
         'sampling_rule',setup.sampling_rule,'candidate_budget_per_table',64, ...
         'scene',struct('table_centers',scene0.scene_cfg.table_positions, ...
+            'table_orientations_rad',scene0.scene_cfg.table_orientations, ...
             'table_length_m',scene0.scene_cfg.table.length,'table_width_m',scene0.scene_cfg.table.width, ...
             'table_height_m',scene0.scene_cfg.table.height,'map_width_m',scene0.scene_cfg.map_width_m, ...
             'map_height_m',scene0.scene_cfg.map_height_m,'start_pose',scene0.start_pose, ...
@@ -41,6 +47,24 @@ function result=exp_main_task_navigation(output_dir,options)
         'global_optimal',false,'minimum_scope','exact only on each region of the shared budgeted support subpool', ...
         'arm_collision_checked',false,'hardware_calibrated',false, ...
         'cache_policy','quantized retrieval only; positives actual FK recheck; negatives bitwise local request and pure-search failure only');
+    if isfield(setup,'case_definition')
+        metadata.experiment_id='task_navigation_robustness_20261111';
+        metadata.case_definition=setup.case_definition;
+        metadata.case_id=setup.case_definition.case_id;
+        metadata.layout_id=setup.case_definition.layout_id;
+        metadata.distribution_id=setup.case_definition.distribution_id;
+        metadata.reference_scene_config=setup.reference_scene_cfg;
+        metadata.reference_pool_signature=setup.reference_pool_signature;
+        metadata.geometry_pool_scope=setup.geometry_pool_scope;
+        metadata.main_layout_and_all_original_targets_preserved=strcmp(metadata.case_id,'L0_D0');
+        metadata.initial_trial_directory='';
+        metadata.primary_methods={'minimum_seed','reorder_only','joint_local'};
+        metadata.primary_staged_label='staged plus common regional minimum-cover repair';
+        metadata.raw_staged_is_auxiliary=true;
+        metadata.ik_cache_scope='process-local witness buckets shared within layout/mode; counters reset per library; disk replay is not new IK validation';
+        metadata.search_timing_is_not_end_to_end_benchmark=true;
+        metadata.matlab_compute_threads=maxNumCompThreads();
+    end
     if isfile(fullfile(output_dir,'metadata.json'))
         old=jsondecode(fileread(fullfile(output_dir,'metadata.json')));
         assert(strcmp(old.geometry_signature,signature),'MainJoint:OutputChanged','Use a fresh output directory for changed inputs.');
@@ -73,6 +97,16 @@ function result=exp_main_task_navigation(output_dir,options)
     seed_records={};
     for mi=1:3
         [library,scene,proofs{mi}]=build_main_task_navigation_library(setup,modes{mi},output_dir);
+        samples=cell(0,6);
+        for ti=1:scene.num_tasks
+            constraints=resolve_manipulation_task(scene.tasks(ti));
+            for si=1:size(constraints.samples_world,1)
+                p=constraints.samples_world(si,:);
+                samples(end+1,:)={ti,si,p(1),p(2),p(3),scene.tasks(ti).table_id}; %#ok<AGROW>
+            end
+        end
+        writetable(cell2table(samples,'VariableNames',{'task_id','sample_id','x_m','y_m','z_m','table_id'}), ...
+            fullfile(output_dir,['effective_tasks_' modes{mi} '.csv']));
         certs=cell(1,numel(setup.regions));minimum=0;full_support=true;
         for ri=1:numel(setup.regions)
             [~,certs{ri}]=enumerate_minimum_task_covers(library.regions(ri).candidates,setup.regions(ri).task_ids);
@@ -92,9 +126,9 @@ function result=exp_main_task_navigation(output_dir,options)
                     [selected,~,summaries,info,plan]=stage2_docking_planning(setup.regions,scene,robot,planner,library);
                 elseif baseline_ok&&full_support
                     planner.strategy.name='task_navigation_joint_local';
-                    options=struct('control',method,'initial_candidate_indices',baseline_indices, ...
+                    search_options=struct('control',method,'initial_candidate_indices',baseline_indices, ...
                         'initial_matrix_visit_order',baseline_order,'edge_cost_callback',@nav_cost);
-                    plan=plan_task_navigation_joint_local(library,setup.regions,scene,robot,planner,options);
+                    plan=plan_task_navigation_joint_local(library,setup.regions,scene,robot,planner,search_options);
                     selected=plan.selected_poses;summaries=plan.task_sequence_summary;info=plan.pose_info_list;
                 else
                     selected=zeros(0,3);summaries={};info={};
@@ -181,10 +215,10 @@ function result=exp_main_task_navigation(output_dir,options)
             fprintf('MAIN CASE RESULT coverage=%d/%d verified=%d docks=%d min=%g length=%g J=%g stop=%s\n', ...
                 predicted,scene.num_tasks,verified,docks,minimum,comparable_length,comparable_cost,stop);
         end
-        save(fullfile(output_dir,['checkpoint_' modes{mi} '.mat']),'case_results','proofs','metadata','-v7');
+        if write_checkpoints,save(fullfile(output_dir,['checkpoint_' modes{mi} '.mat']),'case_results','proofs','metadata','-v7');end
     end
     result=struct('metadata',metadata,'case_results',{case_results},'ik_proofs',{proofs});
-    save(fullfile(output_dir,'main_joint_result.mat'),'result','-v7');
+    if retain_full_mat,save(fullfile(output_dir,'main_joint_result.mat'),'result','-v7');end
     write_json(fullfile(output_dir,'run_state.json'),struct('status','COMPLETE','completed_cases',completed, ...
         'valid_missions',sum(cellfun(@(x)x.mission_valid,case_results(:)))));
     disp(readtable(fullfile(output_dir,'summary.csv')));

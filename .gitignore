@@ -84,5 +84,8 @@ paper_tac/results/lnn/
 /results/repair_20261027/evidence_20261027_221823/dynamic_interrupted_20261028/
 /results/repair_20261027/current_evidence_path.txt
 /results/repair_20261027/resume_repair_dynamic_comparison.m
+
+# Local figure QA copied from historical data; never research evidence.
+/tmp/robustness_viz_qa/
 /results/repair_20261027/**/*.log
 /results/repair_20261027/**/execution_environment.json

@@ -1,8 +1,9 @@
-function setup=main_task_navigation_setup()
+function setup=main_task_navigation_setup(scene_cfg)
 %MAIN_TASK_NAVIGATION_SETUP Exact default scene/targets, geometric budget pool.
 % Main map/tables/tasks are never edited. Sampling is independent of task
 % types, IK scores and planner outcomes: <=8 XY x 2 yaw per table side.
-    scene_cfg=scene_config();scene=build_scene_from_cfg(scene_cfg);
+    if nargin<1||isempty(scene_cfg),scene_cfg=scene_config();end
+    scene=build_scene_from_cfg(scene_cfg);
     robot=robot_config();robot.manipulator=task_manipulation_config(robot);
     planner=planner_config();planner.robot_cfg=robot;
     planner.global_planner='astar';planner.routing.mode='dense';

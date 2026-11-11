@@ -1,4 +1,4 @@
-function [library,scene,proof]=build_main_task_navigation_library(setup,mode,output_dir)
+function [library,scene,proof,cache]=build_main_task_navigation_library(setup,mode,output_dir,cache)
 %BUILD_MAIN_TASK_NAVIGATION_LIBRARY Score every frozen same-table pair.
 % Translation-cache hits retain FK-checked witnesses; negative hits require
 % identical raw requests. Export only plain counters, never the cache Map.
@@ -10,6 +10,7 @@ function [library,scene,proof]=build_main_task_navigation_library(setup,mode,out
     if nargin<3||isempty(output_dir)
         error('build_main_task_navigation_library:OutputDirectory','Provide a dedicated experiment output directory.');
     end
+    if nargin<4,cache=[];end
     mode=char(mode);output_dir=char(output_dir);call_started=tic;
     scene=setup.scene;scene.tasks=normalize_task_fields(scene.tasks);
     for ti=1:scene.num_tasks,scene.tasks(ti)=comparison_manipulation_task(scene.tasks(ti),mode);end
@@ -76,11 +77,16 @@ function [library,scene,proof]=build_main_task_navigation_library(setup,mode,out
         library=stored.library;scene=stored.scene;proof=stored.proof;
         validate_pool(library,pool);
         proof.reused_from_disk=true;proof.current_call_elapsed_time_s=toc(call_started);
+        proof.cache_scope='signed_library_replay_without_new_witness_validation';
+        proof.warm_bucket_count=warm_bucket_count(cache);
+        proof.cache_counters_reset_per_library=false;
         write_json(proof_file,proof);
         fprintf('MAIN %s: reused signed library, %d candidates, %d pairs\n',mode,numel(pool),proof.pair_count);
         return;
     end
-    cache=[];pair_rows=cell(0,13);candidate_rows=cell(0,9);
+    input_bucket_count=warm_bucket_count(cache);
+    cache=reset_warm_counters(cache);
+    pair_rows=cell(0,13);candidate_rows=cell(0,9);
     library=struct('regions',struct([]),'total_candidates',numel(pool),'scene_signature',scene_signature);
     scoring=tic;support_per_task=zeros(1,scene.num_tasks);pair_count=0;supported_pairs=0;
     expected_pairs=0;
@@ -145,6 +151,9 @@ function [library,scene,proof]=build_main_task_navigation_library(setup,mode,out
     library.augmentation_diagnostics=struct('enabled',false,'reason','frozen_geometric_subpool');
     validate_candidate_library(library,regions,scene,robot,planner);validate_pool(library,pool);
     proof=cache_stats(cache);
+    proof.cache_scope='process_local_witness_buckets_with_per_library_counters';
+    proof.warm_bucket_count=input_bucket_count;proof.cache_bucket_count=warm_bucket_count(cache);
+    proof.cache_counters_reset_per_library=true;
     proof.mode=mode;proof.cache_policy_revision=policy;proof.builder_revision=revision;
     proof.elapsed_time_s=library.total_generation_time_s;proof.current_call_elapsed_time_s=toc(call_started);
     proof.pair_count=pair_count;proof.expected_pair_count=expected_pairs;proof.supported_pairs=supported_pairs;
@@ -167,6 +176,31 @@ function [library,scene,proof]=build_main_task_navigation_library(setup,mode,out
         writetable(cell2table(candidate_rows,'VariableNames',{'mode','candidate_id','table_id','x_m','y_m', ...
             'yaw_rad','support_count','task_count','dense_candidate_id'}),candidate_file);
     end
+end
+
+function count=warm_bucket_count(cache)
+    count=0;
+    if isempty(cache),return;end
+    if ~isstruct(cache)||~isscalar(cache)||~isfield(cache,'revision')|| ...
+            ~strcmp(cache.revision,'task_local_translation_witness_v1')|| ...
+            ~isfield(cache,'buckets')||~isa(cache.buckets,'containers.Map')|| ...
+            ~isfield(cache,'stats')||~isstruct(cache.stats)
+        error('build_main_task_navigation_library:WarmCache','Invalid process-local witness cache.');
+    end
+    count=cache.buckets.Count;
+end
+
+function cache=reset_warm_counters(cache)
+    if isempty(cache),return;end
+    warm_bucket_count(cache);
+    names={'request_count','positive_hits','exact_negative_hits','misses','witness_fallbacks', ...
+        'max_position_error_m','max_orientation_error_rad','direct_checks','direct_disagreements', ...
+        'arm_direct_checks','witness_direct_search_failures'};
+    if ~all(isfield(cache.stats,names))
+        error('build_main_task_navigation_library:WarmCache','Witness cache counters are incomplete.');
+    end
+    for k=1:numel(names),cache.stats.(names{k})=0;end
+    cache.last_event='initialized';
 end
 
 function validate_pool(library,pool)

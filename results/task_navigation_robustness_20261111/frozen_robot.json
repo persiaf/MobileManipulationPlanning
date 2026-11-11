@@ -1,0 +1,399 @@
+{
+  "name": "MobileManipulator",
+  "platform_type": "mobile_dual_arm",
+  "frames": {
+    "map": "map",
+    "base": "base_link",
+    "left_arm_base": "left_arm_base",
+    "right_arm_base": "right_arm_base"
+  },
+  "chassis": {
+    "length": 0.423,
+    "width": 0.366,
+    "height": 0.127
+  },
+  "footprint": {
+    "length_m": 0.423,
+    "width_m": 0.366,
+    "model": "rectangle"
+  },
+  "dual_arm": {
+    "base_spacing": 0.25,
+    "collab_forward_depth": 0.25,
+    "collab_lateral_width": 0.31
+  },
+  "single_arm": {
+    "reach_radius": 0.278,
+    "reach_z_min": -0.142,
+    "reach_z_max": 0.334,
+    "reach_forward": 0.278,
+    "reach_backward": 0.197,
+    "reach_lateral": 0.278
+  },
+  "arm_dh": {
+    "d1": 0.0563,
+    "a2": 0.10931,
+    "a3": 0.10051,
+    "d4": 0.000953,
+    "d5": 0.0681,
+    "offset_j2": -0.13578661580515886,
+    "offset_j3": 0.16266468628587152,
+    "offset_j4": 1.5439182563141838
+  },
+  "joint_limits": {
+    "j1": [
+      -1.5707963267948966,
+      1.5707963267948966
+    ],
+    "j2": [
+      -0.13962634015954636,
+      2.1816615649929121
+    ],
+    "j3": [
+      -2.9670597283903604,
+      0.26179938779914941
+    ],
+    "j4": [
+      -1.5707963267948966,
+      1.5707963267948966
+    ],
+    "j5": [
+      -3.1415926535897931,
+      3.1415926535897931
+    ]
+  },
+  "arm_base_mount_x": 0.2115,
+  "arm_base_mount_z": 0.18330000000000002,
+  "manipulator": {
+    "mode": "task_pose_ik",
+    "model": {
+      "name": "Interbotix ViperX-300 6DOF",
+      "revision": "vx300s-urdf-0bb2b0e6d0e619bff02cf74dbd5af5681dcf80c9-v1",
+      "joint_names": [
+        "waist",
+        "shoulder",
+        "elbow",
+        "forearm_roll",
+        "wrist_angle",
+        "wrist_rotate"
+      ],
+      "joint_origin_xyz": [
+        [
+          0,
+          0,
+          0.079
+        ],
+        [
+          0,
+          0,
+          0.04805
+        ],
+        [
+          0.05955,
+          0,
+          0.3
+        ],
+        [
+          0.2,
+          0,
+          0
+        ],
+        [
+          0.1,
+          0,
+          0
+        ],
+        [
+          0.069744,
+          0,
+          0
+        ]
+      ],
+      "joint_axes": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "joint_limits": [
+        [
+          -3.1415826535897931,
+          3.1415826535897931
+        ],
+        [
+          -1.8500490071139892,
+          1.2566370614359172
+        ],
+        [
+          -1.7627825445142729,
+          1.6057029118347832
+        ],
+        [
+          -3.1415826535897931,
+          3.1415826535897931
+        ],
+        [
+          -1.8675022996339325,
+          2.2340214425527418
+        ],
+        [
+          -3.1415826535897931,
+          3.1415826535897931
+        ]
+      ],
+      "tool_transform": [
+        [
+          1,
+          0,
+          0,
+          0.10719999999999999
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "provenance": {
+        "repository": "Interbotix/interbotix_ros_manipulators",
+        "commit": "0bb2b0e6d0e619bff02cf74dbd5af5681dcf80c9",
+        "url": "https://github.com/Interbotix/interbotix_ros_manipulators/blob/0bb2b0e6d0e619bff02cf74dbd5af5681dcf80c9/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/vx300s.urdf.xacro",
+        "cross_check_url": "https://github.com/Interbotix/interbotix_ros_toolboxes/blob/af96d28bcdf23fccd94a922bd23fb74f8156d914/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/mr_descriptions.py",
+        "retrieved_date": "2026-11-10",
+        "limit_policy": "Use pinned URDF limits, including pi_offset=1e-5; do not mix with the differing firmware limits on the specification webpage."
+      },
+      "ik": {
+        "position_tolerance_m": 0.002,
+        "orientation_tolerance_rad": 0.034906585039886591,
+        "max_iterations": 120,
+        "max_seeds": 16,
+        "damping": 0.015,
+        "orientation_weight_m": 0.2,
+        "max_step_rad": 0.3,
+        "seeds": [
+          [
+            0,
+            -0.8,
+            0.8,
+            0,
+            -0.1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            -0.3,
+            -0.8,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0.4,
+            -1.3,
+            0,
+            1.4,
+            0
+          ],
+          [
+            0,
+            -1.3,
+            1.3,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            -0.8,
+            0.8,
+            1.5,
+            -0.5,
+            -1.5
+          ],
+          [
+            0,
+            -0.8,
+            0.8,
+            -1.5,
+            0.5,
+            1.5
+          ],
+          [
+            0,
+            0.1,
+            -1.2,
+            1.5,
+            0.8,
+            1.5
+          ],
+          [
+            0,
+            0.1,
+            -1.2,
+            -1.5,
+            -0.8,
+            -1.5
+          ],
+          [
+            3.1415926535897931,
+            -0.8,
+            0.8,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            -1.5,
+            -0.3,
+            1.2,
+            1.8,
+            -1.2
+          ],
+          [
+            0,
+            0.7,
+            -0.8,
+            -1.2,
+            -1.5,
+            1.2
+          ],
+          [
+            1.5,
+            -0.4,
+            0.4,
+            1.5,
+            0.9,
+            -0.9
+          ],
+          [
+            -1.5,
+            -0.4,
+            0.4,
+            -1.5,
+            -0.9,
+            0.9
+          ],
+          [
+            0,
+            -0.2,
+            1.2,
+            2.5,
+            -1.4,
+            2
+          ],
+          [
+            0,
+            -1,
+            -0.5,
+            -2.5,
+            1.4,
+            -2
+          ]
+        ]
+      }
+    },
+    "left_mount_T_base_arm": [
+      [
+        1,
+        0,
+        0,
+        0.2115
+      ],
+      [
+        0,
+        1,
+        0,
+        0.125
+      ],
+      [
+        0,
+        0,
+        1,
+        0.18330000000000002
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "right_mount_T_base_arm": [
+      [
+        1,
+        0,
+        0,
+        0.2115
+      ],
+      [
+        0,
+        1,
+        0,
+        -0.125
+      ],
+      [
+        0,
+        0,
+        1,
+        0.18330000000000002
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "mount_source": "inherited_planner_mount_unmeasured",
+    "hardware_calibrated": false
+  }
+}
