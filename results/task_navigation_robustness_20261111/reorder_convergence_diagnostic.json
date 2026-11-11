@@ -1,0 +1,16 @@
+{
+  "post_hoc": true,
+  "graph_only": true,
+  "included_in_primary_methods": false,
+  "included_in_completion_or_eligibility_denominators": false,
+  "new_navigation_or_IK_queries": 0,
+  "neighbor_budget_per_case_mode": 10000,
+  "acceptance_tolerance": 1e-09,
+  "algorithm": "Deterministic best-improvement directed 2-opt, reprice every whole closed tour on the existing staged selected-set D; stop after a complete nonimproving pass or 10000 tested neighbors.",
+  "no_new_complete_path_validation": true,
+  "rows": 27,
+  "diagnostic_rows": 27,
+  "csv_sha256": "7da78d288f549d2deda185b37dae3cf7ae4744202a2f889793f83587eeb33ec3",
+  "auditor_sha256": "e17305ccc490c5345ce22e93b519d1455274181ef19c6c92367f0b677a9076e1",
+  "caveat": "Same maximum passes does not equate accepted moves or work between reorder-only and joint search. This stronger fixed-set graph diagnostic cannot be presented as a newly validated mission or used to redefine the predeclared baseline."
+}

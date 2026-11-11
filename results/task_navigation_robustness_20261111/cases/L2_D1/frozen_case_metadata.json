@@ -1,0 +1,8 @@
+{
+  "case_id": "L2_D1",
+  "robot_signature": "98371455a721caf9",
+  "reference_pool_signature": "f819cd6f75fd4d35",
+  "candidate_count": 913,
+  "target_count": 36,
+  "geometry_pool_scope": "same layout D0-reference dense subpool reused without regeneration for every distribution"
+}

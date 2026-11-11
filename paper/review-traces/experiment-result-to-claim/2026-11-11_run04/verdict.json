@@ -1,0 +1,128 @@
+{
+  "date": "2026-11-11",
+  "experiment_id": "task_navigation_robustness_20261111",
+  "reviewer_role": "independent_paper_architect_reviewer",
+  "reviewer_agent": "/root/robustness_audit",
+  "claim_supported": "partial",
+  "bounded_descriptive_results_supported": "yes",
+  "universal_advantage_over_reordering_supported": "no",
+  "confidence": "high",
+  "confidence_scope": "Exported finite-pool coverage/cardinality and navigation results; attribution is qualified by budget allocation and reordering trajectory.",
+  "paper_claim_audit": "unavailable",
+  "provisional": true,
+  "pending_external_review": false,
+  "independent_audit_status": "PASS",
+  "scenarios": 9,
+  "raw_results": 108,
+  "primary_results": 81,
+  "common_primary_pairs": 27,
+  "valid_raw_missions": 108,
+  "task_verification_each": 36,
+  "regional_minimum_dock_counts": [
+    16,
+    32
+  ],
+  "assignments_checked": 3888,
+  "accepted_moves_checked": 545,
+  "path_samples_checked": 637253,
+  "joint_vs_staged_minimum": {
+    "position_only": {
+      "win": 9,
+      "tie": 0,
+      "loss": 0,
+      "navigation_reduction_median_percent": 16.46489130081683,
+      "navigation_reduction_worst_percent": 3.578047859027167
+    },
+    "top_down_grasp": {
+      "win": 9,
+      "tie": 0,
+      "loss": 0,
+      "navigation_reduction_median_percent": 14.121318032654129,
+      "navigation_reduction_worst_percent": 3.340879366014382
+    },
+    "table_wipe": {
+      "win": 8,
+      "tie": 1,
+      "loss": 0,
+      "navigation_reduction_median_percent": 14.670740665766912,
+      "navigation_reduction_worst_percent": 0.0
+    }
+  },
+  "joint_vs_reorder": {
+    "position_only": {
+      "win": 9,
+      "tie": 0,
+      "loss": 0,
+      "navigation_reduction_median_percent": 14.637242731618826,
+      "navigation_reduction_worst_percent": 2.714623991648535
+    },
+    "top_down_grasp": {
+      "win": 8,
+      "tie": 0,
+      "loss": 1,
+      "navigation_reduction_median_percent": 8.185286422966875,
+      "navigation_reduction_worst_percent": -4.940049450719397
+    },
+    "table_wipe": {
+      "win": 7,
+      "tie": 0,
+      "loss": 2,
+      "navigation_reduction_median_percent": 9.772812049434144,
+      "navigation_reduction_worst_percent": -1.717291603691029
+    }
+  },
+  "joint_vs_staged_total": {
+    "win": 26,
+    "tie": 1,
+    "loss": 0
+  },
+  "joint_vs_reorder_total": {
+    "win": 24,
+    "tie": 0,
+    "loss": 3
+  },
+  "reorder_graph_diagnostic": {
+    "post_hoc": true,
+    "graph_only": true,
+    "new_IK_or_Astar_queries": 0,
+    "optimizer_not_rerun_in_final_audit": true,
+    "joint_vs_diagnostic": {
+      "position_only": {
+        "win": 9,
+        "tie": 0,
+        "loss": 0
+      },
+      "top_down_grasp": {
+        "win": 7,
+        "tie": 0,
+        "loss": 2
+      },
+      "table_wipe": {
+        "win": 5,
+        "tie": 0,
+        "loss": 4
+      }
+    },
+    "joint_vs_diagnostic_total": {
+      "win": 21,
+      "tie": 0,
+      "loss": 6
+    },
+    "main_reorder_still_has_improving_two_opt_neighbor": 16,
+    "not_a_guaranteed_dominating_baseline": true,
+    "not_in_primary_denominators": true
+  },
+  "main_scene_reproduction": true,
+  "figures_reviewed": [
+    "robustness_gain_heatmaps.png",
+    "robustness_representative_routes.png"
+  ],
+  "figure_assessment": "Main-scene visual style retained; negative/tie values and representative negative routes are visible.",
+  "routing": "confirm_bounded_results_and_supplement_budget_and_stronger_reorder_comparison",
+  "suggested_claim_revision": "Retains task support and regional minimum docking cardinality; improves staged navigation in26/27 and ties once, beats the predeclared quick reorder in24/27, with distribution-dependent exceptions.",
+  "next_method_priority": "Initialize the joint tour with fuller fixed-set reordering, count that work in the common total query/time budget, then reduce regional-cover query burden and improve budget allocation in32-dock cases.",
+  "csv_precision_note": "One L1_D0 wiping NN decision has a15-significant-digit cost tie; recorded NN attempts are minimum within2e-12 export precision and yield the independently repriced first finite recorded cycle.",
+  "audit_sha256": "3b22848d135c100877e71df2d900abd6260564629ed0aae0a43730d5c5b94843",
+  "auditor_sha256": "8bc77a7ee926aeb620e3e72089ac88698d68c97206dbf43e16a0ee36730d1655",
+  "source_files_frozen_during_execution": true
+}

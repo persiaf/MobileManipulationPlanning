@@ -1,0 +1,48 @@
+{
+  "experiment_id": "task_navigation_robustness_20261111",
+  "pre_experiment_backup_commit": "fee9967",
+  "signature": "f5c2389257168689",
+  "scenario_count": 9,
+  "task_modes": [
+    "position_only",
+    "top_down_grasp",
+    "table_wipe"
+  ],
+  "raw_methods": [
+    "staged",
+    "minimum_seed",
+    "reorder_only",
+    "joint_local"
+  ],
+  "primary_methods": [
+    "minimum_seed",
+    "reorder_only",
+    "joint_local"
+  ],
+  "primary_staged_label": "staged plus common regional minimum-cover repair",
+  "planned_raw_rows": 108,
+  "planned_primary_rows": 81,
+  "task_count_each": 36,
+  "table_count_each": 16,
+  "robot_signature": "98371455a721caf9",
+  "deterministic_factorial_not_iid_samples": true,
+  "tie_tolerance_abs_J": 1E-7,
+  "representative_case_id": "L0_D2",
+  "navigation_cost_definition": "J=L+0.15*sum(abs(wrapped service-endpoint yaw differences))",
+  "global_optimal": false,
+  "failure_cases_retained": true,
+  "layout_workers": 3,
+  "compute_threads_per_worker": 1,
+  "cache_scope": "witness buckets within each layout/mode; counters reset for every library; exact negatives only",
+  "primary_pair_eligibility": "all three primary methods valid, 36 verified tasks and the same regional minimum dock count",
+  "local_search_budget": {
+    "max_passes": 3,
+    "control": "joint_local",
+    "max_navigation_queries": 1500,
+    "max_neighbor_evaluations": 10000,
+    "max_wall_time_s": 120,
+    "max_region_docks": 3,
+    "improvement_tolerance": 1E-9,
+    "enable_two_opt": true
+  }
+}

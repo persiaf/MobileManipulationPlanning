@@ -1,0 +1,16 @@
+{
+  "signature": "7f22b7ce08bcc1c6",
+  "builder_revision": "main_task_navigation_library_v1",
+  "cache_policy_revision": "task_local_translation_witness_v1",
+  "base_scene_signature": "f7449c50a2c12a81",
+  "candidate_count": 906,
+  "scorer_sources": {
+    "evaluate_task_reachability_cached": "c1f9b2ac305bca17",
+    "evaluate_task_reachability": "7acd63425dd792f9",
+    "resolve_manipulation_task": "2234cbcb0aac7def",
+    "solve_arm_task_ik": "9294512e6ff7df3d",
+    "arm_forward_kinematics": "cf85b20584db908f",
+    "manipulation_task_profile": "8d8c05f8b8a5342d",
+    "comparison_manipulation_task": "cee5408f3797a931"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.1.3",
+  "matplotlib": "3.10.0",
+  "scenario_count": 9,
+  "primary_raw_methods": [
+    "minimum_seed",
+    "reorder_only",
+    "joint_local"
+  ],
+  "tie_tolerance_absolute_J": 1e-07,
+  "selection": {
+    "representative_case": "L0_D2",
+    "worst_eligible_pair": {
+      "case_id": "L0_D2",
+      "layout_id": 0,
+      "distribution_id": 2,
+      "seed": "2026",
+      "mode": "top_down_grasp",
+      "comparator": "reorder_only",
+      "comparator_alias": "reorder_only",
+      "eligible": true,
+      "common_three_method_eligible": true,
+      "pairwise_eligible": true,
+      "baseline_valid_minimum": true,
+      "joint_valid_minimum": true,
+      "baseline_J": 82.644002573627,
+      "joint_J": 86.726657168818,
+      "J_delta": -4.082654595190988,
+      "J_gain_pct": -4.9400494507194,
+      "baseline_L_m": 77.6174543278833,
+      "joint_L_m": 82.0985726460875,
+      "L_gain_pct": -5.773338428846684,
+      "outcome": "loss",
+      "ineligible_reason": ""
+    },
+    "worst_same_as_representative": true
+  },
+  "style_reference": "results/figures/fig_main_scenario_publication.png",
+  "inputs_sha256": {
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\batch_summary.csv": "fe131dd0a7d75ec2899c180982aa6ea6d7f66baae9fd122877fad4fe867b74d6",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D0\\metadata.json": "cbdd840490f983c2fbfe1d6d898fbca3cdff98f97e8771664a4fc7a83f3f4931",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D0\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D0\\summary.csv": "54f53d4578e7dfabe82d84749b97c578d315e433fee1542e3078a8a3a2ea7f1c",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D0\\tasks.csv": "578dbce66b259e776e823ce4dd51f126a9806a6f3ab1c79444b347196fe35e5b",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D1\\metadata.json": "7516f1ca60d3ce8134e0005590e7ba8317a60c0360e31578d9aa863b9814debb",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D1\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D1\\summary.csv": "42915cdc36c882b3cfc613e8d9d07971c8d6855cb89bed7bc732ebb287b92a8c",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D1\\tasks.csv": "57440dad4c25bed9457f9286af8d6b6ac4d4b10e0b8f48f5119e7c95329cc1c1",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D2\\docking_poses.csv": "3b60585b03a5164a126b848891a82dcda7e94a29d1945cd26db1d427aa489e3b",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D2\\metadata.json": "0f1028e1c419eee326f0b880f9518e252753041a8fd14b954eb6580c9cb68754",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D2\\navigation_paths.csv": "111c4ec4d36bbf8d12c107405bf9e62b0c0b7992303feba57e4f20bc1c01db95",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D2\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D2\\summary.csv": "c264cdaddf9ba8c0635ba7e6ad8ac35fb3837d27fa38c91b7935aa8f48531e75",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L0_D2\\tasks.csv": "42b73cb80ab651a93d69cd82591ac1bcbcfcec2d5711b00f0aece5cad9cb4c25",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D0\\metadata.json": "504acb5b748e8d0f17ac34162eca39df0f3255f384367f0d8b8b0149785902db",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D0\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D0\\summary.csv": "84cc9b24c299e60a6e775d74fc6fc9662e1f62046a3c84d11bbcc6ec24d2cc33",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D0\\tasks.csv": "e3f5c3370cdd05e14112ae761799710e0b163230451117800d900e72983b617f",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D1\\metadata.json": "c20ee3f33acd746b0dfb04cb5d3f59bd845ddadf1cb70e2e3ab933de93ae14f9",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D1\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D1\\summary.csv": "75867e365ffc603fec6ccba2bdc7fbded3aa584a2615fc8f53b243c586ceebdc",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D1\\tasks.csv": "f3aa8c3f8a01d51b1f12c75ea0481f31657bf2ec4676c7fa8b4955462770a8ee",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D2\\metadata.json": "52d727cf0f08bb1e45ce116840abfd2fc2544a56472aeca1c1ed2ff7fbf45f2e",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D2\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D2\\summary.csv": "8e0d817840a4abe941ebff46a1706e8b7c76d82bfd1f12c03a91ed881bc0e75d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L1_D2\\tasks.csv": "74d458a9e07177405af90a6c5f44f5ceba64191ac66978c04a800cf022f95235",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D0\\metadata.json": "c4aa739439d58cd2c4956a30ecea1aed0472099e086020c8afc89f76f9f1fc91",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D0\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D0\\summary.csv": "9d95f22a64e18c2dbb0d82be9a032de6733793500718c45069930be2ac9772d9",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D0\\tasks.csv": "8576c5e840ff083d85c4cfad3511b9eb0d1a47c5e38777452b427b38271d2e04",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D1\\metadata.json": "865a14bcf6c4b78a2b9f520ccd56d8039106f40fa4b8ce0fd3cabf5e4947e5f2",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D1\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D1\\summary.csv": "ef92985c3fa52ed97fc9f47d29fc611c7b4f451fae49e5887555349723544ae7",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D1\\tasks.csv": "09375bcee678786a0434c215441a119a285dcf52744ba43ed142d14d88d60ffd",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D2\\metadata.json": "eb9c2060deb5b91165488783bde84461fa405ff11e2995f1d6f5a688c5c84e85",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D2\\run_state.json": "f594d7338843738afedffed70c40805076e5a77510962b3b25c9b0f2df97763d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D2\\summary.csv": "c8a48ff96be86098d1f2e10f5bfe4835f906d6ac58f03839f22f04c5df0bd05d",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\cases\\L2_D2\\tasks.csv": "4f0503943ec52f583ffa381d5f493c8a3c9203d65c0a9ad087665260d8242cb3",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\run_state.json": "29e1b7a0a233d35ad802a21365476b534d6c2925e9ffba875436901161bf97b7",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_navigation_robustness_20261111\\scenario_manifest.csv": "3b23a7af3c51ef229025a8a34690ccd197ce8976c58f3f08b066c69ab66eeabf",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\joint_task_navigation\\common.py": "993d71980f1778ea657bf69d62403b41a4249638360520fd68a151012d3b19e5",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\main_joint_task_navigation\\main_common.py": "9176e48f8b1b89cd375c1683149ec9496c69977c1d85bd18e01b5de08eb319f7"
+  },
+  "scripts_sha256": {
+    "batch_common.py": "9377ea77bd401be57929c564f874b616f69780713e36f7cb6462d9660de14b9e",
+    "plot_batch.py": "b64084a52a653b923f59b3857849bb82fc8f89dfb3ac347c4f203157ee8a900a",
+    "plot_frozen_inputs.py": "d2667266434807041bc4d2ae534bfba328013135a8dc09312db92fb163660aba",
+    "run_all.py": "a5fb71f292035544f754bec793a4377f03714ce1c7411a25e459b057685dffc2"
+  },
+  "outputs_sha256": {
+    "robustness_gain_heatmaps.pdf": "13af84f4e32877bcd2a288fc1efe269ecf9d36d928181b6fd4edef3de668c60e",
+    "robustness_gain_heatmaps.png": "71f0974a4fba9c0b648673dd16610107b082d559ecd7a7240d06680e56a03875",
+    "robustness_gain_heatmaps_caption.md": "fe2f2fc637a7787b28f06d6a6ca09e176b5f1a03fa8dfe2517ac6d3ea4b31327",
+    "robustness_paired_costs.pdf": "8d5debc7ca777c13f1f67ddaa494e424bf4e941528aedd510520e4bc3f885995",
+    "robustness_paired_costs.png": "e9092c9c16937b8b1177e9a140dcb6bfb89de1331f4aeee33efb023c12cfd098",
+    "robustness_paired_costs_caption.md": "b0a4d33217c1bbd9dad1032ab78ca7bacb8c2cc514f6275a71972667e3e8a09e",
+    "robustness_mission_rates.pdf": "88eeaf5919b60fedd26561883f987b134f67bfd14af6b10c6ada2522ed19752c",
+    "robustness_mission_rates.png": "b8896b460efb201e23310542a2f96de21d0b397ad6dfcde57c06e7f0fedcdf2a",
+    "robustness_mission_rates_caption.md": "3aa45a87869de914a362192a60c8c6d7d7672874b7ccacb1529ed723f6bcbe5f",
+    "robustness_scenario_maps.pdf": "d5ac5be3f079e6eadf305662cc4031f862f7a9dad56cae0cf98d0b339588fb5a",
+    "robustness_scenario_maps.png": "fa6499f91ed1f5d0396361371273e46d375f57646da37691c52ddf314b6d9f00",
+    "robustness_scenario_maps_caption.md": "d910650c31e49d32dd383c91977a64c298237edf309cde6570b369fd668fc51a",
+    "robustness_representative_routes.pdf": "9aa5e5e10a94a51e629ac7b97b10bcfe546d17595d51645dd6a66c442a305b23",
+    "robustness_representative_routes.png": "a735b3be388540e6969e3471c460a3705b0e202141745d3547513413f43bbfe7",
+    "robustness_representative_routes_caption.md": "0007167619c3149f516979232a9b1f254a40b03ca6f625f62c7111d297cdb07d"
+  },
+  "render_checks": {
+    "robustness_gain_heatmaps.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "robustness_gain_heatmaps.png": {
+      "size_px": [
+        3018,
+        3100
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "robustness_paired_costs.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "robustness_paired_costs.png": {
+      "size_px": [
+        2847,
+        3604
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "robustness_mission_rates.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "robustness_mission_rates.png": {
+      "size_px": [
+        3460,
+        1204
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "robustness_scenario_maps.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "robustness_scenario_maps.png": {
+      "size_px": [
+        3835,
+        4203
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "robustness_representative_routes.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "robustness_representative_routes.png": {
+      "size_px": [
+        4510,
+        4992
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  }
+}

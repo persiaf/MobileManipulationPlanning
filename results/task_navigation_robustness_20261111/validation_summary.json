@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "new_matlab_checks": 11,
+  "new_python_statistics_checks": 6,
+  "total_new_targeted_checks": 17,
+  "full_repository_suite": false,
+  "matlab_groups": [
+    {
+      "group": "scenario_and_cache_protocol",
+      "passed_count": 8,
+      "tests": [
+        "test_task_navigation_robustness_protocol/testCompletePredeclaredFactorialPreservesTaskCounts",
+        "test_task_navigation_robustness_protocol/testNoArgumentMainSetupAndOriginalReferenceRemainIdentical",
+        "test_task_navigation_robustness_protocol/testEachLayoutHasOneSharedPoolAcrossAllDistributions",
+        "test_task_navigation_robustness_protocol/testAllLocalTaskAnchorsAndWipeSamplesStayOnTheirTables",
+        "test_task_navigation_robustness_protocol/testReferencePoolHasValidFootprintsAndUnchangedBudget",
+        "test_task_navigation_robustness_protocol/testWrongLayoutReferenceAndOffTableWipeAreRejected",
+        "test_task_navigation_robustness_protocol/testExistingSignedMainLibraryIsCompatibleAndUntouched",
+        "test_task_navigation_robustness_protocol/testWarmWitnessReuseResetsCountersAndNeverSerializesMap"
+      ],
+      "log_path": "results\\logs\\task_navigation_robustness_protocol_final2_20261111.log",
+      "log_sha256": "754a6b19dffac99b1ddb52f6d6aa33929dbcf97bdb48d396b4d858cd41ae5c53"
+    },
+    {
+      "group": "batch_runner_and_failure_aggregation",
+      "passed_count": 3,
+      "tests": [
+        "test_task_navigation_robustness_runner/testInjectedSetupRetainsModesAndSkipsFullSnapshots",
+        "test_task_navigation_robustness_runner/testCollectorCombinesMissingAndTextFailureReasons",
+        "test_task_navigation_robustness_runner/testPreparationFailureRetainsAllPlannedRowsAndNaNCosts"
+      ],
+      "log_path": "results\\logs\\task_navigation_robustness_runner_final_20261111.log",
+      "log_sha256": "5a61905075953a198ca94eeecfdc04bd27c748aced1ca3c2e2bfed841fc5b85f"
+    }
+  ],
+  "statistics": {
+    "status": "PASS",
+    "tests_run": 6,
+    "passed": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_s": 0.004553799999484909,
+    "tests": [
+      "__main__.RobustnessStatisticsTests.test_different_minimum_certificates_do_not_form_equal_dock_pairs",
+      "__main__.RobustnessStatisticsTests.test_failed_nan_cost_is_ineligible_instead_of_zero",
+      "__main__.RobustnessStatisticsTests.test_failure_remains_in_all_scenario_denominators",
+      "__main__.RobustnessStatisticsTests.test_negative_improvement_is_a_loss_and_is_not_clamped",
+      "__main__.RobustnessStatisticsTests.test_third_method_failure_excludes_both_primary_comparisons",
+      "__main__.RobustnessStatisticsTests.test_tie_uses_absolute_raw_cost_difference"
+    ],
+    "scope": "in-memory statistical unit fixtures only; not experiment scenes, IK or navigation execution",
+    "source_sha256": {
+      "tests\\test_task_navigation_robustness_statistics.py": "c8ec59a14ce95037f1215fce31c400d9ceaa3da24f16c03452084ad6faa0b959",
+      "visualization\\task_navigation_robustness\\batch_common.py": "9377ea77bd401be57929c564f874b616f69780713e36f7cb6462d9660de14b9e"
+    }
+  }
+}

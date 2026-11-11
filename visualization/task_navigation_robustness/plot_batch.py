@@ -21,6 +21,14 @@ def panel_label(ax, label):
     ax.text(0, 1.035, label, transform=ax.transAxes, ha="left", va="bottom", fontsize=9.5)
 
 
+def gain_label(value):
+    if 0 < abs(value) < .00005:
+        return f"{value:.2e}%"
+    if 0 < abs(value) < .1:
+        return f"{value:.4f}%"
+    return f"{value:.1f}%"
+
+
 def common_note(batch):
     return (f"本图覆盖预先声明的全部 {len(batch.cases)} 个场景，三种任务模式为仅位置、朝下抓取和桌面擦拭。"
             "主比较中的 Staged + minimum repair 对应原始导出的 minimum_seed，即分阶段选择后接受共同最少覆盖修复；"
@@ -58,7 +66,7 @@ def gain_heatmaps(batch, out, pairs):
             for y in range(values.shape[0]):
                 for x in range(values.shape[1]):
                     n, total = counts[y, x]
-                    text = f"{values[y,x]:.1f}%\n{n}/{total}" if n else f"N/A\n{n}/{total}"
+                    text = f"{gain_label(values[y,x])}\n{n}/{total}" if n else f"N/A\n{n}/{total}"
                     ax.text(x, y, text, ha="center", va="center", fontsize=9, color="#202020")
             ax.set_xticks(range(len(batch.distribution_ids)), [DISTRIBUTION_LABELS.get(v, batch.distribution_labels[v]) for v in batch.distribution_ids])
             ax.set_yticks(range(len(batch.layout_ids)), [LAYOUT_LABELS.get(v, batch.layout_labels[v]) for v in batch.layout_ids])

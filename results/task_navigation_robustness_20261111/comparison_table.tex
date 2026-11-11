@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\caption{Failure-inclusive paired navigation-cost comparison across predefined layouts and task distributions. Eligible pairs require full missions and equal certified finite-subpool minimum dock counts. Quartiles describe deterministic scenario groups, not confidence intervals.}
+\label{tab:task-navigation-robustness}
+\begin{tabular}{llrrrrr}
+\toprule
+Task & Reference & Eligible/all & W/T/L & Median gain (\%) & IQR (\%) & Worst (\%) \\
+\midrule
+Position & Staged + minimum repair & 9/9 & 9/0/0 & 16.46 & [10.43, 24.13] & 3.58 \\
+Position & Reorder only & 9/9 & 9/0/0 & 14.64 & [9.01, 16.46] & 2.71 \\
+Downward grasp & Staged + minimum repair & 9/9 & 9/0/0 & 14.12 & [9.08, 17.24] & 3.34 \\
+Downward grasp & Reorder only & 9/9 & 8/0/1 & 8.19 & [4.69, 11.05] & -4.94 \\
+Table wipe & Staged + minimum repair & 9/9 & 8/1/0 & 14.67 & [11.50, 19.34] & 0.00 \\
+Table wipe & Reorder only & 9/9 & 7/0/2 & 9.77 & [1.35, 14.67] & -1.72 \\
+\bottomrule
+\end{tabular}
+\end{table*}

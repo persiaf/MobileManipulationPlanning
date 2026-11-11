@@ -310,7 +310,7 @@ def audit_case(folder, planned, allow_partial=False, geometry_only=False):
 
     cert_rows = rows(folder / "minimum_cover_certificates.csv", True)
     manifest = read_json(folder / "main_library_geometry_signature.json")
-    completed, lookup, minima, proofs = [], {}, {}, {}
+    completed, lookup, minima, proofs, build_proofs = [], {}, {}, {}, {}
     for mode in MODES:
         proof_path = folder / f"ik_cache_{mode}.json"
         if not proof_path.exists():
@@ -330,6 +330,19 @@ def audit_case(folder, planned, allow_partial=False, geometry_only=False):
         for field, kind in (("positive_hits", "positive_hit"), ("exact_negative_hits", "exact_negative_hit")):
             assert proof[field] == sum(row["cache_kind"] == kind for row in pairs)
         assert proof["witness_fallbacks"] == sum(row["cache_kind"] == "witness_fallback" for row in pairs)
+        build_path = folder / f"ik_build_proof_{mode}.json"
+        if build_path.exists():
+            build = read_json(build_path)
+            for field in ("signature", "scene_signature", "geometry_directory_signature", "scorer_sources", "pair_count",
+                          "request_count", "positive_hits", "exact_negative_hits", "misses", "witness_fallbacks",
+                          "direct_checks", "direct_disagreements", "arm_direct_checks", "witness_direct_search_failures"):
+                assert build[field] == proof[field], f"Build/replay evidence changed for {mode}/{field}"
+            if build["reused_from_disk"]:
+                assert build["cache_scope"] == "signed_library_replay_without_new_witness_validation"
+            else:
+                assert build["cache_counters_reset_per_library"]
+                assert build["cache_scope"] == "process_local_witness_buckets_with_per_library_counters"
+            build_proofs[mode] = build
         support_counts = [sum(truth(look[cid, tid]["feasible"]) for cid, t in expected if t == tid)
                           for tid in range(1, n+1)]
         assert support_counts == proof["per_task_support_counts"]
@@ -520,7 +533,12 @@ def audit_case(folder, planned, allow_partial=False, geometry_only=False):
                 ik_cache_diagnostics={mode: {k: proof[k] for k in
                     ("request_count", "positive_hits", "exact_negative_hits", "misses", "witness_fallbacks",
                      "direct_checks", "direct_disagreements", "witness_direct_search_failures")}
-                    for mode, proof in proofs.items()})
+                    for mode, proof in proofs.items()},
+                ik_library_build_scope={mode: {k: build[k] for k in
+                    ("reused_from_disk", "cache_scope", "warm_bucket_count", "cache_counters_reset_per_library",
+                     "direct_checks", "direct_disagreements", "witness_direct_search_failures")}
+                    for mode, build in build_proofs.items()},
+                cache_scope_note="Final planning loads an already-built library. Build-phase proofs distinguish new FK/IK checks from disk replay; counters in a replay are original library diagnostics, not new validation.")
 
 
 def audit_seed_recovery(folder, docks, costs, routes, details):
@@ -573,21 +591,50 @@ def audit_seed_recovery(folder, docks, costs, routes, details):
             if finite:
                 chosen, chosen_cost = route, sum(edge_costs)
                 break
-        assert chosen is not None and len(attempts) == len(expected) == recovery["attempt_count"]
-        for actual, (start, route, closed, finite, value) in zip(attempts, expected):
-            assert actual["start"] == start and actual["visit_order"] == route and actual["closed_order"] == closed
+        exact_csv_reproduction = chosen is not None and len(attempts) == len(expected) and all(
+            actual["visit_order"] == item[1] for actual, item in zip(attempts, expected))
+        assert len(attempts) == recovery["attempt_count"]
+        actual_attempts, rounding_ties = [], []
+        for start, actual in enumerate(attempts, 1):
+            route = actual["visit_order"]
+            assert actual["start"] == start and len(route) == n and route[0] == 1 and set(route) == set(range(1, n+1))
+            at = route.index(start); unrotated = route[at:]+route[:at]
+            unvisited = set(range(1, n+1))-{start}
+            for current, nxt in zip(unrotated, unrotated[1:]):
+                assert nxt in unvisited
+                canonical = min(unvisited, key=lambda j: (D[current, j], j))
+                minimum = D[current, canonical]; selected_cost = D[current, nxt]
+                if math.isinf(minimum):
+                    assert nxt == canonical
+                else:
+                    # MATLAB writes 15 significant digits. A pair whose
+                    # internal costs differ at the last bits can become a
+                    # CSV tie, changing a canonical Python min/tour. Check
+                    # the recorded NN choice within that export precision.
+                    assert selected_cost <= minimum+2e-12
+                    if nxt != canonical:
+                        rounding_ties.append(dict(start=start, from_local=current, chosen_local=nxt,
+                            canonical_csv_local=canonical, chosen_cost=selected_cost, minimum_cost=minimum))
+                unvisited.remove(nxt)
+            closed = route+[1]; edge_costs = [D[a, b] for a, b in zip(closed, closed[1:])]
+            finite, value = all(math.isfinite(v) for v in edge_costs), sum(edge_costs)
+            assert actual["closed_order"] == closed
             assert actual["closed_finite"] == actual["route_finite"] == finite
             assert (abs(actual["cost"]-value) < TOL if finite else actual["cost"] is None or math.isinf(actual["cost"]))
-        start = expected[-1][0]
+            assert finite == (start == len(attempts)), "The fixed-order recovery must stop at its first finite attempt"
+            actual_attempts.append((start, route, closed, finite, value))
+        start, chosen, _, _, chosen_cost = actual_attempts[-1]
         assert recovery["return_to_start"] and not recovery["two_opt_applied"]
         assert recovery["selected_start"] == start and recovery["recovered"] == (start != 1)
-        assert recovery["initial_closed_finite"] == expected[0][3]
+        assert recovery["initial_closed_finite"] == actual_attempts[0][3]
         source = "nearest_neighbor_finite_restart" if start != 1 else "nearest_neighbor"
         assert record["route_order_source"] == recovery["route_order_source"] == source
         assert tuple(mapping[i] for i in chosen) == routes[mode, method]
         assert abs(chosen_cost-details[key]["navigation_cost_recomputed"]) < TOL
-        checks[key] = dict(route_order_source=source, initial_closed_finite=expected[0][3],
-                           first_finite_start=start, attempts_independently_reproduced=len(expected))
+        checks[key] = dict(route_order_source=source, initial_closed_finite=actual_attempts[0][3],
+                           first_finite_start=start, attempts_independently_reproduced=len(actual_attempts),
+                           exact_csv_tie_policy_reproduced=exact_csv_reproduction,
+                           admissible_export_rounding_ties=rounding_ties)
     assert all(tuple(key.split("/")) in keys for key, detail in details.items() if detail["mission_valid"])
     return checks
 
@@ -632,6 +679,279 @@ def paired_statistics(summary, planned_case_ids):
         results[mode] = dict(planned_scenarios=len(planned_case_ids), eligible_scenarios=len(eligible),
                             eligible_case_ids=eligible, excluded_case_ids=excluded, comparisons=comparisons)
     return results
+
+
+def compare_original_main(folder, scenario_audits):
+    """Describe reproduction differences; never edit results to force a match."""
+    if "L0_D0" not in scenario_audits or "cases" not in scenario_audits["L0_D0"]:
+        return None
+    original_path = ROOT / "results/main_joint_task_navigation_20261111/summary.csv"
+    current_path = folder / "cases/L0_D0/summary.csv"
+    original = {(r["mode"], r["method"]): r for r in rows(original_path)}
+    current = {(r["mode"], r["method"]): r for r in rows(current_path)}
+    assert set(current) == set(original)
+    differences = []
+    fields = ("route_length_m", "navigation_cost", "minimum_docks", "docks", "covered_tasks", "verified_tasks")
+    for key, row in current.items():
+        for field in fields:
+            a, b = float(original[key][field]), float(row[field])
+            if not ((math.isnan(a) and math.isnan(b)) or equal_cost(a, b)):
+                differences.append(dict(mode=key[0], method=key[1], field=field, original=a, batch=b))
+    names = ["tasks.csv", "candidate_pool.csv"]+[f"pair_support_{mode}.csv" for mode in MODES]
+    hashes = {name: dict(original=sha256(original_path.parent/name), batch=sha256(current_path.parent/name)) for name in names}
+    assert all(pair["original"] == pair["batch"] for pair in hashes.values())
+    return dict(reference_case_count=len(original), input_support_hashes=hashes,
+                exact_navigation_and_count_reproduction=not differences,
+                navigation_or_count_differences=differences,
+                joint_search_times_s={mode: dict(original=float(original[mode, "joint_local"]["selection_time_s"]),
+                    batch=float(current[mode, "joint_local"]["selection_time_s"])) for mode in MODES},
+                runtime_claim_supported=False,
+                note="Same signed inputs; time limits/concurrency can change a budgeted incumbent. Differences are reported, never forced away.")
+
+
+def directed_two_opt_converge(D, initial_route, max_neighbors=10000):
+    """Whole-tour directed repricing, with deterministic best improvement.
+
+    The graph is already priced. No IK, navigation, or path reconstruction is
+    called. A partial final neighborhood may improve the incumbent but never
+    earns a local-optimum flag.
+    """
+    import numpy as np
+    matrix = np.asarray(D, dtype=float)
+    route = np.asarray(initial_route, dtype=int).copy()
+    assert matrix.ndim == 2 and matrix.shape[0] == matrix.shape[1]
+    n = matrix.shape[0]
+    assert matrix.shape == (len(route), len(route)) and route[0] == 0
+    assert sorted(route.tolist()) == list(range(n)) and max_neighbors > 0
+    assert not np.isnan(matrix).any() and (matrix >= 0).all() and (np.diag(matrix) == 0).all()
+
+    def price(candidates):
+        return matrix[candidates[:, :-1], candidates[:, 1:]].sum(axis=1)+matrix[candidates[:, -1], 0]
+
+    value = float(price(route[None, :])[0]); assert math.isfinite(value)
+    pairs = tuple(itertools.combinations(range(1, n), 2))
+    evaluated = passes = 0; accepted = []
+    certified = False; stop = "neighbor_budget"
+    if not pairs:
+        return route.tolist(), value, dict(neighbors_evaluated=0, passes=1, accepted_moves=0,
+            local_optimum_certified=True, termination_reason="complete_neighborhood_without_improvement", accepted_cost_chain=[])
+    while evaluated < max_neighbors:
+        remaining = max_neighbors-evaluated
+        tested = pairs[:remaining]
+        candidates = np.repeat(route[None, :], len(tested), axis=0)
+        for row, (lo, hi) in enumerate(tested):
+            candidates[row, lo:hi+1] = candidates[row, lo:hi+1][::-1]
+        costs = price(candidates); best = int(np.argmin(costs)); best_cost = float(costs[best])
+        evaluated += len(tested); passes += 1
+        full = len(tested) == len(pairs)
+        if best_cost < value-1e-9:
+            accepted.append([value, best_cost]); route, value = candidates[best].copy(), best_cost
+            if not full:
+                break
+        else:
+            if full:
+                certified = True; stop = "complete_neighborhood_without_improvement"
+            break
+    assert sorted(route.tolist()) == list(range(n)) and route[0] == 0
+    return route.tolist(), value, dict(neighbors_evaluated=evaluated, passes=passes,
+        accepted_moves=len(accepted), local_optimum_certified=certified,
+        termination_reason=stop, accepted_cost_chain=accepted)
+
+
+def reorder_convergence_diagnostic(folder, max_neighbors=10000):
+    """Post-hoc fixed-set graph diagnostic, excluded from primary methods."""
+    import numpy as np
+    manifest = rows(folder / "scenario_manifest.csv")
+    output = []
+    fields = ["case_id", "layout_id", "distribution_id", "mode", "status", "reason",
+              "graph_only", "new_Astar_queries", "new_IK_queries", "new_complete_path_validation",
+              "selected_set_matches_staged", "selected_set_preserved", "docks", "minimum_docks",
+              "minimum_seed_J", "main_reorder_J", "main_joint_J", "diagnostic_graph_J",
+              "main_reorder_minus_diagnostic_J", "joint_reduction_vs_diagnostic_percent",
+              "neighbors_budget", "neighbors_evaluated", "passes", "accepted_moves",
+              "local_optimum_certified", "termination_reason", "seed_nodes", "diagnostic_nodes",
+              "accepted_cost_chain", "priced_matrix_sha256"]
+    for plan in manifest:
+        target = folder / plan["relative_dir"]
+        summary_path = target / "summary.csv"
+        summary = {(r["mode"], r["method"]): r for r in rows(summary_path)} if summary_path.exists() else {}
+        docks = rows(target / "docking_poses.csv", optional=True)
+        for mode in MODES:
+            record = dict.fromkeys(fields, "")
+            record.update(case_id=plan["case_id"], layout_id=plan["layout_id"], distribution_id=plan["distribution_id"],
+                mode=mode, status="SKIPPED", graph_only=True, new_Astar_queries=0, new_IK_queries=0,
+                new_complete_path_validation=False, selected_set_matches_staged=False,
+                selected_set_preserved=False, neighbors_budget=max_neighbors)
+            for field in ("minimum_seed_J", "main_reorder_J", "main_joint_J", "diagnostic_graph_J",
+                          "main_reorder_minus_diagnostic_J", "joint_reduction_vs_diagnostic_percent"):
+                record[field] = math.nan
+            a = summary.get((mode, "minimum_seed")); raw = summary.get((mode, "staged"))
+            if a is None or raw is None:
+                record["reason"] = "scenario_mode_not_complete"
+                output.append(record); continue
+            if not truth(a["mission_valid"]) or not truth(raw["mission_valid"]):
+                record["reason"] = "no_valid_staged_and_minimum_seed"
+                output.append(record); continue
+            seed = sorted((r for r in docks if r["mode"] == mode and r["method"] == "minimum_seed"),
+                          key=lambda r: int(r["visit_rank"]))
+            staged = [r for r in docks if r["mode"] == mode and r["method"] == "staged"]
+            seed_nodes = (1,)+tuple(int(r["candidate_id"])+1 for r in seed)
+            if {r["candidate_id"] for r in seed} != {r["candidate_id"] for r in staged}:
+                record["reason"] = "minimum_seed_and_staged_selected_sets_differ"
+                output.append(record); continue
+            record["selected_set_matches_staged"] = True
+            matrix_path = target / f"seed_navigation_costs_{mode}_staged.csv"
+            assert matrix_path.exists()
+            edges = rows(matrix_path); n = math.isqrt(len(edges)); assert n*n == len(edges)
+            D = np.full((n, n), np.nan); mapping = {}
+            for edge in edges:
+                i, j = int(edge["from_local"])-1, int(edge["to_local"])-1
+                assert np.isnan(D[i, j]); D[i, j] = float(edge["navigation_cost"])
+                for local, node in ((i, int(edge["from_node"])), (j, int(edge["to_node"]))):
+                    assert local not in mapping or mapping[local] == node
+                    mapping[local] = node
+            inverse = {node: local for local, node in mapping.items()}
+            assert mapping[0] == 1 and len(inverse) == n and set(seed_nodes) == set(mapping.values())
+            initial = [inverse[node] for node in seed_nodes]
+            seed_price = float(D[initial[:-1], initial[1:]].sum()+D[initial[-1], 0])
+            assert abs(seed_price-float(a["navigation_cost"])) < TOL
+            route, value, stats = directed_two_opt_converge(D, initial, max_neighbors)
+            result_nodes = tuple(mapping[local] for local in route)
+            assert set(result_nodes) == set(seed_nodes) and result_nodes[0] == 1
+            record.update(status="GRAPH_DIAGNOSTIC_COMPLETE", reason="", selected_set_preserved=True,
+                docks=a["docks"], minimum_docks=a["minimum_docks"], minimum_seed_J=seed_price,
+                diagnostic_graph_J=value, seed_nodes="|".join(map(str, seed_nodes)),
+                diagnostic_nodes="|".join(map(str, result_nodes)), priced_matrix_sha256=sha256(matrix_path),
+                **{k: v for k, v in stats.items() if k != "accepted_cost_chain"})
+            record["accepted_cost_chain"] = json.dumps(stats["accepted_cost_chain"], separators=(",", ":"))
+            b, c = summary.get((mode, "reorder_only")), summary.get((mode, "joint_local"))
+            if b and truth(b["mission_valid"]):
+                record["main_reorder_J"] = float(b["navigation_cost"])
+                record["main_reorder_minus_diagnostic_J"] = float(b["navigation_cost"])-value
+            if c and truth(c["mission_valid"]):
+                record["main_joint_J"] = float(c["navigation_cost"])
+                record["joint_reduction_vs_diagnostic_percent"] = 100*(1-float(c["navigation_cost"])/value)
+            output.append(record)
+    path = folder / "reorder_convergence_diagnostic.csv"
+    with path.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fields); writer.writeheader(); writer.writerows(output)
+    note = dict(post_hoc=True, graph_only=True, included_in_primary_methods=False,
+        included_in_completion_or_eligibility_denominators=False, new_navigation_or_IK_queries=0,
+        neighbor_budget_per_case_mode=max_neighbors, acceptance_tolerance=1e-9,
+        algorithm=f"Deterministic best-improvement directed 2-opt, reprice every whole closed tour on the existing staged selected-set D; stop after a complete nonimproving pass or {max_neighbors} tested neighbors.",
+        no_new_complete_path_validation=True, rows=len(output),
+        diagnostic_rows=sum(r["status"] == "GRAPH_DIAGNOSTIC_COMPLETE" for r in output),
+        csv_sha256=sha256(path), auditor_sha256=sha256(Path(__file__)),
+        caveat="Same maximum passes does not equate accepted moves or work between reorder-only and joint search. This stronger fixed-set graph diagnostic cannot be presented as a newly validated mission or used to redefine the predeclared baseline.")
+    (folder / "reorder_convergence_diagnostic.json").write_text(json.dumps(note, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+    return note
+
+
+def audit_reorder_diagnostic(folder, summary):
+    """Check the existing diagnostic endpoints; do not rerun its search."""
+    import numpy as np
+    path = folder / "reorder_convergence_diagnostic.csv"
+    if not path.exists():
+        return None
+    report = read_json(folder / "reorder_convergence_diagnostic.json")
+    assert report["post_hoc"] and report["graph_only"] and report["no_new_complete_path_validation"]
+    assert not report["included_in_primary_methods"] and not report["included_in_completion_or_eligibility_denominators"]
+    assert report["new_navigation_or_IK_queries"] == 0 and report["csv_sha256"] == sha256(path)
+    diagnostic = rows(path); indexed = {(r["case_id"], r["mode"], r["method"]): r for r in summary}
+    keys = {(r["case_id"], r["mode"]) for r in diagnostic}
+    assert len(keys) == len(diagnostic) == 27
+    assert keys == {(f"L{l}_D{d}", mode) for l, d in itertools.product(range(3), repeat=2) for mode in MODES}
+    details, outcomes, b_outcomes = {}, {mode: Counter() for mode in MODES}, {mode: Counter() for mode in MODES}
+    remaining = []
+    for row in diagnostic:
+        cid, mode = row["case_id"], row["mode"]; target = folder / "cases" / cid
+        key = f"{cid}/{mode}"
+        if row["status"] != "GRAPH_DIAGNOSTIC_COMPLETE":
+            assert row["reason"]
+            details[key] = dict(status=row["status"], reason=row["reason"])
+            continue
+        assert truth(row["graph_only"]) and not truth(row["new_complete_path_validation"])
+        assert int(row["new_Astar_queries"]) == int(row["new_IK_queries"]) == 0
+        assert truth(row["selected_set_matches_staged"]) and truth(row["selected_set_preserved"])
+        matrix_path = target / f"seed_navigation_costs_{mode}_staged.csv"
+        assert row["priced_matrix_sha256"] == sha256(matrix_path)
+        matrix = rows(matrix_path); n = math.isqrt(len(matrix)); assert n*n == len(matrix)
+        D, mapping = np.full((n, n), np.nan), {}
+        for edge in matrix:
+            a, b = int(edge["from_local"])-1, int(edge["to_local"])-1
+            assert np.isnan(D[a, b]); D[a, b] = float(edge["navigation_cost"])
+            for local, node in ((a, int(edge["from_node"])), (b, int(edge["to_node"]))):
+                assert local not in mapping or mapping[local] == node
+                mapping[local] = node
+        inverse = {node: local for local, node in mapping.items()}
+        assert len(inverse) == n and mapping[0] == 1
+        docks = rows(target / "docking_poses.csv")
+        def method_route(method):
+            selected = sorted((d for d in docks if d["mode"] == mode and d["method"] == method), key=lambda d: int(d["visit_rank"]))
+            return (1,)+tuple(int(d["candidate_id"])+1 for d in selected)
+        seed, final = nodes(row["seed_nodes"]), nodes(row["diagnostic_nodes"])
+        assert seed == method_route("minimum_seed")
+        assert set(seed) == set(final) == set(method_route("staged")) == set(mapping.values())
+        assert seed[0] == final[0] == 1
+        def cost(route):
+            local = [inverse[node] for node in route]
+            return float(D[local[:-1], local[1:]].sum()+D[local[-1], 0])
+        seed_cost, value = cost(seed), cost(final)
+        a, b, c = (indexed[cid, mode, method] for method in PRIMARY)
+        assert abs(seed_cost-float(a["navigation_cost"])) < TOL
+        assert abs(seed_cost-float(row["minimum_seed_J"])) < TOL
+        assert abs(value-float(row["diagnostic_graph_J"])) < TOL
+        assert int(row["docks"]) == int(row["minimum_docks"]) == int(float(a["minimum_docks"]))
+        chain = json.loads(row["accepted_cost_chain"])
+        assert len(chain) == int(row["accepted_moves"])
+        previous = seed_cost
+        for before, after in chain:
+            assert abs(before-previous) < TOL and after < before-1e-9
+            previous = after
+        assert abs(previous-value) < TOL
+        assert 0 <= int(row["neighbors_evaluated"]) <= int(row["neighbors_budget"]) == 10000
+        pairs = tuple(itertools.combinations(range(1, n), 2))
+        def best_neighbor(route):
+            local = np.array([inverse[node] for node in route], dtype=int)
+            candidates = np.repeat(local[None, :], len(pairs), axis=0)
+            for i, (lo, hi) in enumerate(pairs):
+                candidates[i, lo:hi+1] = candidates[i, lo:hi+1][::-1]
+            values = D[candidates[:, :-1], candidates[:, 1:]].sum(axis=1)+D[candidates[:, -1], 0]
+            return float(np.min(values)) if len(values) else cost(route)
+        diagnostic_neighbor = best_neighbor(final)
+        if truth(row["local_optimum_certified"]):
+            assert diagnostic_neighbor >= value-1e-9
+            assert row["termination_reason"] == "complete_neighborhood_without_improvement"
+            assert int(row["neighbors_evaluated"]) == int(row["passes"])*len(pairs)
+        b_value, c_value = float(b["navigation_cost"]), float(c["navigation_cost"])
+        assert abs(b_value-float(row["main_reorder_J"])) < TOL and abs(c_value-float(row["main_joint_J"])) < TOL
+        assert abs(b_value-value-float(row["main_reorder_minus_diagnostic_J"])) < TOL
+        assert abs(100*(1-c_value/value)-float(row["joint_reduction_vs_diagnostic_percent"])) < TOL
+        b_route = method_route("reorder_only"); assert set(b_route) == set(seed)
+        assert abs(cost(b_route)-b_value) < TOL
+        b_neighbor = best_neighbor(b_route)
+        if b_neighbor < b_value-1e-9:
+            remaining.append(key)
+        if truth(b["local_optimum_certified"]):
+            assert b_neighbor >= b_value-1e-9
+        def outcome(other):
+            return "win" if other < value-TOL else "loss" if other > value+TOL else "tie"
+        outcomes[mode][outcome(c_value)] += 1; b_outcomes[mode][outcome(b_value)] += 1
+        details[key] = dict(status=row["status"], diagnostic_graph_J=value,
+            main_reorder_J=b_value, main_joint_J=c_value,
+            joint_vs_diagnostic=outcome(c_value), main_reorder_vs_diagnostic=outcome(b_value),
+            diagnostic_full_neighborhood_certified=truth(row["local_optimum_certified"]),
+            main_reorder_has_improving_two_opt_neighbor=b_neighbor < b_value-1e-9,
+            main_reorder_best_neighbor_graph_J=b_neighbor)
+    def normalized(group):
+        return {mode: {key: counts[key] for key in ("win", "tie", "loss")} for mode, counts in group.items()}
+    return dict(rows_checked=len(diagnostic), graph_only=True, new_Astar_or_IK_queries=0,
+        optimizer_not_rerun=True, final_routes_and_complete_neighborhoods_repriced=True,
+        joint_vs_diagnostic=normalized(outcomes), main_reorder_vs_diagnostic=normalized(b_outcomes),
+        main_reorder_with_remaining_two_opt_improvement_count=len(remaining),
+        main_reorder_with_remaining_two_opt_improvement_cases=remaining,
+        cases=details,
+        note="Best-improvement from the common seed can reach a different local minimum than the main first-improvement order. It need not dominate that main reorder result. This post-hoc graph diagnosis does not change the predeclared primary comparison.")
 
 
 def audit_batch(folder, allow_partial=False):
@@ -699,9 +1019,13 @@ def audit_batch(folder, allow_partial=False):
             "Candidate identity must be frozen across task distributions within each layout"
     indexed = {(r["case_id"], r["mode"], r["method"]): r for r in batch_rows}
     assert len(indexed) == len(batch_rows)
+    deferred_summary_keys = []
     for row in all_summary:
         key = row["case_id"], row["mode"], row["method"]
-        assert key in indexed
+        if key not in indexed:
+            assert allow_partial, f"Completed case is missing from batch summary: {key}"
+            deferred_summary_keys.append(key)
+            continue
         for field, value in row.items():
             if field not in indexed[key]:
                 continue
@@ -723,6 +1047,9 @@ def audit_batch(folder, allow_partial=False):
         valid_missions=sum(truth(r["mission_valid"]) for r in all_summary), recorded_failure_count=len(failures),
         fixed_primary_methods=list(PRIMARY), raw_staged_is_auxiliary=True, tie_tolerance_absolute_navigation_cost=TOL,
         paired_statistics=stats, cases=audits, unfinished_case_ids=unfinished,
+        batch_summary_crosscheck_deferred_keys=deferred_summary_keys,
+        original_main_reproduction=compare_original_main(folder, audits),
+        reorder_convergence_diagnostic=(audit_reorder_diagnostic(folder, all_summary) if len(all_summary) == 108 else None),
         scenario_manifest_sha256=sha256(manifest_path), auditor_sha256=sha256(Path(__file__)),
         frozen_scenario_definitions_sha256=sha256(definitions_path),
         limits="Independent export/DP/oracle-cost and sampled rotated-geometry audit; not independently solved IK/A*, continuous collision, contact force or measured execution. Minima are regional finite-pool certificates. Deterministic nine-case grid does not establish a population confidence interval, global optimality or generic superiority.")
@@ -810,6 +1137,14 @@ def self_test():
             (2, 1): {"feasible": "0"}, (2, 2): {"feasible": "1"}}
     cert = certify_region([1, 2], [1, 2], fake)
     assert cert["minimum_docks"] == 2 and cert["cover_count"] == 1
+    # A directed four-node graph where reversing internal service nodes is
+    # valuable; score every internal direction and the return, not four edges.
+    D = [[0, 1, 9, 9], [9, 0, 1, 9], [9, 9, 0, 1], [1, 9, 9, 0]]
+    route, cost, info = directed_two_opt_converge(D, [0, 3, 2, 1])
+    assert route[0] == 0 and sorted(route) == [0, 1, 2, 3] and cost == 4
+    assert info["local_optimum_certified"] and info["accepted_moves"] > 0
+    _, _, limited = directed_two_opt_converge(D, [0, 3, 2, 1], max_neighbors=1)
+    assert limited["neighbors_evaluated"] == 1 and not limited["local_optimum_certified"]
     print("Independent auditor self-checks PASS")
 
 
@@ -819,12 +1154,16 @@ if __name__ == "__main__":
     parser.add_argument("--allow-partial", action="store_true")
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--geometry-only", action="store_true")
+    parser.add_argument("--reorder-diagnostic", action="store_true")
     args = parser.parse_args()
     if args.self_test:
         self_test()
     elif args.geometry_only:
         result = audit_inputs(args.folder)
         print(json.dumps({k: result[k] for k in ("status", "scenarios_checked", "targets_checked", "candidate_poses_checked")}, ensure_ascii=False))
+    elif args.reorder_diagnostic:
+        result = reorder_convergence_diagnostic(args.folder)
+        print(json.dumps({k: result[k] for k in ("graph_only", "rows", "diagnostic_rows", "new_navigation_or_IK_queries")}, ensure_ascii=False))
     else:
         result = audit_batch(args.folder, args.allow_partial)
         print(json.dumps({k: result[k] for k in ("status", "scenarios_checked", "rows_checked", "valid_missions", "recorded_failure_count")}, ensure_ascii=False))

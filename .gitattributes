@@ -35,4 +35,5 @@ results/task_navigation_robustness_20261111/** -text whitespace=blank-at-eol,bla
 visualization/task_navigation_robustness/*.py text eol=lf
 experiments/audit_task_navigation_robustness.py text eol=lf
 experiments/analyze_task_navigation_robustness.py text eol=lf
+experiments/collect_task_navigation_robustness.py text eol=lf
 tests/test_task_navigation_robustness_statistics.py text eol=lf

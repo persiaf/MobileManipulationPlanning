@@ -1,0 +1,10 @@
+case_id,layout_id,distribution_id,seed,relative_dir,target_count,candidate_count,layout_label,distribution_label,reference_pool_signature,status,completed_rows
+L0_D0,0,0,2026,cases/L0_D0,36,906,Original grid,Original task distribution,c305844dc6017665,COMPLETE,12
+L0_D1,0,1,2026,cases/L0_D1,36,906,Original grid,Same-side clustered tasks,c305844dc6017665,COMPLETE,12
+L0_D2,0,2,2026,cases/L0_D2,36,906,Original grid,Opposite-side long-span tasks,c305844dc6017665,COMPLETE,12
+L1_D0,1,0,2026,cases/L1_D0,36,906,Alternating-row shift,Original task distribution,8edd3c5793184430,COMPLETE,12
+L1_D1,1,1,2026,cases/L1_D1,36,906,Alternating-row shift,Same-side clustered tasks,8edd3c5793184430,COMPLETE,12
+L1_D2,1,2,2026,cases/L1_D2,36,906,Alternating-row shift,Opposite-side long-span tasks,8edd3c5793184430,COMPLETE,12
+L2_D0,2,0,2026,cases/L2_D0,36,913,Mixed table orientations,Original task distribution,f819cd6f75fd4d35,COMPLETE,12
+L2_D1,2,1,2026,cases/L2_D1,36,913,Mixed table orientations,Same-side clustered tasks,f819cd6f75fd4d35,COMPLETE,12
+L2_D2,2,2,2026,cases/L2_D2,36,913,Mixed table orientations,Opposite-side long-span tasks,f819cd6f75fd4d35,COMPLETE,12

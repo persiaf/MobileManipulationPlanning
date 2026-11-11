@@ -1,0 +1,20 @@
+{
+  "source_directory": "results\\main_joint_task_navigation_20261111",
+  "copied_files": [
+    "main_library_geometry_signature.json",
+    "candidate_library_position_only.mat",
+    "pair_support_position_only.csv",
+    "candidate_support_position_only.csv",
+    "ik_cache_position_only.json",
+    "candidate_library_top_down_grasp.mat",
+    "pair_support_top_down_grasp.csv",
+    "candidate_support_top_down_grasp.csv",
+    "ik_cache_top_down_grasp.json",
+    "candidate_library_table_wipe.mat",
+    "pair_support_table_wipe.csv",
+    "candidate_support_table_wipe.csv",
+    "ik_cache_table_wipe.json"
+  ],
+  "signed_inputs_rechecked_before_reuse": true,
+  "replay_is_new_ik_validation": false
+}

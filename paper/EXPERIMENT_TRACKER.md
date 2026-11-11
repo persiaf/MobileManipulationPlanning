@@ -1,6 +1,8 @@
 # ROS 1 / Gazebo一个月实验追踪表
 
-2026-11-11新增离线多布局任务约束／导航批次，独立方案见 [TASK_NAVIGATION_ROBUSTNESS_EXPERIMENT_PLAN_20261111.md](TASK_NAVIGATION_ROBUSTNESS_EXPERIMENT_PLAN_20261111.md)，实时状态见 `results/task_navigation_robustness_20261111/scenario_progress.csv`。其离线结果不计入下表ROS/实机任务完成数。
+2026-11-11新增离线多布局任务约束／导航批次，独立方案见 [TASK_NAVIGATION_ROBUSTNESS_EXPERIMENT_PLAN_20261111.md](TASK_NAVIGATION_ROBUSTNESS_EXPERIMENT_PLAN_20261111.md)，运行状态见 `results/task_navigation_robustness_20261111/layout_state_*.json`，执行 collect 后的汇总见 `scenario_progress.csv`。其离线结果不计入下表ROS/实机任务完成数。
+
+该批次已完成：9场景、108原始结果、81主结果全部有效；联合对分阶段26胜1平，对仅重排24胜3负。结论与图见 `results/task_navigation_robustness_20261111/ANALYSIS.md`，独立判定 `partial`，下一步调整联合初始化和搜索预算分配。
 
 日期：2026-10-30。对应同目录 `EXPERIMENT_PLAN.md`。**全部任务为TODO，未访问Ubuntu工程、未修改模型、未执行仿真或真机。**
 

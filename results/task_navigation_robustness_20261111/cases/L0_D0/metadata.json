@@ -1,0 +1,1148 @@
+{
+  "experiment_id": "task_navigation_robustness_20261111",
+  "date": "2026-11-11",
+  "geometry_signature": "f08f8af72f8239e7",
+  "mode_order": [
+    "position_only",
+    "top_down_grasp",
+    "table_wipe"
+  ],
+  "methods": [
+    "staged",
+    "minimum_seed",
+    "reorder_only",
+    "joint_local"
+  ],
+  "model_revision": "vx300s-urdf-0bb2b0e6d0e619bff02cf74dbd5af5681dcf80c9-v1",
+  "robot_signature": "98371455a721caf9",
+  "robot_footprint": {
+    "length_m": 0.423,
+    "width_m": 0.366,
+    "model": "rectangle"
+  },
+  "main_layout_and_all_original_targets_preserved": true,
+  "source_scene_config": {
+    "map_width_m": 10,
+    "map_height_m": 10,
+    "grid_resolution_m": 0.05,
+    "border_thickness_m": 0.1,
+    "table": {
+      "length": 1.2,
+      "width": 0.4,
+      "height": 0.5
+    },
+    "table_mode": "custom",
+    "table_positions": [
+      [
+        2,
+        1.5
+      ],
+      [
+        4,
+        1.5
+      ],
+      [
+        6,
+        1.5
+      ],
+      [
+        8,
+        1.5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        2,
+        6.5
+      ],
+      [
+        4,
+        6.5
+      ],
+      [
+        6,
+        6.5
+      ],
+      [
+        8,
+        6.5
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        4,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "num_tables": 16,
+    "table_orientations": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "table_min_spacing_m": 1,
+    "table_wall_margin_m": 0.4,
+    "table_start_margin_m": 0.8,
+    "start_pose": [
+      0.5,
+      0.5,
+      0
+    ],
+    "task_mode": "random",
+    "task": {
+      "difficulty": "normal",
+      "hard_mixed_ratio": [
+        0.4,
+        0.4,
+        0.2
+      ]
+    },
+    "tasks_per_table_range": [
+      2,
+      3
+    ],
+    "random_seed": 2026,
+    "task_candidate_local": [
+      [
+        -0.18,
+        0.12
+      ],
+      [
+        0,
+        0.12
+      ],
+      [
+        0.18,
+        0.12
+      ],
+      [
+        -0.18,
+        -0.12
+      ],
+      [
+        0,
+        -0.12
+      ],
+      [
+        0.18,
+        -0.12
+      ]
+    ],
+    "manual_tasks": [],
+    "task_offset_z": 0.5,
+    "safety_margin_m": 0.05,
+    "docking_min_distance_m": 0.25,
+    "docking_max_distance_m": 0.4,
+    "docking_distance_step_m": 0.05,
+    "docking_lateral_step_m": 0.15
+  },
+  "candidate_count": 906,
+  "dense_candidate_count": 26660,
+  "footprint_valid_dense_count": 8692,
+  "sampling_rule": "per side farthest-point 8 XY seeded at side midpoint/d=.30; two original yaw nearest normal and normal+15deg",
+  "candidate_budget_per_table": 64,
+  "scene": {
+    "table_centers": [
+      [
+        2,
+        1.5
+      ],
+      [
+        4,
+        1.5
+      ],
+      [
+        6,
+        1.5
+      ],
+      [
+        8,
+        1.5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        2,
+        6.5
+      ],
+      [
+        4,
+        6.5
+      ],
+      [
+        6,
+        6.5
+      ],
+      [
+        8,
+        6.5
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        4,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "table_orientations_rad": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "table_length_m": 1.2,
+    "table_width_m": 0.4,
+    "table_height_m": 0.5,
+    "map_width_m": 10,
+    "map_height_m": 10,
+    "start_pose": [
+      0.5,
+      0.5,
+      0
+    ],
+    "border_thickness_m": 0.1
+  },
+  "task_count": 36,
+  "table_count": 16,
+  "lambda_theta_m_per_rad": 0.15,
+  "navigation_cost_definition": "actual path length + lambda * wrapped service-endpoint yaw differences",
+  "navigation_protocol": "same A*, dense service-node route matrix and return to start in every case",
+  "navigation_matrix_directed": true,
+  "finite_nn_restarts": true,
+  "routing": {
+    "mode": "dense",
+    "sparse_knn": {
+      "k": 6,
+      "k_local": 4,
+      "k_cross": 1,
+      "max_local_k": 12,
+      "enable_region_rule": true
+    },
+    "directed_costs": true,
+    "finite_nn_restarts": true
+  },
+  "matrix_source_signature": "944a074cc764e000",
+  "driver_source_signature": "45cc4851ecad6338",
+  "initial_trial_directory": "",
+  "navigation_protocol_repair": "All controls independently price both directions, failed queries are Inf; invalid NN1 cycles use the first finite NN restart by ascending node index. This shared repair is not a joint-selection contribution.",
+  "original_main_entry_unchanged": true,
+  "local_search_budget": {
+    "max_passes": 3,
+    "control": "joint_local",
+    "max_navigation_queries": 1500,
+    "max_neighbor_evaluations": 10000,
+    "max_wall_time_s": 120,
+    "max_region_docks": 3,
+    "improvement_tolerance": 1E-9,
+    "enable_two_opt": true
+  },
+  "global_optimal": false,
+  "minimum_scope": "exact only on each region of the shared budgeted support subpool",
+  "arm_collision_checked": false,
+  "hardware_calibrated": false,
+  "cache_policy": "quantized retrieval only; positives actual FK recheck; negatives bitwise local request and pure-search failure only",
+  "case_definition": {
+    "case_id": "L0_D0",
+    "layout_id": 0,
+    "distribution_id": 0,
+    "layout_label": "Original grid",
+    "distribution_label": "Original task distribution",
+    "scene_cfg": {
+      "map_width_m": 10,
+      "map_height_m": 10,
+      "grid_resolution_m": 0.05,
+      "border_thickness_m": 0.1,
+      "table": {
+        "length": 1.2,
+        "width": 0.4,
+        "height": 0.5
+      },
+      "table_mode": "custom",
+      "table_positions": [
+        [
+          2,
+          1.5
+        ],
+        [
+          4,
+          1.5
+        ],
+        [
+          6,
+          1.5
+        ],
+        [
+          8,
+          1.5
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          2,
+          6.5
+        ],
+        [
+          4,
+          6.5
+        ],
+        [
+          6,
+          6.5
+        ],
+        [
+          8,
+          6.5
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "num_tables": 16,
+      "table_orientations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "table_min_spacing_m": 1,
+      "table_wall_margin_m": 0.4,
+      "table_start_margin_m": 0.8,
+      "start_pose": [
+        0.5,
+        0.5,
+        0
+      ],
+      "task_mode": "random",
+      "task": {
+        "difficulty": "normal",
+        "hard_mixed_ratio": [
+          0.4,
+          0.4,
+          0.2
+        ]
+      },
+      "tasks_per_table_range": [
+        2,
+        3
+      ],
+      "random_seed": 2026,
+      "task_candidate_local": [
+        [
+          -0.18,
+          0.12
+        ],
+        [
+          0,
+          0.12
+        ],
+        [
+          0.18,
+          0.12
+        ],
+        [
+          -0.18,
+          -0.12
+        ],
+        [
+          0,
+          -0.12
+        ],
+        [
+          0.18,
+          -0.12
+        ]
+      ],
+      "manual_tasks": [],
+      "task_offset_z": 0.5,
+      "safety_margin_m": 0.05,
+      "docking_min_distance_m": 0.25,
+      "docking_max_distance_m": 0.4,
+      "docking_distance_step_m": 0.05,
+      "docking_lateral_step_m": 0.15
+    },
+    "reference_scene_cfg": {
+      "map_width_m": 10,
+      "map_height_m": 10,
+      "grid_resolution_m": 0.05,
+      "border_thickness_m": 0.1,
+      "table": {
+        "length": 1.2,
+        "width": 0.4,
+        "height": 0.5
+      },
+      "table_mode": "custom",
+      "table_positions": [
+        [
+          2,
+          1.5
+        ],
+        [
+          4,
+          1.5
+        ],
+        [
+          6,
+          1.5
+        ],
+        [
+          8,
+          1.5
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          2,
+          6.5
+        ],
+        [
+          4,
+          6.5
+        ],
+        [
+          6,
+          6.5
+        ],
+        [
+          8,
+          6.5
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "num_tables": 16,
+      "table_orientations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "table_min_spacing_m": 1,
+      "table_wall_margin_m": 0.4,
+      "table_start_margin_m": 0.8,
+      "start_pose": [
+        0.5,
+        0.5,
+        0
+      ],
+      "task_mode": "random",
+      "task": {
+        "difficulty": "normal",
+        "hard_mixed_ratio": [
+          0.4,
+          0.4,
+          0.2
+        ]
+      },
+      "tasks_per_table_range": [
+        2,
+        3
+      ],
+      "random_seed": 2026,
+      "task_candidate_local": [
+        [
+          -0.18,
+          0.12
+        ],
+        [
+          0,
+          0.12
+        ],
+        [
+          0.18,
+          0.12
+        ],
+        [
+          -0.18,
+          -0.12
+        ],
+        [
+          0,
+          -0.12
+        ],
+        [
+          0.18,
+          -0.12
+        ]
+      ],
+      "manual_tasks": [],
+      "task_offset_z": 0.5,
+      "safety_margin_m": 0.05,
+      "docking_min_distance_m": 0.25,
+      "docking_max_distance_m": 0.4,
+      "docking_distance_step_m": 0.05,
+      "docking_lateral_step_m": 0.15
+    },
+    "task_local_xy": [
+      [
+        0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        -0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        -0.18000000000000016,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        0.18000000000000016,
+        -0.12000000000000011
+      ],
+      [
+        0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        -0.17999999999999994,
+        0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        -0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999994,
+        -0.11999999999999922
+      ],
+      [
+        0,
+        -0.11999999999999922
+      ],
+      [
+        0,
+        0.11999999999999922
+      ],
+      [
+        -0.18000000000000016,
+        -0.11999999999999922
+      ],
+      [
+        0,
+        -0.11999999999999922
+      ],
+      [
+        -0.17999999999999972,
+        0.11999999999999922
+      ],
+      [
+        0.17999999999999972,
+        0.11999999999999922
+      ],
+      [
+        0,
+        0.11999999999999922
+      ],
+      [
+        -0.17999999999999972,
+        -0.11999999999999922
+      ]
+    ],
+    "original_task_local_xy": [
+      [
+        0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        -0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        -0.18000000000000016,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        0.18000000000000016,
+        -0.12000000000000011
+      ],
+      [
+        0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        -0.17999999999999994,
+        0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        -0.18000000000000016,
+        0.12000000000000011
+      ],
+      [
+        0,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0.17999999999999972,
+        -0.12000000000000011
+      ],
+      [
+        0,
+        0.12000000000000011
+      ],
+      [
+        -0.17999999999999994,
+        -0.11999999999999922
+      ],
+      [
+        0,
+        -0.11999999999999922
+      ],
+      [
+        0,
+        0.11999999999999922
+      ],
+      [
+        -0.18000000000000016,
+        -0.11999999999999922
+      ],
+      [
+        0,
+        -0.11999999999999922
+      ],
+      [
+        -0.17999999999999972,
+        0.11999999999999922
+      ],
+      [
+        0.17999999999999972,
+        0.11999999999999922
+      ],
+      [
+        0,
+        0.11999999999999922
+      ],
+      [
+        -0.17999999999999972,
+        -0.11999999999999922
+      ]
+    ],
+    "task_table_ids": [
+      1,
+      1,
+      2,
+      2,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      5,
+      6,
+      6,
+      7,
+      7,
+      7,
+      8,
+      8,
+      9,
+      9,
+      10,
+      10,
+      11,
+      11,
+      12,
+      12,
+      12,
+      13,
+      13,
+      14,
+      14,
+      15,
+      15,
+      16,
+      16,
+      16
+    ],
+    "per_table_task_counts": [
+      2,
+      3,
+      2,
+      2,
+      2,
+      2,
+      3,
+      2,
+      2,
+      2,
+      2,
+      3,
+      2,
+      2,
+      2,
+      3
+    ],
+    "task_count": 36,
+    "table_count": 16,
+    "factorial_revision": "main_3layouts_3distributions_v1",
+    "pool_rule": "one D0-reference geometry pool per layout, shared by every distribution and task mode",
+    "task_distribution_rule": "original local anchors; alternating-side clusters; opposite-side x=+-0.45,y=+-0.12 with fixed third anchor"
+  },
+  "case_id": "L0_D0",
+  "layout_id": 0,
+  "distribution_id": 0,
+  "reference_scene_config": {
+    "map_width_m": 10,
+    "map_height_m": 10,
+    "grid_resolution_m": 0.05,
+    "border_thickness_m": 0.1,
+    "table": {
+      "length": 1.2,
+      "width": 0.4,
+      "height": 0.5
+    },
+    "table_mode": "custom",
+    "table_positions": [
+      [
+        2,
+        1.5
+      ],
+      [
+        4,
+        1.5
+      ],
+      [
+        6,
+        1.5
+      ],
+      [
+        8,
+        1.5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        2,
+        6.5
+      ],
+      [
+        4,
+        6.5
+      ],
+      [
+        6,
+        6.5
+      ],
+      [
+        8,
+        6.5
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        4,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "num_tables": 16,
+    "table_orientations": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "table_min_spacing_m": 1,
+    "table_wall_margin_m": 0.4,
+    "table_start_margin_m": 0.8,
+    "start_pose": [
+      0.5,
+      0.5,
+      0
+    ],
+    "task_mode": "random",
+    "task": {
+      "difficulty": "normal",
+      "hard_mixed_ratio": [
+        0.4,
+        0.4,
+        0.2
+      ]
+    },
+    "tasks_per_table_range": [
+      2,
+      3
+    ],
+    "random_seed": 2026,
+    "task_candidate_local": [
+      [
+        -0.18,
+        0.12
+      ],
+      [
+        0,
+        0.12
+      ],
+      [
+        0.18,
+        0.12
+      ],
+      [
+        -0.18,
+        -0.12
+      ],
+      [
+        0,
+        -0.12
+      ],
+      [
+        0.18,
+        -0.12
+      ]
+    ],
+    "manual_tasks": [],
+    "task_offset_z": 0.5,
+    "safety_margin_m": 0.05,
+    "docking_min_distance_m": 0.25,
+    "docking_max_distance_m": 0.4,
+    "docking_distance_step_m": 0.05,
+    "docking_lateral_step_m": 0.15
+  },
+  "reference_pool_signature": "c305844dc6017665",
+  "geometry_pool_scope": "same layout D0-reference dense subpool reused without regeneration for every distribution",
+  "primary_methods": [
+    "minimum_seed",
+    "reorder_only",
+    "joint_local"
+  ],
+  "primary_staged_label": "staged plus common regional minimum-cover repair",
+  "raw_staged_is_auxiliary": true,
+  "ik_cache_scope": "process-local witness buckets shared within layout/mode; counters reset per library; disk replay is not new IK validation",
+  "search_timing_is_not_end_to_end_benchmark": true,
+  "matlab_compute_threads": 1
+}

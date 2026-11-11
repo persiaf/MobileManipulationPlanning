@@ -1,0 +1,404 @@
+{
+  "status": "PASS_INPUT_GEOMETRY",
+  "scenarios_checked": 9,
+  "targets_checked": 324,
+  "finite_tabletop_wipe_strokes_checked": 324,
+  "candidate_poses_checked": 8175,
+  "factor_rules_independently_reconstructed": true,
+  "complete_robot_signatures_equal": true,
+  "original_task_counts_and_anchors_checked": true,
+  "within_layout_candidate_pools_identical": true,
+  "cases": {
+    "L0_D0": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L0_D0",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "97244535746057d0a603de1e0900b038c4fd737e18aac70707303f572b87652b",
+        "dense_to_subpool.csv": "fcb3250d71140595f04441c1a4b7a7c6f03365827f5500f8e5b9e67290c3718d",
+        "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 906,
+        "dense_candidates": 26660
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 906,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L0_D1": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L0_D1",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "97244535746057d0a603de1e0900b038c4fd737e18aac70707303f572b87652b",
+        "dense_to_subpool.csv": "fcb3250d71140595f04441c1a4b7a7c6f03365827f5500f8e5b9e67290c3718d",
+        "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 906,
+        "dense_candidates": 26660
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 906,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L0_D2": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L0_D2",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "97244535746057d0a603de1e0900b038c4fd737e18aac70707303f572b87652b",
+        "dense_to_subpool.csv": "fcb3250d71140595f04441c1a4b7a7c6f03365827f5500f8e5b9e67290c3718d",
+        "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 906,
+        "dense_candidates": 26660
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 906,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L1_D0": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L1_D0",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "116c7ec6668fd5e36be2c8aac2ba69b2f1868e8a3663fe8dd730c9c8365a2672",
+        "dense_to_subpool.csv": "c98ad4bafa05a37020d75e1178c912867bc11fece509764625874074a2aee2aa",
+        "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 906,
+        "dense_candidates": 26660
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 906,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L1_D1": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L1_D1",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "116c7ec6668fd5e36be2c8aac2ba69b2f1868e8a3663fe8dd730c9c8365a2672",
+        "dense_to_subpool.csv": "c98ad4bafa05a37020d75e1178c912867bc11fece509764625874074a2aee2aa",
+        "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 906,
+        "dense_candidates": 26660
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 906,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L1_D2": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L1_D2",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "116c7ec6668fd5e36be2c8aac2ba69b2f1868e8a3663fe8dd730c9c8365a2672",
+        "dense_to_subpool.csv": "c98ad4bafa05a37020d75e1178c912867bc11fece509764625874074a2aee2aa",
+        "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 906,
+        "dense_candidates": 26660
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 906,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L2_D0": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L2_D0",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "71e0b60d8208b11a2542261434cebd32c5954feca6b1af9b68609889b18d8a3f",
+        "dense_to_subpool.csv": "ea560e176b832180eb94ba7c26422205727f317505384744240e091f0f2d8b19",
+        "table_candidate_counts.csv": "f6869fabffb01bb8d652a9d2e5a4e1146c80afed925e62d9aaf80c593ad0f620"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 913,
+        "dense_candidates": 26511
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 913,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L2_D1": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L2_D1",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "71e0b60d8208b11a2542261434cebd32c5954feca6b1af9b68609889b18d8a3f",
+        "dense_to_subpool.csv": "ea560e176b832180eb94ba7c26422205727f317505384744240e091f0f2d8b19",
+        "table_candidate_counts.csv": "f6869fabffb01bb8d652a9d2e5a4e1146c80afed925e62d9aaf80c593ad0f620"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 913,
+        "dense_candidates": 26511
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 913,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    },
+    "L2_D2": {
+      "status": "PASS_INPUT_GEOMETRY",
+      "case_id": "L2_D2",
+      "robot_signature": "98371455a721caf9",
+      "robot_footprint": {
+        "length_m": 0.423,
+        "width_m": 0.366,
+        "model": "rectangle"
+      },
+      "immutable_pool_sha256": {
+        "candidate_pool.csv": "71e0b60d8208b11a2542261434cebd32c5954feca6b1af9b68609889b18d8a3f",
+        "dense_to_subpool.csv": "ea560e176b832180eb94ba7c26422205727f317505384744240e091f0f2d8b19",
+        "table_candidate_counts.csv": "f6869fabffb01bb8d652a9d2e5a4e1146c80afed925e62d9aaf80c593ad0f620"
+      },
+      "scene_geometry": {
+        "tables": 16,
+        "tasks": 36,
+        "candidate_count": 913,
+        "dense_candidates": 26511
+      },
+      "per_table_task_counts": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3
+      ],
+      "finite_tabletop_wipe_strokes_checked": 36,
+      "rotated_candidate_geometry_checked": 913,
+      "frozen_case_definition_checked": true,
+      "note": "Input/preflight checks only: no IK, navigation outcome or manipulation-success conclusion"
+    }
+  },
+  "auditor_sha256": "41be2a374824de9305f73ef86d1c245bc9c8f31f9ca1f7659f6595c53ed34185",
+  "frozen_scenario_definitions_sha256": "1788ae153c854eaf69eecb0b11bddf483f9e2b32602386251d62cab264bbbe68",
+  "frozen_robot_sha256": "7db56a6bd9ca08ddf27abcbc1ecf04e2240c5e50f0ebafa93c1ca630971e2601",
+  "note": "Input-only audit, not an outcome or IK success verdict"
+}

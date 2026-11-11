@@ -1,0 +1,23 @@
+{
+  "execution_source_commit": "05c630bbbca0d17dbc03ba585ec18bd477900084",
+  "pre_experiment_public_backup_commit": "fee9967b2d627bf208fb9e34a5d3351f2d671148",
+  "source_files_frozen_during_execution": true,
+  "source_sha256": {
+    "experiments/run_task_navigation_robustness_layout.m": "659f54158ac6877ca3c26a0b1a02def944c00f6dcd5124d539db0fc60cb285c7",
+    "experiments/prepare_task_navigation_robustness.m": "ab23994c1c44d19802935810f93b7fac187236b7ae9bf555927bb0c669377152",
+    "experiments/task_navigation_robustness_cases.m": "6eea3e88ae6cabf33ff7c5dd32e1f7d91644907fff2b515adf801488e058f51e",
+    "experiments/task_navigation_robustness_setup.m": "62fd7a3df7cc76cac70f5c5312f8b1818fbb96403a101201de18388e1ed6deb3",
+    "experiments/build_main_task_navigation_library.m": "59a6eeb0fd9d901138804830fa25095f1c3ea38ca7a86559a10e62abbbf8eb66",
+    "experiments/exp_main_task_navigation.m": "a783ee477b0762e716594e9df2818cba5e87a37e7bc01a78f368e03bf3362c11",
+    "experiments/main_task_navigation_setup.m": "c692633705ee9c157316e7ba0a72ea152c62d5fbd795d650e29c5e6ad6d084f1",
+    "experiments/comparison_manipulation_task.m": "978330d2cd5e4e8eeec8de29c4c094d8885b626b357f33fc5211dbd8de9d7c44",
+    "manipulator/evaluate_task_reachability_cached.m": "17a4531d69ecb13bba0f26e7c3aef6602f0e156ae31e6dccd076f7eb1b3cd26b",
+    "manipulator/evaluate_task_reachability.m": "2c83fda88288026a7400be6967160131b2eb397806063bf3d747e5e791d54ff5",
+    "manipulator/solve_arm_task_ik.m": "d90dd13b5774353b656494ddc6012f7eb0f461ec33acfd5dbeda87a34f1b8898",
+    "manipulator/arm_forward_kinematics.m": "c66c2ef83245137e3d4ef2825e8192eabf21c562394b8dc2454bd4d7c0ff5450",
+    "manipulator/resolve_manipulation_task.m": "81f0e992cffdb02b05598be17b0adc67d1b93c8a823a14605e413333b09451f0",
+    "config/manipulation_task_profile.m": "bd5849fb1976693a5e69082b87dfe437e96d637ae22e2bdfc76f717bf385fd31"
+  },
+  "parallelism": "three independent layout workers, one MATLAB compute thread each",
+  "results_are_not_a_timing_superiority_benchmark": true
+}

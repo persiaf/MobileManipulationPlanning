@@ -1,0 +1,338 @@
+[
+  {
+    "mode": "position_only",
+    "method": "staged",
+    "route_order_source": "nearest_neighbor",
+    "recovery": {
+      "enabled": true,
+      "status": "initial_finite",
+      "recovered": false,
+      "initial_closed_finite": true,
+      "selected_start": 1,
+      "attempt_count": 1,
+      "attempts": {
+        "start": 1,
+        "closed_finite": true,
+        "route_finite": true,
+        "visit_order": [
+          1,
+          2,
+          3,
+          5,
+          4,
+          9,
+          8,
+          13,
+          12,
+          16,
+          17,
+          11,
+          14,
+          10,
+          6,
+          7,
+          15
+        ],
+        "closed_order": [
+          1,
+          2,
+          3,
+          5,
+          4,
+          9,
+          8,
+          13,
+          12,
+          16,
+          17,
+          11,
+          14,
+          10,
+          6,
+          7,
+          15,
+          1
+        ],
+        "cost": 63.762130315417977,
+        "bad_edges": []
+      },
+      "return_to_start": true,
+      "route_order_source": "nearest_neighbor",
+      "two_opt_applied": false,
+      "rule": "first finite rotated NN order in fixed node-index start order; not minimum restart cost",
+      "two_opt_requested": false
+    }
+  },
+  {
+    "mode": "position_only",
+    "method": "minimum_seed",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "position_only",
+    "method": "reorder_only",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "position_only",
+    "method": "joint_local",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "top_down_grasp",
+    "method": "staged",
+    "route_order_source": "nearest_neighbor",
+    "recovery": {
+      "enabled": true,
+      "status": "initial_finite",
+      "recovered": false,
+      "initial_closed_finite": true,
+      "selected_start": 1,
+      "attempt_count": 1,
+      "attempts": {
+        "start": 1,
+        "closed_finite": true,
+        "route_finite": true,
+        "visit_order": [
+          1,
+          2,
+          3,
+          5,
+          9,
+          8,
+          13,
+          12,
+          17,
+          16,
+          11,
+          10,
+          14,
+          15,
+          6,
+          7,
+          4
+        ],
+        "closed_order": [
+          1,
+          2,
+          3,
+          5,
+          9,
+          8,
+          13,
+          12,
+          17,
+          16,
+          11,
+          10,
+          14,
+          15,
+          6,
+          7,
+          4,
+          1
+        ],
+        "cost": 61.949021314631082,
+        "bad_edges": []
+      },
+      "return_to_start": true,
+      "route_order_source": "nearest_neighbor",
+      "two_opt_applied": false,
+      "rule": "first finite rotated NN order in fixed node-index start order; not minimum restart cost",
+      "two_opt_requested": false
+    }
+  },
+  {
+    "mode": "top_down_grasp",
+    "method": "minimum_seed",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "top_down_grasp",
+    "method": "reorder_only",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "top_down_grasp",
+    "method": "joint_local",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "table_wipe",
+    "method": "staged",
+    "route_order_source": "nearest_neighbor",
+    "recovery": {
+      "enabled": true,
+      "status": "initial_finite",
+      "recovered": false,
+      "initial_closed_finite": true,
+      "selected_start": 1,
+      "attempt_count": 1,
+      "attempts": {
+        "start": 1,
+        "closed_finite": true,
+        "route_finite": true,
+        "visit_order": [
+          1,
+          2,
+          3,
+          5,
+          4,
+          9,
+          8,
+          13,
+          12,
+          17,
+          16,
+          11,
+          14,
+          10,
+          6,
+          7,
+          15
+        ],
+        "closed_order": [
+          1,
+          2,
+          3,
+          5,
+          4,
+          9,
+          8,
+          13,
+          12,
+          17,
+          16,
+          11,
+          14,
+          10,
+          6,
+          7,
+          15,
+          1
+        ],
+        "cost": 69.566481842475113,
+        "bad_edges": []
+      },
+      "return_to_start": true,
+      "route_order_source": "nearest_neighbor",
+      "two_opt_applied": false,
+      "rule": "first finite rotated NN order in fixed node-index start order; not minimum restart cost",
+      "two_opt_requested": false
+    }
+  },
+  {
+    "mode": "table_wipe",
+    "method": "minimum_seed",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "table_wipe",
+    "method": "reorder_only",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  {
+    "mode": "table_wipe",
+    "method": "joint_local",
+    "route_order_source": "strategy_preferred",
+    "recovery": {
+      "enabled": false,
+      "status": "not_needed",
+      "recovered": false,
+      "initial_closed_finite": [],
+      "selected_start": null,
+      "attempt_count": 0,
+      "attempts": [],
+      "reason": "preferred_order_preserved",
+      "route_order_source": "strategy_preferred"
+    }
+  }
+]

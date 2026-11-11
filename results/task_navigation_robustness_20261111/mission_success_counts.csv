@@ -1,0 +1,10 @@
+mode,method,primary_alias,total_scenarios,full_task_support_and_recheck,full_missions,full_minimum_missions
+position_only,minimum_seed,staged_minimum,9,9,9,9
+position_only,reorder_only,reorder_only,9,9,9,9
+position_only,joint_local,joint_local,9,9,9,9
+top_down_grasp,minimum_seed,staged_minimum,9,9,9,9
+top_down_grasp,reorder_only,reorder_only,9,9,9,9
+top_down_grasp,joint_local,joint_local,9,9,9,9
+table_wipe,minimum_seed,staged_minimum,9,9,9,9
+table_wipe,reorder_only,reorder_only,9,9,9,9
+table_wipe,joint_local,joint_local,9,9,9,9
