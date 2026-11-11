@@ -1,0 +1,567 @@
+{
+  "status": "PASS",
+  "run_state": {
+    "status": "COMPLETE",
+    "completed_cases": 12,
+    "valid_missions": 12
+  },
+  "completed_modes_checked": [
+    "position_only",
+    "top_down_grasp",
+    "table_wipe"
+  ],
+  "frozen_evidence_replay": {
+    "initial_trial_directory": "D:\\file_used\\\u897f\u67da\\\u5b9e\u9a8c\u5ba4_\u4efb\u52a1\\\u7855\u58eb\u8bba\u6587\u76f8\u5173\\\u5c0f\u8bba\u6587\\MobileManipulationPlanning\\results\\main_joint_task_navigation_20261111_initial_symmetric",
+    "common_navigation_matrix_directed": true,
+    "common_first_finite_nn_restarts": true,
+    "identical_geometry_and_support_sha256": {
+      "tasks.csv": "578dbce66b259e776e823ce4dd51f126a9806a6f3ab1c79444b347196fe35e5b",
+      "candidate_pool.csv": "97244535746057d0a603de1e0900b038c4fd737e18aac70707303f572b87652b",
+      "dense_to_subpool.csv": "fcb3250d71140595f04441c1a4b7a7c6f03365827f5500f8e5b9e67290c3718d",
+      "table_candidate_counts.csv": "4a372508a5b31300efe53013381df09d06c97a09f2bb81721a9e1ff996227cc3",
+      "main_library_geometry_signature.json": "8f5eb70b7e0da81b39daa9c6e151b04c9733a31b72ffa38d0a9199a2c9b13fa4",
+      "pair_support_position_only.csv": "7e531f0b3a803ce7d5187064f03af3ffced6d7c16caf71980f24ab25764963da",
+      "candidate_support_position_only.csv": "bb59e469bb6867f78a2443c693a8699ed9e655f33ee16c89eeec5d1f6a949a74",
+      "candidate_library_position_only.mat": "c5f789509b6a0ca12fbdebb05b930ee901850217f1f6f6f931f4f502b922ba61",
+      "pair_support_top_down_grasp.csv": "7cfdc7bb56de84cb1ed89ca82836fbcd1c0099b29f3eb2425f044c9bf3e2c80b",
+      "candidate_support_top_down_grasp.csv": "56d0ee58f5f7acde03ac66c43cf4f91056df93add23ba348af79397960ae025e",
+      "candidate_library_top_down_grasp.mat": "72a6b9e59841956bcba78c1ab55162b92a41f831728d0a7744e66748bcafe7bf",
+      "pair_support_table_wipe.csv": "b5f62db74a6e4301aa8d99eef019850bd391f12f1f9fea2661ca549ab0d530a5",
+      "candidate_support_table_wipe.csv": "40ce532c604659f613c2c22fc7ae8e7cdd9c2e40a3718515f5eb73c3b38ef985",
+      "candidate_library_table_wipe.mat": "81dacaa2d01fdabf857bbb02de17d84e481dd49438dd7b695b8f993c0058905e"
+    },
+    "initial_failures_preserved": [
+      {
+        "mode": "top_down_grasp",
+        "method": "staged",
+        "status": "ERROR",
+        "reason": "stitch_global_path:MissingSegment: No valid route segment 16 -> 4."
+      },
+      {
+        "mode": "top_down_grasp",
+        "method": "minimum_seed",
+        "status": "BLOCKED",
+        "reason": "NO_FULL_SUPPORT_OR_VALID_STAGED_SEED"
+      },
+      {
+        "mode": "top_down_grasp",
+        "method": "reorder_only",
+        "status": "BLOCKED",
+        "reason": "NO_FULL_SUPPORT_OR_VALID_STAGED_SEED"
+      },
+      {
+        "mode": "top_down_grasp",
+        "method": "joint_local",
+        "status": "BLOCKED",
+        "reason": "NO_FULL_SUPPORT_OR_VALID_STAGED_SEED"
+      },
+      {
+        "mode": "table_wipe",
+        "method": "staged",
+        "status": "ERROR",
+        "reason": "stitch_global_path:MissingSegment: No valid route segment 17 -> 4."
+      },
+      {
+        "mode": "table_wipe",
+        "method": "minimum_seed",
+        "status": "BLOCKED",
+        "reason": "NO_FULL_SUPPORT_OR_VALID_STAGED_SEED"
+      },
+      {
+        "mode": "table_wipe",
+        "method": "reorder_only",
+        "status": "BLOCKED",
+        "reason": "NO_FULL_SUPPORT_OR_VALID_STAGED_SEED"
+      },
+      {
+        "mode": "table_wipe",
+        "method": "joint_local",
+        "status": "BLOCKED",
+        "reason": "NO_FULL_SUPPORT_OR_VALID_STAGED_SEED"
+      }
+    ]
+  },
+  "common_seed_recovery_checks": {
+    "position_only/staged": {
+      "route_order_source": "nearest_neighbor",
+      "initial_closed_finite": true,
+      "first_finite_start": 1,
+      "attempts_independently_reproduced": 1,
+      "selected_set_preserved": true
+    },
+    "position_only/minimum_seed": {
+      "route_order_source": "strategy_preferred"
+    },
+    "position_only/reorder_only": {
+      "route_order_source": "strategy_preferred"
+    },
+    "position_only/joint_local": {
+      "route_order_source": "strategy_preferred"
+    },
+    "top_down_grasp/staged": {
+      "route_order_source": "nearest_neighbor_finite_restart",
+      "initial_closed_finite": false,
+      "first_finite_start": 2,
+      "attempts_independently_reproduced": 2,
+      "selected_set_preserved": true
+    },
+    "top_down_grasp/minimum_seed": {
+      "route_order_source": "strategy_preferred"
+    },
+    "top_down_grasp/reorder_only": {
+      "route_order_source": "strategy_preferred"
+    },
+    "top_down_grasp/joint_local": {
+      "route_order_source": "strategy_preferred"
+    },
+    "table_wipe/staged": {
+      "route_order_source": "nearest_neighbor_finite_restart",
+      "initial_closed_finite": false,
+      "first_finite_start": 2,
+      "attempts_independently_reproduced": 2,
+      "selected_set_preserved": true
+    },
+    "table_wipe/minimum_seed": {
+      "route_order_source": "strategy_preferred"
+    },
+    "table_wipe/reorder_only": {
+      "route_order_source": "strategy_preferred"
+    },
+    "table_wipe/joint_local": {
+      "route_order_source": "strategy_preferred"
+    }
+  },
+  "cases_checked": 12,
+  "valid_missions": 12,
+  "recorded_failures": [],
+  "main_geometry": {
+    "tables": 16,
+    "map_m": [
+      10,
+      10
+    ],
+    "tasks": 36,
+    "dense_candidates": 26660,
+    "common_subpool_candidates": 906,
+    "geometric_fps_and_yaw_rule_checked": true
+  },
+  "minimum_cover_certificates": {
+    "position_only": {
+      "1": {
+        "minimum_docks": 1,
+        "cover_count": 31
+      },
+      "2": {
+        "minimum_docks": 1,
+        "cover_count": 24
+      },
+      "3": {
+        "minimum_docks": 1,
+        "cover_count": 36
+      },
+      "4": {
+        "minimum_docks": 1,
+        "cover_count": 26
+      },
+      "5": {
+        "minimum_docks": 1,
+        "cover_count": 37
+      },
+      "6": {
+        "minimum_docks": 1,
+        "cover_count": 29
+      },
+      "7": {
+        "minimum_docks": 1,
+        "cover_count": 25
+      },
+      "8": {
+        "minimum_docks": 1,
+        "cover_count": 29
+      },
+      "9": {
+        "minimum_docks": 1,
+        "cover_count": 34
+      },
+      "10": {
+        "minimum_docks": 1,
+        "cover_count": 31
+      },
+      "11": {
+        "minimum_docks": 1,
+        "cover_count": 29
+      },
+      "12": {
+        "minimum_docks": 1,
+        "cover_count": 27
+      },
+      "13": {
+        "minimum_docks": 1,
+        "cover_count": 35
+      },
+      "14": {
+        "minimum_docks": 1,
+        "cover_count": 32
+      },
+      "15": {
+        "minimum_docks": 1,
+        "cover_count": 34
+      },
+      "16": {
+        "minimum_docks": 1,
+        "cover_count": 27
+      }
+    },
+    "top_down_grasp": {
+      "1": {
+        "minimum_docks": 1,
+        "cover_count": 10
+      },
+      "2": {
+        "minimum_docks": 1,
+        "cover_count": 2
+      },
+      "3": {
+        "minimum_docks": 1,
+        "cover_count": 12
+      },
+      "4": {
+        "minimum_docks": 1,
+        "cover_count": 3
+      },
+      "5": {
+        "minimum_docks": 1,
+        "cover_count": 5
+      },
+      "6": {
+        "minimum_docks": 1,
+        "cover_count": 4
+      },
+      "7": {
+        "minimum_docks": 1,
+        "cover_count": 3
+      },
+      "8": {
+        "minimum_docks": 1,
+        "cover_count": 11
+      },
+      "9": {
+        "minimum_docks": 1,
+        "cover_count": 3
+      },
+      "10": {
+        "minimum_docks": 1,
+        "cover_count": 9
+      },
+      "11": {
+        "minimum_docks": 1,
+        "cover_count": 3
+      },
+      "12": {
+        "minimum_docks": 1,
+        "cover_count": 2
+      },
+      "13": {
+        "minimum_docks": 1,
+        "cover_count": 12
+      },
+      "14": {
+        "minimum_docks": 1,
+        "cover_count": 4
+      },
+      "15": {
+        "minimum_docks": 1,
+        "cover_count": 3
+      },
+      "16": {
+        "minimum_docks": 1,
+        "cover_count": 3
+      }
+    },
+    "table_wipe": {
+      "1": {
+        "minimum_docks": 1,
+        "cover_count": 11
+      },
+      "2": {
+        "minimum_docks": 1,
+        "cover_count": 5
+      },
+      "3": {
+        "minimum_docks": 1,
+        "cover_count": 11
+      },
+      "4": {
+        "minimum_docks": 1,
+        "cover_count": 5
+      },
+      "5": {
+        "minimum_docks": 1,
+        "cover_count": 7
+      },
+      "6": {
+        "minimum_docks": 1,
+        "cover_count": 7
+      },
+      "7": {
+        "minimum_docks": 1,
+        "cover_count": 4
+      },
+      "8": {
+        "minimum_docks": 1,
+        "cover_count": 10
+      },
+      "9": {
+        "minimum_docks": 1,
+        "cover_count": 5
+      },
+      "10": {
+        "minimum_docks": 1,
+        "cover_count": 10
+      },
+      "11": {
+        "minimum_docks": 1,
+        "cover_count": 4
+      },
+      "12": {
+        "minimum_docks": 1,
+        "cover_count": 2
+      },
+      "13": {
+        "minimum_docks": 1,
+        "cover_count": 11
+      },
+      "14": {
+        "minimum_docks": 1,
+        "cover_count": 6
+      },
+      "15": {
+        "minimum_docks": 1,
+        "cover_count": 5
+      },
+      "16": {
+        "minimum_docks": 1,
+        "cover_count": 4
+      }
+    }
+  },
+  "cases": {
+    "position_only/staged": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 53.96553749530773,
+      "navigation_cost_recomputed": 55.53633382210263,
+      "path_samples_checked": 4752,
+      "accepted_moves_checked": 0,
+      "termination_reason": "",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "position_only/minimum_seed": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 53.96553749530773,
+      "navigation_cost_recomputed": 55.53633382210263,
+      "path_samples_checked": 4752,
+      "accepted_moves_checked": 0,
+      "termination_reason": "minimum_seed_control",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "position_only/reorder_only": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 48.179393923934,
+      "navigation_cost_recomputed": 49.67165043438916,
+      "path_samples_checked": 4344,
+      "accepted_moves_checked": 3,
+      "termination_reason": "max_passes",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "position_only/joint_local": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 42.19094005965858,
+      "navigation_cost_recomputed": 43.570294544734985,
+      "path_samples_checked": 3849,
+      "accepted_moves_checked": 23,
+      "termination_reason": "max_passes",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "top_down_grasp/staged": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 62.350859172180364,
+      "navigation_cost_recomputed": 64.38666141249082,
+      "path_samples_checked": 5126,
+      "accepted_moves_checked": 0,
+      "termination_reason": "",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "top_down_grasp/minimum_seed": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 62.350859172180364,
+      "navigation_cost_recomputed": 64.38666141249082,
+      "path_samples_checked": 5126,
+      "accepted_moves_checked": 0,
+      "termination_reason": "minimum_seed_control",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "top_down_grasp/reorder_only": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 55.981010691196865,
+      "navigation_cost_recomputed": 58.016812931507324,
+      "path_samples_checked": 4940,
+      "accepted_moves_checked": 2,
+      "termination_reason": "complete_neighborhood_pass_without_improvement",
+      "local_optimum_certified": true,
+      "global_optimal": false
+    },
+    "top_down_grasp/joint_local": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 52.828351637831354,
+      "navigation_cost_recomputed": 55.29441618382491,
+      "path_samples_checked": 4947,
+      "accepted_moves_checked": 13,
+      "termination_reason": "max_passes",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "table_wipe/staged": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 62.814752878485905,
+      "navigation_cost_recomputed": 65.73886046432003,
+      "path_samples_checked": 5469,
+      "accepted_moves_checked": 0,
+      "termination_reason": "",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "table_wipe/minimum_seed": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 62.814752878485905,
+      "navigation_cost_recomputed": 65.73886046432003,
+      "path_samples_checked": 5469,
+      "accepted_moves_checked": 0,
+      "termination_reason": "minimum_seed_control",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    },
+    "table_wipe/reorder_only": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 55.843685066620424,
+      "navigation_cost_recomputed": 58.767792652454546,
+      "path_samples_checked": 5066,
+      "accepted_moves_checked": 1,
+      "termination_reason": "complete_neighborhood_pass_without_improvement",
+      "local_optimum_certified": true,
+      "global_optimal": false
+    },
+    "table_wipe/joint_local": {
+      "mission_valid": true,
+      "task_count": 36,
+      "docks": 16,
+      "minimum_docks": 16,
+      "route_length_recomputed_m": 50.64322030586615,
+      "navigation_cost_recomputed": 53.02452673092888,
+      "path_samples_checked": 4848,
+      "accepted_moves_checked": 15,
+      "termination_reason": "max_passes",
+      "local_optimum_certified": false,
+      "global_optimal": false
+    }
+  },
+  "ik_cache_diagnostics": {
+    "position_only": {
+      "request_count": 2037,
+      "positive_hits": 950,
+      "exact_negative_hits": 167,
+      "misses": 920,
+      "witness_fallbacks": 0,
+      "direct_checks": 11,
+      "direct_disagreements": 0,
+      "witness_direct_search_failures": 0,
+      "max_position_error_m": 0.0029929520515008887,
+      "max_orientation_error_rad": 0
+    },
+    "top_down_grasp": {
+      "request_count": 2037,
+      "positive_hits": 303,
+      "exact_negative_hits": 354,
+      "misses": 1380,
+      "witness_fallbacks": 0,
+      "direct_checks": 6,
+      "direct_disagreements": 0,
+      "witness_direct_search_failures": 0,
+      "max_position_error_m": 0.002995704522037975,
+      "max_orientation_error_rad": 0.02747708750946207
+    },
+    "table_wipe": {
+      "request_count": 2037,
+      "positive_hits": 229,
+      "exact_negative_hits": 225,
+      "misses": 1583,
+      "witness_fallbacks": 0,
+      "direct_checks": 4,
+      "direct_disagreements": 0,
+      "witness_direct_search_failures": 0,
+      "max_position_error_m": 0.0029981133098573795,
+      "max_orientation_error_rad": 0.0369316268876112
+    }
+  },
+  "checks": [
+    "Default scene configuration and all 36 original-location task IDs (fresh default-build equality is separately covered by protocol tests)",
+    "26660-to-906 child mapping, original coordinates/yaws, geometric FPS/yaw selection and shared candidate identity",
+    "Every same-table pair preserved, cache counter accounting and reported residual bounds",
+    "Independent regional DP and enumeration of all minimum covers",
+    "Exactly-once supported task/arm assignments and fixed repaired-set reorder control",
+    "Every accepted replacement/reversal repriced using exported directed edges with strict descent",
+    "Actual route length/cost, dock/yaw visits, start return and sampled physical base/table/border separation",
+    "For corrected replays: original geometry/support/library hashes and independently reproduced first-finite fixed-set NN restarts",
+    "NaN comparable costs for failed missions, budget/local-optimum flags and no global-optimal claim"
+  ],
+  "limits": "No independent IK solving, RNG reimplementation, continuous/swept arm/base collision, contact-force or physical validation. Minimum counts apply to the shared 906-candidate regional support subpool, not the full 26660-candidate pool. Local search is not globally optimal; recorded failure cases and fixed-set controls are not silently removed. Search callback counts exclude other stage3 navigation calls.",
+  "source_sha256": {
+    "experiments/main_task_navigation_setup.m": "c0e976fcdf988b892cfe81e01b7f0f7a42ba703801998dfc696cb34f179625ab",
+    "experiments/build_main_task_navigation_library.m": "49780695b65472d5edb0c82fcdae86d12b10946e2105cb222dd4e2e62e64b7b7",
+    "experiments/exp_main_task_navigation.m": "66e3ecad62eae818fc515d468b3edb84ff49c529199cf95928e4ab2ae642c6ee",
+    "manipulator/evaluate_task_reachability_cached.m": "17a4531d69ecb13bba0f26e7c3aef6602f0e156ae31e6dccd076f7eb1b3cd26b",
+    "planning_strategy/joint/plan_task_navigation_joint_local.m": "7071538e28d63f851c8f73abf6e9dca47223169322b372b1129760a359c3d21a",
+    "global_planner/compute_path_cost_matrix.m": "7b0f76ef0cdb022162885050308786ab99bf261a731a256247795ca1c7bc8448",
+    "global_planner/finite_nearest_neighbor_order.m": "43607726fff96f65fdd7b84659b22e92a72a609cdb4a0788092e19bd2c466cb0",
+    "pipeline/stage3_global_planning.m": "ef2e022ec9482e9ebe3d7622808673055e75af65b307be60730900b8c03c49ce"
+  },
+  "auditor_sha256": "f8e81c20fb3edb98f3cd46599786424a2b174b5c8f0cb18cb4b27d5c527feb3c"
+}

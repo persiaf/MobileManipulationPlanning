@@ -1,0 +1,218 @@
+{
+  "date": "2026-11-11",
+  "experiment_id": "main_joint_task_navigation_20261111",
+  "reviewer_role": "independent_paper_architect_reviewer",
+  "reviewer_agent": "/root/joint_review",
+  "claim_supported": "yes",
+  "scoped_navigation_improvement_claim_supported": "yes",
+  "paper_novelty_or_general_superiority_supported": "no",
+  "confidence": "high",
+  "confidence_scope": "Frozen finite numerical support subpool, exported directed-oracle costs, independently checked CSV/sample-base geometry and deterministic shared NN recovery only.",
+  "paper_claim_audit": "unavailable",
+  "provisional": true,
+  "pending_external_review": false,
+  "review_scope_note": "Independent AI reviewer and independently implemented Python auditor; not human peer review, independently solved IK/A*, continuous collision validation or physical execution.",
+  "independent_auditor": "experiments/audit_main_task_navigation.py",
+  "independent_audit_result": "results/main_joint_task_navigation_20261111/independent_audit.json",
+  "independent_audit_status": "PASS",
+  "verified_results": {
+    "final_cases": 12,
+    "valid_complete_missions": 12,
+    "task_count": 36,
+    "table_count": 16,
+    "map_m": [
+      10,
+      10
+    ],
+    "dense_candidates": 26660,
+    "footprint_valid_dense_candidates": 8692,
+    "common_subpool_candidates": 906,
+    "same_table_pairs_per_mode": 2037,
+    "supported_pairs": [
+      1420,
+      472,
+      493
+    ],
+    "mode_order": [
+      "position_only",
+      "top_down_grasp",
+      "table_wipe"
+    ],
+    "minimum_docks": [
+      16,
+      16,
+      16
+    ],
+    "regional_minimum_docks": 1,
+    "immutable_replay_hash_checks": 14,
+    "exactly_once_assignments_checked": 432,
+    "accepted_moves_repriced": 57,
+    "physical_base_path_samples_checked": 58688,
+    "exported_lazy_scalar_edges": 2108,
+    "exported_rejected_edges": 36,
+    "staged_raw_length_m": [
+      53.9655374953075,
+      62.3508591721801,
+      62.8147528784855
+    ],
+    "staged_weighted_cost": [
+      55.5363338221024,
+      64.3866614124906,
+      65.7388604643196
+    ],
+    "minimum_seed_equals_staged": true,
+    "reorder_only_raw_length_m": [
+      48.1793939239336,
+      55.9810106911965,
+      55.8436850666199
+    ],
+    "reorder_only_weighted_cost": [
+      49.6716504343888,
+      58.016812931507,
+      58.767792652454
+    ],
+    "joint_raw_length_m": [
+      42.1909400596584,
+      52.828351637831,
+      50.6432203058657
+    ],
+    "joint_weighted_cost": [
+      43.5702945447348,
+      55.2944161838246,
+      53.0245267309285
+    ],
+    "joint_vs_staged_raw_length_reduction_percent": [
+      21.818734663159688,
+      15.272456002655833,
+      19.376869309930278
+    ],
+    "joint_vs_staged_weighted_reduction_percent": [
+      21.546325538336752,
+      14.121318032654129,
+      19.34066645449677
+    ],
+    "joint_vs_reorder_weighted_reduction_percent": [
+      12.283376606769437,
+      4.6924272639663585,
+      9.772812049434144
+    ],
+    "joint_accepted_moves": [
+      23,
+      13,
+      15
+    ],
+    "joint_termination_reason": [
+      "max_passes",
+      "max_passes",
+      "max_passes"
+    ],
+    "joint_local_optimum_certified": [
+      false,
+      false,
+      false
+    ],
+    "joint_global_optimal": [
+      false,
+      false,
+      false
+    ],
+    "targeted_tests": 54,
+    "full_repository_test_suite": false,
+    "figure_manifest_hash_checks": 30
+  },
+  "common_navigation_correction": {
+    "initial_trial": "results/main_joint_task_navigation_20261111_initial_symmetric",
+    "initial_cases": 12,
+    "initial_valid_missions": 4,
+    "initial_failure_or_blocked_cases": 8,
+    "directed_costs": true,
+    "invalid_queries_are_infinite": true,
+    "finite_nn_restarts": true,
+    "nn_first_finite_start": [
+      1,
+      2,
+      2
+    ],
+    "restart_selected_set_unchanged": true,
+    "first_finite_restarts_independently_reconstructed_from_full_D": true,
+    "compare_best_restart_cost": false,
+    "common_correction_is_joint_selection_benefit": false,
+    "three_signed_ik_libraries_reused_without_rescoring": true,
+    "build_statistics_preserved_as_original_build_statistics": true
+  },
+  "what_results_support": [
+    "In this fixed default 16-table/36-task main scene, all four methods retain full numerical task support and 16 subpool-minimum stops, while joint local search lowers both actual raw path length and the stated weighted navigation objective in all three profiles.",
+    "Independent regional DP and cover-count reconstruction certify one stop per table on the common 906-candidate support subpool. Staged already attains this count; minimum-seed repair adds no gain in this run.",
+    "Reorder-only retains the same repaired seed dock set. Joint dock/visit-order coupling improves beyond its observed objective, without implying an isolated replacement effect or equal-compute superiority.",
+    "All accepted changes strictly descend the repriced exported directed-oracle objective; actual final paths return to start, visit ordered docks/headings and pass independent sampled physical-base geometry checks.",
+    "Full directed matrices reproduce the shared first-finite NN protocol and preserve the original failed initial trial without NaN percentage comparisons.",
+    "Main-scene figures faithfully use the actual 16-table map, all 36 task points, exported routes and physical dock footprints/headings."
+  ],
+  "what_results_dont_support": [
+    "Global navigation optimality, local optimality of the three max_passes joint runs, or a minimum count over the entire dense candidate pool or continuous workspace.",
+    "Algorithm novelty, general superiority, statistical significance, scaling complexity, equal-compute superiority or end-to-end planning speedup from a single deterministic scene.",
+    "A claim that posture constraints necessarily increase stop count: all profiles use 16 here, despite their different numerical support matrices.",
+    "Attributing the common direction/invalid-edge/finite-NN protocol correction to joint selection, comparing final finite costs against archived NaN failures, or treating finite-search failure as physical infeasibility.",
+    "Treating endpoint-yaw cost as integrated turning effort, time or energy, or treating search callback/memo counts as all actual navigation planner calls.",
+    "Independent IK/A* replication, arm/self/inter-arm/transition/swept collision, contact force, calibrated hardware or physical grasp/wipe success."
+  ],
+  "missing_evidence": [
+    "Manuscript-to-evidence paper claim audit.",
+    "Held-out layouts/seeds, candidate-density and task-direction studies before generalization claims.",
+    "IK-budget/solver and candidate-subsampling sensitivity before broader workspace or impossibility claims.",
+    "Equal-budget strong navigation-aware controls and component ablations for method-level superiority.",
+    "Full cost accounting, controlled cache conditions and repeated timings for efficiency claims.",
+    "Calibrated collision-aware arm/transition and physical/contact validation for execution claims."
+  ],
+  "suggested_claim_revision": "在默认16桌、36个原始任务及同一VX300s模型上，针对统一冻结的906候选数值支持子池，联合停靠/访问序列局部搜索保持36/36任务支持和16次子池最少停靠。相对共同导航修复后的分阶段方法，三任务的加权导航代价降低21.55%、14.12%、19.34%，实际路径缩短21.82%、15.27%、19.38%；相对固定停靠集合重排，加权代价再降低12.28%、4.69%、9.77%。这些是单场景有限预算的观察结果，三个联合搜索均因max_passes停止，不作全局或局部最优、普遍优势和实机成功主张。",
+  "next_experiments_needed_for_broader_claims": [
+    "Held-out scene/seed/task-direction matrix",
+    "Candidate-density and IK-budget sensitivity",
+    "Equal-budget stronger navigation-aware controls and component ablations",
+    "Complete repeated computational accounting under controlled cache conditions",
+    "Independent collision-aware arm/transition and physical validation"
+  ],
+  "additional_experiments_required_to_report_current_bounded_result": false,
+  "figure_review": [
+    {
+      "figures": [
+        "figures/main_scene_overview.png",
+        "figures/main_scene_position_only.png",
+        "figures/main_scene_top_down_grasp.png",
+        "figures/main_scene_table_wipe.png"
+      ],
+      "verdict": "acceptable",
+      "blocking_issues": [],
+      "strengths": [
+        "Actual main-scene 10x10/16-table/36-task geometry and established palette preserved",
+        "Complete task/dock geometry retained with readable footprints/headings and actual exported routes",
+        "Captions distinguish shared navigation correction, numerical support and finite local-search scope"
+      ],
+      "limitations": [
+        "Sparse D labels intentionally omit most task IDs/assignment links; CSV carries the full allocation",
+        "Visible paths/footprints do not certify arm or continuous swept execution"
+      ]
+    },
+    {
+      "figures": [
+        "figures/main_joint_metrics.png"
+      ],
+      "verdict": "acceptable",
+      "blocking_issues": [],
+      "strengths": [
+        "L and weighted J separately labeled; all four 16-stop controls shown",
+        "Search cost is visible and not represented as a speed advantage",
+        "Captions state shared protocol, single-run evidence and excluded timing scope"
+      ],
+      "limitations": [
+        "Selection/search time excludes common preprocessing/IK and final navigation",
+        "Fixed method order and shared cache prevent equal-cold-cache efficiency inference"
+      ]
+    }
+  ],
+  "reviewed_analysis_counter_label_corrected": true,
+  "routing_action": "confirm_bounded_main_scene_navigation_result_and_supplement_before_broad_novelty_generalization_or_physical_claims",
+  "ready_for_confirmed_full_paper_writing": false,
+  "production_code_changed_by_review": false,
+  "raw_numerical_results_changed_by_review": false
+}

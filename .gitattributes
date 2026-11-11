@@ -23,3 +23,11 @@
 *.pptx    binary
 *.docx    binary
 *.mp4     binary
+
+# Preserve the exact bytes used by the main-scene evidence/figure hashes.
+results/main_joint_task_navigation_20261111/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+results/main_joint_task_navigation_20261111_initial_symmetric/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+visualization/main_joint_task_navigation/*.py text eol=lf
+visualization/joint_task_navigation/common.py text eol=lf
+experiments/audit_main_task_navigation.py text eol=lf
+experiments/analyze_main_task_navigation.py text eol=lf

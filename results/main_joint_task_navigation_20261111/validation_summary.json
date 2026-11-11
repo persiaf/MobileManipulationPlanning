@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "distinct_targeted_checks": 54,
+  "full_repository_suite": false,
+  "groups": [
+    {
+      "group": "joint_local_and_exact",
+      "passed_count": 29,
+      "tests": [
+        "test_task_navigation_joint_local/testReplacementStrictlyDecreasesActualCostAndPreservesCoverage",
+        "test_task_navigation_joint_local/testSeedRepairIsSeparatedFromSubsequentDescent",
+        "test_task_navigation_joint_local/testMinimumSeedAndReorderControlsKeepTheirDockSets",
+        "test_task_navigation_joint_local/testDirectedTwoOptRepricesReversedInternalEdges",
+        "test_task_navigation_joint_local/testOracleBudgetReturnsOnlyFullyPricedIncumbent",
+        "test_task_navigation_joint_local/testInitialBudgetFailureCannotReturnUnpricedPlan",
+        "test_task_navigation_joint_local/testPartialMatrixKnownInfAndDirectedMemoAreRespected",
+        "test_task_navigation_joint_local/testSixteenRegionsDoNotRequireGlobalPermutationEnumeration",
+        "test_task_navigation_joint_local/testDispatcherIsOptInAndIncompleteSeedIsRejected",
+        "test_task_navigation_joint_local/testRepairPreservesRelativePositionsOfRetainedBaselineNodes",
+        "test_task_navigation_joint_local/testNeighborBudgetKeepsAlreadyAcceptedStrictImprovement",
+        "test_task_navigation_joint_local/testDefaultOracleUsesActualNavigationWithoutDenseMatrix",
+        "test_task_navigation_joint/testAllMinimumCoversAndCoreAreRetained",
+        "test_task_navigation_joint/testFullCoverCandidateWinsCardinality",
+        "test_task_navigation_joint/testMissingTaskReturnsInfeasibilityCertificate",
+        "test_task_navigation_joint/testCoverBudgetsFailWithoutTruncatedExactClaim",
+        "test_task_navigation_joint/testJointSetAndOrderMatchIndependentExhaustiveOracle",
+        "test_task_navigation_joint/testDirectedInfiniteEdgesAreSkipped",
+        "test_task_navigation_joint/testNoFiniteTourIsReportedWithoutApproximation",
+        "test_task_navigation_joint/testRouteEnumerationBudgetsFailExplicitly",
+        "test_task_navigation_joint/testTieHandlingIsDeterministic",
+        "test_task_navigation_joint/testProductionEntryKeepsCardinalityAheadOfNavigationCost",
+        "test_task_navigation_joint/testReorderControlPreservesTheSuppliedDockSet",
+        "test_task_navigation_joint/testEmptyTaskCoverHasZeroCostCertificate",
+        "test_task_navigation_joint/testMalformedCostMatricesFailClearly",
+        "test_task_navigation_joint/testProductionRejectsRegionsThatDoNotPartitionAllTasks",
+        "test_task_navigation_joint/testProductionRejectsOverlappingRegionTaskOwnership",
+        "test_task_navigation_joint/testDispatcherKeepsJointStrategyOptIn",
+        "test_task_navigation_joint/testDefaultOracleQueriesActualDirectedNavigationEdges"
+      ],
+      "log_path": "results\\logs\\task_navigation_joint_local_and_exact_tests_20261111.log",
+      "log_sha256": "79215708fd73afc98c816ec9c3e47034b368fe186e13441093fa8cf00f5adae8"
+    },
+    {
+      "group": "translation_cache",
+      "passed_count": 10,
+      "tests": [
+        "test_task_reachability_translation_cache/testTranslationReusesPositiveAndUpdatesAbsoluteConstraints",
+        "test_task_reachability_translation_cache/testFullPathShapeAndOrientationDoNotAlias",
+        "test_task_reachability_translation_cache/testToolModelAndBudgetChangesMiss",
+        "test_task_reachability_translation_cache/testNegativeRequiresExactRawLocalRequest",
+        "test_task_reachability_translation_cache/testPositiveDoesNotSmuggleApproximateOtherArmFailure",
+        "test_task_reachability_translation_cache/testContactFailureIsNotStoredAsReusableNegative",
+        "test_task_reachability_translation_cache/testInvalidCachedJointLimitWitnessFallsBack",
+        "test_task_reachability_translation_cache/testContactHeightWitnessCheckedBeyondPositionTolerance",
+        "test_task_reachability_translation_cache/testJointStepWitnessFallsBackEvenWhenFKPoseUnchanged",
+        "test_task_reachability_translation_cache/testPeriodicDirectBinaryCheckIsRecorded"
+      ],
+      "log_path": "results\\logs\\task_reachability_translation_cache_final_20261111.log",
+      "log_sha256": "aeb9d491f68197421f7d0064fd07e1f1cc2ceb28d3f192a4a040b0e9267dcc4e"
+    },
+    {
+      "group": "main_protocol_after_common_navigation_repair",
+      "passed_count": 7,
+      "tests": [
+        "test_main_task_navigation_protocol/testMainSceneAndTasksMatchAnIndependentDefaultBuild",
+        "test_main_task_navigation_protocol/testSubpoolMatchesTheExportedOriginalDenseMembers",
+        "test_main_task_navigation_protocol/testRetainedPosesAndYawsReallyOccurInRegeneratedDenseFields",
+        "test_main_task_navigation_protocol/testPerSideGeometryBudgetsAndFlatteningOrder",
+        "test_main_task_navigation_protocol/testThreeProfilesKeepAllMainAnchorsAndTCP",
+        "test_main_task_navigation_protocol/testDefaultPipelineParametersRemainUnchanged",
+        "test_main_task_navigation_protocol/testTinyLibraryPreservesPairsAndReusesOnlyItsSignedArtifacts"
+      ],
+      "log_path": "results\\logs\\main_task_navigation_protocol_directed_tests_20261111.log",
+      "log_sha256": "87b9e043f27ca3340916c9ce214b2e5dec6741b090346e8ea4976ba2bc51005a"
+    },
+    {
+      "group": "directed_matrix",
+      "passed_count": 4,
+      "tests": [
+        "test_directed_path_cost_matrix/testOptInKeepsDirectedCostsAndRejectsFailedFiniteEntries",
+        "test_directed_path_cost_matrix/testAbsentAndFalseFlagsRetainTheLegacyMirroredMatrix",
+        "test_directed_path_cost_matrix/testActualMainSceneDoesNotInventTheFailedReverseEdge",
+        "test_directed_path_cost_matrix/testBothEndpointsAndReversedWitnessRemainCollisionValid"
+      ],
+      "log_path": "results\\logs\\directed_path_cost_matrix_tests_20261111.log",
+      "log_sha256": "fee5fd354deda3f3c5afc50b3baef347c075ba8bf3f527cdf20cd2a93041b57c"
+    },
+    {
+      "group": "finite_nn_restart",
+      "passed_count": 4,
+      "tests": [
+        "test_finite_nearest_neighbor_order/testDirectedTrapRestartsAndRecordsEveryAttempt",
+        "test_finite_nearest_neighbor_order/testReturnEdgeIsCheckedAndFirstFiniteIsNotBest",
+        "test_finite_nearest_neighbor_order/testAllFailedRestartsReportFiniteSearchFailure",
+        "test_finite_nearest_neighbor_order/testStage3DefaultFalseAndPreferredOrderContracts"
+      ],
+      "log_path": "results\\logs\\finite_nn_restart_tests_final_20261111.log",
+      "log_sha256": "976d73ffb77bf6db2ea002c7f204ee72ff89b9542c9f75a25beb666f68eb2054"
+    }
+  ]
+}

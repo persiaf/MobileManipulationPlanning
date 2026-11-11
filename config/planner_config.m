@@ -64,6 +64,15 @@ function cfg = planner_config()
     cfg.strategy.joint.max_cover_products = 100000;
     cfg.strategy.joint.max_route_evaluations = 1000000;
     cfg.strategy.joint.max_navigation_queries = 10000;
+    % Scalable, opt-in local descent; no global optimality certificate.
+    cfg.strategy.joint_local.max_passes = 3;
+    cfg.strategy.joint_local.control = 'joint_local';
+    cfg.strategy.joint_local.max_navigation_queries = 1500;
+    cfg.strategy.joint_local.max_neighbor_evaluations = 10000;
+    cfg.strategy.joint_local.max_wall_time_s = 120;
+    cfg.strategy.joint_local.max_region_docks = 3;
+    cfg.strategy.joint_local.improvement_tolerance = 1e-9;
+    cfg.strategy.joint_local.enable_two_opt = true;
     cfg.strategy.common.route_shortlist_size = 25;
     cfg.strategy.common.preserve_coverage_union = true;
     cfg.strategy.common.use_path_cost_cache = true;

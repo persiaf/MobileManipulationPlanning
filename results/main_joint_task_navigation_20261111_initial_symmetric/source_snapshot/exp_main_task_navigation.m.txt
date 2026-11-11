@@ -1,0 +1,208 @@
+function result=exp_main_task_navigation(output_dir)
+%EXP_MAIN_TASK_NAVIGATION Full default layout/targets, budgeted common pool.
+% Same VX300s/tasks/pool for staged, minimum seed, fixed-set reorder and local
+% joint descent. Global enumeration is intentionally not used at this scale.
+    if nargin<1||isempty(output_dir),output_dir=fullfile('results','main_joint_task_navigation_20261111');end
+    if ~isfolder(output_dir),mkdir(output_dir);end
+    setup=main_task_navigation_setup();scene0=setup.scene;robot=setup.robot;
+    modes=setup.mode_order;methods={'staged','minimum_seed','reorder_only','joint_local'};
+    poses_all=[scene0.start_pose;reshape([setup.pool.pose],3,[])'];
+    signature=build_struct_signature(struct('scene_cfg',setup.source_scene_cfg,'pool',setup.pool, ...
+        'robot',robot,'nav',build_path_cache_signature(scene0.grid_map,scene0.map_info,setup.planner)));
+    metadata=struct('experiment_id','main_joint_task_navigation_20261111','date','2026-11-11', ...
+        'geometry_signature',signature,'mode_order',{modes},'methods',{methods}, ...
+        'model_revision',robot.manipulator.model.revision,'robot_footprint',robot.footprint, ...
+        'main_layout_and_all_original_targets_preserved',true, ...
+        'source_scene_config',setup.source_scene_cfg,'candidate_count',numel(setup.pool), ...
+        'dense_candidate_count',height(setup.dense_mapping), ...
+        'footprint_valid_dense_count',sum(setup.dense_mapping.collision_valid), ...
+        'sampling_rule',setup.sampling_rule,'candidate_budget_per_table',64, ...
+        'scene',struct('table_centers',scene0.scene_cfg.table_positions, ...
+            'table_length_m',scene0.scene_cfg.table.length,'table_width_m',scene0.scene_cfg.table.width, ...
+            'table_height_m',scene0.scene_cfg.table.height,'map_width_m',scene0.scene_cfg.map_width_m, ...
+            'map_height_m',scene0.scene_cfg.map_height_m,'start_pose',scene0.start_pose, ...
+            'border_thickness_m',scene0.scene_cfg.border_thickness_m), ...
+        'task_count',scene0.num_tasks,'table_count',numel(setup.regions), ...
+        'lambda_theta_m_per_rad',setup.planner.edge_cost.lambda_theta, ...
+        'navigation_cost_definition','actual path length + lambda * wrapped service-endpoint yaw differences', ...
+        'navigation_protocol','same A*, dense service-node route matrix and return to start in every case', ...
+        'original_main_entry_unchanged',true,'local_search_budget',setup.planner.strategy.joint_local, ...
+        'global_optimal',false,'minimum_scope','exact only on each region of the shared budgeted support subpool', ...
+        'arm_collision_checked',false,'hardware_calibrated',false, ...
+        'cache_policy','quantized retrieval only; positives actual FK recheck; negatives bitwise local request and pure-search failure only');
+    if isfile(fullfile(output_dir,'metadata.json'))
+        old=jsondecode(fileread(fullfile(output_dir,'metadata.json')));
+        assert(strcmp(old.geometry_signature,signature),'MainJoint:OutputChanged','Use a fresh output directory for changed inputs.');
+    end
+    write_json(fullfile(output_dir,'metadata.json'),metadata);
+    write_json(fullfile(output_dir,'run_state.json'),struct('status','RUNNING','completed_cases',0));
+    save(fullfile(output_dir,'main_setup.mat'),'setup','-v7');
+    writetable(setup.dense_mapping,fullfile(output_dir,'dense_to_subpool.csv'));
+    writetable(setup.table_counts,fullfile(output_dir,'table_candidate_counts.csv'));
+    tasks=table([scene0.tasks.id]',[scene0.tasks.table_id]',[scene0.tasks.x]',[scene0.tasks.y]',[scene0.tasks.z]', ...
+        'VariableNames',{'task_id','table_id','x_m','y_m','z_m'});
+    writetable(tasks,fullfile(output_dir,'tasks.csv'));
+    pool_rows=cell(numel(setup.pool),8);
+    for k=1:numel(setup.pool)
+        p=setup.pool(k);pool_rows(k,:)={k+1,p.candidate_id,p.dense_candidate_id,p.table_id,p.side_id,p.pose(1),p.pose(2),p.pose(3)};
+    end
+    writetable(cell2table(pool_rows,'VariableNames',{'node_index','candidate_id','dense_candidate_id','table_id','side_id','x_m','y_m','yaw_rad'}),fullfile(output_dir,'candidate_pool.csv'));
+    nav_memo=containers.Map('KeyType','char','ValueType','double');nav_rows=cell(0,12);nav_misses=0;nav_hits=0;
+    nav_mode='';nav_method='';
+    edge_file=fullfile(output_dir,'navigation_edges.csv');
+    if isfile(edge_file)
+        prior=readtable(edge_file,'TextType','string');
+        for k=1:height(prior)
+            nav_memo(sprintf('%d>%d',prior.from_node(k),prior.to_node(k)))=prior.navigation_cost(k);
+        end
+        nav_rows=table2cell(prior);
+    end
+    summary_rows=cell(0,25);dock_rows=cell(0,10);path_rows=cell(0,6);assignment_rows=cell(0,6);
+    move_rows=cell(0,9);minimum_rows=cell(0,6);case_results=cell(3,4);proofs=cell(1,3);completed=0;
+    for mi=1:3
+        [library,scene,proofs{mi}]=build_main_task_navigation_library(setup,modes{mi},output_dir);
+        certs=cell(1,numel(setup.regions));minimum=0;full_support=true;
+        for ri=1:numel(setup.regions)
+            [~,certs{ri}]=enumerate_minimum_task_covers(library.regions(ri).candidates,setup.regions(ri).task_ids);
+            c=certs{ri};full_support=full_support&&c.feasible;
+            if c.feasible,minimum=minimum+c.minimum_dock_count;else,minimum=NaN;end
+            minimum_rows(end+1,:)={modes{mi},ri,numel(c.task_ids),c.feasible,c.minimum_dock_count,c.cover_count}; %#ok<AGROW>
+        end
+        baseline_indices=[];baseline_order=[];baseline_ok=false;baseline_cost=NaN;
+        for method_index=1:4
+            method=methods{method_index};nav_mode=modes{mi};nav_method=method;
+            fprintf('\nMAIN CASE %s / %s\n',modes{mi},method);
+            planner=setup.planner;plan=[];stats=[];path=zeros(0,3);cost=NaN;raw_length=NaN;
+            base_valid=false;mission_valid=false;verified=0;search_time=0;nav_time=0;status='BLOCKED';reason='';
+            oracle_before=nav_misses;hits_before=nav_hits;clock=tic;
+            try
+                if strcmp(method,'staged')
+                    [selected,~,summaries,info,plan]=stage2_docking_planning(setup.regions,scene,robot,planner,library);
+                elseif baseline_ok&&full_support
+                    planner.strategy.name='task_navigation_joint_local';
+                    options=struct('control',method,'initial_candidate_indices',baseline_indices, ...
+                        'initial_matrix_visit_order',baseline_order,'edge_cost_callback',@nav_cost);
+                    plan=plan_task_navigation_joint_local(library,setup.regions,scene,robot,planner,options);
+                    selected=plan.selected_poses;summaries=plan.task_sequence_summary;info=plan.pose_info_list;
+                else
+                    selected=zeros(0,3);summaries={};info={};
+                    reason='NO_FULL_SUPPORT_OR_VALID_STAGED_SEED';
+                end
+                search_time=toc(clock);
+                if ~isempty(plan)&&strcmp(plan.status,'READY')
+                    nav_clock=tic;
+                    [~,path,~,~,~,raw_length,stats]=stage3_global_planning(scene,selected,summaries, ...
+                        setup.task_map,robot,planner,info,struct('scene_time_s',0,'docking_time_s',search_time),plan);
+                    nav_time=toc(nav_clock);base_valid=stats.path_validation.valid;
+                    verified=numel(stats.execution_status.verified_tasks);
+                    indices=pose_indices(selected);node_map=[1,indices+1];closed=node_map(stats.route_order);
+                    yaw=sum(abs(wrapToPiLocal(diff(poses_all(closed,3)))));
+                    cost=raw_length+metadata.lambda_theta_m_per_rad*yaw;
+                    for si=1:numel(stats.segment_stats)
+                        seg=stats.segment_stats(si);a=node_map(seg.from_id);b=node_map(seg.to_id);
+                        remember_edge(a,b,seg.path_length_m,true,seg.plan_time_s,'final_route_segment');
+                    end
+                    priced=0;for ei=1:numel(closed)-1,priced=priced+nav_cost(closed(ei),closed(ei+1));end
+                    assert(abs(priced-cost)<1e-7,'MainJoint:OracleMismatch');
+                    if isfield(plan,'joint_local')
+                        assert(abs(plan.joint_local.route_cost-cost)<1e-7,'MainJoint:SearchMismatch');
+                        assert(size(selected,1)==minimum,'MainJoint:MinimumCountLost');
+                    end
+                    mission_valid=base_valid&&verified==scene.num_tasks&&numel(plan.covered_tasks_predicted)==scene.num_tasks;
+                    status='READY';if ~mission_valid,status='IK_RECHECK_OR_COVERAGE_FAILED';end
+                    if strcmp(method,'staged')
+                        baseline_indices=indices;baseline_order=node_map(stats.visit_order);
+                        baseline_ok=mission_valid;baseline_cost=cost;
+                    end
+                    for di=1:size(selected,1)
+                        p=setup.pool(indices(di));rank=find(stats.visit_order==di+1,1)-1;
+                        dock_rows(end+1,:)={modes{mi},method,di,p.candidate_id,selected(di,1),selected(di,2),selected(di,3), ...
+                            strjoin(string(summaries{di}.covered_tasks),'|'),rank,setup.regions(plan.pose_to_region_map(di)).table_id}; %#ok<AGROW>
+                        for tid=reshape(summaries{di}.covered_tasks,1,[])
+                            assignment_rows(end+1,:)={modes{mi},method,tid,di,p.candidate_id,summaries{di}.arm_assign_map(tid)}; %#ok<AGROW>
+                        end
+                    end
+                    for k=1:size(path,1),path_rows(end+1,:)={modes{mi},method,k,path(k,1),path(k,2),path(k,3)};end %#ok<AGROW>
+                elseif ~isempty(plan)
+                    reason=plan.reason;status=plan.status;
+                end
+            catch err
+                search_time=max(search_time,toc(clock));status='ERROR';reason=[err.identifier ': ' err.message];
+                fprintf('MAIN CASE FAILED: %s\n',reason);
+            end
+            predicted=0;docks=0;seed_cost=NaN;input_cost=baseline_cost;queries=0;accepted=0;stop=reason;local_opt=false;
+            if ~isempty(plan)
+                predicted=numel(plan.covered_tasks_predicted);docks=size(plan.selected_poses,1);
+                if isfield(plan,'joint_local')&&isfield(plan.joint_local,'minimum_cover_seed_cost')
+                    j=plan.joint_local;seed_cost=j.minimum_cover_seed_cost;input_cost=j.input_seed_cost;
+                    queries=j.oracle_queries;accepted=numel(j.accepted_moves);stop=j.termination_reason;local_opt=j.local_optimum_certified;
+                    for mv=1:accepted
+                        event=j.accepted_moves(mv);
+                        move_rows(end+1,:)={modes{mi},method,mv,event.operation,event.region_id,event.previous_cost,event.new_cost, ...
+                            strjoin(string(event.previous_matrix_visit_order),'|'),strjoin(string(event.matrix_visit_order),'|')}; %#ok<AGROW>
+                    end
+                end
+            end
+            comparable_length=NaN;comparable_cost=NaN;estimate=NaN;
+            if mission_valid,comparable_length=raw_length;comparable_cost=cost;estimate=stats.exec_stats.navigation_time_s;end
+            summary_rows(end+1,:)={modes{mi},method,predicted,scene.num_tasks,docks,minimum,comparable_length, ...
+                comparable_cost,search_time,base_valid,mission_valid,verified,status,reason,raw_length,cost, ...
+                input_cost,seed_cost,queries,nav_misses-oracle_before,nav_hits-hits_before,accepted,stop,local_opt,false}; %#ok<AGROW>
+            case_results{mi,method_index}=struct('mode',modes{mi},'method',method,'status',status,'reason',reason, ...
+                'plan',plan,'stats',stats,'mission_valid',mission_valid,'navigation_cost',comparable_cost, ...
+                'nav_estimated_time_s',estimate,'navigation_planning_time_s',nav_time);
+            completed=completed+1;write_tables();
+            write_json(fullfile(output_dir,'run_state.json'),struct('status','RUNNING','completed_cases',completed));
+            fprintf('MAIN CASE RESULT coverage=%d/%d verified=%d docks=%d min=%g length=%g J=%g stop=%s\n', ...
+                predicted,scene.num_tasks,verified,docks,minimum,comparable_length,comparable_cost,stop);
+        end
+        save(fullfile(output_dir,['checkpoint_' modes{mi} '.mat']),'case_results','proofs','metadata','-v7');
+    end
+    result=struct('metadata',metadata,'case_results',{case_results},'ik_proofs',{proofs});
+    save(fullfile(output_dir,'main_joint_result.mat'),'result','-v7');
+    write_json(fullfile(output_dir,'run_state.json'),struct('status','COMPLETE','completed_cases',completed, ...
+        'valid_missions',sum(cellfun(@(x)x.mission_valid,case_results(:)))));
+    disp(readtable(fullfile(output_dir,'summary.csv')));
+
+    function indices=pose_indices(P)
+        indices=zeros(1,size(P,1));
+        for ii=1:size(P,1),[d,jj]=min(vecnorm(poses_all(2:end,:)-P(ii,:),2,2));assert(d<1e-10);indices(ii)=jj;end
+    end
+    function value=nav_cost(a,b)
+        if a==b,value=0;return;end
+        key=sprintf('%d>%d',a,b);
+        if isKey(nav_memo,key),nav_hits=nav_hits+1;value=nav_memo(key);return;end
+        clock_nav=tic;
+        [~,L,ok]=query_path_with_shared_cache(scene0.grid_map,poses_all(a,:),poses_all(b,:),scene0.map_info,setup.planner);
+        nav_misses=nav_misses+1;remember_edge(a,b,L,ok,toc(clock_nav),'lazy_search_query');
+        value=nav_memo(key);
+    end
+    function remember_edge(a,b,L,ok,elapsed,source)
+        key=sprintf('%d>%d',a,b);yaw=abs(wrapToPiLocal(poses_all(b,3)-poses_all(a,3)));
+        value=Inf;if ok&&isfinite(L)&&L<=1e6,value=L+metadata.lambda_theta_m_per_rad*yaw;end
+        if isKey(nav_memo,key)
+            old_value=nav_memo(key);assert((isinf(old_value)&&isinf(value))||abs(old_value-value)<1e-7,'MainJoint:OracleChanged');return;
+        end
+        nav_memo(key)=value;ca=0;cb=0;if a>1,ca=setup.pool(a-1).candidate_id;end;if b>1,cb=setup.pool(b-1).candidate_id;end
+        nav_rows(end+1,:)={a,b,ca,cb,L,yaw,value,ok,elapsed,nav_mode,nav_method,source};
+    end
+    function write_tables()
+        writetable(cell2table(summary_rows,'VariableNames',{'mode','method','covered_tasks','target_count','docks','minimum_docks', ...
+            'route_length_m','navigation_cost','selection_time_s','route_valid','mission_valid','verified_tasks','status','failure_reason', ...
+            'raw_route_length_m','raw_navigation_cost','input_seed_cost','minimum_seed_cost','oracle_queries','new_lazy_path_queries', ...
+            'external_oracle_hits','accepted_moves','termination_reason','local_optimum_certified','global_optimal'}),fullfile(output_dir,'summary.csv'));
+        writetable(cell2table(dock_rows,'VariableNames',{'mode','method','dock_id','candidate_id','x_m','y_m','yaw_rad','covered_task_ids','visit_rank','table_id'}),fullfile(output_dir,'docking_poses.csv'));
+        writetable(cell2table(path_rows,'VariableNames',{'mode','method','point_id','x_m','y_m','yaw_rad'}),fullfile(output_dir,'navigation_paths.csv'));
+        writetable(cell2table(assignment_rows,'VariableNames',{'mode','method','task_id','dock_id','candidate_id','arm'}),fullfile(output_dir,'task_assignments.csv'));
+        writetable(cell2table(move_rows,'VariableNames',{'mode','method','move_id','operation','region_id','previous_cost','new_cost','previous_nodes','new_nodes'}),fullfile(output_dir,'accepted_moves.csv'));
+        writetable(cell2table(minimum_rows,'VariableNames',{'mode','region_id','task_count','feasible','minimum_docks','cover_count'}),fullfile(output_dir,'minimum_cover_certificates.csv'));
+        writetable(cell2table(nav_rows,'VariableNames',{'from_node','to_node','from_candidate_id','to_candidate_id','path_length_m', ...
+            'endpoint_yaw_change_rad','navigation_cost','path_found','query_time_s','first_mode','first_method','source'}),edge_file);
+    end
+end
+
+function write_json(path,data)
+    fid=fopen(path,'w','n','UTF-8');if fid<0,error('MainJoint:Write','Cannot write output.');end
+    cleanup=onCleanup(@()fclose(fid)); %#ok<NASGU>
+    fprintf(fid,'%s\n',jsonencode(data,'PrettyPrint',true));
+end

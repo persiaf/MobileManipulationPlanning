@@ -1,0 +1,13 @@
+mode,method,covered_tasks,target_count,docks,minimum_docks,route_length_m,navigation_cost,selection_time_s,route_valid,mission_valid,verified_tasks,status,failure_reason,raw_route_length_m,raw_navigation_cost,input_seed_cost,minimum_seed_cost,oracle_queries,new_lazy_path_queries,external_oracle_hits,accepted_moves,termination_reason,local_optimum_certified,global_optimal
+position_only,staged,36,36,16,16,53.9655374953075,55.5363338221024,0.2376377,1,1,36,READY,,53.9655374953075,55.5363338221024,55.5363338221024,NaN,0,0,17,0,,0,0
+position_only,minimum_seed,36,36,16,16,53.9655374953075,55.5363338221024,0.0844184,1,1,36,READY,,53.9655374953075,55.5363338221024,55.5363338221026,55.5363338221026,17,0,34,0,minimum_seed_control,0,0
+position_only,reorder_only,36,36,16,16,48.1793939239336,49.6716504343888,0.8785731,1,1,36,READY,,48.1793939239336,49.6716504343888,55.5363338221026,55.5363338221026,43,26,34,3,max_passes,0,0
+position_only,joint_local,36,36,16,16,42.1909400596584,43.5702945447348,67.2814953,1,1,36,READY,,42.1909400596584,43.5702945447348,55.5363338221026,55.5363338221026,1254,1235,36,23,max_passes,0,0
+top_down_grasp,staged,36,36,16,16,NaN,NaN,12.6037043,0,0,0,ERROR,stitch_global_path:MissingSegment: No valid route segment 16 -> 4.,NaN,NaN,NaN,NaN,0,0,0,0,stitch_global_path:MissingSegment: No valid route segment 16 -> 4.,0,0
+top_down_grasp,minimum_seed,0,36,0,16,NaN,NaN,0.0003503,0,0,0,BLOCKED,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,NaN,NaN,NaN,NaN,0,0,0,0,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,0,0
+top_down_grasp,reorder_only,0,36,0,16,NaN,NaN,0.0002191,0,0,0,BLOCKED,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,NaN,NaN,NaN,NaN,0,0,0,0,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,0,0
+top_down_grasp,joint_local,0,36,0,16,NaN,NaN,8.24e-05,0,0,0,BLOCKED,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,NaN,NaN,NaN,NaN,0,0,0,0,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,0,0
+table_wipe,staged,36,36,16,16,NaN,NaN,9.9787927,0,0,0,ERROR,stitch_global_path:MissingSegment: No valid route segment 17 -> 4.,NaN,NaN,NaN,NaN,0,0,0,0,stitch_global_path:MissingSegment: No valid route segment 17 -> 4.,0,0
+table_wipe,minimum_seed,0,36,0,16,NaN,NaN,0.0001331,0,0,0,BLOCKED,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,NaN,NaN,NaN,NaN,0,0,0,0,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,0,0
+table_wipe,reorder_only,0,36,0,16,NaN,NaN,0.0003922,0,0,0,BLOCKED,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,NaN,NaN,NaN,NaN,0,0,0,0,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,0,0
+table_wipe,joint_local,0,36,0,16,NaN,NaN,2.94e-05,0,0,0,BLOCKED,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,NaN,NaN,NaN,NaN,0,0,0,0,NO_FULL_SUPPORT_OR_VALID_STAGED_SEED,0,0

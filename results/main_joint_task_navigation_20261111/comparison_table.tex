@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\centering
+\caption{Default 16-table scene with all 36 tasks and a shared 906-pose geometric subpool. The minimum-dock certificate is conditional on that subpool; joint search is budgeted local descent. Invalid full missions are reported as N/A.}
+\label{tab:main-task-navigation}
+\begin{tabular}{llrrrr}
+\toprule
+Task & Method & Verified & Docks & $L$ (m) & $J$ \\
+\midrule
+Position & Staged & 36/36 & 16 & 53.966 & 55.536 \\
+Position & Minimum seed & 36/36 & 16 & 53.966 & 55.536 \\
+Position & Reorder only & 36/36 & 16 & 48.179 & 49.672 \\
+Position & Joint local & 36/36 & 16 & 42.191 & 43.570 \\
+Downward grasp & Staged & 36/36 & 16 & 62.351 & 64.387 \\
+Downward grasp & Minimum seed & 36/36 & 16 & 62.351 & 64.387 \\
+Downward grasp & Reorder only & 36/36 & 16 & 55.981 & 58.017 \\
+Downward grasp & Joint local & 36/36 & 16 & 52.828 & 55.294 \\
+Table wipe & Staged & 36/36 & 16 & 62.815 & 65.739 \\
+Table wipe & Minimum seed & 36/36 & 16 & 62.815 & 65.739 \\
+Table wipe & Reorder only & 36/36 & 16 & 55.844 & 58.768 \\
+Table wipe & Joint local & 36/36 & 16 & 50.643 & 53.025 \\
+\bottomrule
+\end{tabular}
+\end{table*}

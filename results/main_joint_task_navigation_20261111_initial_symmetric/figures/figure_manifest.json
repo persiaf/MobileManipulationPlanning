@@ -1,0 +1,81 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.1.3",
+  "matplotlib": "3.10.0",
+  "details": false,
+  "style_reference": "results/figures/fig_main_scenario_publication.png",
+  "style_helper": "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\joint_task_navigation\\common.py",
+  "inputs_sha256": {
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\figures\\fig_main_scenario_publication.png": "1a595713c59135d29f40a430c71dd4266e375818a6781e6218540c0e97bd4964",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\main_joint_task_navigation_20261111\\docking_poses.csv": "67d524bb2fe4b45683464265bb6803aed980ffd6ba55bf0d14e7cbebff456dde",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\main_joint_task_navigation_20261111\\metadata.json": "3154c0575c6c6ddb8406ed56064ce55e2ec4d09e6b46653ac44e0b3039821c05",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\main_joint_task_navigation_20261111\\navigation_paths.csv": "5111b0a939c37990269488209706da93d48868943fae3353a51b11eb840e7885",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\main_joint_task_navigation_20261111\\summary.csv": "e9962cb9acabc251bd0c2ad179a871c6456f030da543ae7c441fabb56357d1af",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\main_joint_task_navigation_20261111\\tasks.csv": "578dbce66b259e776e823ce4dd51f126a9806a6f3ab1c79444b347196fe35e5b",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\draw_docking_result.m": "4bd653d3c7d4353d1eb463f60c75b6d7e7bd5bf4ad37cd7469f089dedae88f5b",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\draw_robot.m": "2c745326cc2ca44a0103ac409722dd32c34ce4579b2b9118ca3dd1fc85e0a587",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\joint_task_navigation\\common.py": "993d71980f1778ea657bf69d62403b41a4249638360520fd68a151012d3b19e5",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\plot_main_scenario_publication.m": "e8a1d79aca756de07c5415aa1df22957cb029bc5b8b1718c9bd1143f9ebd3203"
+  },
+  "scripts_sha256": {
+    "main_common.py": "12fa39bef6683007189ce8cb891e2e29587ff48b22d0fb764aa1695e3fb179f2",
+    "plot_main_metrics.py": "8bafbcff2d0100bd6bd3242e87421008f6395174bfbeb7f2d20c93a5ca1af346",
+    "plot_main_scenes.py": "cae6680d020da1127a6b78e41202ca99df1e1fbbe574b3269fa47ae47d4ae9d7",
+    "run_all.py": "9b870e8e13fb86042c810d7a8dd7ff6bcbf8fb8586d456ba4f3788c64127e780"
+  },
+  "outputs_sha256": {
+    "main_scene_overview.pdf": "b0541100b0e4b4f04b680ea59989722a84bac9bb0ab53105cf56ca3833d41b68",
+    "main_scene_overview.png": "93b2c6b1203bb969e9be5967be6dbd3898e20947b7cd72aa1ef2584876efa567",
+    "main_scene_overview_caption.md": "fcd13772670c49a6eeda822f2a3924d873570a278bec4b4d4570735b35ed58f6",
+    "main_scene_position_only.pdf": "a9846654a2abe81cab7a537d40cea26572a4df31dc6c4d834b0b22376dab76a5",
+    "main_scene_position_only.png": "728859d0fdea4f72cf180fe9595d440bb7449a26d618dcc63e424319122c02da",
+    "main_scene_position_only_caption.md": "6a0dac4fbcff653bf2ed7fc9ed07b8fc7404d84e3b5a2a960442f329d3fefce3",
+    "main_joint_metrics.pdf": "fa1ba221a81981ef4e72df154838101f3fa2f726d4f24a1b6143d85db0943272",
+    "main_joint_metrics.png": "cefc6092b47111e70cc8381bc2422d79ab58cd1a778ba6cdc6bb9daca6cc2340",
+    "main_joint_metrics_caption.md": "b52b028af0401238b5c13b3ed22e48f63eb2b5f8002af274e776980546b9c790"
+  },
+  "render_checks": {
+    "main_scene_overview.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_scene_overview.png": {
+      "size_px": [
+        3575,
+        2009
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "main_scene_position_only.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_scene_position_only.png": {
+      "size_px": [
+        3575,
+        2009
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "main_joint_metrics.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_joint_metrics.png": {
+      "size_px": [
+        3400,
+        2104
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  }
+}

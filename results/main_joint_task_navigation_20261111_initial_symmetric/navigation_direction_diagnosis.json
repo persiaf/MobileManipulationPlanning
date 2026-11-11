@@ -1,0 +1,99 @@
+{
+  "diagnosis": "direction-dependent finite search/connector outcome masked by mirrored dense cost matrix",
+  "source_case": "checkpoint_top_down_grasp.mat:case_results{2,1}.plan",
+  "configuration_changed": false,
+  "endpoints": {
+    "node16": {
+      "table_id": 15,
+      "pose": [
+        6,
+        9.5,
+        -1.5707963267948966
+      ],
+      "endpoint_valid": true
+    },
+    "node4": {
+      "table_id": 3,
+      "pose": [
+        5.85,
+        0.8999999999999999,
+        1.5707963267948966
+      ],
+      "endpoint_valid": true
+    }
+  },
+  "queries": [
+    {
+      "from": 16,
+      "to": 4,
+      "ok": false,
+      "point_count": 0,
+      "path_length_m": null,
+      "failure_reason": "INVALID_GRID_CORE",
+      "fixed_heading_recovery": "NO_FIXED_HEADING_PATH"
+    },
+    {
+      "from": 4,
+      "to": 16,
+      "ok": true,
+      "point_count": 671,
+      "path_length_m": 10.4035533906,
+      "actual_planner": "fixed_heading_astar"
+    },
+    {
+      "from": 16,
+      "to": 12,
+      "ok": true,
+      "point_count": 256,
+      "path_length_m": 3.85563491861,
+      "actual_planner": "fixed_heading_astar"
+    },
+    {
+      "from": 12,
+      "to": 4,
+      "ok": true,
+      "point_count": 928,
+      "path_length_m": 12.5399494937,
+      "actual_planner": "astar"
+    },
+    {
+      "from": 16,
+      "to": 17,
+      "ok": true,
+      "point_count": 136,
+      "path_length_m": 2.11213203436,
+      "actual_planner": "fixed_heading_astar"
+    },
+    {
+      "from": 17,
+      "to": 4,
+      "ok": false,
+      "point_count": 0,
+      "path_length_m": null,
+      "failure_reason": "INVALID_GRID_CORE"
+    }
+  ],
+  "alternative_route": {
+    "nodes": [
+      16,
+      12,
+      4
+    ],
+    "finite": true,
+    "summed_path_length_m": 16.39558441231
+  },
+  "interpretation": "Both endpoints are footprint-valid and connected through another selected node. Legacy dense matrix queried 4->16 and mirrored that finite cost into 16->4. This does not prove physical inaccessibility; it exposes direction dependence of the implemented finite navigation oracle.",
+  "log_path": "results/logs/main_grasp_missing_segment_diagnosis_20261111.log",
+  "log_sha256": "9382fdc091c8c30e8e94bc38ef4de50e434fe53dbb68abbd1a650cf732b79852",
+  "precision_note": "Endpoint doubles preserve the checkpoint values; path lengths here use the twelve-significant-digit diagnostic log.",
+  "regression_verification": {
+    "tests_passed": 4,
+    "test_source": "tests/test_directed_path_cost_matrix.m",
+    "default_scene_rebuilt_without_checkpoint": true,
+    "both_endpoints_footprint_valid": true,
+    "reversed_successful_path_is_also_collision_valid": true,
+    "scope": "Configured geometric holonomic model only; the direct finite search still fails in one direction.",
+    "log_path": "results/logs/directed_path_cost_matrix_tests_20261111.log",
+    "log_sha256": "fee5fd354deda3f3c5afc50b3baef347c075ba8bf3f527cdf20cd2a93041b57c"
+  }
+}

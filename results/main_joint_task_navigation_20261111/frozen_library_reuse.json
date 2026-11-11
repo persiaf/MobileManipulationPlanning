@@ -1,0 +1,86 @@
+{
+  "source_directory": "results/main_joint_task_navigation_20261111_initial_symmetric",
+  "frozen_ik_evidence_unchanged": true,
+  "proof_counters_describe_original_build": true,
+  "files": [
+    {
+      "file": "main_library_geometry_signature.json",
+      "original_sha256": "8F5EB70B7E0DA81B39DAA9C6E151B04C9733A31B72FFA38D0A9199A2C9B13FA4",
+      "copied_sha256": "8F5EB70B7E0DA81B39DAA9C6E151B04C9733A31B72FFA38D0A9199A2C9B13FA4",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "candidate_library_position_only.mat",
+      "original_sha256": "C5F789509B6A0CA12FBDEBB05B930EE901850217F1F6F6F931F4F502B922BA61",
+      "copied_sha256": "C5F789509B6A0CA12FBDEBB05B930EE901850217F1F6F6F931F4F502B922BA61",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "pair_support_position_only.csv",
+      "original_sha256": "7E531F0B3A803CE7D5187064F03AF3FFCED6D7C16CAF71980F24AB25764963DA",
+      "copied_sha256": "7E531F0B3A803CE7D5187064F03AF3FFCED6D7C16CAF71980F24AB25764963DA",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "candidate_support_position_only.csv",
+      "original_sha256": "BB59E469BB6867F78A2443C693A8699ED9E655F33EE16C89EEEC5D1F6A949A74",
+      "copied_sha256": "BB59E469BB6867F78A2443C693A8699ED9E655F33EE16C89EEEC5D1F6A949A74",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "ik_cache_position_only.json",
+      "original_sha256": "814CD2FD05119EA428E03CF64A34F374965F512C2797AADEBBF5FFB3DC6BACAE",
+      "copied_sha256": "814CD2FD05119EA428E03CF64A34F374965F512C2797AADEBBF5FFB3DC6BACAE",
+      "immutable_after_copy": false
+    },
+    {
+      "file": "candidate_library_top_down_grasp.mat",
+      "original_sha256": "72A6B9E59841956BCBA78C1AB55162B92A41F831728D0A7744E66748BCAFE7BF",
+      "copied_sha256": "72A6B9E59841956BCBA78C1AB55162B92A41F831728D0A7744E66748BCAFE7BF",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "pair_support_top_down_grasp.csv",
+      "original_sha256": "7CFDC7BB56DE84CB1ED89CA82836FBCD1C0099B29F3EB2425F044C9BF3E2C80B",
+      "copied_sha256": "7CFDC7BB56DE84CB1ED89CA82836FBCD1C0099B29F3EB2425F044C9BF3E2C80B",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "candidate_support_top_down_grasp.csv",
+      "original_sha256": "56D0EE58F5F7ACDE03AC66C43CF4F91056DF93ADD23BA348AF79397960AE025E",
+      "copied_sha256": "56D0EE58F5F7ACDE03AC66C43CF4F91056DF93ADD23BA348AF79397960AE025E",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "ik_cache_top_down_grasp.json",
+      "original_sha256": "FB51DB378F08D992AEFF11188EFD1C4380F9E0F835E4D762B092794C9B348602",
+      "copied_sha256": "FB51DB378F08D992AEFF11188EFD1C4380F9E0F835E4D762B092794C9B348602",
+      "immutable_after_copy": false
+    },
+    {
+      "file": "candidate_library_table_wipe.mat",
+      "original_sha256": "81DACAA2D01FDABF857BBB02DE17D84E481DD49438DD7B695B8F993C0058905E",
+      "copied_sha256": "81DACAA2D01FDABF857BBB02DE17D84E481DD49438DD7B695B8F993C0058905E",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "pair_support_table_wipe.csv",
+      "original_sha256": "B5F62DB74A6E4301AA8D99EEF019850BD391F12F1F9FEA2661CA549AB0D530A5",
+      "copied_sha256": "B5F62DB74A6E4301AA8D99EEF019850BD391F12F1F9FEA2661CA549AB0D530A5",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "candidate_support_table_wipe.csv",
+      "original_sha256": "40CE532C604659F613C2C22FC7AE8E7CDD9C2E40A3718515F5EB73C3B38EF985",
+      "copied_sha256": "40CE532C604659F613C2C22FC7AE8E7CDD9C2E40A3718515F5EB73C3B38EF985",
+      "immutable_after_copy": true
+    },
+    {
+      "file": "ik_cache_table_wipe.json",
+      "original_sha256": "B3CC004E4FCE5F863470EA24B0F545E49D099A021EB2A10433869A2F8E07C6E7",
+      "copied_sha256": "B3CC004E4FCE5F863470EA24B0F545E49D099A021EB2A10433869A2F8E07C6E7",
+      "immutable_after_copy": false
+    }
+  ],
+  "proof_json_update": "Reused flag and current cache-load time are updated on replay; original build counters and original proof files remain archived."
+}

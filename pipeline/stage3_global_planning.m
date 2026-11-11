@@ -85,13 +85,32 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     end
     t_route = tic;
     [preferred_ok, preferred_order] = get_preferred_visit_order(plan, n_poses);
+    navigation_seed_recovery = struct('enabled',false,'status','disabled', ...
+        'recovered',false,'initial_closed_finite',[],'selected_start',1,'attempt_count',0,'attempts',struct([]));
     if preferred_ok
         visit_order = preferred_order;
         route_order_source = 'strategy_preferred';
+        navigation_seed_recovery.status = 'not_needed';
+        navigation_seed_recovery.reason = 'preferred_order_preserved';
+        navigation_seed_recovery.selected_start = NaN;
     else
-        visit_order = nearest_neighbor_order(dist_matrix, 1, enable_2opt);
-        route_order_source = 'nearest_neighbor';
+        finite_restarts = isfield(planner_cfg,'routing') && ...
+            isfield(planner_cfg.routing,'finite_nn_restarts') && ...
+            isequal(planner_cfg.routing.finite_nn_restarts,true);
+        if finite_restarts
+            return_to_start = isfield(planner_cfg,'execution') && ...
+                isfield(planner_cfg.execution,'return_to_start') && planner_cfg.execution.return_to_start;
+            [visit_order,navigation_seed_recovery] = finite_nearest_neighbor_order( ...
+                dist_matrix,1,return_to_start);
+            navigation_seed_recovery.two_opt_requested = logical(enable_2opt);
+            navigation_seed_recovery.cost_matrix = dist_matrix;
+            route_order_source = navigation_seed_recovery.route_order_source;
+        else
+            visit_order = nearest_neighbor_order(dist_matrix, 1, enable_2opt);
+            route_order_source = 'nearest_neighbor';
+        end
     end
+    navigation_seed_recovery.route_order_source = route_order_source;
     route_order_time_s = toc(t_route);
     fprintf('  访问顺序: [%s]\n', num2str(visit_order));
     fprintf('  route order source: %s\n', route_order_source);
@@ -313,6 +332,7 @@ function [scene, global_path, all_poses, visit_order, executed_tasks, total_path
     stats.visit_order = visit_order;
     stats.route_order = route_order;
     stats.route_order_source = route_order_source;
+    stats.navigation_seed_recovery = navigation_seed_recovery;
     stats.routing_mode = routing_mode;
     stats.sparse_graph = sparse_graph;
     stats.strategy_name = get_plan_field(plan, 'strategy_name', 'bottom_up');
