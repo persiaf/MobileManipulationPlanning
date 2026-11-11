@@ -1,0 +1,163 @@
+{
+  "date": "2026-11-11",
+  "experiment_id": "joint_task_navigation_20261111",
+  "reviewer_role": "independent_paper_architect_reviewer",
+  "reviewer_agent": "/root/joint_review",
+  "claim_supported": "yes",
+  "scoped_navigation_improvement_claim_supported": "yes",
+  "paper_novelty_or_general_superiority_supported": "no",
+  "confidence": "high",
+  "confidence_scope": "Frozen numerical support matrix, exported navigation graph, bounded exhaustive optimum and audited CSV/geometry only.",
+  "paper_claim_audit": "unavailable",
+  "provisional": true,
+  "pending_external_review": false,
+  "review_scope_note": "Independent AI review and independently implemented Python enumeration/CSV/sample-footprint audit; not human peer review or independent IK/physical validation.",
+  "verified_results": {
+    "task_count": 10,
+    "fixed_candidates": 136,
+    "same_table_pairs_per_mode": 680,
+    "necessary_directed_edges": 2292,
+    "edge_asymmetry_pairs_observed": 0,
+    "minimum_docks": [
+      2,
+      4,
+      4
+    ],
+    "full_task_assignments_in_all_nine_cases": true,
+    "staged_weighted_cost": [
+      12.0967222976324,
+      15.2608544144843,
+      12.301442052752
+    ],
+    "reorder_only_weighted_cost": [
+      12.0967222976324,
+      15.2608544144843,
+      12.1967222976324
+    ],
+    "joint_weighted_cost": [
+      9.64139287707173,
+      15.051414904245,
+      10.9360621258526
+    ],
+    "joint_raw_length_m": [
+      9.27487373415292,
+      14.3183766184074,
+      10.4648232278141
+    ],
+    "weighted_reduction_percent": [
+      20.297476954077332,
+      1.372397013633242,
+      11.099348523890718
+    ],
+    "raw_length_reduction_percent": [
+      20.219457416481212,
+      0,
+      10.751455857448589
+    ],
+    "shared_graph_build_time_s": 29.0613351,
+    "independent_global_optima": {
+      "position_only": {
+        "navigation_cost": 9.64139287707172,
+        "one_optimal_closed_route": [
+          1,
+          31,
+          99,
+          1
+        ],
+        "routes_evaluated": 512
+      },
+      "top_down_grasp": {
+        "navigation_cost": 15.051414904244961,
+        "one_optimal_closed_route": [
+          1,
+          7,
+          75,
+          90,
+          22,
+          1
+        ],
+        "routes_evaluated": 1944
+      },
+      "table_wipe": {
+        "navigation_cost": 10.936062125852544,
+        "one_optimal_closed_route": [
+          1,
+          23,
+          91,
+          93,
+          25,
+          1
+        ],
+        "routes_evaluated": 18816
+      }
+    }
+  },
+  "what_results_support": [
+    "On the fixed task-support matrix, full coverage and exact minimum dock counts 2/4/4 are preserved while the joint method lowers the stated weighted navigation objective in all three modes.",
+    "Position and wipe routes shorten; grasp raw route length is unchanged and only its endpoint-heading term decreases.",
+    "The fixed-set reorder control preserves staged candidate sets and independently attains their optimal ordering. Joint improvement beyond it supports a dock-selection effect, not only a permutation effect.",
+    "All minimum covers and needed edges were independently reconstructed; exhaustive Python tour enumeration matches every joint optimum.",
+    "Main-scene-style figures use actual exported paths, physical dock poses/headings and exactly-once supported task assignments without changing geometry."
+  ],
+  "what_results_dont_support": [
+    "A claim that all task modes have shorter raw routes, or that endpoint yaw cost equals integrated path turning effort.",
+    "Continuous-space or arbitrary repeated-visit walk optimality; the certificate covers the given regional partition, binary minimum-cover layer and Hamiltonian tours on the computed oracle.",
+    "Independent IK, manipulator/self/inter-arm collision, inter-task arm transition, contact force or physical task success.",
+    "General superiority, statistical significance, runtime efficiency, robustness, or a scalable/novel algorithm merely because exhaustive search beats a staged heuristic."
+  ],
+  "missing_evidence": [
+    "Manuscript-to-evidence paper claim audit.",
+    "Held-out layouts, heights, task/path directions, candidate-density and IK-budget saturation studies.",
+    "Full computational accounting and randomized/repeated timings if efficiency is claimed, including navigation graph construction.",
+    "Equal-budget strong navigation-aware baselines, a scalable variant and component ablations before method-level superiority claims.",
+    "Calibrated models, independent collision-aware arm/transition validation, measured docking uncertainty and physical execution for corresponding claims."
+  ],
+  "suggested_claim_revision": "在固定VX300s模型、两桌10目标和136候选的离散任务支持矩阵上，联合停靠/访问序列搜索保持10/10任务支持和2/4/4次最少停靠，将既定加权导航代价降低20.30%、1.37%、11.10%。其中位置和擦拭的原始路线缩短20.22%、10.75%；抓取距离不变，仅端点朝向项减少。最优性限于给定支持分区、最少覆盖层和计算导航图上的单次访问闭环。",
+  "next_experiments_needed": [
+    "Held-out scene/path-direction matrix",
+    "Candidate/IK-budget sensitivity",
+    "Full-cost repeated timings and scalable search comparison",
+    "Equal-budget navigation-aware baselines",
+    "Independent collision-aware arm and transition validation"
+  ],
+  "figure_review": [
+    {
+      "figure": "figures/main_style_overview.png and three per-mode paired figures",
+      "verdict": "acceptable",
+      "strengths": [
+        "Faithful main-scenario colors, markers, grid, footprints and heading arrows",
+        "Identical two-table map/targets between staged and joint",
+        "Actual routes and explicit assignment links; grasp heading-only effect visible"
+      ],
+      "limitations": [
+        "Task-count label needs the IK-support caption for correct interpretation",
+        "Assignment lines do not certify collision-free arm motion"
+      ],
+      "blocking_issues": []
+    },
+    {
+      "figure": "figures/joint_navigation_metrics.png",
+      "verdict": "acceptable",
+      "strengths": [
+        "Separate raw distance and weighted m-equivalent cost",
+        "Fixed-set control and minimum counts shown",
+        "Caption states graph preprocessing exclusion and no total-speedup claim"
+      ],
+      "limitations": [
+        "Do not use sub-second search bars as end-to-end timing evidence",
+        "Single fixed-order observations have no uncertainty estimate"
+      ],
+      "blocking_issues": []
+    }
+  ],
+  "input_assumptions_resolved": [
+    "Regions are now explicitly checked as a disjoint complete task partition",
+    "Hamiltonian/minimum-cover-layer and BLOCKED-on-no-finite-tour semantics documented"
+  ],
+  "independent_auditor": "experiments/audit_joint_task_navigation.py",
+  "independent_audit_result": "results/joint_task_navigation_20261111/independent_audit.json",
+  "routing_action": "confirm_bounded_navigation_selection_result_and_supplement_before_general_or_novelty_claims",
+  "ready_for_confirmed_full_paper_writing": false,
+  "production_code_changed_by_review": false,
+  "raw_numerical_results_changed_by_review": false
+}

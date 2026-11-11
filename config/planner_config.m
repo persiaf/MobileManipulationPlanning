@@ -55,6 +55,15 @@ function cfg = planner_config()
     cfg.docking.ablation_mode = 'full';
 
     cfg.strategy.name = 'bottom_up';
+    % Opt-in exact finite-pool task/navigation experiment. Hard budgets fail
+    % explicitly; they never truncate search and retain an optimality label.
+    cfg.strategy.joint.max_task_count = 16;
+    cfg.strategy.joint.max_enumerated_combinations = 1000000;
+    cfg.strategy.joint.max_covers = 100000;
+    cfg.strategy.joint.max_selected_docks = 8;
+    cfg.strategy.joint.max_cover_products = 100000;
+    cfg.strategy.joint.max_route_evaluations = 1000000;
+    cfg.strategy.joint.max_navigation_queries = 10000;
     cfg.strategy.common.route_shortlist_size = 25;
     cfg.strategy.common.preserve_coverage_union = true;
     cfg.strategy.common.use_path_cost_cache = true;

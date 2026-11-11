@@ -8,6 +8,8 @@ An opt-in [task-conditioned arm workspace experiment](docs/TASK_CONDITIONED_ARM_
 
 The [controlled two-table comparison](results/task_constraint_comparison_20261111/EXPERIMENT_PROTOCOL.md) freezes the arm, ten targets, candidate poses and navigation rules across position-only, downward-grasp and wiping tasks. Run `result = exp_task_constraint_comparison;` after path initialization, then `python experiments/audit_task_constraint_comparison.py` and `python visualization/task_constraint_comparison/run_all.py`. CSV evidence, vector figures and [analysis](results/task_constraint_comparison_20261111/RESULTS_ANALYSIS.md) are retained separately from the historical baseline outputs.
 
+An opt-in `task_navigation_joint` strategy now searches the minimum-dock support-cover layer jointly with navigation cost. The [joint comparison](results/joint_task_navigation_20261111/ANALYSIS.md) reuses the same frozen IK evidence and adds a fixed-dock reordering control: run `result = exp_joint_task_navigation;`, then `python experiments/audit_joint_task_navigation.py` and `python visualization/joint_task_navigation/run_all.py`. Figures follow the main-scene renderer. Exactness is bounded to the finite regional support matrix and directed navigation graph; configured budgets fail explicitly. The default remains `bottom_up`.
+
 ## Research stages
 
 | Stage | Scope | Primary entry | Boundary |

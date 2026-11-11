@@ -1,0 +1,222 @@
+{
+  "status": "PASS",
+  "cases_checked": 9,
+  "necessary_directed_edges": 2292,
+  "asymmetric_edge_pairs": 0,
+  "minimum_cover_certificates": [
+    {
+      "mode": "position_only",
+      "table_id": 1,
+      "minimum_docks": 1,
+      "cover_count": 16,
+      "core_candidates": 16
+    },
+    {
+      "mode": "position_only",
+      "table_id": 2,
+      "minimum_docks": 1,
+      "cover_count": 16,
+      "core_candidates": 16
+    },
+    {
+      "mode": "top_down_grasp",
+      "table_id": 1,
+      "minimum_docks": 2,
+      "cover_count": 9,
+      "core_candidates": 6
+    },
+    {
+      "mode": "top_down_grasp",
+      "table_id": 2,
+      "minimum_docks": 2,
+      "cover_count": 9,
+      "core_candidates": 6
+    },
+    {
+      "mode": "table_wipe",
+      "table_id": 1,
+      "minimum_docks": 2,
+      "cover_count": 28,
+      "core_candidates": 28
+    },
+    {
+      "mode": "table_wipe",
+      "table_id": 2,
+      "minimum_docks": 2,
+      "cover_count": 28,
+      "core_candidates": 28
+    }
+  ],
+  "independent_global_optima": {
+    "position_only": {
+      "navigation_cost": 9.64139287707172,
+      "one_optimal_closed_route": [
+        1,
+        31,
+        99,
+        1
+      ],
+      "routes_evaluated": 512
+    },
+    "top_down_grasp": {
+      "navigation_cost": 15.051414904244961,
+      "one_optimal_closed_route": [
+        1,
+        7,
+        75,
+        90,
+        22,
+        1
+      ],
+      "routes_evaluated": 1944
+    },
+    "table_wipe": {
+      "navigation_cost": 10.936062125852544,
+      "one_optimal_closed_route": [
+        1,
+        23,
+        91,
+        93,
+        25,
+        1
+      ],
+      "routes_evaluated": 18816
+    }
+  },
+  "cases": {
+    "position_only/staged": {
+      "covered_tasks": 10,
+      "minimum_docks": 2,
+      "route_length_recomputed_m": 11.625483399593906,
+      "navigation_cost_recomputed": 12.096722297632375,
+      "endpoint_yaw_change_rad": 3.1415926535898,
+      "path_samples_checked": 1473,
+      "fixed_set_order_optimum": null
+    },
+    "position_only/reorder_only": {
+      "covered_tasks": 10,
+      "minimum_docks": 2,
+      "route_length_recomputed_m": 11.625483399593906,
+      "navigation_cost_recomputed": 12.096722297632375,
+      "endpoint_yaw_change_rad": 3.1415926535898,
+      "path_samples_checked": 1473,
+      "fixed_set_order_optimum": {
+        "navigation_cost": 12.09672229763236,
+        "one_optimal_closed_route": [
+          1,
+          15,
+          83,
+          1
+        ],
+        "routes_evaluated": 2
+      }
+    },
+    "position_only/joint": {
+      "covered_tasks": 10,
+      "minimum_docks": 2,
+      "route_length_recomputed_m": 9.274873734152917,
+      "navigation_cost_recomputed": 9.641392877071727,
+      "endpoint_yaw_change_rad": 2.44346095279206,
+      "path_samples_checked": 1187,
+      "fixed_set_order_optimum": null
+    },
+    "top_down_grasp/staged": {
+      "covered_tasks": 10,
+      "minimum_docks": 4,
+      "route_length_recomputed_m": 14.318376618407358,
+      "navigation_cost_recomputed": 15.260854414484296,
+      "endpoint_yaw_change_rad": 6.283185307179586,
+      "path_samples_checked": 1536,
+      "fixed_set_order_optimum": null
+    },
+    "top_down_grasp/reorder_only": {
+      "covered_tasks": 10,
+      "minimum_docks": 4,
+      "route_length_recomputed_m": 14.318376618407358,
+      "navigation_cost_recomputed": 15.260854414484296,
+      "endpoint_yaw_change_rad": 6.283185307179586,
+      "path_samples_checked": 1471,
+      "fixed_set_order_optimum": {
+        "navigation_cost": 15.26085441448428,
+        "one_optimal_closed_route": [
+          1,
+          23,
+          91,
+          74,
+          6,
+          1
+        ],
+        "routes_evaluated": 24
+      }
+    },
+    "top_down_grasp/joint": {
+      "covered_tasks": 10,
+      "minimum_docks": 4,
+      "route_length_recomputed_m": 14.318376618407358,
+      "navigation_cost_recomputed": 15.051414904244975,
+      "endpoint_yaw_change_rad": 4.88692190558412,
+      "path_samples_checked": 1473,
+      "fixed_set_order_optimum": null
+    },
+    "table_wipe/staged": {
+      "covered_tasks": 10,
+      "minimum_docks": 4,
+      "route_length_recomputed_m": 11.725483399593905,
+      "navigation_cost_recomputed": 12.301442052752037,
+      "endpoint_yaw_change_rad": 3.8397243543875406,
+      "path_samples_checked": 1482,
+      "fixed_set_order_optimum": null
+    },
+    "table_wipe/reorder_only": {
+      "covered_tasks": 10,
+      "minimum_docks": 4,
+      "route_length_recomputed_m": 11.725483399593905,
+      "navigation_cost_recomputed": 12.196722297632375,
+      "endpoint_yaw_change_rad": 3.1415926535898,
+      "path_samples_checked": 1538,
+      "fixed_set_order_optimum": {
+        "navigation_cost": 12.196722297632359,
+        "one_optimal_closed_route": [
+          1,
+          4,
+          6,
+          74,
+          72,
+          1
+        ],
+        "routes_evaluated": 24
+      }
+    },
+    "table_wipe/joint": {
+      "covered_tasks": 10,
+      "minimum_docks": 4,
+      "route_length_recomputed_m": 10.464823227814083,
+      "navigation_cost_recomputed": 10.936062125852553,
+      "endpoint_yaw_change_rad": 3.1415926535898,
+      "path_samples_checked": 1210,
+      "fixed_set_order_optimum": null
+    }
+  },
+  "checks": [
+    "Frozen geometry/model signature, candidate identity and unchanged IK CSV",
+    "Unique complete same-table support pairs; exact DP cardinalities and all minimum covers",
+    "Complete necessary directed edge set and length/yaw cost formula",
+    "Independent exhaustive cover products and every Hamiltonian visiting permutation",
+    "Exactly-once supported assignments; fixed reorder sets and exact reorder optima",
+    "Recomputed route/cost; dock position/yaw visits in rank order; closed start position/yaw",
+    "Sampled base polygon separation from physical tables and border"
+  ],
+  "limits": "Exact only on the frozen regional support partition, minimum-cover layer and computed directed navigation graph with each selected dock visited once. Not an independent IK solver, continuous/swept motion test, arm collision/contact/physical validation, scalability or general superiority evidence.",
+  "inputs_sha256": {
+    "metadata.json": "435b4e82548b77c5652be5f889df41f4d07b8c968280172e6a5d33ad1c170435",
+    "candidate_pool.csv": "c5c0e47318313ab8a93d08c792ebbe59143efc343d1c9dd37dfe827fa3deef53",
+    "frozen_pair_support.csv": "a88da7f34460210e28d6bc43414b3f3fc697be202184eef98baf196edb637ee2",
+    "minimum_covers.csv": "3583395c78634db74119b2f16fec34667355abc170c61641007eaaf37655c40f",
+    "navigation_edges.csv": "07be1883405cef586f7c8f1817a0e02da0c4e23d8c014376043c75a47fd74072",
+    "summary.csv": "6915bf79167f02e8301f39c0b491091a4a958263540c1d432d31f3a23fede8c4",
+    "docking_poses.csv": "b6d6c0b1ad307ef3674726abe266a0ac17640b3274bf2b44fa316e1cae3a1f56",
+    "task_assignments.csv": "0f37f39b0fc840cf13ac75690e5951a24c35509f6b2c07f4ddca8228c159dc42",
+    "navigation_paths.csv": "6eb89dca718ac963a391f32efe14630e762f0c2f87c863b2aa1a10109094d625"
+  },
+  "auditor_sha256": "e6df1762eb8aa655310c71322d3e07232ff9e2b2a3cd7e508884e1a7d86771a6"
+}

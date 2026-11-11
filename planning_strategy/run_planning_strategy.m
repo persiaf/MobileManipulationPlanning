@@ -13,6 +13,8 @@ function plan = run_planning_strategy(candidate_library, regions, scene, robot_c
             plan = plan_top_down(candidate_library, regions, scene, robot_cfg, planner_cfg);
         case 'bidirectional'
             plan = plan_bidirectional(candidate_library, regions, scene, robot_cfg, planner_cfg);
+        case 'task_navigation_joint'
+            plan = plan_task_navigation_joint(candidate_library, regions, scene, robot_cfg, planner_cfg);
         otherwise
             error('run_planning_strategy:UnknownStrategy', ...
                 'Unknown planning strategy: %s', strategy_name);

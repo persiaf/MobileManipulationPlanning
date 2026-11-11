@@ -1,0 +1,209 @@
+{
+  "experiment_id": "joint_task_navigation_20261111",
+  "date": "2026-11-11",
+  "mode_order": [
+    "position_only",
+    "top_down_grasp",
+    "table_wipe"
+  ],
+  "model_revision": "vx300s-urdf-0bb2b0e6d0e619bff02cf74dbd5af5681dcf80c9-v1",
+  "geometry_signature": "44a9c5b78e81c0a2",
+  "raw_candidate_count": 144,
+  "candidate_count": 136,
+  "reference_dock": [
+    2,
+    1.45,
+    1.5707963267948966
+  ],
+  "wipe_length_m": 0.12,
+  "scene": {
+    "table_centers": [
+      [
+        2,
+        2.2
+      ],
+      [
+        4.8,
+        2.2
+      ]
+    ],
+    "table_length_m": 1.2,
+    "table_width_m": 0.4,
+    "table_height_m": 0.5,
+    "map_width_m": 7,
+    "map_height_m": 4.4,
+    "start_pose": [
+      0.6,
+      0.6,
+      0
+    ],
+    "border_thickness_m": 0.1
+  },
+  "robot_footprint": {
+    "length_m": 0.423,
+    "width_m": 0.366,
+    "model": "rectangle"
+  },
+  "ik_budget": {
+    "position_tolerance_m": 0.002,
+    "orientation_tolerance_rad": 0.034906585039886591,
+    "max_iterations": 120,
+    "max_seeds": 16,
+    "damping": 0.015,
+    "orientation_weight_m": 0.2,
+    "max_step_rad": 0.3,
+    "seeds": [
+      [
+        0,
+        -0.8,
+        0.8,
+        0,
+        -0.1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        -0.3,
+        -0.8,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0.4,
+        -1.3,
+        0,
+        1.4,
+        0
+      ],
+      [
+        0,
+        -1.3,
+        1.3,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        -0.8,
+        0.8,
+        1.5,
+        -0.5,
+        -1.5
+      ],
+      [
+        0,
+        -0.8,
+        0.8,
+        -1.5,
+        0.5,
+        1.5
+      ],
+      [
+        0,
+        0.1,
+        -1.2,
+        1.5,
+        0.8,
+        1.5
+      ],
+      [
+        0,
+        0.1,
+        -1.2,
+        -1.5,
+        -0.8,
+        -1.5
+      ],
+      [
+        3.1415926535897931,
+        -0.8,
+        0.8,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        -1.5,
+        -0.3,
+        1.2,
+        1.8,
+        -1.2
+      ],
+      [
+        0,
+        0.7,
+        -0.8,
+        -1.2,
+        -1.5,
+        1.2
+      ],
+      [
+        1.5,
+        -0.4,
+        0.4,
+        1.5,
+        0.9,
+        -0.9
+      ],
+      [
+        -1.5,
+        -0.4,
+        0.4,
+        -1.5,
+        -0.9,
+        0.9
+      ],
+      [
+        0,
+        -0.2,
+        1.2,
+        2.5,
+        -1.4,
+        2
+      ],
+      [
+        0,
+        -1,
+        -0.5,
+        -2.5,
+        1.4,
+        -2
+      ]
+    ]
+  },
+  "route_rule": "same deterministic nearest-neighbor; A*; dense matrix; return to start",
+  "arm_collision_checked": false,
+  "hardware_calibrated": false,
+  "scope": "finite frozen IK-support pool and directed computed navigation oracle; no continuous/physical optimum",
+  "methods": [
+    "staged",
+    "reorder_only",
+    "joint"
+  ],
+  "source_geometry_signature": "44a9c5b78e81c0a2",
+  "source_evidence": "results\\task_constraint_comparison_20261111",
+  "graph_signature": "4a0c3ff05a81bf6e",
+  "lambda_theta_m_per_rad": 0.15,
+  "navigation_cost_definition": "sum actual directed path lengths + lambda_theta * wrapped endpoint yaw changes",
+  "optimization_order": [
+    "full_task_support",
+    "minimum_dock_count",
+    "closed_tour_navigation_cost"
+  ],
+  "graph_time_s": 29.0613351,
+  "graph_edge_count": 2292,
+  "graph_preprocessing_shared": true,
+  "main_scene_style_reference": "visualization/plot_main_scenario_publication.m"
+}

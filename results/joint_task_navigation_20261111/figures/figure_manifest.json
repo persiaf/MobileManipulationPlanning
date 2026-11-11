@@ -1,0 +1,120 @@
+{
+  "python": "3.13.5",
+  "matplotlib": "3.10.0",
+  "numpy": "2.1.3",
+  "style_reference": "results/figures/fig_main_scenario_publication.png",
+  "semantic_encoding": {
+    "tables": "gray",
+    "tasks": "green circles",
+    "navigation": "blue actual path",
+    "docks": "orange triangles",
+    "start": "red star",
+    "base": "blue footprint and heading"
+  },
+  "inputs_sha256": {
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\figures\\fig_main_scenario_publication.png": "1a595713c59135d29f40a430c71dd4266e375818a6781e6218540c0e97bd4964",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\joint_task_navigation_20261111\\docking_poses.csv": "b6d6c0b1ad307ef3674726abe266a0ac17640b3274bf2b44fa316e1cae3a1f56",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\joint_task_navigation_20261111\\metadata.json": "435b4e82548b77c5652be5f889df41f4d07b8c968280172e6a5d33ad1c170435",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\joint_task_navigation_20261111\\navigation_paths.csv": "6eb89dca718ac963a391f32efe14630e762f0c2f87c863b2aa1a10109094d625",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\joint_task_navigation_20261111\\summary.csv": "6915bf79167f02e8301f39c0b491091a4a958263540c1d432d31f3a23fede8c4",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\joint_task_navigation_20261111\\tasks.csv": "ac4bc48bd1e34e5735c00537b7fe08a4cca0dadd9a932300b259f23f0d83f62c",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\draw_docking_result.m": "4bd653d3c7d4353d1eb463f60c75b6d7e7bd5bf4ad37cd7469f089dedae88f5b",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\draw_robot.m": "2c745326cc2ca44a0103ac409722dd32c34ce4579b2b9118ca3dd1fc85e0a587",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\visualization\\plot_main_scenario_publication.m": "e8a1d79aca756de07c5415aa1df22957cb029bc5b8b1718c9bd1143f9ebd3203"
+  },
+  "scripts_sha256": {
+    "common.py": "993d71980f1778ea657bf69d62403b41a4249638360520fd68a151012d3b19e5",
+    "plot_metrics.py": "2ba1502fc07df8c049705bc33cd1d89dad529b3ffcb84c6138c09669ec52b89c",
+    "plot_scenes.py": "5dfe3d97d63e1c0d6ae53b107e02d110584983367e96a627b5a01e9789d77bec",
+    "run_all.py": "c0428feb120c434ae20c80fe5577e4871980b0f19bf0bde85a3f82aefd54ad42"
+  },
+  "outputs_sha256": {
+    "main_style_overview.pdf": "217a2a92dd16a7a4be9d1fb60b27aa6c364ca5887984abfb766db59cff578b01",
+    "main_style_overview.png": "ec9c09fdf8f5ea352cb37172a7b20a1bafdf49c7c8dc5555265f3969fcde7888",
+    "main_style_overview_caption.md": "2e18d1524546bd3bb43d3950a91485520a81bb50a57f7e10bdec21c36acf3623",
+    "main_style_position_only.pdf": "ff38bd24c2796e4caf6a4485a24667a3e48d562a0affa4e57b34de2433e39c9a",
+    "main_style_position_only.png": "dbddb5758c4ce58b734dbba3b9c14452f1741e3ea8e0096436661a20815a1005",
+    "main_style_position_only_caption.md": "8151eec37740dd0a371adc8db1987ecbfe6b910ce405e1065dcb6848ab38b855",
+    "main_style_top_down_grasp.pdf": "84c228637bb2346d181307747e0e6bcc699273831ca19b15daebb2dacfd92b1d",
+    "main_style_top_down_grasp.png": "57a97612bb8c3a0bb82a467a0abc41288fe3c9db82d2b85204a8121d8bd9c94f",
+    "main_style_top_down_grasp_caption.md": "44fa19861d81a513631417068d5d7db19ea6d5d7cdab059a2b0a9f7533109b8e",
+    "main_style_table_wipe.pdf": "bda219149534a6351611f582625df5679baa76388eb5599e20f8f3b3b03b52ed",
+    "main_style_table_wipe.png": "09105167ba89e322e410c29b64e03e20782d1ee2425cae0913eb3189a7424c5a",
+    "main_style_table_wipe_caption.md": "30591504067c9a22ca476f676dd298017ea2f83ed707f4eb4e2854db3ee5c2ca",
+    "joint_navigation_metrics.pdf": "97b2f2c615ad94ad48bd039ed1c451c31766e10df69ddc1fd7d5044a6d593577",
+    "joint_navigation_metrics.png": "e4cf47ad01ee094bdbf403ab66acbe3f0a6bb468465f0df2b91cf5c253fa4094",
+    "joint_navigation_metrics_caption.md": "bec6809ae654e7d56a006d7265cf8a5a984ffeed324fda3043fdc6edfe063b2b"
+  },
+  "render_checks": {
+    "main_style_overview.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_style_overview.png": {
+      "size_px": [
+        3283,
+        3214
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "main_style_position_only.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_style_position_only.png": {
+      "size_px": [
+        3419,
+        1328
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "main_style_top_down_grasp.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_style_top_down_grasp.png": {
+      "size_px": [
+        3419,
+        1328
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "main_style_table_wipe.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "main_style_table_wipe.png": {
+      "size_px": [
+        3419,
+        1328
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    "joint_navigation_metrics.pdf": {
+      "raster_image_objects": 0,
+      "embedded_truetype": true
+    },
+    "joint_navigation_metrics.png": {
+      "size_px": [
+        3160,
+        1969
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  }
+}

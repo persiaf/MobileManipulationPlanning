@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{Fixed-pool joint docking and navigation comparison. All cases support ten tasks and retain the certified minimum dock count. $J=L+0.15\sum|\operatorname{wrap}(\Delta\theta)|$ uses actual path length and endpoint-yaw penalties.}
+\label{tab:joint-task-navigation}
+\begin{tabular}{llrrr}
+\toprule
+Task & Method & Docks & $L$ (m) & $J$ (m-equivalent) \\
+\midrule
+Position only & Staged & 2 & 11.625 & 12.097 \\
+Position only & Reorder only & 2 & 11.625 & 12.097 \\
+Position only & Joint & 2 & 9.275 & 9.641 \\
+Downward grasp & Staged & 4 & 14.318 & 15.261 \\
+Downward grasp & Reorder only & 4 & 14.318 & 15.261 \\
+Downward grasp & Joint & 4 & 14.318 & 15.051 \\
+Table wipe & Staged & 4 & 11.725 & 12.301 \\
+Table wipe & Reorder only & 4 & 11.725 & 12.197 \\
+Table wipe & Joint & 4 & 10.465 & 10.936 \\
+\bottomrule
+\end{tabular}
+\end{table*}
