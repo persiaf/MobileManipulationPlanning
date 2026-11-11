@@ -1,0 +1,3 @@
+**图：任务约束与目标锚点上的离散可操作支持。** 上排按各任务自身的动作定义比较（位置任务、朝下抓取任务、桌面擦拭任务）；下排使用相同的采样路径，比较仅位置、工具轴朝下与完整姿态约束，区分动作路径变化与姿态约束的影响。上排三列依次为 Position only、Top-down grasp 和 Table wipe；下排对应标为 Position only、Downward axis 和 Full pose，实际列顺序由 metadata.json 的 mode_order 确定。彩色方块表示以该坐标为锚点定义的任务路径找到满足约束的采样关节序列，灰色方块表示本次有限初值求解未找到可行序列；灰色不构成不可达的数学证明。黑色矩形和箭头为固定参考底盘及其朝向，桌面以浅褐色投影表示。各面板使用相同世界坐标范围。上排目标锚点采样高度为 0.500 m（任务路径可包含其他高度）；下排目标锚点采样高度为 0.500 m（任务路径可包含其他高度）。上排支持锚点行数为 Position only 183/189，Top-down grasp 26/189，Table wipe 36/189；下排为 Position only 49/55，Downward axis 11/55，Full pose 11/55。角标分母是对应 CSV 的实际目标锚点行数，两排可能不同。底盘尺寸 0.423 × 0.366 m，读取自 metadata.json:robot_footprint。结果是所建运动学模型与离散路径的可行性证据，不代表连续轨迹避碰、接触力控制或实机任务完成。
+
+数据：workspace.csv、matched_path_workspace.csv、metadata.json。

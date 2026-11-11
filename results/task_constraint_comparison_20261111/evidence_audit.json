@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "checks": [
+    "position_only: candidate identity, pair counts, limits, selected coverage, route length and sampled physical footprint",
+    "top_down_grasp: candidate identity, pair counts, limits, selected coverage, route length and sampled physical footprint",
+    "table_wipe: candidate identity, pair counts, limits, selected coverage, route length and sampled physical footprint",
+    "All nine cross-task plan-transfer counts independently reconstructed",
+    "Workspace counts, binary support, distinct anchors, tabletop path bounds and numerical non-monotonicity counts"
+  ],
+  "derived": {
+    "position_only": {
+      "pair_count": 680,
+      "supported_pairs": 418,
+      "selected_task_union": 10,
+      "path_length_recomputed_m": 11.625483399593906,
+      "path_samples_checked": 1473,
+      "minimum_docks_on_frozen_pool": 2
+    },
+    "top_down_grasp": {
+      "pair_count": 680,
+      "supported_pairs": 96,
+      "selected_task_union": 10,
+      "path_length_recomputed_m": 14.318376618407358,
+      "path_samples_checked": 1536,
+      "minimum_docks_on_frozen_pool": 4
+    },
+    "table_wipe": {
+      "pair_count": 680,
+      "supported_pairs": 100,
+      "selected_task_union": 10,
+      "path_length_recomputed_m": 11.725483399593905,
+      "path_samples_checked": 1482,
+      "minimum_docks_on_frozen_pool": 4
+    }
+  },
+  "source_sha256": {
+    "experiments/task_constraint_comparison_setup.m": "d8a55f1a523c674cb5b7465ea2bfb67411ea4463e860285759daadf9aa48d135",
+    "experiments/comparison_manipulation_task.m": "978330d2cd5e4e8eeec8de29c4c094d8885b626b357f33fc5211dbd8de9d7c44",
+    "experiments/task_constraint_effective_settings.m": "83208e3b4abdbb7ad317990ba5ca22c02fbd7c275576847ef7b71a75c4151f12",
+    "experiments/exp_task_constraint_comparison.m": "0ead23f99ab389838544ec7b2a4eabd3907bba63db9eec8196fb4c9ed526a5c0",
+    "manipulator/evaluate_task_reachability.m": "2c83fda88288026a7400be6967160131b2eb397806063bf3d747e5e791d54ff5",
+    "manipulator/resolve_manipulation_task.m": "81f0e992cffdb02b05598be17b0adc67d1b93c8a823a14605e413333b09451f0",
+    "manipulator/solve_arm_task_ik.m": "d90dd13b5774353b656494ddc6012f7eb0f461ec33acfd5dbeda87a34f1b8898",
+    "config/vx300s_kinematic_model.m": "9ac1afb31e2165a29cf134cfd9610cbb57ffe97dae2a2339503d4f823435b93d"
+  },
+  "limits": "Independent CSV/geometric audit, not independent IK, continuous-motion or arm-collision validation."
+}

@@ -1,0 +1,14 @@
+\begin{table*}[t]
+\centering
+\caption{Task-conditioned numerical IK support and round-trip navigation cost in one frozen scene. Workspace samples use a fixed reference base. Verified tasks indicate sampled IK checks, not physical completion.}
+\label{tab:task-constraint-comparison}
+\begin{tabular}{lrrrrr}
+\toprule
+Condition & Workspace samples & Supported pairs & Docks & IK checked & Route (m) \\
+\midrule
+Position only & 183/189 & 418/680 & 2 & 10/10 & 11.625 \\
+Downward grasp & 26/189 & 96/680 & 4 & 10/10 & 14.318 \\
+Table wipe & 36/189 & 100/680 & 4 & 10/10 & 11.725 \\
+\bottomrule
+\end{tabular}
+\end{table*}

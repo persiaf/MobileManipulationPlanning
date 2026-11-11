@@ -1,0 +1,4 @@
+mode,target_count,union_supported_count,supported_pairs,pair_count,selected_docks,verified_tasks,route_valid,route_length_m,nav_estimated_time_s,scoring_time_s,selection_time_s,navigation_planning_time_s,min_support_per_task,median_support_per_task,max_support_per_task
+position_only,10,10,418,680,2,10,1,11.6254833995939,38.7516113319797,47.8839046,0.2635982,1.8011059,40,42,43
+top_down_grasp,10,10,96,680,4,10,1,14.3183766184074,47.7279220613579,228.7159321,0.0726993,1.6732378,6,6,16
+table_wipe,10,10,100,680,4,10,1,11.7254833995939,39.084944665313,213.1095904,0.0668537,2.5346246,6,8,15

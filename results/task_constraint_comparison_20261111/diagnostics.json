@@ -1,0 +1,20 @@
+{
+  "workspace_count": 189,
+  "matched_path_count": 55,
+  "workspace_supported_counts": [
+    183,
+    26,
+    36
+  ],
+  "matched_path_supported_counts": [
+    49,
+    11,
+    11
+  ],
+  "matched_axis_success_position_failure": 0,
+  "matched_full_success_axis_failure": 0,
+  "pair_constrained_success_position_failure": [
+    0,
+    0
+  ]
+}

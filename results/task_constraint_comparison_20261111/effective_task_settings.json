@@ -1,0 +1,578 @@
+{
+  "description": "Model IK tolerances are defaults. Task-level values below override them; subsequent Cartesian samples use one warm-start seed.",
+  "model_ik_defaults": {
+    "position_tolerance_m": 0.002,
+    "orientation_tolerance_rad": 0.034906585039886591,
+    "max_iterations": 120,
+    "max_seeds": 16,
+    "damping": 0.015,
+    "orientation_weight_m": 0.2,
+    "max_step_rad": 0.3,
+    "seeds": [
+      [
+        0,
+        -0.8,
+        0.8,
+        0,
+        -0.1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        -0.3,
+        -0.8,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0.4,
+        -1.3,
+        0,
+        1.4,
+        0
+      ],
+      [
+        0,
+        -1.3,
+        1.3,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        -0.8,
+        0.8,
+        1.5,
+        -0.5,
+        -1.5
+      ],
+      [
+        0,
+        -0.8,
+        0.8,
+        -1.5,
+        0.5,
+        1.5
+      ],
+      [
+        0,
+        0.1,
+        -1.2,
+        1.5,
+        0.8,
+        1.5
+      ],
+      [
+        0,
+        0.1,
+        -1.2,
+        -1.5,
+        -0.8,
+        -1.5
+      ],
+      [
+        3.1415926535897931,
+        -0.8,
+        0.8,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        -1.5,
+        -0.3,
+        1.2,
+        1.8,
+        -1.2
+      ],
+      [
+        0,
+        0.7,
+        -0.8,
+        -1.2,
+        -1.5,
+        1.2
+      ],
+      [
+        1.5,
+        -0.4,
+        0.4,
+        1.5,
+        0.9,
+        -0.9
+      ],
+      [
+        -1.5,
+        -0.4,
+        0.4,
+        -1.5,
+        -0.9,
+        0.9
+      ],
+      [
+        0,
+        -0.2,
+        1.2,
+        2.5,
+        -1.4,
+        2
+      ],
+      [
+        0,
+        -1,
+        -0.5,
+        -2.5,
+        1.4,
+        -2
+      ]
+    ]
+  },
+  "task_profiles": {
+    "position_only": {
+      "task_type": "position_only",
+      "orientation_mode": "none",
+      "position_tolerance_m": 0.003,
+      "orientation_tolerance_rad": 0.17453292519943295,
+      "sample_spacing_m": 0.02,
+      "max_joint_step_rad": 0.43633231299858238,
+      "approach_distance_m": 0,
+      "arm_side": "either",
+      "tool_axis": [
+        1,
+        0,
+        0
+      ],
+      "T_ee_tcp": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rotation_world": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          0,
+          0
+        ]
+      ],
+      "axis_direction_world": [
+        0,
+        0,
+        -1
+      ],
+      "surface_normal_world": [
+        0,
+        0,
+        1
+      ],
+      "contact_height_tolerance_m": 0.003,
+      "first_sample_max_seeds": 16,
+      "continuation_max_seeds": 1,
+      "max_iterations_per_seed": 120
+    },
+    "top_down_grasp": {
+      "task_type": "top_down_grasp",
+      "orientation_mode": "axis",
+      "position_tolerance_m": 0.003,
+      "orientation_tolerance_rad": 0.17453292519943295,
+      "sample_spacing_m": 0.02,
+      "max_joint_step_rad": 0.43633231299858238,
+      "approach_distance_m": 0.04,
+      "arm_side": "either",
+      "tool_axis": [
+        1,
+        0,
+        0
+      ],
+      "T_ee_tcp": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rotation_world": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          0,
+          0
+        ]
+      ],
+      "axis_direction_world": [
+        0,
+        0,
+        -1
+      ],
+      "surface_normal_world": [
+        0,
+        0,
+        1
+      ],
+      "contact_height_tolerance_m": 0.003,
+      "first_sample_max_seeds": 16,
+      "continuation_max_seeds": 1,
+      "max_iterations_per_seed": 120
+    },
+    "table_wipe": {
+      "task_type": "table_wipe",
+      "orientation_mode": "full",
+      "position_tolerance_m": 0.003,
+      "orientation_tolerance_rad": 0.087266462599716474,
+      "sample_spacing_m": 0.02,
+      "max_joint_step_rad": 0.43633231299858238,
+      "approach_distance_m": 0,
+      "arm_side": "either",
+      "tool_axis": [
+        1,
+        0,
+        0
+      ],
+      "T_ee_tcp": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rotation_world": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          0,
+          0
+        ]
+      ],
+      "axis_direction_world": [
+        0,
+        0,
+        -1
+      ],
+      "surface_normal_world": [
+        0,
+        0,
+        1
+      ],
+      "contact_height_tolerance_m": 0.003,
+      "first_sample_max_seeds": 16,
+      "continuation_max_seeds": 1,
+      "max_iterations_per_seed": 120
+    }
+  },
+  "matched_path_profiles": {
+    "position_only": {
+      "task_type": "position_only",
+      "orientation_mode": "none",
+      "position_tolerance_m": 0.003,
+      "orientation_tolerance_rad": 0.087266462599716474,
+      "sample_spacing_m": 0.02,
+      "max_joint_step_rad": 0.43633231299858238,
+      "approach_distance_m": 0,
+      "arm_side": "either",
+      "tool_axis": [
+        1,
+        0,
+        0
+      ],
+      "T_ee_tcp": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rotation_world": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          0,
+          0
+        ]
+      ],
+      "axis_direction_world": [
+        0,
+        0,
+        -1
+      ],
+      "surface_normal_world": [
+        0,
+        0,
+        1
+      ],
+      "contact_height_tolerance_m": 0.003,
+      "first_sample_max_seeds": 16,
+      "continuation_max_seeds": 1,
+      "max_iterations_per_seed": 120
+    },
+    "top_down_grasp": {
+      "task_type": "position_only",
+      "orientation_mode": "axis",
+      "position_tolerance_m": 0.003,
+      "orientation_tolerance_rad": 0.087266462599716474,
+      "sample_spacing_m": 0.02,
+      "max_joint_step_rad": 0.43633231299858238,
+      "approach_distance_m": 0,
+      "arm_side": "either",
+      "tool_axis": [
+        1,
+        0,
+        0
+      ],
+      "T_ee_tcp": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rotation_world": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          0,
+          0
+        ]
+      ],
+      "axis_direction_world": [
+        0,
+        0,
+        -1
+      ],
+      "surface_normal_world": [
+        0,
+        0,
+        1
+      ],
+      "contact_height_tolerance_m": 0.003,
+      "first_sample_max_seeds": 16,
+      "continuation_max_seeds": 1,
+      "max_iterations_per_seed": 120
+    },
+    "table_wipe": {
+      "task_type": "position_only",
+      "orientation_mode": "full",
+      "position_tolerance_m": 0.003,
+      "orientation_tolerance_rad": 0.087266462599716474,
+      "sample_spacing_m": 0.02,
+      "max_joint_step_rad": 0.43633231299858238,
+      "approach_distance_m": 0,
+      "arm_side": "either",
+      "tool_axis": [
+        1,
+        0,
+        0
+      ],
+      "T_ee_tcp": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "rotation_world": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          0,
+          0
+        ]
+      ],
+      "axis_direction_world": [
+        0,
+        0,
+        -1
+      ],
+      "surface_normal_world": [
+        0,
+        0,
+        1
+      ],
+      "contact_height_tolerance_m": 0.003,
+      "first_sample_max_seeds": 16,
+      "continuation_max_seeds": 1,
+      "max_iterations_per_seed": 120
+    }
+  }
+}

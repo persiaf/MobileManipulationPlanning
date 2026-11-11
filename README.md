@@ -6,6 +6,8 @@ MATLAB research code for task-driven docking and navigation planning for a mobil
 
 An opt-in [task-conditioned arm workspace experiment](docs/TASK_CONDITIONED_ARM_WORKSPACE_20261110.md) adds pinned VX300s kinematics, downward grasping and sampled wiping-path IK. Run `addpath('pipeline'); init_paths; report = demo_task_conditioned_workspace;`. The historical default remains unchanged; the optional arm mounts are unmeasured and arm collisions/contact forces are not checked.
 
+The [controlled two-table comparison](results/task_constraint_comparison_20261111/EXPERIMENT_PROTOCOL.md) freezes the arm, ten targets, candidate poses and navigation rules across position-only, downward-grasp and wiping tasks. Run `result = exp_task_constraint_comparison;` after path initialization, then `python experiments/audit_task_constraint_comparison.py` and `python visualization/task_constraint_comparison/run_all.py`. CSV evidence, vector figures and [analysis](results/task_constraint_comparison_20261111/RESULTS_ANALYSIS.md) are retained separately from the historical baseline outputs.
+
 ## Research stages
 
 | Stage | Scope | Primary entry | Boundary |

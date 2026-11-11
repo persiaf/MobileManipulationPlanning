@@ -1,0 +1,10 @@
+planned_mode,evaluated_mode,supported_tasks,target_count
+position_only,position_only,10,10
+position_only,top_down_grasp,0,10
+position_only,table_wipe,0,10
+top_down_grasp,position_only,10,10
+top_down_grasp,top_down_grasp,10,10
+top_down_grasp,table_wipe,10,10
+table_wipe,position_only,10,10
+table_wipe,top_down_grasp,8,10
+table_wipe,table_wipe,10,10

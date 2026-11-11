@@ -1,0 +1,37 @@
+{
+  "python": "3.13.5",
+  "matplotlib": "3.10.0",
+  "numpy": "2.1.3",
+  "rendering": {
+    "pdf": "vector paths and TrueType fonts",
+    "png_dpi": 300
+  },
+  "inputs_sha256": {
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\candidate_support.csv": "cac614574715f8d8557cab0a8c8e96d74c061167201405432ab301c5f9d05fdd",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\docking_poses.csv": "86f328d4c36955d9d3b90b9b10e371aec35c13e081ad8c105fa4cb71da8a1ecd",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\matched_path_workspace.csv": "526c0b5952452f9b338ed5502aaf4d48babac2c313e0f81f480fde5371fe56c1",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\metadata.json": "fe8f78051b93b849f371b23aa38bf08d0e38907a1c27a7135ca2bc6b52ab227e",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\navigation_paths.csv": "f47977fa3986049d737b9d26776aa7b3a24a0414f2eb45f5bd7a0df93a87877a",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\summary.csv": "cd4647f9847776f975b3f34eea24c6ce7377f2994ce2fe237d5dcf92b16dc02a",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\tasks.csv": "ac4bc48bd1e34e5735c00537b7fe08a4cca0dadd9a932300b259f23f0d83f62c",
+    "D:\\file_used\\西柚\\实验室_任务\\硕士论文相关\\小论文\\MobileManipulationPlanning\\results\\task_constraint_comparison_20261111\\workspace.csv": "9bd9ea58dfd79557bcd2efd9456785b9e49cebda43ca7d638b3c73dee382a4a8"
+  },
+  "scripts_sha256": {
+    "common.py": "a948934b4c31c732463ea72bfba63c351c5384bfc22610bcb436e86106ccd71a",
+    "plot_dock_routes.py": "c2e976e7b062a40a18810f414221a982f26bcb15329c0d26ddadde521e6e3019",
+    "plot_metrics.py": "992089d5dfc201da11be898ac7532d6869244b9cd4abb9dcb2d1153d6f682521",
+    "plot_workspace.py": "69df112599359ba7de60eafbc24ac24004a675747859896b745382a75eb0722e",
+    "run_all.py": "51a9090daea51b16cbb939f1283fbc50bc225f6792bd6bd4914ecea00a49f77c"
+  },
+  "outputs_sha256": {
+    "workspace_support.pdf": "a84ad32ebe8675477ce031c09aeaef46b18737e3130005cf64ba3433accb5287",
+    "workspace_support.png": "3f2bb6a83a685488203b47e74d3f1fd65125633ebd7bc531a08a50558758644a",
+    "workspace_support_caption.md": "b2bde2c294cb8e7c8d696e41bca8db15ececa4d06bf6f95ac183c12c978af5c7",
+    "dock_routes.pdf": "4af60bb2212412d2095029d75c52e16aabb40769d0d8829c10a549d4646bf194",
+    "dock_routes.png": "939b8d51c868aa1c21c03f6e0ec48067bed5c909635e2da645e9c934dbf8e6f7",
+    "dock_routes_caption.md": "27b270f35b746c28952a37ba7393479b09f5bdec02c986d34cea098f22ce0062",
+    "comparison_metrics.pdf": "080429bab97931d509ffdd05f95941b966fb3de7178d8f84a5943b847ef3c101",
+    "comparison_metrics.png": "1e7f91c0b48d5a187a31203a54ca35608523df6b3821065beccecdc658475a18",
+    "comparison_metrics_caption.md": "a07333d764d411a6835f42e9092a11f53e3b2ed2fa38d2bb92a233dba890f9a6"
+  }
+}

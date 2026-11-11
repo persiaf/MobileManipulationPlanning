@@ -1,0 +1,237 @@
+{
+  "date": "2026-11-11",
+  "experiment_id": "task_constraint_comparison_20261111",
+  "reviewer_role": "independent_paper_architect_reviewer",
+  "reviewer_agent": "/root/arm_audit",
+  "claim_supported": "yes",
+  "scoped_mechanism_claim_supported": "yes",
+  "paper_novelty_or_general_superiority_supported": "no",
+  "confidence": "high",
+  "confidence_scope": "High for the bounded descriptive mechanism and exported numerical counts; no confidence claim about physical execution, generalization or novelty.",
+  "paper_claim_audit": "unavailable",
+  "provisional": true,
+  "provisional_reason": "provisional — no paper claim audit available",
+  "pending_external_review": false,
+  "review_scope_note": "Independent AI reviewer judgment with a separately delegated read-only CSV crosscheck. This is not external human peer review, independent IK solving or physical validation.",
+  "intended_claim": "In this frozen scene, changing task pose/path constraints changes finite-search candidate–task support and the resulting docking set and navigation cost; a position-only docking set can lose support when transferred to the constrained task definitions.",
+  "evidence_sources": [
+    "results/task_constraint_comparison_20261111/summary.csv",
+    "results/task_constraint_comparison_20261111/pair_support.csv",
+    "results/task_constraint_comparison_20261111/candidate_support.csv",
+    "results/task_constraint_comparison_20261111/docking_poses.csv",
+    "results/task_constraint_comparison_20261111/navigation_paths.csv",
+    "results/task_constraint_comparison_20261111/plan_transfer.csv",
+    "results/task_constraint_comparison_20261111/workspace.csv",
+    "results/task_constraint_comparison_20261111/matched_path_workspace.csv",
+    "results/task_constraint_comparison_20261111/diagnostics.json",
+    "results/task_constraint_comparison_20261111/evidence_audit.json",
+    "results/task_constraint_comparison_20261111/metadata.json",
+    "results/task_constraint_comparison_20261111/effective_task_settings.json",
+    "results/task_constraint_comparison_20261111/EXPERIMENT_PROTOCOL.md",
+    "results/task_constraint_comparison_20261111/RESULTS_ANALYSIS.md",
+    "results/task_constraint_comparison_20261111/figures/*_caption.md",
+    "experiments/audit_task_constraint_comparison.py"
+  ],
+  "verified_results": {
+    "raw_candidates": 144,
+    "shared_footprint_safe_candidates": 136,
+    "candidates_per_table": 68,
+    "tasks": 10,
+    "same_table_pairs_per_mode": 680,
+    "mode_order": [
+      "position_only",
+      "top_down_grasp",
+      "table_wipe"
+    ],
+    "supported_pairs": [
+      418,
+      96,
+      100
+    ],
+    "selected_docks": [
+      2,
+      4,
+      4
+    ],
+    "exact_minimum_docks_on_scored_discrete_pool": [
+      2,
+      4,
+      4
+    ],
+    "task_support_at_selected_docks": [
+      10,
+      10,
+      10
+    ],
+    "repeated_same_evaluator_task_checks": [
+      10,
+      10,
+      10
+    ],
+    "route_valid": [
+      true,
+      true,
+      true
+    ],
+    "route_lengths_recomputed_m": [
+      11.625483399593906,
+      14.318376618407358,
+      11.725483399593905
+    ],
+    "fixed_reference_base_workspace_supported_anchors": [
+      183,
+      26,
+      36
+    ],
+    "fixed_reference_base_workspace_anchor_count": 189,
+    "matched_path_supported_anchors": [
+      49,
+      11,
+      11
+    ],
+    "matched_path_anchor_count": 55,
+    "matched_path_numerical_nesting_violations": 0,
+    "position_docking_set_transfer_to_grasp_supported_tasks": 0,
+    "position_docking_set_transfer_to_wipe_supported_tasks": 0,
+    "grasp_docking_set_transfer_to_wipe_supported_tasks": 10,
+    "wipe_docking_set_transfer_to_grasp_supported_tasks": 8
+  },
+  "what_results_support": [
+    "All modes use the same VX300s chain, uncalibrated mounts, TCP, ten target anchors and 136 candidate poses. There are 680 same-table candidate–task pairs, not 1360 global Cartesian pairs.",
+    "Task-specific pose/path definitions change the supported pairs from 418 to 96/100 and the selected docks from two to four. Exact set-cover DP independently confirms 2/4/4 as the minimum counts on these scored discrete candidate pools.",
+    "With ten tasks supported in every mode and valid exported round trips, the common A*/nearest-neighbor pipeline produces 11.625/14.318/11.725 m routes. The result demonstrates changed demand under the selected task definitions, not superiority of a navigation algorithm.",
+    "Candidate support distribution matters: grasp and wipe have similar support counts and the same minimum dock count but different selected docking locations and route lengths.",
+    "At a single fixed reference base, the matched 12 cm path control changes only orientation freedom and yields 49/55 versus 11/55 versus 11/55 support. This isolates an orientation effect in this sample without showing any additional full-pose penalty beyond the axis condition.",
+    "The position-only docking set supports zero of ten tasks under each constrained task evaluator in this scene. Transfer counts permit reassignment within each selected docking set and are support counts, not execution-success rates.",
+    "Separate CSV recomputation confirms unique complete pairs, legal task assignments exactly once, per-task counts, all selected dock visits and yaw matching, return to the start, DP counts, nine transfer entries and workspace statistics."
+  ],
+  "what_results_dont_support": [
+    "Novelty of pose-constrained manipulation, reachability-based base placement or multi-base sequencing merely by adding numerical IK.",
+    "General superiority, statistical significance, held-out scene generalization, guaranteed robustness or universal changes in route length as constraints tighten.",
+    "Independent IK validation from repeatedly calling the same scoring evaluator. Exported residuals also originate from that solver.",
+    "Collision-free manipulator execution, between-sample motion feasibility, coordinated dual-arm motion, inter-task arm transitions, force-controlled wiping or physical grasp/cleaning success.",
+    "Global route optimality or continuous-space minimum docking. The exact certificate is only a set-cover count on the exported binary support matrix.",
+    "Workspace volume or a proof that gray anchors are physically unreachable. These are planar task anchors under a finite numerical search; grasp paths include heights above the anchor plane.",
+    "A strict grasp–wipe inclusion relation or a claim that full pose further reduced support in the matched control; both matched constrained modes support exactly eleven anchors.",
+    "A runtime-efficiency claim from one fixed-order observation per mode."
+  ],
+  "missing_evidence": [
+    "A manuscript-to-evidence claim audit: paper/PAPER_CLAIM_AUDIT.json is absent.",
+    "Held-out layouts, table heights and orientations, target/path directions, candidate-density sensitivity and multiple calibrated mount/tool configurations.",
+    "Independent numerical or MoveIt/URDF checks and collision-aware full-arm trajectory validation, including transitions between tasks.",
+    "Equal-budget strong base-placement/multi-docking baselines and a precisely identified new planning mechanism with component ablations.",
+    "Measured docking uncertainty and recovery-budget experiments if robustness is claimed; calibrated hardware or an independently validated simulation execution chain.",
+    "Repeated/randomized-order timing measurements if an efficiency conclusion is pursued."
+  ],
+  "suggested_claim_revision": "在同一VX300s模型、安装假设、TCP、10个桌面目标及136个固定候选位姿下，任务相关姿态与路径约束改变了有限数值IK搜索得到的候选—任务支持矩阵，并使离散最少停靠数由2变为4，产生不同的往返导航代价。相同12 cm路径对照进一步表明朝下轴约束会改变本次平面锚点支持；位置任务得到的停靠集合在当前两类操作任务中均失去全部目标支持。上述结论仅适用于本冻结场景和数值预算，不构成独立执行验证、通用优势或新颖性证明。",
+  "next_experiments_needed": [
+    {
+      "priority": 1,
+      "experiment": "Collision-aware independent validation",
+      "purpose": "Recheck representative success/failure pairs using an independently configured URDF/IK/planning stack; validate full-arm swept paths and task transitions."
+    },
+    {
+      "priority": 2,
+      "experiment": "Frozen multi-scene and path-direction matrix",
+      "purpose": "Use held-out table layouts/heights/yaws, anchors and wiping directions with identical candidate pools and explicit task definitions. Preserve all failures and compare full-coverage route cost."
+    },
+    {
+      "priority": 3,
+      "experiment": "Equal-budget planner baselines and ablations",
+      "purpose": "Compare task-aware versus position-only/reachability-map and navigation-aware selection; isolate orientation, path, collision and any proposed feedback or recovery component."
+    },
+    {
+      "priority": 4,
+      "experiment": "Numerical sensitivity",
+      "purpose": "Vary candidate density, IK seeds/iterations, warm-start/branch policy and path spacing. Report support saturation and numerical non-monotonicity."
+    },
+    {
+      "priority": 5,
+      "experiment": "Calibrated uncertainty and physical execution",
+      "purpose": "Add measured mount/TCP/base errors, a common recovery budget and force/contact-aware execution if physical or robustness claims become objectives."
+    }
+  ],
+  "audit_script_review": {
+    "verdict": "adequate_for_the_stated_CSV_and_sampled_geometry_scope",
+    "independent_extra_checks_passed": [
+      "pair-key uniqueness and same-table completeness",
+      "candidate_support versus pair rows",
+      "task-specific selected assignments",
+      "visit to every selected dock including yaw",
+      "per-task support statistics",
+      "nine unique transfer combinations"
+    ],
+    "limitations": [
+      "The script checks exported path samples against table rectangles and the map outer box, not continuous swept motion or the safety-dilated occupancy map.",
+      "It does not solve IK independently or reconstruct FK residuals from saved joint trajectories.",
+      "Source hashes written after a run identify the inspected sources but are not by themselves a contemporaneous execution provenance certificate."
+    ],
+    "effective_settings_reporting_status": "RESOLVED during review: root exported effective_task_settings.json from the same setup and task resolver and reported its validation PASS, without rerunning the numerical experiment. metadata.ik_budget retains model defaults (2 mm/2 degrees); the effective export states task overrides of 3 mm and 10/5 degrees, matched-path 5 degrees and 16/1 initial/warm-start seed budgets. This was a metadata clarity issue, not a numerical-result failure."
+  },
+  "figure_review": [
+    {
+      "figure": "figures/workspace_support.png",
+      "verdict": "acceptable_with_minor_presentation_suggestions",
+      "strengths": [
+        "Matched axes, explicit fixed-base pose, visible supported/unsupported anchors and correct counts.",
+        "Separate task-specific and matched-path rows; caption correctly distinguishes anchor plane from complete task path and finite search failure from impossibility."
+      ],
+      "limitations": [
+        "The row distinction relies on the caption; add short row labels for standalone use.",
+        "The lower control shows identical axis/full support, so do not imply an extra full-pose penalty.",
+        "At final paper width confirm pale unsupported squares and legend remain legible; the generic black support legend abstracts three panel colors."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "figure": "figures/dock_routes.png",
+      "verdict": "acceptable",
+      "strengths": [
+        "Same map and scale, a common 0–100% color bar, actual-size dock rectangles and headings.",
+        "CSV waypoint routes, target/start markers and explicit best-heading aggregation in the caption accurately show the different docking geometry."
+      ],
+      "limitations": [
+        "The plotted support is a display-only maximum over sampled yaw, not yaw-independent feasibility.",
+        "Overlapping outward/return segments obscure visit order; numbered docks or arrows would help if order becomes a claim.",
+        "The figure is base-navigation evidence only; arm clearance and contact are absent."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "figure": "figures/comparison_metrics.png",
+      "verdict": "acceptable",
+      "strengths": [
+        "Correct 418/680, 96/680, 100/680 proportions; dock and route values match the CSV.",
+        "Separate units, zero-baseline bars and no unjustified error bars; caption distinguishes scoring wall time and physical execution."
+      ],
+      "limitations": [
+        "Use the caption/table to keep clear that all modes support ten tasks and that runtime is one fixed-order observation.",
+        "Do not interpret similar support-pair totals as similar navigation cost or the time bars as algorithmic speed claims.",
+        "Verify font size at the intended publication width."
+      ],
+      "blocking_issues": []
+    }
+  ],
+  "prior_work_boundary": [
+    {
+      "url": "https://personalrobotics.cs.washington.edu/publications/berenson2011task/",
+      "supports": "Pose-constrained manipulation planning is an established research topic."
+    },
+    {
+      "url": "https://arxiv.org/abs/1710.01328",
+      "supports": "Reachability analysis for robot base placement predates this implementation."
+    },
+    {
+      "url": "https://arxiv.org/abs/2001.08042",
+      "supports": "Multi-task robust base sequencing with positioning uncertainty is established prior work."
+    },
+    {
+      "url": "https://arxiv.org/abs/2309.12251",
+      "supports": "Mobile manipulation under continuous end-effector task trajectories has prior base-trajectory formulations."
+    }
+  ],
+  "routing_action": "confirm_scoped_mechanism_and_supplement_before_novelty_or_generalization_claims",
+  "ready_for_confirmed_full_paper_writing": false,
+  "production_code_changed_by_review": false,
+  "raw_data_changed_by_review": false
+}
