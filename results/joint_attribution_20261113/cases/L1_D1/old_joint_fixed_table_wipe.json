@@ -1,0 +1,133 @@
+{
+  "route_local_zero_based": [
+    0,
+    6,
+    11,
+    8,
+    12,
+    15,
+    16,
+    14,
+    10,
+    13,
+    9,
+    5,
+    2,
+    7,
+    4,
+    3,
+    1
+  ],
+  "upper_bound": 60.32223962740676,
+  "lower_bound_raw": 60.32223962740676,
+  "lower_bound_conservative": 60.32223856708452,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.03441370000291499,
+  "subtour_cut_count": 21,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 51.50091938943684,
+      "upper_bound": 62.36540853444579,
+      "cycle_sizes": [
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.006567300002643606
+    },
+    {
+      "status": 0,
+      "lower_bound": 56.19556005346235,
+      "upper_bound": 62.36540853444579,
+      "cycle_sizes": [
+        7,
+        10
+      ],
+      "elapsed_s": 0.013461300000926713
+    },
+    {
+      "status": 0,
+      "lower_bound": 57.04359121703881,
+      "upper_bound": 62.36540853444579,
+      "cycle_sizes": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2
+      ],
+      "elapsed_s": 0.019410200002312195
+    },
+    {
+      "status": 0,
+      "lower_bound": 60.106472756936355,
+      "upper_bound": 62.36540853444579,
+      "cycle_sizes": [
+        8,
+        3,
+        6
+      ],
+      "elapsed_s": 0.02837350000118022
+    },
+    {
+      "status": 0,
+      "lower_bound": 60.32223962740676,
+      "upper_bound": 60.32223962740676,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.03441039999961504
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D1",
+  "mode": "table_wipe",
+  "nodes": [
+    1,
+    36,
+    60,
+    149,
+    204,
+    262,
+    318,
+    372,
+    430,
+    502,
+    519,
+    600,
+    641,
+    715,
+    755,
+    842,
+    858
+  ],
+  "route_nodes": [
+    1,
+    318,
+    600,
+    430,
+    641,
+    842,
+    858,
+    755,
+    519,
+    715,
+    502,
+    262,
+    60,
+    372,
+    204,
+    149,
+    36
+  ]
+}

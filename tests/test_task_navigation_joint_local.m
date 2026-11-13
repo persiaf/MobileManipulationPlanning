@@ -159,6 +159,48 @@ function testDefaultOracleUsesActualNavigationWithoutDenseMatrix(testCase)
     verifyFalse(testCase,isfield(plan.joint_local,'cost_matrix'));
 end
 
+function testBalancedSearchPreservesMinimumAndUsesPricedReplacement(testCase)
+    [lib,regions,scene,robot,cfg,D]=single_fixture();
+    opts=struct('cost_matrix',D,'known_edge_mask',true(size(D)), ...
+        'edge_cost_callback',@(a,b)D(a,b),'initial_candidate_indices',1,'initial_matrix_visit_order',[1 2]);
+    plan=plan_task_navigation_joint_budgeted(lib,regions,scene,robot,cfg,opts);
+    verifyEqual(testCase,plan.joint_local.route_cost,2);
+    verifyEqual(testCase,plan.covered_tasks_predicted,[1 2]);
+    verifyEqual(testCase,plan.num_docking_poses,1);
+    verifyEqual(testCase,plan.joint_local.oracle_queries,0);
+    verifyTrue(testCase,plan.joint_local.fixed_set_order_converged);
+    verifyFalse(testCase,plan.joint_local.local_optimum_certified);
+end
+
+function testBalancedReserveCannotExceedLogicalQueryBudget(testCase)
+    [lib,regions,scene,robot,cfg]=many_region_fixture(3);
+    D=100*ones(7);D(1:8:end)=0;nodes=[1 2 4 6];D(nodes,nodes)=10;D(1:8:end)=0;
+    full=D;full(1,3)=1;full(3,4)=1;
+    known=logical(eye(7));known(nodes,nodes)=true;
+    opts=struct('cost_matrix',D,'known_edge_mask',known,'edge_cost_callback',@(a,b)full(a,b), ...
+        'initial_candidate_indices',[1 3 5],'initial_matrix_visit_order',nodes,'max_navigation_queries',8);
+    plan=plan_task_navigation_joint_budgeted(lib,regions,scene,robot,cfg,opts);
+    verifyLessThanOrEqual(testCase,plan.joint_local.oracle_queries,8);
+    verifyEqual(testCase,plan.num_docking_poses,3);
+    verifyLessThanOrEqual(testCase,plan.joint_local.route_cost,40);
+    r=plan.joint_local.matrix_visit_order;
+    verifyTrue(testCase,all(plan.joint_local.known_edge_mask(r,r),'all'));
+end
+
+function testBalancedOrderingRepricesDirectedInternalArcs(testCase)
+    [lib,regions,scene,robot,cfg]=many_region_fixture(3);
+    D=100*ones(7);D(1:8:end)=0;
+    original=[1 2 4 6 1];better=[1 4 2 6 1];
+    for k=1:4,D(original(k),original(k+1))=10;end
+    for k=1:4,D(better(k),better(k+1))=1;end
+    opts=struct('cost_matrix',D,'known_edge_mask',true(7),'edge_cost_callback',@(a,b)D(a,b), ...
+        'initial_candidate_indices',[1 3 5],'initial_matrix_visit_order',original(1:end-1));
+    plan=plan_task_navigation_joint_budgeted(lib,regions,scene,robot,cfg,opts);
+    verifyEqual(testCase,plan.joint_local.route_cost,4);
+    verifyEqual(testCase,sort(plan.joint_local.candidate_indices),[1 3 5]);
+    verifyTrue(testCase,plan.joint_local.fixed_set_order_converged);
+end
+
 function [lib,regions,scene,robot,cfg,D]=single_fixture()
     [scene,robot,cfg,regions]=create_test_fixture();cfg.execution.return_to_start=true;
     supports={[1 2],[1 2],1,2};candidates=struct([]);

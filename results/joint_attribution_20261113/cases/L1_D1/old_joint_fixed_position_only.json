@@ -1,0 +1,119 @@
+{
+  "route_local_zero_based": [
+    0,
+    6,
+    11,
+    8,
+    12,
+    16,
+    15,
+    14,
+    10,
+    13,
+    9,
+    5,
+    2,
+    7,
+    4,
+    3,
+    1
+  ],
+  "upper_bound": 53.944647679333144,
+  "lower_bound_raw": 53.944647679333144,
+  "lower_bound_conservative": 53.94464662538849,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.015843600001971936,
+  "subtour_cut_count": 15,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 43.66821800875696,
+      "upper_bound": 56.1259601346522,
+      "cycle_sizes": [
+        3,
+        2,
+        2,
+        3,
+        2,
+        3,
+        2
+      ],
+      "elapsed_s": 0.003528799999912735
+    },
+    {
+      "status": 0,
+      "lower_bound": 48.87740631796064,
+      "upper_bound": 56.1259601346522,
+      "cycle_sizes": [
+        7,
+        2,
+        3,
+        2,
+        3
+      ],
+      "elapsed_s": 0.006910300002346048
+    },
+    {
+      "status": 0,
+      "lower_bound": 52.86824368802464,
+      "upper_bound": 56.1259601346522,
+      "cycle_sizes": [
+        13,
+        2,
+        2
+      ],
+      "elapsed_s": 0.010677600002964027
+    },
+    {
+      "status": 0,
+      "lower_bound": 53.944647679333144,
+      "upper_bound": 53.944647679333144,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.015841200001887046
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D1",
+  "mode": "position_only",
+  "nodes": [
+    1,
+    50,
+    65,
+    141,
+    189,
+    276,
+    286,
+    360,
+    420,
+    501,
+    513,
+    572,
+    671,
+    714,
+    785,
+    819,
+    876
+  ],
+  "route_nodes": [
+    1,
+    286,
+    572,
+    420,
+    671,
+    876,
+    819,
+    785,
+    513,
+    714,
+    501,
+    276,
+    65,
+    360,
+    189,
+    141,
+    50
+  ]
+}

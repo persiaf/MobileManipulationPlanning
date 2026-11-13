@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-13",
+  "reviewer": "/root/attribution_design",
+  "status": "prospective_reviewer_design",
+  "input_study": "task_navigation_robustness_20261111",
+  "cases": 27,
+  "primary_controls": ["fixed_original_set_ATSP_bound", "joint_from_same_fixed_set_incumbent"],
+  "allocation_ablation_if_claimed": "legacy_schedule_from_same_incumbent_and_same_caps",
+  "primary_certificate": "J_joint < LB_fixed_original_set - certificate_tolerance",
+  "stronger_old_joint_selection_certificate": "J_joint < LB_old_joint_set - certificate_tolerance",
+  "required_frozen_inputs": ["arm_model", "scene", "task_definitions", "candidate_pool", "numerical_support_library", "regional_task_ownership", "minimum_cardinality"],
+  "main_confound_to_remove": "insufficient fixed-set order search",
+  "shared_initialization_cost_must_be_reported": true,
+  "rerun_IK": false,
+  "no_op_freeze_docks_heuristic_needed_after_exact_F": false,
+  "retain_failures_and_open_bound_gaps": true,
+  "pending_external_review": false
+}

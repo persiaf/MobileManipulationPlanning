@@ -1,0 +1,119 @@
+{
+  "route_local_zero_based": [
+    0,
+    1,
+    2,
+    7,
+    6,
+    5,
+    9,
+    14,
+    13,
+    10,
+    11,
+    15,
+    16,
+    12,
+    8,
+    4,
+    3
+  ],
+  "upper_bound": 57.219219529387345,
+  "lower_bound_raw": 57.21921952938734,
+  "lower_bound_conservative": 57.219218472168116,
+  "absolute_gap": 7.105427357601002e-15,
+  "certified_optimal": true,
+  "elapsed_s": 0.017169499998999527,
+  "subtour_cut_count": 13,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 50.30599275686842,
+      "upper_bound": 69.56648184247508,
+      "cycle_sizes": [
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "elapsed_s": 0.004085200002009515
+    },
+    {
+      "status": 0,
+      "lower_bound": 55.91080787423233,
+      "upper_bound": 69.56648184247508,
+      "cycle_sizes": [
+        5,
+        12
+      ],
+      "elapsed_s": 0.008159500001056585
+    },
+    {
+      "status": 0,
+      "lower_bound": 55.96150308275982,
+      "upper_bound": 69.56648184247508,
+      "cycle_sizes": [
+        2,
+        2,
+        2,
+        11
+      ],
+      "elapsed_s": 0.012764700000843732
+    },
+    {
+      "status": 0,
+      "lower_bound": 57.21921952938734,
+      "upper_bound": 57.219219529387345,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.017167500001960434
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L2_D0",
+  "mode": "table_wipe",
+  "nodes": [
+    1,
+    5,
+    62,
+    155,
+    184,
+    253,
+    295,
+    368,
+    428,
+    487,
+    562,
+    600,
+    651,
+    739,
+    764,
+    819,
+    878
+  ],
+  "route_nodes": [
+    1,
+    5,
+    62,
+    368,
+    295,
+    253,
+    487,
+    764,
+    739,
+    562,
+    600,
+    819,
+    878,
+    651,
+    428,
+    184,
+    155
+  ],
+  "dense_directed_edges": 272,
+  "source_matrix": "results\\task_navigation_robustness_20261111\\cases\\L2_D0\\seed_navigation_costs_table_wipe_staged.csv"
+}

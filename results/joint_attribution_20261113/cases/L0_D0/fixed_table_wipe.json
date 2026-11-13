@@ -1,0 +1,134 @@
+{
+  "route_local_zero_based": [
+    0,
+    3,
+    16,
+    12,
+    15,
+    11,
+    10,
+    14,
+    13,
+    9,
+    5,
+    6,
+    7,
+    8,
+    4,
+    2,
+    1
+  ],
+  "upper_bound": 58.76779265245446,
+  "lower_bound_raw": 58.767792652454474,
+  "lower_bound_conservative": 58.76779159368668,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.01743200000055367,
+  "subtour_cut_count": 20,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 52.21065297939447,
+      "upper_bound": 65.73886046431994,
+      "cycle_sizes": [
+        5,
+        3,
+        2,
+        3,
+        2,
+        2
+      ],
+      "elapsed_s": 0.0032123000019055326
+    },
+    {
+      "status": 0,
+      "lower_bound": 54.3081856298578,
+      "upper_bound": 65.73886046431994,
+      "cycle_sizes": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2
+      ],
+      "elapsed_s": 0.0064289000001735985
+    },
+    {
+      "status": 0,
+      "lower_bound": 57.72941513337724,
+      "upper_bound": 65.73886046431994,
+      "cycle_sizes": [
+        10,
+        7
+      ],
+      "elapsed_s": 0.010211500000878004
+    },
+    {
+      "status": 0,
+      "lower_bound": 58.55393622382825,
+      "upper_bound": 65.73886046431994,
+      "cycle_sizes": [
+        9,
+        2,
+        2,
+        4
+      ],
+      "elapsed_s": 0.013683600001968443
+    },
+    {
+      "status": 0,
+      "lower_bound": 58.767792652454474,
+      "upper_bound": 58.76779265245446,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.017430300002160948
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L0_D0",
+  "mode": "table_wipe",
+  "nodes": [
+    1,
+    5,
+    63,
+    149,
+    175,
+    246,
+    289,
+    346,
+    401,
+    470,
+    514,
+    570,
+    626,
+    714,
+    752,
+    810,
+    853
+  ],
+  "route_nodes": [
+    1,
+    149,
+    853,
+    626,
+    810,
+    570,
+    514,
+    752,
+    714,
+    470,
+    246,
+    289,
+    346,
+    401,
+    175,
+    63,
+    5
+  ],
+  "dense_directed_edges": 272,
+  "source_matrix": "results\\task_navigation_robustness_20261111\\cases\\L0_D0\\seed_navigation_costs_table_wipe_staged.csv"
+}

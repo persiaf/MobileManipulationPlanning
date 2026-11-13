@@ -17,6 +17,9 @@ function plan = run_planning_strategy(candidate_library, regions, scene, robot_c
             plan = plan_task_navigation_joint(candidate_library, regions, scene, robot_cfg, planner_cfg);
         case 'task_navigation_joint_local'
             plan = plan_task_navigation_joint_local(candidate_library, regions, scene, robot_cfg, planner_cfg);
+        case 'task_navigation_joint_budgeted'
+            plan = plan_task_navigation_joint_budgeted(candidate_library, regions, scene, robot_cfg, ...
+                planner_cfg, planner_cfg.strategy.joint_budgeted);
         otherwise
             error('run_planning_strategy:UnknownStrategy', ...
                 'Unknown planning strategy: %s', strategy_name);

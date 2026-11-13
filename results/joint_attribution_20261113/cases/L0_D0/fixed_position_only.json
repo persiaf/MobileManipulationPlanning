@@ -1,0 +1,120 @@
+{
+  "route_local_zero_based": [
+    0,
+    5,
+    6,
+    10,
+    9,
+    13,
+    14,
+    15,
+    11,
+    12,
+    16,
+    7,
+    8,
+    4,
+    3,
+    2,
+    1
+  ],
+  "upper_bound": 49.65951840003322,
+  "lower_bound_raw": 49.65951840003322,
+  "lower_bound_conservative": 49.659517350373704,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.05968550000034156,
+  "subtour_cut_count": 14,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 41.94974238253161,
+      "upper_bound": 55.53633382210257,
+      "cycle_sizes": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.03508710000096471
+    },
+    {
+      "status": 0,
+      "lower_bound": 47.3554097466028,
+      "upper_bound": 55.53633382210257,
+      "cycle_sizes": [
+        3,
+        2,
+        12
+      ],
+      "elapsed_s": 0.03866330000164453
+    },
+    {
+      "status": 0,
+      "lower_bound": 48.20166211330505,
+      "upper_bound": 55.53633382210257,
+      "cycle_sizes": [
+        11,
+        3,
+        3
+      ],
+      "elapsed_s": 0.055305999998381594
+    },
+    {
+      "status": 0,
+      "lower_bound": 49.65951840003322,
+      "upper_bound": 49.65951840003322,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.059682600000087405
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L0_D0",
+  "mode": "position_only",
+  "nodes": [
+    1,
+    5,
+    63,
+    147,
+    204,
+    246,
+    318,
+    346,
+    430,
+    485,
+    541,
+    599,
+    656,
+    714,
+    771,
+    825,
+    853
+  ],
+  "route_nodes": [
+    1,
+    246,
+    318,
+    541,
+    485,
+    714,
+    771,
+    825,
+    599,
+    656,
+    853,
+    346,
+    430,
+    204,
+    147,
+    63,
+    5
+  ],
+  "dense_directed_edges": 272,
+  "source_matrix": "results\\task_navigation_robustness_20261111\\cases\\L0_D0\\seed_navigation_costs_position_only_staged.csv"
+}

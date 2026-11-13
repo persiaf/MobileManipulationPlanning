@@ -1,0 +1,148 @@
+{
+  "route_local_zero_based": [
+    0,
+    5,
+    6,
+    7,
+    16,
+    15,
+    14,
+    13,
+    9,
+    10,
+    11,
+    12,
+    8,
+    4,
+    3,
+    2,
+    1
+  ],
+  "upper_bound": 50.98165051825201,
+  "lower_bound_raw": 50.98165051825201,
+  "lower_bound_conservative": 50.98164946727036,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.0686686999979429,
+  "subtour_cut_count": 20,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 40.50006473216006,
+      "upper_bound": 53.96872425332352,
+      "cycle_sizes": [
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.012308699999266537
+    },
+    {
+      "status": 0,
+      "lower_bound": 46.40054563099305,
+      "upper_bound": 53.96872425332352,
+      "cycle_sizes": [
+        9,
+        8
+      ],
+      "elapsed_s": 0.021667299999535317
+    },
+    {
+      "status": 0,
+      "lower_bound": 47.30935186295232,
+      "upper_bound": 53.96872425332352,
+      "cycle_sizes": [
+        2,
+        3,
+        10,
+        2
+      ],
+      "elapsed_s": 0.02791079999951762
+    },
+    {
+      "status": 0,
+      "lower_bound": 49.89590428526567,
+      "upper_bound": 53.96872425332352,
+      "cycle_sizes": [
+        15,
+        2
+      ],
+      "elapsed_s": 0.033087499999965075
+    },
+    {
+      "status": 0,
+      "lower_bound": 50.53804988679571,
+      "upper_bound": 53.96872425332352,
+      "cycle_sizes": [
+        10,
+        7
+      ],
+      "elapsed_s": 0.0416823999985354
+    },
+    {
+      "status": 0,
+      "lower_bound": 50.74321309180756,
+      "upper_bound": 53.96872425332352,
+      "cycle_sizes": [
+        5,
+        12
+      ],
+      "elapsed_s": 0.05245970000032685
+    },
+    {
+      "status": 0,
+      "lower_bound": 50.98165051825201,
+      "upper_bound": 50.98165051825201,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.06866459999946528
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D0",
+  "mode": "top_down_grasp",
+  "nodes": [
+    1,
+    20,
+    63,
+    118,
+    176,
+    247,
+    305,
+    347,
+    401,
+    458,
+    551,
+    569,
+    626,
+    729,
+    752,
+    798,
+    854
+  ],
+  "route_nodes": [
+    1,
+    247,
+    305,
+    347,
+    854,
+    798,
+    752,
+    729,
+    458,
+    551,
+    569,
+    626,
+    401,
+    176,
+    118,
+    63,
+    20
+  ]
+}

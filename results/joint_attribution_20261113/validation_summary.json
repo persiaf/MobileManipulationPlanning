@@ -1,0 +1,6 @@
+{
+  "matlab": {"suite": "tests/test_task_navigation_joint_local.m", "passed": 15, "failed": 0},
+  "python": {"suite": "tests/test_fixed_set_atsp.py", "passed": 3, "failed": 0},
+  "scope": "historical local selector regression, new reserve/directed-order behavior, asymmetric MILP vs exhaustive tour enumeration, forbidden edges and zero-budget unresolved certificate",
+  "ik_rerun": false
+}

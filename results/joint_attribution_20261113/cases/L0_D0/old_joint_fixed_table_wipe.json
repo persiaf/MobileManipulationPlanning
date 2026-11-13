@@ -1,0 +1,170 @@
+{
+  "route_local_zero_based": [
+    0,
+    10,
+    11,
+    12,
+    16,
+    15,
+    14,
+    13,
+    9,
+    5,
+    6,
+    7,
+    8,
+    4,
+    3,
+    2,
+    1
+  ],
+  "upper_bound": 48.460603082168326,
+  "lower_bound_raw": 48.46060308216826,
+  "lower_bound_conservative": 48.46060203370766,
+  "absolute_gap": 6.394884621840902e-14,
+  "certified_optimal": true,
+  "elapsed_s": 0.45555919999969774,
+  "subtour_cut_count": 26,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 39.60824366745811,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        3,
+        2,
+        2,
+        3,
+        3,
+        2,
+        2
+      ],
+      "elapsed_s": 0.0042811999992409255
+    },
+    {
+      "status": 0,
+      "lower_bound": 42.27706936432133,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        2,
+        3,
+        3,
+        2,
+        3,
+        4
+      ],
+      "elapsed_s": 0.009885799998301081
+    },
+    {
+      "status": 0,
+      "lower_bound": 43.426816727037426,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        10,
+        7
+      ],
+      "elapsed_s": 0.016131100001075538
+    },
+    {
+      "status": 0,
+      "lower_bound": 45.15101216775854,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        15,
+        2
+      ],
+      "elapsed_s": 0.023380399998131907
+    },
+    {
+      "status": 0,
+      "lower_bound": 46.35987239764839,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        9,
+        2,
+        6
+      ],
+      "elapsed_s": 0.03696449999915785
+    },
+    {
+      "status": 0,
+      "lower_bound": 46.36681028430132,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        5,
+        12
+      ],
+      "elapsed_s": 0.04703470000094967
+    },
+    {
+      "status": 0,
+      "lower_bound": 47.9439596835861,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        14,
+        3
+      ],
+      "elapsed_s": 0.06544700000085868
+    },
+    {
+      "status": 0,
+      "lower_bound": 48.43893443041669,
+      "upper_bound": 53.02452673092884,
+      "cycle_sizes": [
+        15,
+        2
+      ],
+      "elapsed_s": 0.18308719999913592
+    },
+    {
+      "status": 0,
+      "lower_bound": 48.46060308216826,
+      "upper_bound": 48.460603082168326,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.45555590000003576
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L0_D0",
+  "mode": "table_wipe",
+  "nodes": [
+    1,
+    20,
+    68,
+    117,
+    179,
+    247,
+    304,
+    346,
+    400,
+    469,
+    552,
+    570,
+    626,
+    729,
+    752,
+    809,
+    865
+  ],
+  "route_nodes": [
+    1,
+    552,
+    570,
+    626,
+    865,
+    809,
+    752,
+    729,
+    469,
+    247,
+    304,
+    346,
+    400,
+    179,
+    117,
+    68,
+    20
+  ]
+}

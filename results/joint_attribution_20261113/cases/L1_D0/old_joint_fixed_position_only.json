@@ -1,0 +1,140 @@
+{
+  "route_local_zero_based": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    8,
+    7,
+    6,
+    16,
+    12,
+    11,
+    15,
+    14,
+    13,
+    10,
+    9,
+    5
+  ],
+  "upper_bound": 43.187554840043354,
+  "lower_bound_raw": 43.18755484004335,
+  "lower_bound_conservative": 43.187553796855795,
+  "absolute_gap": 7.105427357601002e-15,
+  "certified_optimal": true,
+  "elapsed_s": 0.053588099999615224,
+  "subtour_cut_count": 20,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 37.1019349075137,
+      "upper_bound": 43.187554840043354,
+      "cycle_sizes": [
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.006226400000741705
+    },
+    {
+      "status": 0,
+      "lower_bound": 38.97007565264898,
+      "upper_bound": 43.187554840043354,
+      "cycle_sizes": [
+        9,
+        2,
+        4,
+        2
+      ],
+      "elapsed_s": 0.012267199999769218
+    },
+    {
+      "status": 0,
+      "lower_bound": 40.46703829903943,
+      "upper_bound": 43.187554840043354,
+      "cycle_sizes": [
+        11,
+        3,
+        3
+      ],
+      "elapsed_s": 0.018358400000579422
+    },
+    {
+      "status": 0,
+      "lower_bound": 40.72344730623792,
+      "upper_bound": 43.187554840043354,
+      "cycle_sizes": [
+        2,
+        3,
+        12
+      ],
+      "elapsed_s": 0.024566600000980543
+    },
+    {
+      "status": 0,
+      "lower_bound": 42.9518717944049,
+      "upper_bound": 43.187554840043354,
+      "cycle_sizes": [
+        10,
+        7
+      ],
+      "elapsed_s": 0.03837500000008731
+    },
+    {
+      "status": 0,
+      "lower_bound": 43.18755484004335,
+      "upper_bound": 43.187554840043354,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.05358010000054492
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D0",
+  "mode": "position_only",
+  "nodes": [
+    1,
+    56,
+    80,
+    137,
+    193,
+    229,
+    339,
+    362,
+    451,
+    501,
+    528,
+    621,
+    632,
+    736,
+    771,
+    817,
+    857
+  ],
+  "route_nodes": [
+    1,
+    56,
+    80,
+    137,
+    193,
+    451,
+    362,
+    339,
+    857,
+    632,
+    621,
+    817,
+    771,
+    736,
+    528,
+    501,
+    229
+  ]
+}

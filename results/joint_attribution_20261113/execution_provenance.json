@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-13",
+  "source_commit": "b4e859f",
+  "scipy": "1.15.3",
+  "source_sha256": {
+    "planning_strategy/joint/plan_task_navigation_joint_budgeted.m": "e124c1ccdf491c3b88baa97d2cd43e9076d1f3deb87aafb782bb7dad79a60d4e",
+    "planning_strategy/joint/plan_task_navigation_joint_local.m": "7071538e28d63f851c8f73abf6e9dca47223169322b372b1129760a359c3d21a",
+    "planning_strategy/joint/solve_fixed_set_atsp.py": "e9ae4e319d91e39e040146e373f38040d018e6f5adb3e26aa59b247d3ba610e1",
+    "experiments/run_joint_attribution.m": "af5913c9a22c7cb8268b1194193b37f186f1e9bc4e75d82d735923e14587d26f",
+    "experiments/prepare_joint_attribution.py": "0e73ba9218d13586b9e7a11a9d0cf77add7d22be575abcd056c4a71c2816f610",
+    "paper/JOINT_ATTRIBUTION_PROTOCOL_20261113.md": "d381371ce59dcc23093584dd09a7ad10f278bfe7667931be8161f27016252c24"
+  },
+  "matlab": "R2022a",
+  "ik_evaluations": 0,
+  "workers": [
+    0,
+    1,
+    2
+  ],
+  "output_directory": "results/joint_attribution_20261113"
+}

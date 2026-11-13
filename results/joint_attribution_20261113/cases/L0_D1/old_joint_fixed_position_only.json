@@ -1,0 +1,137 @@
+{
+  "route_local_zero_based": [
+    0,
+    6,
+    9,
+    13,
+    10,
+    12,
+    16,
+    15,
+    14,
+    11,
+    8,
+    7,
+    4,
+    3,
+    2,
+    5,
+    1
+  ],
+  "upper_bound": 52.404849334031184,
+  "lower_bound_raw": 52.404849334031184,
+  "lower_bound_conservative": 52.404848281626336,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.06180639999729465,
+  "subtour_cut_count": 17,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 36.290900776463204,
+      "upper_bound": 56.27063325868822,
+      "cycle_sizes": [
+        2,
+        2,
+        2,
+        3,
+        2,
+        4,
+        2
+      ],
+      "elapsed_s": 0.005630399999063229
+    },
+    {
+      "status": 0,
+      "lower_bound": 45.57883782010721,
+      "upper_bound": 56.27063325868822,
+      "cycle_sizes": [
+        4,
+        4,
+        9
+      ],
+      "elapsed_s": 0.011865500000567408
+    },
+    {
+      "status": 0,
+      "lower_bound": 49.85188311444812,
+      "upper_bound": 56.27063325868822,
+      "cycle_sizes": [
+        11,
+        2,
+        4
+      ],
+      "elapsed_s": 0.01981849999719998
+    },
+    {
+      "status": 0,
+      "lower_bound": 51.90629870217654,
+      "upper_bound": 56.27063325868822,
+      "cycle_sizes": [
+        15,
+        2
+      ],
+      "elapsed_s": 0.02908489999754238
+    },
+    {
+      "status": 0,
+      "lower_bound": 52.166037725730774,
+      "upper_bound": 56.27063325868822,
+      "cycle_sizes": [
+        15,
+        2
+      ],
+      "elapsed_s": 0.046481800000037765
+    },
+    {
+      "status": 0,
+      "lower_bound": 52.404849334031184,
+      "upper_bound": 52.404849334031184,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.061802000000170665
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L0_D1",
+  "mode": "position_only",
+  "nodes": [
+    1,
+    9,
+    80,
+    134,
+    194,
+    276,
+    286,
+    396,
+    423,
+    501,
+    563,
+    600,
+    645,
+    736,
+    791,
+    796,
+    857
+  ],
+  "route_nodes": [
+    1,
+    286,
+    501,
+    736,
+    563,
+    645,
+    857,
+    796,
+    791,
+    600,
+    423,
+    396,
+    194,
+    134,
+    80,
+    276,
+    9
+  ]
+}

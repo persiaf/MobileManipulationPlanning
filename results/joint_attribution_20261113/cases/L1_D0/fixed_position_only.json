@@ -1,0 +1,119 @@
+{
+  "route_local_zero_based": [
+    0,
+    5,
+    6,
+    10,
+    9,
+    13,
+    14,
+    15,
+    11,
+    12,
+    16,
+    7,
+    8,
+    4,
+    3,
+    2,
+    1
+  ],
+  "upper_bound": 50.580838743592835,
+  "lower_bound_raw": 50.58083874359284,
+  "lower_bound_conservative": 50.580837693012,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.023370200000499608,
+  "subtour_cut_count": 13,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 41.80765286068417,
+      "upper_bound": 56.926283315763804,
+      "cycle_sizes": [
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.004182300002867123
+    },
+    {
+      "status": 0,
+      "lower_bound": 46.82403889670433,
+      "upper_bound": 56.926283315763804,
+      "cycle_sizes": [
+        3,
+        2,
+        12
+      ],
+      "elapsed_s": 0.008425100000749808
+    },
+    {
+      "status": 0,
+      "lower_bound": 48.86285050500471,
+      "upper_bound": 56.926283315763804,
+      "cycle_sizes": [
+        11,
+        6
+      ],
+      "elapsed_s": 0.01924230000076932
+    },
+    {
+      "status": 0,
+      "lower_bound": 50.58083874359284,
+      "upper_bound": 50.580838743592835,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.023368300000583986
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D0",
+  "mode": "position_only",
+  "nodes": [
+    1,
+    5,
+    63,
+    147,
+    204,
+    246,
+    318,
+    346,
+    430,
+    485,
+    541,
+    599,
+    656,
+    714,
+    771,
+    825,
+    853
+  ],
+  "route_nodes": [
+    1,
+    246,
+    318,
+    541,
+    485,
+    714,
+    771,
+    825,
+    599,
+    656,
+    853,
+    346,
+    430,
+    204,
+    147,
+    63,
+    5
+  ],
+  "dense_directed_edges": 272,
+  "source_matrix": "results\\task_navigation_robustness_20261111\\cases\\L1_D0\\seed_navigation_costs_position_only_staged.csv"
+}

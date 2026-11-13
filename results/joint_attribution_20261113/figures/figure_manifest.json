@@ -1,0 +1,40 @@
+{
+  "source_sha256": {
+    "results/joint_attribution_20261113/paired_attribution.csv": "a6a5da75b2e1612dc31e2a056e7bd03a7b049716e4c18078b9d29c330c36439c",
+    "results/joint_attribution_20261113/summary.csv": "6aaa365937817bf4f0bab4c039645f1285bd6e3d0a1c7464da2bcfb045605d90",
+    "results/task_navigation_robustness_20261111/cases/L0_D2/summary.csv": "c264cdaddf9ba8c0635ba7e6ad8ac35fb3837d27fa38c91b7935aa8f48531e75",
+    "results/task_navigation_robustness_20261111/cases/L0_D2/navigation_paths.csv": "111c4ec4d36bbf8d12c107405bf9e62b0c0b7992303feba57e4f20bc1c01db95",
+    "results/task_navigation_robustness_20261111/cases/L0_D2/docking_poses.csv": "3b60585b03a5164a126b848891a82dcda7e94a29d1945cd26db1d427aa489e3b",
+    "results/joint_attribution_20261113/cases/L0_D2/summary.csv": "2c92978e807d096de0ec0ed0ab414d42191f0a40ded0fc7a04d9806e0e8e2228",
+    "results/joint_attribution_20261113/cases/L0_D2/navigation_paths.csv": "efb6de70ed25985f030c109512144f2662bdff5548b5fb3aeb07d2e6638f049f",
+    "results/joint_attribution_20261113/cases/L0_D2/docking_poses.csv": "55d981802fb4cae0c42e2c381551848504457577554afd25e8e494104fe3d599",
+    "results/task_navigation_robustness_20261111/cases/L0_D2/metadata.json": "0f1028e1c419eee326f0b880f9518e252753041a8fd14b954eb6580c9cb68754",
+    "results/task_navigation_robustness_20261111/cases/L0_D2/tasks.csv": "42b73cb80ab651a93d69cd82591ac1bcbcfcec2d5711b00f0aece5cad9cb4c25",
+    "visualization/joint_attribution/common.py": "abdd2b2a364b5d364721bda2d56e53be828aa30fc538a6f763d0401a63306e13",
+    "visualization/joint_attribution/plot_ablations.py": "c6fd8650c7bc058703a1f7f4284f909fd252de8297c8423b04ed6bdaefa1f174",
+    "visualization/joint_attribution/plot_attribution.py": "4e578c2ed0c91e7d73272f6f1b65af79544b1d09d0a0edc22d329c8b768ddecf",
+    "visualization/joint_attribution/plot_decomposition.py": "2cf9a5cc0da08c829b535ad711e04d7a59a4dcaf4d068d5bac3466e963868dd9",
+    "visualization/joint_attribution/plot_routes.py": "1a60f6fb729ea7b59b74324182caaaf865c314d827e2f5aade6f066605ef1b8c",
+    "visualization/joint_attribution/run_all.py": "050fdc309fcedcf55ab4efd07f7e78fa9ab14cde2c5f5b182f1c63f03c4a2f88",
+    "visualization/main_joint_task_navigation/main_common.py": "9176e48f8b1b89cd375c1683149ec9496c69977c1d85bd18e01b5de08eb319f7",
+    "visualization/joint_task_navigation/common.py": "993d71980f1778ea657bf69d62403b41a4249638360520fd68a151012d3b19e5"
+  },
+  "output_sha256": {
+    "certified_docking_gains.pdf": "5d549bfdeaf0b3d4902f4dfd9a4f5067260bb6cc01119cdca13c70f5de47f868",
+    "certified_docking_gains.png": "12900254c102acb26a6d654006c1eb83d9c233e37131383ea0ed9425d28df66e",
+    "certified_docking_gains_caption.md": "4b89480b9047cb2b2f3cf9f290187279611599abd9c56a9f07c9a3a6c6120b39",
+    "initialization_budget_ablations.pdf": "0a40981de37e74a7862e6d47aeea4caba11f01e9c9b7235c9cf25938b949842a",
+    "initialization_budget_ablations.png": "84b9a602344354f40c34e5c9f0a1d47076c4d2089fb5f40cef5da72288e41596",
+    "initialization_budget_ablations_caption.md": "b78a7015cf98146b8852b7396f499513a6dfd82d093904b047564c72d5886c6d",
+    "main_scene_attribution_routes.pdf": "7458b931fdb6129ed44844087ac484a15d98dfe6d7b1866c76c27e06016a3e3d",
+    "main_scene_attribution_routes.png": "1a8df6ff0cf0c30a637bb2aba789e17eff894e8bb1fefa95cbd76e01e32c6bfd",
+    "main_scene_attribution_routes_caption.md": "d8caf1c1aef9904295aa50cb9bdb4b799c4fdf1af5a244bb0166c1d0f3753a30",
+    "order_and_docking_decomposition.pdf": "9f2616d034bb0384df090e5b15205a496f1f4abfe9fcd24b52931070e8d10d59",
+    "order_and_docking_decomposition.png": "518a1c67f5acc786e94e6a8ba07b002e7adc170cf910f248df404fcc2e5990d6",
+    "order_and_docking_decomposition_caption.md": "cc47c2b275ff81224aa4cb090ea87db9e4591316f163910fa323963311d98e2a"
+  },
+  "png_dpi": 300,
+  "representative_case": "L0_D2",
+  "style": "inherited main scene; actual exported routes",
+  "selection_rule": "all 27 groups; no winner-only filtering or post-hoc N/J substitution"
+}

@@ -1,0 +1,752 @@
+ATTRIBUTION L2_D0 position_only fixed_optimum
+ATTRIBUTION RESULT J=53.210107 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D0 position_only legacy_strong_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 213 行)
+位置: run_joint_attribution (第 40 行)] 
+ATTRIBUTION RESULT J=44.811582 requests=1100 valid=1 stop=wall_time_budget_exhausted
+ATTRIBUTION L2_D0 position_only balanced_raw_init
+ATTRIBUTION RESULT J=39.931266 requests=853 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D0 position_only balanced_strong_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=44.938445 requests=812 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D0 top_down_grasp fixed_optimum
+ATTRIBUTION RESULT J=56.784641 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D0 top_down_grasp legacy_strong_init
+ATTRIBUTION RESULT J=52.605336 requests=342 valid=1 stop=complete_neighborhood_pass_without_improvement
+ATTRIBUTION L2_D0 top_down_grasp balanced_raw_init
+ATTRIBUTION RESULT J=50.719426 requests=412 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D0 top_down_grasp balanced_strong_init
+ATTRIBUTION RESULT J=52.542126 requests=423 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D0 table_wipe fixed_optimum
+ATTRIBUTION RESULT J=57.219220 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D0 table_wipe legacy_strong_init
+ATTRIBUTION RESULT J=53.268912 requests=361 valid=1 stop=max_passes
+ATTRIBUTION L2_D0 table_wipe balanced_raw_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=52.466309 requests=384 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D0 table_wipe balanced_strong_init
+ATTRIBUTION RESULT J=53.285698 requests=426 valid=1 stop=fixed_set_order_neighborhood_converged
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+ATTRIBUTION L2_D1 position_only fixed_optimum
+ATTRIBUTION RESULT J=52.364709 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D1 position_only legacy_strong_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+ATTRIBUTION RESULT J=46.354769 requests=1190 valid=1 stop=max_passes
+ATTRIBUTION L2_D1 position_only balanced_raw_init
+ATTRIBUTION RESULT J=48.605929 requests=823 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D1 position_only balanced_strong_init
+ATTRIBUTION RESULT J=46.361671 requests=824 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D1 top_down_grasp fixed_optimum
+ATTRIBUTION RESULT J=52.364709 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D1 top_down_grasp legacy_strong_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+ATTRIBUTION RESULT J=49.600855 requests=481 valid=1 stop=max_passes
+ATTRIBUTION L2_D1 top_down_grasp balanced_raw_init
+ATTRIBUTION RESULT J=52.301457 requests=561 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D1 top_down_grasp balanced_strong_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=49.600855 requests=543 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D1 table_wipe fixed_optimum
+ATTRIBUTION RESULT J=52.364709 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D1 table_wipe legacy_strong_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+ATTRIBUTION RESULT J=50.451012 requests=419 valid=1 stop=complete_neighborhood_pass_without_improvement
+ATTRIBUTION L2_D1 table_wipe balanced_raw_init
+ATTRIBUTION RESULT J=52.247229 requests=519 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D1 table_wipe balanced_strong_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=50.451012 requests=487 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D2 position_only fixed_optimum
+ATTRIBUTION RESULT J=49.050120 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D2 position_only legacy_strong_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_local/edge_cost (第 310 行)
+位置: plan_task_navigation_joint_local/tour_cost (第 328 行)
+位置: plan_task_navigation_joint_local/neighbor_cost (第 337 行)
+位置: plan_task_navigation_joint_local (第 196 行)
+位置: run_joint_attribution (第 40 行)] 
+ATTRIBUTION RESULT J=45.201180 requests=728 valid=1 stop=max_passes
+ATTRIBUTION L2_D2 position_only balanced_raw_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=46.737568 requests=800 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D2 position_only balanced_strong_init
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=45.201180 requests=821 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D2 top_down_grasp fixed_optimum
+ATTRIBUTION RESULT J=76.944202 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D2 top_down_grasp legacy_strong_init
+ATTRIBUTION RESULT J=67.745743 requests=1500 valid=1 stop=navigation_query_budget_exhausted
+ATTRIBUTION L2_D2 top_down_grasp balanced_raw_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=62.423034 requests=1314 valid=1 stop=neighbor_evaluation_budget_exhausted
+ATTRIBUTION L2_D2 top_down_grasp balanced_strong_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=63.108556 requests=1215 valid=1 stop=wall_time_budget_exhausted
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+ATTRIBUTION L2_D2 table_wipe fixed_optimum
+ATTRIBUTION RESULT J=69.100354 requests=0 valid=1 stop=minimum_seed_control
+ATTRIBUTION L2_D2 table_wipe legacy_strong_init
+ATTRIBUTION RESULT J=69.021814 requests=1500 valid=1 stop=navigation_query_budget_exhausted
+ATTRIBUTION L2_D2 table_wipe balanced_raw_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=66.489809 requests=980 valid=1 stop=fixed_set_order_neighborhood_converged
+ATTRIBUTION L2_D2 table_wipe balanced_strong_init
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted/price (第 139 行)
+位置: plan_task_navigation_joint_budgeted (第 65 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: plan_task_navigation_joint_budgeted/edge (第 133 行)
+位置: plan_task_navigation_joint_budgeted (第 84 行)
+位置: run_joint_attribution (第 43 行)] 
+ATTRIBUTION RESULT J=64.891593 requests=938 valid=1 stop=fixed_set_order_neighborhood_converged
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (GOAL_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (INVALID_GRID_CORE; 1 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 
+[警告: astar: path rejected (START_GRID_SNAP_TOO_FAR; 0 collision segments).] 
+[> 位置：run_path_planner (第 121 行)
+位置: SharedPathCostContext/query (第 57 行)
+位置: query_path_with_shared_cache (第 14 行)
+位置: run_joint_attribution/oracle (第 93 行)
+位置: run_joint_attribution (第 82 行)] 

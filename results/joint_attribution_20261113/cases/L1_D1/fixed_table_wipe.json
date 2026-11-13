@@ -1,0 +1,120 @@
+{
+  "route_local_zero_based": [
+    0,
+    1,
+    3,
+    4,
+    7,
+    8,
+    11,
+    6,
+    14,
+    16,
+    12,
+    15,
+    10,
+    13,
+    9,
+    5,
+    2
+  ],
+  "upper_bound": 64.65976944409806,
+  "lower_bound_raw": 64.65976944409805,
+  "lower_bound_conservative": 64.65976837943828,
+  "absolute_gap": 1.4210854715202004e-14,
+  "certified_optimal": true,
+  "elapsed_s": 0.03164900000047055,
+  "subtour_cut_count": 14,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 53.81346278038169,
+      "upper_bound": 66.49391293297573,
+      "cycle_sizes": [
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.006727399999363115
+    },
+    {
+      "status": 0,
+      "lower_bound": 60.5822859620082,
+      "upper_bound": 66.49391293297573,
+      "cycle_sizes": [
+        7,
+        4,
+        6
+      ],
+      "elapsed_s": 0.01865870000256109
+    },
+    {
+      "status": 0,
+      "lower_bound": 62.41521022559371,
+      "upper_bound": 66.49391293297573,
+      "cycle_sizes": [
+        2,
+        13,
+        2
+      ],
+      "elapsed_s": 0.025681999999505933
+    },
+    {
+      "status": 0,
+      "lower_bound": 64.65976944409805,
+      "upper_bound": 64.65976944409806,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.03164699999979348
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D1",
+  "mode": "table_wipe",
+  "nodes": [
+    1,
+    16,
+    63,
+    129,
+    204,
+    242,
+    318,
+    357,
+    430,
+    469,
+    514,
+    580,
+    656,
+    694,
+    740,
+    809,
+    853
+  ],
+  "route_nodes": [
+    1,
+    16,
+    129,
+    204,
+    357,
+    430,
+    580,
+    318,
+    740,
+    853,
+    656,
+    809,
+    514,
+    694,
+    469,
+    242,
+    63
+  ],
+  "dense_directed_edges": 272,
+  "source_matrix": "results\\task_navigation_robustness_20261111\\cases\\L1_D1\\seed_navigation_costs_table_wipe_staged.csv"
+}

@@ -1,0 +1,13 @@
+case_id,mode,method,navigation_cost,route_length_m,docks,minimum_docks,covered_tasks,route_valid,new_directed_requests,neighbor_evaluations,search_time_s,shared_exact_init_time_s,shared_init_directed_edges,accepted_moves,fixed_set_order_converged,termination_reason,coverage_source
+L2_D0,position_only,fixed_optimum,53.2101071819804,49.1802091828669,16,16,36,1,0,0,1.2480116,0.0230603999989398,272,0,0,minimum_seed_control,frozen_task_support_replay_no_new_IK
+L2_D0,position_only,legacy_strong_init,44.8115816200949,41.8270685991846,16,16,36,1,1100,851,121.5353543,0.0230603999989398,272,20,0,wall_time_budget_exhausted,frozen_task_support_replay_no_new_IK
+L2_D0,position_only,balanced_raw_init,39.9312659769254,37.3552269561971,16,16,36,1,853,2016,66.6563781,0,272,20,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D0,position_only,balanced_strong_init,44.9384452306974,41.9539322097871,16,16,36,1,812,1296,107.7024633,0.0230603999989398,272,16,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D0,top_down_grasp,fixed_optimum,56.7846406580606,54.3722937979669,16,16,36,1,0,0,0.0734654,0.0222289000012097,272,0,0,minimum_seed_control,frozen_task_support_replay_no_new_IK
+L2_D0,top_down_grasp,legacy_strong_init,52.6053362812583,50.2756730893369,16,16,36,1,342,531,25.4257971,0.0222289000012097,272,13,0,complete_neighborhood_pass_without_improvement,frozen_task_support_replay_no_new_IK
+L2_D0,top_down_grasp,balanced_raw_init,50.7194255747759,47.7377732427447,16,16,36,1,412,1659,31.5505667,0,272,13,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D0,top_down_grasp,balanced_strong_init,52.5421262088799,50.1396831180458,16,16,36,1,423,579,37.7872352,0.0222289000012097,272,11,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D0,table_wipe,fixed_optimum,57.2192195293874,53.2251502080794,16,16,36,1,0,0,0.0930469,0.0171694999989995,272,0,0,minimum_seed_control,frozen_task_support_replay_no_new_IK
+L2_D0,table_wipe,legacy_strong_init,53.2689115122181,50.5766765218115,16,16,36,1,361,505,30.3884342,0.0171694999989995,272,16,0,max_passes,frozen_task_support_replay_no_new_IK
+L2_D0,table_wipe,balanced_raw_init,52.4663092119989,48.9893728145895,16,16,36,1,384,2004,25.2843085,0,272,15,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D0,table_wipe,balanced_strong_init,53.2856982774717,50.3578438380458,16,16,36,1,426,564,29.4464093,0.0171694999989995,272,12,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK

@@ -1,0 +1,13 @@
+case_id,mode,method,navigation_cost,route_length_m,docks,minimum_docks,covered_tasks,route_valid,new_directed_requests,neighbor_evaluations,search_time_s,shared_exact_init_time_s,shared_init_directed_edges,accepted_moves,fixed_set_order_converged,termination_reason,coverage_source
+L2_D2,position_only,fixed_optimum,49.050120090303,46.6153857837709,16,16,36,1,0,0,0.0602093,0.0156685000001744,272,0,0,minimum_seed_control,frozen_task_support_replay_no_new_IK
+L2_D2,position_only,legacy_strong_init,45.2011802021651,42.3770433845391,16,16,36,1,728,799,46.5723205,0.0156685000001744,272,16,0,max_passes,frozen_task_support_replay_no_new_IK
+L2_D2,position_only,balanced_raw_init,46.7375678815882,43.9134310639622,16,16,36,1,800,933,19.9174778,0,272,14,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D2,position_only,balanced_strong_init,45.2011802021651,42.3770433845391,16,16,36,1,821,933,56.7666199,0.0156685000001744,272,14,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D2,top_down_grasp,fixed_optimum,76.9442020886577,69.8756186180806,32,32,36,1,0,0,0.1981771,0.239576700001635,1056,0,0,minimum_seed_control,frozen_task_support_replay_no_new_IK
+L2_D2,top_down_grasp,legacy_strong_init,67.7457431150374,62.3220880332264,32,32,36,1,1500,1299,53.4483689,0.239576700001635,1056,12,0,navigation_query_budget_exhausted,frozen_task_support_replay_no_new_IK
+L2_D2,top_down_grasp,balanced_raw_init,62.4230337184825,57.1992635557896,32,32,36,1,1314,10000,117.6108221,0,1056,23,0,neighbor_evaluation_budget_exhausted,frozen_task_support_replay_no_new_IK
+L2_D2,top_down_grasp,balanced_strong_init,63.1085557219046,57.8327188114053,32,32,36,1,1215,557,120.1331556,0.239576700001635,1056,15,0,wall_time_budget_exhausted,frozen_task_support_replay_no_new_IK
+L2_D2,table_wipe,fixed_optimum,69.1003541928883,64.859204110542,32,32,36,1,0,0,0.0804566,0.148744499998429,1056,0,0,minimum_seed_control,frozen_task_support_replay_no_new_IK
+L2_D2,table_wipe,legacy_strong_init,69.0218143765485,64.859204110542,32,32,36,1,1500,1350,25.1069142,0.148744499998429,1056,1,0,navigation_query_budget_exhausted,frozen_task_support_replay_no_new_IK
+L2_D2,table_wipe,balanced_raw_init,66.4898085545483,62.9579167680618,32,32,36,1,980,5040,81.515877,0,1056,14,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK
+L2_D2,table_wipe,balanced_strong_init,64.8915925029094,60.4654986366498,32,32,36,1,938,2064,79.9332078,0.148744499998429,1056,9,1,fixed_set_order_neighborhood_converged,frozen_task_support_replay_no_new_IK

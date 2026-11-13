@@ -1,0 +1,141 @@
+{
+  "route_local_zero_based": [
+    0,
+    1,
+    2,
+    5,
+    9,
+    13,
+    14,
+    10,
+    11,
+    12,
+    16,
+    15,
+    6,
+    7,
+    8,
+    4,
+    3
+  ],
+  "upper_bound": 58.771460143858654,
+  "lower_bound_raw": 58.77146014385866,
+  "lower_bound_conservative": 58.7714590850872,
+  "absolute_gap": 0.0,
+  "certified_optimal": true,
+  "elapsed_s": 0.026262600000336533,
+  "subtour_cut_count": 19,
+  "trace": [
+    {
+      "status": 0,
+      "lower_bound": 47.48024793390583,
+      "upper_bound": 65.20798175605043,
+      "cycle_sizes": [
+        5,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "elapsed_s": 0.0035348000019439496
+    },
+    {
+      "status": 0,
+      "lower_bound": 53.40709640238381,
+      "upper_bound": 65.20798175605043,
+      "cycle_sizes": [
+        2,
+        7,
+        4,
+        4
+      ],
+      "elapsed_s": 0.007230100000015227
+    },
+    {
+      "status": 0,
+      "lower_bound": 54.28275537819562,
+      "upper_bound": 65.20798175605043,
+      "cycle_sizes": [
+        7,
+        2,
+        5,
+        3
+      ],
+      "elapsed_s": 0.011119499999040272
+    },
+    {
+      "status": 0,
+      "lower_bound": 54.8647358935351,
+      "upper_bound": 65.20798175605043,
+      "cycle_sizes": [
+        9,
+        8
+      ],
+      "elapsed_s": 0.014776600000914186
+    },
+    {
+      "status": 0,
+      "lower_bound": 57.70074946573999,
+      "upper_bound": 65.20798175605043,
+      "cycle_sizes": [
+        15,
+        2
+      ],
+      "elapsed_s": 0.018893299999035662
+    },
+    {
+      "status": 0,
+      "lower_bound": 58.77146014385866,
+      "upper_bound": 58.771460143858654,
+      "cycle_sizes": [
+        17
+      ],
+      "elapsed_s": 0.026260200000251643
+    }
+  ],
+  "solver": "scipy.optimize.milp/HiGHS, binary assignment + DFJ cuts",
+  "case_id": "L1_D0",
+  "mode": "top_down_grasp",
+  "nodes": [
+    1,
+    5,
+    63,
+    149,
+    175,
+    232,
+    289,
+    346,
+    401,
+    457,
+    514,
+    570,
+    626,
+    714,
+    752,
+    797,
+    853
+  ],
+  "route_nodes": [
+    1,
+    5,
+    63,
+    232,
+    457,
+    714,
+    752,
+    514,
+    570,
+    626,
+    853,
+    797,
+    289,
+    346,
+    401,
+    175,
+    149
+  ],
+  "dense_directed_edges": 272,
+  "source_matrix": "results\\task_navigation_robustness_20261111\\cases\\L1_D0\\seed_navigation_costs_top_down_grasp_staged.csv"
+}

@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-13",
+  "experiment_id": "joint_attribution_20261113",
+  "reviewer": "/root/attribution_design",
+  "claim_supported": "partial",
+  "bounded_original_set_docking_attribution": "yes",
+  "general_allocation_superiority": "no",
+  "universal_strong_initialization_superiority": "no",
+  "confidence": "high",
+  "confidence_scope": "Frozen finite-graph attribution and recorded comparisons",
+  "paper_claim_audit": "unavailable",
+  "provisional": true,
+  "pending_external_review": false,
+  "independent_audit_status": "PASS",
+  "frozen_files_unchanged": 414,
+  "rows": 108,
+  "groups": 27,
+  "assignments_checked": 3888,
+  "strict_moves_checked": 1260,
+  "path_samples_checked": 572073,
+  "unique_pose_geometry_checked": 254796,
+  "certificates_checked": 54,
+  "new_IK_solves": 0,
+  "original_set_certified": 27,
+  "old_joint_set_certified": 13,
+  "original_set_gain_median_percent": {
+    "position_only": 12.539900951823693,
+    "top_down_grasp": 9.54509895892058,
+    "table_wipe": 8.856259258062744
+  },
+  "old_joint_set_gain_median_percent": {
+    "position_only": -2.4324063457448344,
+    "top_down_grasp": 1.336938712613943,
+    "table_wipe": -0.5074475008794067
+  },
+  "allocation_J_vs_I": {"win": 8, "tie": 7, "loss": 12},
+  "allocation_position_only": {"win": 0, "tie": 2, "loss": 7},
+  "initialization_J_vs_N": {"win": 18, "tie": 0, "loss": 9},
+  "historical_I_comparison_confound": "Known-original-graph accounting changes along with initialization; use J versus N to isolate initial route",
+  "lower_bound_audit_scope": "Saved MILP bound trace and independent graph/route arithmetic, not a second optimization or dual-proof verifier",
+  "missing_evidence": [
+    "No stable allocation superiority in current ablation",
+    "No uniform old-joint-set superiority",
+    "No held-out scenes or measured physical performance"
+  ],
+  "figures_visually_reviewed": ["certified_docking_gains.png", "initialization_budget_ablations.png"],
+  "routing": "confirm_bounded_attribution_reject_broad_allocation_advantage_preserve_negative_results",
+  "next_experiments_needed": "None to report this completed experiment; any further superiority claim requires a separate predeclared study"
+}

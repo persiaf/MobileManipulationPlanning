@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "unchanged_input_files": 414,
+  "rows": 108,
+  "groups": 27,
+  "assignments": 3888,
+  "strict_priced_moves": 1260,
+  "coverage": "frozen task support, no new IK",
+  "original_set_certified": 27,
+  "old_joint_set_certified": 13
+}

@@ -1,0 +1,4 @@
+mode,cases,certified_vs_original,certified_vs_old_joint,gain_vs_fixed_median_pct,gain_vs_old_joint_median_pct,gain_vs_old_joint_fixed_median_pct,allocation_wins,allocation_ties,allocation_losses,init_wins,init_ties,init_losses
+position_only,9,9,4,12.539900951823693,2.380181704180313,-2.4324063457448344,0,2,7,8,0,1
+top_down_grasp,9,9,5,9.54509895892058,5.659116335807884,1.336938712613943,4,3,2,5,0,4
+table_wipe,9,9,4,8.856259258062744,12.627787622918051,-0.5074475008794067,4,2,3,5,0,4
